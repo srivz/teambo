@@ -11,6 +11,7 @@ import {
   Button,
   Col,
   Container,
+  
   OverlayTrigger,
   Popover,
   Row,
@@ -133,16 +134,113 @@ export default function HomeList() {
                     icon="fa-solid fa-grip "
                     style={{ paddingRight: "1em" }}
                   />
-                  <Button
-                    type="Button"
-                    variant="light"
-                    className="bg-white box-shadow rounded-4">
-                    <FontAwesomeIcon
-                      icon="fa-regular fa-square-plus"
-                      style={{ paddingRight: ".5em" }}
-                    />
-                    New Task
-                  </Button>
+                  <OverlayTrigger
+                    trigger="click"
+                    key="bottom"
+                    placement="bottom"
+                    rootClose
+                    overlay={
+                      <Popover id={`popover-positioned-bottom1`}>
+                        <Popover.Body>
+                          {/* <div>
+                            <h5 className="blue">Feri Abishek</h5>
+                            <h6>Video Editor / Graphic Designer</h6>
+                            <Form.Group
+                              as={Row}
+                              className="mb-3"
+                              controlId="formPlaintext1">
+                              <Form.Label
+                                column
+                                sm="2">
+                                Client
+                              </Form.Label>
+                              <Col sm="10">
+                                <Form.Control
+                                  plaintext
+                                  readOnly
+                                />
+                              </Col>
+                            </Form.Group>
+                            <Form.Group
+                              as={Row}
+                              className="mb-3"
+                              controlId="formPlaintext2">
+                              <Form.Label
+                                column
+                                sm="2">
+                                Task
+                              </Form.Label>
+                              <Col sm="10">
+                                <Form.Control
+                                  plaintext
+                                  readOnly
+                                />
+                              </Col>
+                            </Form.Group>
+                            <Form.Group
+                              as={Row}
+                              className="mb-3"
+                              controlId="formPlaintext3">
+                              <Form.Label
+                                column
+                                sm="2">
+                                Description
+                              </Form.Label>
+                              <Col sm="10">
+                                <Form.Control
+                                  plaintext
+                                  readOnly
+                                />
+                              </Col>
+                            </Form.Group>
+                            <div
+                              className="d-grid gap-2"
+                              style={{
+                                marginBottom: ".5em",
+                              }}>
+                              <Button
+                                variant="primary"
+                                style={{
+                                  textAlign: "center",
+                                }}
+                                block>
+                                Assign
+                              </Button>
+                            </div>
+                          </div> */}
+
+                          <div
+                            className="d-grid gap-2"
+                            style={{
+                              marginBottom: ".5em",
+                            }}>
+                            <Button
+                              variant="light"
+                              style={{
+                                textAlign: "left",
+                              }}
+                              block>
+                              <FontAwesomeIcon
+                                icon="fa-solid fa-trash"
+                                style={{ paddingRight: ".5em" }}
+                              />
+                              Delete Task
+                            </Button>
+                          </div>
+                        </Popover.Body>
+                      </Popover>
+                    }>
+                    <Button
+                      type="Button"
+                      variant="light"
+                      className="bg-white box-shadow rounded-4">
+                      <FontAwesomeIcon
+                        icon="fa-regular fa-square-plus"
+                        style={{ paddingRight: ".5em" }}
+                      />
+                      New Task
+                    </Button>
+                  </OverlayTrigger>
                 </div>
               </Col>
             </Row>
@@ -196,12 +294,20 @@ export default function HomeList() {
                               <Popover.Body>
                                 <div
                                   className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
+                                  style={{
+                                    marginBottom: ".5em",
+                                  }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-trash" />
-                                    Delete
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-trash"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
+                                    Delete Task
                                   </Button>
                                 </div>
                                 <div
@@ -209,8 +315,14 @@ export default function HomeList() {
                                   style={{ marginBottom: ".5em" }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-chevron-up"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
                                     Move Up
                                   </Button>
                                 </div>
@@ -219,8 +331,14 @@ export default function HomeList() {
                                   style={{ marginBottom: ".5em" }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-chevron-down"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
                                     Move Down
                                   </Button>
                                 </div>
@@ -265,12 +383,20 @@ export default function HomeList() {
                               <Popover.Body>
                                 <div
                                   className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
+                                  style={{
+                                    marginBottom: ".5em",
+                                  }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-trash" />
-                                    Delete
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-trash"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
+                                    Delete Task
                                   </Button>
                                 </div>
                                 <div
@@ -278,8 +404,14 @@ export default function HomeList() {
                                   style={{ marginBottom: ".5em" }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-chevron-up"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
                                     Move Up
                                   </Button>
                                 </div>
@@ -288,8 +420,14 @@ export default function HomeList() {
                                   style={{ marginBottom: ".5em" }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-chevron-down"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
                                     Move Down
                                   </Button>
                                 </div>
@@ -334,12 +472,20 @@ export default function HomeList() {
                               <Popover.Body>
                                 <div
                                   className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
+                                  style={{
+                                    marginBottom: ".5em",
+                                  }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-trash" />
-                                    Delete
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-trash"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
+                                    Delete Task
                                   </Button>
                                 </div>
                                 <div
@@ -347,8 +493,14 @@ export default function HomeList() {
                                   style={{ marginBottom: ".5em" }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-chevron-up"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
                                     Move Up
                                   </Button>
                                 </div>
@@ -357,8 +509,14 @@ export default function HomeList() {
                                   style={{ marginBottom: ".5em" }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-chevron-down"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
                                     Move Down
                                   </Button>
                                 </div>
@@ -410,12 +568,20 @@ export default function HomeList() {
                               <Popover.Body>
                                 <div
                                   className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
+                                  style={{
+                                    marginBottom: ".5em",
+                                  }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-trash" />
-                                    Delete
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-trash"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
+                                    Delete Task
                                   </Button>
                                 </div>
                                 <div
@@ -423,8 +589,14 @@ export default function HomeList() {
                                   style={{ marginBottom: ".5em" }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-chevron-up"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
                                     Move Up
                                   </Button>
                                 </div>
@@ -433,8 +605,14 @@ export default function HomeList() {
                                   style={{ marginBottom: ".5em" }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-chevron-down"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
                                     Move Down
                                   </Button>
                                 </div>
@@ -486,12 +664,20 @@ export default function HomeList() {
                               <Popover.Body>
                                 <div
                                   className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
+                                  style={{
+                                    marginBottom: ".5em",
+                                  }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-trash" />
-                                    Delete
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-trash"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
+                                    Delete Task
                                   </Button>
                                 </div>
                                 <div
@@ -499,8 +685,14 @@ export default function HomeList() {
                                   style={{ marginBottom: ".5em" }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-chevron-up"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
                                     Move Up
                                   </Button>
                                 </div>
@@ -509,8 +701,14 @@ export default function HomeList() {
                                   style={{ marginBottom: ".5em" }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-chevron-down"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
                                     Move Down
                                   </Button>
                                 </div>
@@ -562,12 +760,20 @@ export default function HomeList() {
                               <Popover.Body>
                                 <div
                                   className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
+                                  style={{
+                                    marginBottom: ".5em",
+                                  }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-trash" />
-                                    Delete
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-trash"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
+                                    Delete Task
                                   </Button>
                                 </div>
                                 <div
@@ -575,8 +781,14 @@ export default function HomeList() {
                                   style={{ marginBottom: ".5em" }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-chevron-up"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
                                     Move Up
                                   </Button>
                                 </div>
@@ -585,8 +797,14 @@ export default function HomeList() {
                                   style={{ marginBottom: ".5em" }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-chevron-down"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
                                     Move Down
                                   </Button>
                                 </div>
@@ -638,12 +856,20 @@ export default function HomeList() {
                               <Popover.Body>
                                 <div
                                   className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
+                                  style={{
+                                    marginBottom: ".5em",
+                                  }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-trash" />
-                                    Delete
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-trash"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
+                                    Delete Task
                                   </Button>
                                 </div>
                                 <div
@@ -651,8 +877,14 @@ export default function HomeList() {
                                   style={{ marginBottom: ".5em" }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-chevron-up"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
                                     Move Up
                                   </Button>
                                 </div>
@@ -661,8 +893,14 @@ export default function HomeList() {
                                   style={{ marginBottom: ".5em" }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-chevron-down"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
                                     Move Down
                                   </Button>
                                 </div>
@@ -714,12 +952,20 @@ export default function HomeList() {
                               <Popover.Body>
                                 <div
                                   className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
+                                  style={{
+                                    marginBottom: ".5em",
+                                  }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-trash" />
-                                    Delete
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-trash"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
+                                    Delete Task
                                   </Button>
                                 </div>
                                 <div
@@ -727,8 +973,14 @@ export default function HomeList() {
                                   style={{ marginBottom: ".5em" }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-chevron-up"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
                                     Move Up
                                   </Button>
                                 </div>
@@ -737,8 +989,14 @@ export default function HomeList() {
                                   style={{ marginBottom: ".5em" }}>
                                   <Button
                                     variant="light"
+                                    style={{
+                                      textAlign: "left",
+                                    }}
                                     block>
-                                    <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                                    <FontAwesomeIcon
+                                      icon="fa-solid fa-chevron-down"
+                                      style={{ paddingRight: ".5em" }}
+                                    />
                                     Move Down
                                   </Button>
                                 </div>
