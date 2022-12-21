@@ -52,12 +52,10 @@ body {
 }
 .curve-box-sidelist td{
   background-color: #f9fbff;
-  vertical-align:middle;
   border-radius: 5px;
 }
 .curve-box-homelist{
   background-color: #fff;
-  vertical-align:middle;
   height: 60px;
   border-radius: 5px;
 }
