@@ -2,27 +2,17 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/css/style.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import HomeList from "./components/Manager/HomeList";
 import LoginHome from "./components/LoginHome";
-import HomeBlock from "./components/Manager/HomeBlock";
-import Home from "./components/TeamMate/Home";
+import ManagerHome from "./components/Manager/Home";
+import TeamMemberHome from "./components/TeamMate/Home";
 
 export default function App() {
   return (
     <Router>
       <Routes>
-        <Route
-          path="/"
-          element={<LoginHome />}></Route>
-        <Route
-          path="/"
-          element={<HomeList />}></Route>
-        <Route
-          path="/"
-          element={<HomeBlock />}></Route>
-        <Route
-          path="/"
-          element={<Home />}></Route>
+        <Route path="/" element={<LoginHome />}></Route>
+        <Route path="/manager/home" element={<ManagerHome />}></Route>
+        <Route path="/teammember/home" element={<TeamMemberHome />}></Route>
       </Routes>
     </Router>
   );

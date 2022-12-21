@@ -1,104 +1,103 @@
-*{
-    margin: 0%;
-    padding: 0%;
-    box-sizing: border-box;
+* {
+  margin: 0%;
+  padding: 0%;
+  box-sizing: border-box;
 }
 
-html,body{
-    width: 100%;
-    height: 100%;
+html,
+body {
+  background-color: #fbfbfb;
+  width: 100%;
+  height: 100%;
 }
-#main{
-    width: 100%;
-    height: 100%;
+#main {
+  width: 100%;
+  height: 100%;
 }
-:root{
-    --blue:#3975EA;
-    --grey:#9B9B9B;
-    --white:#fff;
-    --green:#24A43A;
-    --yellow:#D1AE00;
+:root {
+  --blue: #3975ea;
+  --grey: #9b9b9b;
+  --white: #fff;
+  --green: #24a43a;
+  --yellow: #d1ae00;
 }
-.bg-white{
-    background-color: var(--white);
+.bg-white {
+  background-color: var(--white);
 }
-.green{
-    color: var(--green);
+.green {
+  color: var(--green);
 }
-.yellow{
-    color: var(--yellow);
+.yellow {
+  color: var(--yellow);
 }
-.blue{
-    color: var(--blue);
+.blue {
+  color: var(--blue);
 }
-.grey{
-    color: var(--grey);
+.grey {
+  color: var(--grey);
 }
-.bg-blue{
-    background-color: var(--blue);
+.bg-blue {
+  background-color: var(--blue);
 }
-.letter-spacing{
-    letter-spacing: 10px;
+.letter-spacing {
+  letter-spacing: 10px;
 }
-.border-left{
-    border-left: 2px solid var(--blue);
-    margin-right: 15px;
-    margin-left: 15px;
+.border-left {
+  border-left: 2px solid var(--blue);
+  margin-right: 15px;
+  margin-left: 15px;
 }
-.box-shadow{
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+.box-shadow {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px .5px 5px;
 }
-
- 
-  .form-box {
-    max-width: 380px;
-    margin: auto;
-    padding: 50px;
-    background: transparent ;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    border-radius: 10px;
-  }
-  .form-box1 {
-    max-width: 700px;
-    margin: auto;
-    padding: 50px;
-    background: transparent ;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    border-radius: 10px;
-  }
-  .msg-box{
-    max-width: 600px;
-    margin: auto;
-    padding: 50px;
-    background: transparent ;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    border-radius: 20px;
-    margin-top: 10vh;
-
-
-  }
-  .table {
-    border-collapse: separate;
-    border-spacing:0 20px;
+.curve-box {
+  border-radius: 5px;
 }
-.task-box{
-    max-width: 450px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    border-radius: 20px;
-    padding: 10px;
+.form-box {
+  max-width: 380px;
+  margin: auto;
+  padding: 50px;
+  background: transparent;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 10px;
 }
-.action-box{
-    max-width: 170px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    border-radius: 20px;
-    padding: 10px;
-    display: none;
+.form-box1 {
+  max-width: 700px;
+  margin: auto;
+  padding: 50px;
+  background: transparent;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 10px;
 }
-.cards{
-    max-width: 300px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    border-radius: 20px;
-    padding: 10px;
+.msg-box {
+  max-width: 600px;
+  margin: auto;
+  padding: 50px;
+  background: transparent;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 20px;
+  margin-top: 10vh;
 }
-  
- 
+.table {
+  border-collapse: separate;
+  border-spacing: 0 20px;
+}
+.task-box {
+  max-width: 450px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 20px;
+  padding: 10px;
+}
+.action-box {
+  max-width: 170px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 20px;
+  padding: 10px;
+  display: none;
+}
+.cards {
+  max-width: 300px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 20px;
+  padding: 10px;
+}

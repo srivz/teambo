@@ -1,97 +1,107 @@
-import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState } from "react";
+import { Button, Col, Container, Row } from "react-bootstrap";
+import NavBar from "../Navs/NavBar";
 
 export default function HomeList() {
+  const [open, setOpen] = useState();
   return (
     <div id="main">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-6 col-md-6 mt-3">
-            <h5>
-              <img
-                class="w-25 m-lg-2"
-                src="./images/Group 3.svg"
-                alt=""
-              />
-              <span class="border-left"></span>
-              <span class="blue letter-spacing mt-2 ">MANAGER</span>
-            </h5>
-          </div>
-          <div class="col-sm-6 col-md-6 mt-3">
-            <h5 class="text-end">
-              {" "}
-              Pavithra <span class="grey h6 ">Manager</span>
-              <span class="border-left"></span>
-              <span class="blue mt-2 ">Log Out</span>
-            </h5>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-3 col-md-3 mt-3">
-            <div class="task-box">
-              <h4 class="blue">Teammate Tasks</h4>
+      <NavBar />
+      <Container>
+        <Row>
+          <Col
+            sm={3}
+            md={3}
+            style={{ marginTop: "1em" }}>
+            <div className="task-box">
+              <h4 className="blue">Teammate Tasks</h4>
               <input
-                class="rounded-2 p-1 w-100 mt-3"
+                className="rounded-2 w-100"
+                style={{ marginTop: "1em", padding: ".25em" }}
                 type="search"
                 name="search"
                 id="search"
                 placeholder="Search"
               />
-              <table class="table">
+              <table className="table">
                 <thead>
                   <tr>
                     <th scope="col"></th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="box-shadow  ">
+                  <tr className="box-shadow curve-box">
                     <td>
                       <h5>Feri Abishek</h5>
-                      <p class="grey">Video Editor / Graphic Designer</p>
+                      <p className="grey">Video Editor / Graphic Designer</p>
                     </td>
                   </tr>
-                  <tr class="box-shadow  ">
+                  <tr className="box-shadow curve-box">
                     <td>
                       <h5>Surya</h5>
-                      <p class="grey">Graphic Designer</p>
+                      <p className="grey">Graphic Designer</p>
                     </td>
                   </tr>
-                  <tr class="box-shadow  ">
+                  <tr className="box-shadow curve-box">
                     <td>
                       <h5>Sivasundar</h5>
-                      <p class="grey">Video Editor / Graphic Designer</p>
+                      <p className="grey">Video Editor / Graphic Designer</p>
                     </td>
                   </tr>
-                  <tr class="box-shadow  ">
+                  <tr className="box-shadow curve-box">
                     <td>
                       <h5>Mithun</h5>
-                      <p class="grey">Graphic Designer</p>
+                      <p className="grey">Graphic Designer</p>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-          </div>
-          <div class="col-sm-9 col-md-9 mt-3">
-            <div class="row">
-              <div class="col-sm-6 col-md-6 mt-3">
-                <h5 class="blue">Feri Abishek</h5>
+          </Col>
+          <Col
+            sm={9}
+            md={9}
+            style={{ marginTop: "1em" }}>
+            <Row>
+              <Col
+                sm={6}
+                md={6}
+                style={{ marginTop: "1em" }}>
+                <h5 className="blue">Feri Abishek</h5>
                 <h6>Video Editor / Graphic Designer</h6>
-              </div>
-              <div class="col-sm-6 col-md-6 mt-3 text-end">
+              </Col>
+              <Col
+                sm={6}
+                md={6}
+                style={{ marginTop: "1em" }}
+                className="text-end">
                 <div>
-                  <i class="bi bi-list-ul p-lg-2"></i>
-                  <i class="bi bi-grid-fill p-lg-2"></i>
-                  <button
-                    type="button"
-                    class="btn btn-light bg-white box-shadow rounded-4">
-                    <i class="bi bi-plus-square"></i> New Task
-                  </button>
+                  <FontAwesomeIcon
+                    icon="fa-solid fa-list"
+                    style={{ paddingRight: "1em" }}
+                  />
+
+                  <FontAwesomeIcon
+                    icon="fa-solid fa-grip "
+                    style={{ paddingRight: "1em" }}
+                  />
+                  <Button
+                    type="Button"
+                    variant="light"
+                    className="bg-white box-shadow rounded-4">
+                    <FontAwesomeIcon
+                      icon="fa-regular fa-square-plus"
+                      style={{ paddingRight: ".5em" }}
+                    />
+                    New Task
+                  </Button>
                 </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col ">
-                <table class="table">
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <table className="table">
                   <thead>
                     <tr>
                       <th scope="col">Client</th>
@@ -104,261 +114,358 @@ export default function HomeList() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class="box-shadow  ">
+                    <tr className="box-shadow curve-box">
                       <td>Chaicup</td>
                       <td>Website UI</td>
                       <td>Jan,21 2023</td>
                       <td>11.00 am</td>
                       <td>+6</td>
-                      <td class="green fw-bold">On Going</td>
-                      <td class="text-end">
-                        <i
-                          onclick="myFunction()"
-                          class="bi bi-three-dots-vertical blue"></i>
-                        <div class="action-box ">
-                          <div class="mb-2">
-                            {" "}
-                            <button class="btn btn-light">
-                              <i class="bi bi-trash3 "></i> Delete
-                            </button>
+                      <td className="green fw-bold">On Going</td>
+
+                      <td className="text-end">
+                        <FontAwesomeIcon
+                          onClick={() => {
+                            open === 1 ? setOpen(null) : setOpen(1);
+                          }}
+                          icon="fa-solid fa-ellipsis-vertical"
+                          style={{ color: "blue", paddingRight: ".25em" }}
+                        />
+                        <div
+                          className="action-box"
+                          style={{ display: open === 1 ? "block" : "none" }}>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-trash" />
+                              Delete
+                            </Button>
                           </div>
-                          <div class="mb-2">
-                            <button class="btn btn-light">
-                              <i class="bi bi-trash3"></i> Move Up
-                            </button>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                              Move Up
+                            </Button>
                           </div>
-                          <div class="mb-2">
-                            {" "}
-                            <button class="btn btn-light">
-                              <i class="bi bi-caret-down-fill"></i> Move Down
-                            </button>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                              Move Down
+                            </Button>
                           </div>
                         </div>
                       </td>
                     </tr>
-                    <tr class="box-shadow">
+                    <tr className="box-shadow curve-box">
                       <td>Teabon</td>
                       <td>Menu</td>
                       <td>Jan,19 2023</td>
                       <td>11.00 am</td>
                       <td>0</td>
-                      <td class="yellow fw-bold">Assigned</td>
-                      <td class="text-end">
-                        <i class="bi bi-three-dots-vertical blue"></i>
-                        <div class="action-box ">
-                          <div class="mb-2">
-                            {" "}
-                            <button class="btn btn-light">
-                              <i class="bi bi-trash3 "></i> Delete
-                            </button>
+                      <td className="yellow fw-bold">Assigned</td>
+
+                      <td className="text-end">
+                        <FontAwesomeIcon
+                          onClick={() => {
+                            open === 2 ? setOpen(null) : setOpen(2);
+                          }}
+                          icon="fa-solid fa-ellipsis-vertical"
+                          style={{ color: "blue", paddingRight: ".25em" }}
+                        />
+                        <div
+                          className="action-box"
+                          style={{ display: open === 2 ? "block" : "none" }}>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-trash" />
+                              Delete
+                            </Button>
                           </div>
-                          <div class="mb-2">
-                            <button class="btn btn-light">
-                              <i class="bi bi-trash3"></i> Move Up
-                            </button>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                              Move Up
+                            </Button>
                           </div>
-                          <div class="mb-2">
-                            {" "}
-                            <button class="btn btn-light">
-                              <i class="bi bi-caret-down-fill"></i> Move Down
-                            </button>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                              Move Down
+                            </Button>
                           </div>
                         </div>
                       </td>
                     </tr>
-                    <tr class="box-shadow">
+                    <tr className="box-shadow curve-box">
                       <td>TVS</td>
                       <td>Instagram ad Video</td>
                       <td>Jan,18 2023</td>
                       <td>11.00 am</td>
                       <td>+2</td>
-                      <td class="blue fw-bold">Paused</td>
-                      <td class="text-end">
-                        <i class="bi bi-three-dots-vertical blue "></i>
-                        <div class="action-box ">
-                          <div class="mb-2">
-                            {" "}
-                            <button class="btn btn-light">
-                              <i class="bi bi-trash3 "></i> Delete
-                            </button>
+                      <td className="blue fw-bold">Paused</td>
+
+                      <td className="text-end">
+                        <FontAwesomeIcon
+                          onClick={() => {
+                            open === 3 ? setOpen(null) : setOpen(3);
+                          }}
+                          icon="fa-solid fa-ellipsis-vertical"
+                          style={{ color: "blue", paddingRight: ".25em" }}
+                        />
+                        <div
+                          className="action-box"
+                          style={{ display: open === 3 ? "block" : "none" }}>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-trash" />
+                              Delete
+                            </Button>
                           </div>
-                          <div class="mb-2">
-                            <button class="btn btn-light">
-                              <i class="bi bi-trash3"></i> Move Up
-                            </button>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                              Move Up
+                            </Button>
                           </div>
-                          <div class="mb-2">
-                            {" "}
-                            <button class="btn btn-light">
-                              <i class="bi bi-caret-down-fill"></i> Move Down
-                            </button>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="box-shadow">
-                      <td>TVS</td>
-                      <td>banner design</td>
-                      <td>Jan,15 2023</td>
-                      <td>11.00 am</td>
-                      <td>+2</td>
-                      <td class="fw-bold">Done</td>
-                      <td class="text-end">
-                        <button
-                          type="button"
-                          class="btn btn-light bg-white  ">
-                          Correction
-                        </button>
-                        <i class="bi bi-three-dots-vertical blue"></i>
-                      </td>
-                    </tr>
-                    <tr class="box-shadow">
-                      <td>TVS</td>
-                      <td>banner design</td>
-                      <td>Jan,15 2023</td>
-                      <td>11.00 am</td>
-                      <td>+2</td>
-                      <td class="fw-bold">Done</td>
-                      <td class="text-end">
-                        <button
-                          type="button"
-                          class="btn btn-light bg-white  ">
-                          Correction
-                        </button>
-                        <i class="bi bi-three-dots-vertical blue"></i>
-                        <div class="action-box ">
-                          <div class="mb-2">
-                            {" "}
-                            <button class="btn btn-light">
-                              <i class="bi bi-trash3 "></i> Delete
-                            </button>
-                          </div>
-                          <div class="mb-2">
-                            <button class="btn btn-light">
-                              <i class="bi bi-trash3"></i> Move Up
-                            </button>
-                          </div>
-                          <div class="mb-2">
-                            {" "}
-                            <button class="btn btn-light">
-                              <i class="bi bi-caret-down-fill"></i> Move Down
-                            </button>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                              Move Down
+                            </Button>
                           </div>
                         </div>
                       </td>
                     </tr>
-                    <tr class="box-shadow">
+                    <tr className="box-shadow curve-box">
                       <td>TVS</td>
                       <td>banner design</td>
                       <td>Jan,15 2023</td>
                       <td>11.00 am</td>
                       <td>+2</td>
-                      <td class="fw-bold">Done</td>
-                      <td class="text-end">
-                        <button
-                          type="button"
-                          class="btn btn-light bg-white  ">
+                      <td className="fw-bold">Done</td>
+                      <td className="text-end">
+                        <Button
+                          type="Button"
+                          variant="light"
+                          style={{ backgroundColor: "white" }}>
                           Correction
-                        </button>
-                        <i class="bi bi-three-dots-vertical blue"></i>
-                        <div class="action-box ">
-                          <div class="mb-2">
-                            {" "}
-                            <button class="btn btn-light">
-                              <i class="bi bi-trash3 "></i> Delete
-                            </button>
+                        </Button>{" "}
+                        <FontAwesomeIcon
+                          onClick={() => {
+                            open === 4 ? setOpen(null) : setOpen(4);
+                          }}
+                          icon="fa-solid fa-ellipsis-vertical"
+                          style={{ color: "blue", paddingRight: ".25em" }}
+                        />
+                        <div
+                          className="action-box"
+                          style={{ display: open === 4 ? "block" : "none" }}>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-trash" />
+                              Delete
+                            </Button>
                           </div>
-                          <div class="mb-2">
-                            <button class="btn btn-light">
-                              <i class="bi bi-trash3"></i> Move Up
-                            </button>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                              Move Up
+                            </Button>
                           </div>
-                          <div class="mb-2">
-                            {" "}
-                            <button class="btn btn-light">
-                              <i class="bi bi-caret-down-fill"></i> Move Down
-                            </button>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                              Move Down
+                            </Button>
                           </div>
                         </div>
                       </td>
                     </tr>
-                    <tr class="box-shadow">
+                    <tr className="box-shadow curve-box">
                       <td>TVS</td>
                       <td>banner design</td>
                       <td>Jan,15 2023</td>
                       <td>11.00 am</td>
                       <td>+2</td>
-                      <td class="fw-bold">Done</td>
-                      <td class="text-end">
-                        <button
-                          type="button"
-                          class="btn btn-light bg-white  ">
+                      <td className="fw-bold">Done</td>
+                      <td className="text-end">
+                        <Button
+                          type="Button"
+                          variant="light"
+                          style={{ backgroundColor: "white" }}>
                           Correction
-                        </button>
-                        <i class="bi bi-three-dots-vertical blue"></i>
-                        <div class="action-box ">
-                          <div class="mb-2">
-                            {" "}
-                            <button class="btn btn-light">
-                              <i class="bi bi-trash3 "></i> Delete
-                            </button>
+                        </Button>{" "}
+                        <FontAwesomeIcon
+                          onClick={() => {
+                            open === 5 ? setOpen(null) : setOpen(5);
+                          }}
+                          icon="fa-solid fa-ellipsis-vertical"
+                          style={{ color: "blue", paddingRight: ".25em" }}
+                        />
+                        <div
+                          className="action-box"
+                          style={{ display: open === 5 ? "block" : "none" }}>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-trash" />
+                              Delete
+                            </Button>
                           </div>
-                          <div class="mb-2">
-                            <button class="btn btn-light">
-                              <i class="bi bi-trash3"></i> Move Up
-                            </button>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                              Move Up
+                            </Button>
                           </div>
-                          <div class="mb-2">
-                            {" "}
-                            <button class="btn btn-light">
-                              <i class="bi bi-caret-down-fill"></i> Move Down
-                            </button>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                              Move Down
+                            </Button>
                           </div>
                         </div>
                       </td>
                     </tr>
-                    <tr class="box-shadow">
+                    <tr className="box-shadow curve-box">
                       <td>TVS</td>
                       <td>banner design</td>
                       <td>Jan,15 2023</td>
                       <td>11.00 am</td>
                       <td>+2</td>
-                      <td class="fw-bold">Done</td>
-                      <td class="text-end">
-                        <button
-                          type="button"
-                          class="btn btn-light bg-white  ">
+                      <td className="fw-bold">Done</td>
+                      <td className="text-end">
+                        <Button
+                          type="Button"
+                          variant="light"
+                          style={{ backgroundColor: "white" }}>
                           Correction
-                        </button>
-                        <i class="bi bi-three-dots-vertical blue"></i>
-                        <div class="action-box ">
-                          <div class="mb-2">
-                            {" "}
-                            <button class="btn btn-light">
-                              <i class="bi bi-trash3 "></i> Delete
-                            </button>
+                        </Button>{" "}
+                        <FontAwesomeIcon
+                          onClick={() => {
+                            open === 6 ? setOpen(null) : setOpen(6);
+                          }}
+                          icon="fa-solid fa-ellipsis-vertical"
+                          style={{ color: "blue", paddingRight: ".25em" }}
+                        />
+                        <div
+                          className="action-box"
+                          style={{ display: open === 6 ? "block" : "none" }}>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-trash" />
+                              Delete
+                            </Button>
                           </div>
-                          <div class="mb-2">
-                            <button class="btn btn-light">
-                              <i class="bi bi-trash3"></i> Move Up
-                            </button>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                              Move Up
+                            </Button>
                           </div>
-                          <div class="mb-2">
-                            {" "}
-                            <button class="btn btn-light">
-                              <i class="bi bi-caret-down-fill"></i> Move Down
-                            </button>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                              Move Down
+                            </Button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr className="box-shadow curve-box">
+                      <td>TVS</td>
+                      <td>banner design</td>
+                      <td>Jan,15 2023</td>
+                      <td>11.00 am</td>
+                      <td>+2</td>
+                      <td className="fw-bold">Done</td>
+                      <td className="text-end">
+                        <Button
+                          type="Button"
+                          variant="light"
+                          style={{ backgroundColor: "white" }}>
+                          Correction
+                        </Button>{" "}
+                        <FontAwesomeIcon
+                          onClick={() => {
+                            open === 7 ? setOpen(null) : setOpen(7);
+                          }}
+                          icon="fa-solid fa-ellipsis-vertical"
+                          style={{ color: "blue", paddingRight: ".25em" }}
+                        />
+                        <div
+                          className="action-box"
+                          style={{ display: open === 7 ? "block" : "none" }}>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-trash" />
+                              Delete
+                            </Button>
+                          </div>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                              Move Up
+                            </Button>
+                          </div>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                              Move Down
+                            </Button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr className="box-shadow curve-box">
+                      <td>TVS</td>
+                      <td>banner design</td>
+                      <td>Jan,15 2023</td>
+                      <td>11.00 am</td>
+                      <td>+2</td>
+                      <td className="fw-bold">Done</td>
+                      <td className="text-end">
+                        <Button
+                          type="Button"
+                          variant="light"
+                          style={{ backgroundColor: "white" }}>
+                          Correction
+                        </Button>{" "}
+                        <FontAwesomeIcon
+                          onClick={() => {
+                            open === 8 ? setOpen(null) : setOpen(8);
+                          }}
+                          icon="fa-solid fa-ellipsis-vertical"
+                          style={{ color: "blue", paddingRight: ".25em" }}
+                        />
+                        <div
+                          className="action-box"
+                          style={{ display: open === 8 ? "block" : "none" }}>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-trash" />
+                              Delete
+                            </Button>
+                          </div>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                              Move Up
+                            </Button>
+                          </div>
+                          <div style={{ marginBottom: ".5em" }}>
+                            <Button variant="light">
+                              <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                              Move Down
+                            </Button>
                           </div>
                         </div>
                       </td>
                     </tr>
                   </tbody>
                 </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }
