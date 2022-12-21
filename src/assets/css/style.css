@@ -48,9 +48,17 @@ body {
   margin-left: 15px;
 }
 .box-shadow {
-  box-shadow: rgba(0, 0, 0, 0.24) 0px .5px 5px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0.25px 5px;
 }
-.curve-box {
+.curve-box-sidelist td{
+  background-color: #f9fbff;
+  vertical-align:middle;
+  border-radius: 5px;
+}
+.curve-box-homelist{
+  background-color: #fff;
+  vertical-align:middle;
+  height: 60px;
   border-radius: 5px;
 }
 .form-box {
@@ -83,9 +91,10 @@ body {
   border-spacing: 0 20px;
 }
 .task-box {
+  background-color: white;
   max-width: 450px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.14) 0px 1px 3px;
+  border-radius: 5px;
   padding: 10px;
 }
 .action-box {

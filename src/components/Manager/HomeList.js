@@ -31,25 +31,25 @@ export default function HomeList() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="box-shadow curve-box">
+                  <tr className="box-shadow curve-box-sidelist">
                     <td>
                       <h5>Feri Abishek</h5>
                       <p className="grey">Video Editor / Graphic Designer</p>
                     </td>
                   </tr>
-                  <tr className="box-shadow curve-box">
+                  <tr className="box-shadow curve-box-sidelist">
                     <td>
                       <h5>Surya</h5>
                       <p className="grey">Graphic Designer</p>
                     </td>
                   </tr>
-                  <tr className="box-shadow curve-box">
+                  <tr className="box-shadow curve-box-sidelist">
                     <td>
                       <h5>Sivasundar</h5>
                       <p className="grey">Video Editor / Graphic Designer</p>
                     </td>
                   </tr>
-                  <tr className="box-shadow curve-box">
+                  <tr className="box-shadow curve-box-sidelist">
                     <td>
                       <h5>Mithun</h5>
                       <p className="grey">Graphic Designer</p>
@@ -114,7 +114,7 @@ export default function HomeList() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="box-shadow curve-box">
+                    <tr className="box-shadow curve-box-homelist">
                       <td>Chaicup</td>
                       <td>Website UI</td>
                       <td>Jan,21 2023</td>
@@ -154,7 +154,7 @@ export default function HomeList() {
                         </div>
                       </td>
                     </tr>
-                    <tr className="box-shadow curve-box">
+                    <tr className="box-shadow curve-box-homelist">
                       <td>Teabon</td>
                       <td>Menu</td>
                       <td>Jan,19 2023</td>
@@ -194,7 +194,7 @@ export default function HomeList() {
                         </div>
                       </td>
                     </tr>
-                    <tr className="box-shadow curve-box">
+                    <tr className="box-shadow curve-box-homelist">
                       <td>TVS</td>
                       <td>Instagram ad Video</td>
                       <td>Jan,18 2023</td>
@@ -234,7 +234,7 @@ export default function HomeList() {
                         </div>
                       </td>
                     </tr>
-                    <tr className="box-shadow curve-box">
+                    <tr className="box-shadow curve-box-homelist">
                       <td>TVS</td>
                       <td>banner design</td>
                       <td>Jan,15 2023</td>
@@ -279,7 +279,7 @@ export default function HomeList() {
                         </div>
                       </td>
                     </tr>
-                    <tr className="box-shadow curve-box">
+                    <tr className="box-shadow curve-box-homelist">
                       <td>TVS</td>
                       <td>banner design</td>
                       <td>Jan,15 2023</td>
@@ -324,7 +324,7 @@ export default function HomeList() {
                         </div>
                       </td>
                     </tr>
-                    <tr className="box-shadow curve-box">
+                    <tr className="box-shadow curve-box-homelist">
                       <td>TVS</td>
                       <td>banner design</td>
                       <td>Jan,15 2023</td>
@@ -369,7 +369,7 @@ export default function HomeList() {
                         </div>
                       </td>
                     </tr>
-                    <tr className="box-shadow curve-box">
+                    <tr className="box-shadow curve-box-homelist">
                       <td>TVS</td>
                       <td>banner design</td>
                       <td>Jan,15 2023</td>
@@ -414,7 +414,7 @@ export default function HomeList() {
                         </div>
                       </td>
                     </tr>
-                    <tr className="box-shadow curve-box">
+                    <tr className="box-shadow curve-box-homelist">
                       <td>TVS</td>
                       <td>banner design</td>
                       <td>Jan,15 2023</td>
