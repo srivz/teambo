@@ -6,7 +6,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Col,
@@ -18,6 +18,8 @@ import {
 import NavBar from "../Navs/NavBar";
 
 export default function HomeList() {
+  const [selected, setSelected] = useState(1);
+  let done = 0;
   return (
     <div id="main">
       <NavBar />
@@ -44,30 +46,58 @@ export default function HomeList() {
                 }}>
                 <TableHead>
                   <TableRow>
-                    <TableHead scope="col"></TableHead>
+                    <TableHead></TableHead>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow className="box-shadow curve-box-sidelist">
-                    <TableCell>
+                  <TableRow
+                    className="box-shadow"
+                    onClick={() => setSelected(1)}>
+                    <TableCell
+                      style={{
+                        backgroundColor: selected === 1 ? "#e2ecff" : "#f9fbff",
+                        height: "fit-content",
+                        borderRadius: "5px",
+                      }}>
                       <h5>Feri Abishek</h5>
                       <p className="grey">Video Editor / Graphic Designer</p>
                     </TableCell>
                   </TableRow>
-                  <TableRow className="box-shadow curve-box-sidelist">
-                    <TableCell>
+                  <TableRow
+                    className="box-shadow"
+                    onClick={() => setSelected(2)}>
+                    <TableCell
+                      style={{
+                        backgroundColor: selected === 2 ? "#e2ecff" : "#f9fbff",
+                        height: "fit-content",
+                        borderRadius: "5px",
+                      }}>
                       <h5>Surya</h5>
                       <p className="grey">Graphic Designer</p>
                     </TableCell>
                   </TableRow>
-                  <TableRow className="box-shadow curve-box-sidelist">
-                    <TableCell>
+                  <TableRow
+                    className="box-shadow"
+                    onClick={() => setSelected(3)}>
+                    <TableCell
+                      style={{
+                        backgroundColor: selected === 3 ? "#e2ecff" : "#f9fbff",
+                        height: "fit-content",
+                        borderRadius: "5px",
+                      }}>
                       <h5>Sivasundar</h5>
                       <p className="grey">Video Editor / Graphic Designer</p>
                     </TableCell>
                   </TableRow>
-                  <TableRow className="box-shadow curve-box-sidelist">
-                    <TableCell>
+                  <TableRow
+                    className="box-shadow"
+                    onClick={() => setSelected(4)}>
+                    <TableCell
+                      style={{
+                        backgroundColor: selected === 4 ? "#e2ecff" : "#f9fbff",
+                        height: "fit-content",
+                        borderRadius: "5px",
+                      }}>
                       <h5>Mithun</h5>
                       <p className="grey">Graphic Designer</p>
                     </TableCell>
@@ -136,7 +166,12 @@ export default function HomeList() {
                     </TableRow>
                   </TableHead>
                   <TableBody className="curve-box-homelist">
-                    <TableRow className="box-shadow">
+                    <TableRow
+                      style={{
+                        backgroundColor: done === 0 ? "#fff" : "#f9fbff",
+                        height: "70px",
+                      }}
+                      className="box-shadow">
                       <TableCell align="center">Chaicup</TableCell>
                       <TableCell align="center">Website UI</TableCell>
                       <TableCell align="center">Jan,21 2023</TableCell>
@@ -199,7 +234,12 @@ export default function HomeList() {
                         </OverlayTrigger>
                       </TableCell>
                     </TableRow>
-                    <TableRow className="box-shadow curve-box-homelist">
+                    <TableRow
+                      style={{
+                        backgroundColor: done === 0 ? "#fff" : "#f9fbff",
+                        height: "70px",
+                      }}
+                      className="box-shadow">
                       <TableCell align="center">Teabon</TableCell>
                       <TableCell align="center">Menu</TableCell>
                       <TableCell align="center">Jan,19 2023</TableCell>
@@ -265,9 +305,8 @@ export default function HomeList() {
                     </TableRow>
                     <TableRow
                       style={{
-                        backgroundColor: "#fff",
-                        height: "60px",
-                        borderRadius: "5px",
+                        backgroundColor: done === 0 ? "#fff" : "#f9fbff",
+                        height: "70px",
                       }}
                       className="box-shadow">
                       <TableCell align="center">TVS</TableCell>
@@ -333,7 +372,13 @@ export default function HomeList() {
                         </OverlayTrigger>
                       </TableCell>
                     </TableRow>
-                    <TableRow className="box-shadow curve-box-homelist">
+
+                    <TableRow
+                      style={{
+                        backgroundColor: done === 0 ? "#fff" : "#f9fbff",
+                        height: "70px",
+                      }}
+                      className="box-shadow">
                       <TableCell align="center">TVS</TableCell>
                       <TableCell align="center">banner design</TableCell>
                       <TableCell align="center">Jan,15 2023</TableCell>
@@ -403,7 +448,13 @@ export default function HomeList() {
                         </OverlayTrigger>
                       </TableCell>
                     </TableRow>
-                    <TableRow className="box-shadow curve-box-homelist">
+
+                    <TableRow
+                      style={{
+                        backgroundColor: done === 1 ? "#fff" : "#f9fbff",
+                        height: "70px",
+                      }}
+                      className="box-shadow">
                       <TableCell align="center">TVS</TableCell>
                       <TableCell align="center">banner design</TableCell>
                       <TableCell align="center">Jan,15 2023</TableCell>
@@ -473,7 +524,13 @@ export default function HomeList() {
                         </OverlayTrigger>
                       </TableCell>
                     </TableRow>
-                    <TableRow className="box-shadow curve-box-homelist">
+
+                    <TableRow
+                      style={{
+                        backgroundColor: done === 1 ? "#fff" : "#f9fbff",
+                        height: "70px",
+                      }}
+                      className="box-shadow">
                       <TableCell align="center">TVS</TableCell>
                       <TableCell align="center">banner design</TableCell>
                       <TableCell align="center">Jan,15 2023</TableCell>
@@ -543,7 +600,13 @@ export default function HomeList() {
                         </OverlayTrigger>
                       </TableCell>
                     </TableRow>
-                    <TableRow className="box-shadow curve-box-homelist">
+
+                    <TableRow
+                      style={{
+                        backgroundColor: done === 1 ? "#fff" : "#f9fbff",
+                        height: "70px",
+                      }}
+                      className="box-shadow">
                       <TableCell align="center">TVS</TableCell>
                       <TableCell align="center">banner design</TableCell>
                       <TableCell align="center">Jan,15 2023</TableCell>
@@ -613,7 +676,13 @@ export default function HomeList() {
                         </OverlayTrigger>
                       </TableCell>
                     </TableRow>
-                    <TableRow className="box-shadow curve-box-homelist">
+
+                    <TableRow
+                      style={{
+                        backgroundColor: done !== 0 ? "#fff" : "#f9fbff",
+                        height: "70px",
+                      }}
+                      className="box-shadow">
                       <TableCell align="center">TVS</TableCell>
                       <TableCell align="center">banner design</TableCell>
                       <TableCell align="center">Jan,15 2023</TableCell>
