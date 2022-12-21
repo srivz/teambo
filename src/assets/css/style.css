@@ -1,4 +1,15 @@
+
+@font-face {
+  font-family: "helveticaneue";
+  src: local('helveticaneuew01-87hvcnoblRg') url("../fonts/HelveticaNeueW0187HvCnObl/helvetica_neue_w01_87_hv_cn_obl-webfont.woff")
+    format("woff"),url("../fonts/HelveticaNeueW0187HvCnObl/HelveticaNeueW0187HvCnObl.ttf")
+    format("truetype"),url("../fonts/HelveticaNeueW0187HvCnObl/HelveticaNeueW0187HvCnObl.otf")
+    format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
 * {
+  font-family: "helveticaneue";
   margin: 0%;
   padding: 0%;
   box-sizing: border-box;
@@ -50,14 +61,18 @@ body {
 .box-shadow {
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 3px;
 }
-.curve-box-sidelist td{
+.curve-box-sidelist td {
   background-color: #f9fbff;
   border-radius: 5px;
 }
-.curve-box-homelist{
+.curve-box-homelist tr{
   background-color: #fff;
-  height: 60px;
+  height: 70px;
   border-radius: 5px;
+}
+.curve-box-homelist td{
+  background-color: #fff;
+  height: 70px;
 }
 .form-box {
   max-width: 380px;

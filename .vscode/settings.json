@@ -1,3 +1,7 @@
 {
-  "files.autoSave": "onFocusChange"
+  "files.autoSave": "afterDelay",
+  "editor.formatOnSaveMode": "modifications",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
