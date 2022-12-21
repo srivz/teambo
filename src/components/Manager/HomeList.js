@@ -1,10 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import React from "react";
+import {
+  Button,
+  Col,
+  Container,
+  OverlayTrigger,
+  Popover,
+  Row,
+  Table,
+} from "react-bootstrap";
 import NavBar from "../Navs/NavBar";
 
 export default function HomeList() {
-  const [open, setOpen] = useState();
   return (
     <div id="main">
       <NavBar />
@@ -24,7 +31,7 @@ export default function HomeList() {
                 id="search"
                 placeholder="Search"
               />
-              <table className="table">
+              <Table className="table">
                 <thead>
                   <tr>
                     <th scope="col"></th>
@@ -56,7 +63,7 @@ export default function HomeList() {
                     </td>
                   </tr>
                 </tbody>
-              </table>
+              </Table>
             </div>
           </Col>
           <Col
@@ -101,7 +108,7 @@ export default function HomeList() {
             </Row>
             <Row>
               <Col>
-                <table className="table">
+                <Table className="table">
                   <thead>
                     <tr>
                       <th scope="col">Client</th>
@@ -123,35 +130,52 @@ export default function HomeList() {
                       <td className="green fw-bold">On Going</td>
 
                       <td className="text-end">
-                        <FontAwesomeIcon
-                          onClick={() => {
-                            open === 1 ? setOpen(null) : setOpen(1);
-                          }}
-                          icon="fa-solid fa-ellipsis-vertical"
-                          style={{ color: "blue", paddingRight: ".25em" }}
-                        />
-                        <div
-                          className="action-box"
-                          style={{ display: open === 1 ? "block" : "none" }}>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-trash" />
-                              Delete
-                            </Button>
-                          </div>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
-                              Move Up
-                            </Button>
-                          </div>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
-                              Move Down
-                            </Button>
-                          </div>
-                        </div>
+                        <OverlayTrigger
+                          trigger="click"
+                          key="bottom"
+                          placement="auto"
+                          rootClose
+                          overlay={
+                            <Popover id={`popover-positioned-bottom`}>
+                              <Popover.Body>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-trash" />
+                                    Delete
+                                  </Button>
+                                </div>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                                    Move Up
+                                  </Button>
+                                </div>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                                    Move Down
+                                  </Button>
+                                </div>
+                              </Popover.Body>
+                            </Popover>
+                          }>
+                          <FontAwesomeIcon
+                            icon="fa-solid fa-ellipsis-vertical"
+                            style={{ color: "blue", paddingRight: ".25em" }}
+                          />
+                        </OverlayTrigger>
                       </td>
                     </tr>
                     <tr className="box-shadow curve-box-homelist">
@@ -163,35 +187,52 @@ export default function HomeList() {
                       <td className="yellow fw-bold">Assigned</td>
 
                       <td className="text-end">
-                        <FontAwesomeIcon
-                          onClick={() => {
-                            open === 2 ? setOpen(null) : setOpen(2);
-                          }}
-                          icon="fa-solid fa-ellipsis-vertical"
-                          style={{ color: "blue", paddingRight: ".25em" }}
-                        />
-                        <div
-                          className="action-box"
-                          style={{ display: open === 2 ? "block" : "none" }}>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-trash" />
-                              Delete
-                            </Button>
-                          </div>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
-                              Move Up
-                            </Button>
-                          </div>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
-                              Move Down
-                            </Button>
-                          </div>
-                        </div>
+                        <OverlayTrigger
+                          trigger="click"
+                          key="bottom"
+                          placement="auto"
+                          rootClose
+                          overlay={
+                            <Popover id={`popover-positioned-bottom`}>
+                              <Popover.Body>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-trash" />
+                                    Delete
+                                  </Button>
+                                </div>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                                    Move Up
+                                  </Button>
+                                </div>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                                    Move Down
+                                  </Button>
+                                </div>
+                              </Popover.Body>
+                            </Popover>
+                          }>
+                          <FontAwesomeIcon
+                            icon="fa-solid fa-ellipsis-vertical"
+                            style={{ color: "blue", paddingRight: ".25em" }}
+                          />
+                        </OverlayTrigger>
                       </td>
                     </tr>
                     <tr className="box-shadow curve-box-homelist">
@@ -203,35 +244,52 @@ export default function HomeList() {
                       <td className="blue fw-bold">Paused</td>
 
                       <td className="text-end">
-                        <FontAwesomeIcon
-                          onClick={() => {
-                            open === 3 ? setOpen(null) : setOpen(3);
-                          }}
-                          icon="fa-solid fa-ellipsis-vertical"
-                          style={{ color: "blue", paddingRight: ".25em" }}
-                        />
-                        <div
-                          className="action-box"
-                          style={{ display: open === 3 ? "block" : "none" }}>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-trash" />
-                              Delete
-                            </Button>
-                          </div>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
-                              Move Up
-                            </Button>
-                          </div>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
-                              Move Down
-                            </Button>
-                          </div>
-                        </div>
+                        <OverlayTrigger
+                          trigger="click"
+                          key="bottom"
+                          placement="auto"
+                          rootClose
+                          overlay={
+                            <Popover id={`popover-positioned-bottom`}>
+                              <Popover.Body>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-trash" />
+                                    Delete
+                                  </Button>
+                                </div>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                                    Move Up
+                                  </Button>
+                                </div>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                                    Move Down
+                                  </Button>
+                                </div>
+                              </Popover.Body>
+                            </Popover>
+                          }>
+                          <FontAwesomeIcon
+                            icon="fa-solid fa-ellipsis-vertical"
+                            style={{ color: "blue", paddingRight: ".25em" }}
+                          />
+                        </OverlayTrigger>
                       </td>
                     </tr>
                     <tr className="box-shadow curve-box-homelist">
@@ -248,35 +306,52 @@ export default function HomeList() {
                           style={{ backgroundColor: "white" }}>
                           Correction
                         </Button>{" "}
-                        <FontAwesomeIcon
-                          onClick={() => {
-                            open === 4 ? setOpen(null) : setOpen(4);
-                          }}
-                          icon="fa-solid fa-ellipsis-vertical"
-                          style={{ color: "blue", paddingRight: ".25em" }}
-                        />
-                        <div
-                          className="action-box"
-                          style={{ display: open === 4 ? "block" : "none" }}>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-trash" />
-                              Delete
-                            </Button>
-                          </div>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
-                              Move Up
-                            </Button>
-                          </div>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
-                              Move Down
-                            </Button>
-                          </div>
-                        </div>
+                        <OverlayTrigger
+                          trigger="click"
+                          key="bottom"
+                          placement="auto"
+                          rootClose
+                          overlay={
+                            <Popover id={`popover-positioned-bottom`}>
+                              <Popover.Body>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-trash" />
+                                    Delete
+                                  </Button>
+                                </div>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                                    Move Up
+                                  </Button>
+                                </div>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                                    Move Down
+                                  </Button>
+                                </div>
+                              </Popover.Body>
+                            </Popover>
+                          }>
+                          <FontAwesomeIcon
+                            icon="fa-solid fa-ellipsis-vertical"
+                            style={{ color: "blue", paddingRight: ".25em" }}
+                          />
+                        </OverlayTrigger>
                       </td>
                     </tr>
                     <tr className="box-shadow curve-box-homelist">
@@ -293,35 +368,52 @@ export default function HomeList() {
                           style={{ backgroundColor: "white" }}>
                           Correction
                         </Button>{" "}
-                        <FontAwesomeIcon
-                          onClick={() => {
-                            open === 5 ? setOpen(null) : setOpen(5);
-                          }}
-                          icon="fa-solid fa-ellipsis-vertical"
-                          style={{ color: "blue", paddingRight: ".25em" }}
-                        />
-                        <div
-                          className="action-box"
-                          style={{ display: open === 5 ? "block" : "none" }}>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-trash" />
-                              Delete
-                            </Button>
-                          </div>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
-                              Move Up
-                            </Button>
-                          </div>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
-                              Move Down
-                            </Button>
-                          </div>
-                        </div>
+                        <OverlayTrigger
+                          trigger="click"
+                          key="bottom"
+                          placement="auto"
+                          rootClose
+                          overlay={
+                            <Popover id={`popover-positioned-bottom`}>
+                              <Popover.Body>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-trash" />
+                                    Delete
+                                  </Button>
+                                </div>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                                    Move Up
+                                  </Button>
+                                </div>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                                    Move Down
+                                  </Button>
+                                </div>
+                              </Popover.Body>
+                            </Popover>
+                          }>
+                          <FontAwesomeIcon
+                            icon="fa-solid fa-ellipsis-vertical"
+                            style={{ color: "blue", paddingRight: ".25em" }}
+                          />
+                        </OverlayTrigger>
                       </td>
                     </tr>
                     <tr className="box-shadow curve-box-homelist">
@@ -338,35 +430,52 @@ export default function HomeList() {
                           style={{ backgroundColor: "white" }}>
                           Correction
                         </Button>{" "}
-                        <FontAwesomeIcon
-                          onClick={() => {
-                            open === 6 ? setOpen(null) : setOpen(6);
-                          }}
-                          icon="fa-solid fa-ellipsis-vertical"
-                          style={{ color: "blue", paddingRight: ".25em" }}
-                        />
-                        <div
-                          className="action-box"
-                          style={{ display: open === 6 ? "block" : "none" }}>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-trash" />
-                              Delete
-                            </Button>
-                          </div>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
-                              Move Up
-                            </Button>
-                          </div>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
-                              Move Down
-                            </Button>
-                          </div>
-                        </div>
+                        <OverlayTrigger
+                          trigger="click"
+                          key="bottom"
+                          placement="auto"
+                          rootClose
+                          overlay={
+                            <Popover id={`popover-positioned-bottom`}>
+                              <Popover.Body>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-trash" />
+                                    Delete
+                                  </Button>
+                                </div>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                                    Move Up
+                                  </Button>
+                                </div>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                                    Move Down
+                                  </Button>
+                                </div>
+                              </Popover.Body>
+                            </Popover>
+                          }>
+                          <FontAwesomeIcon
+                            icon="fa-solid fa-ellipsis-vertical"
+                            style={{ color: "blue", paddingRight: ".25em" }}
+                          />
+                        </OverlayTrigger>
                       </td>
                     </tr>
                     <tr className="box-shadow curve-box-homelist">
@@ -383,35 +492,52 @@ export default function HomeList() {
                           style={{ backgroundColor: "white" }}>
                           Correction
                         </Button>{" "}
-                        <FontAwesomeIcon
-                          onClick={() => {
-                            open === 7 ? setOpen(null) : setOpen(7);
-                          }}
-                          icon="fa-solid fa-ellipsis-vertical"
-                          style={{ color: "blue", paddingRight: ".25em" }}
-                        />
-                        <div
-                          className="action-box"
-                          style={{ display: open === 7 ? "block" : "none" }}>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-trash" />
-                              Delete
-                            </Button>
-                          </div>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
-                              Move Up
-                            </Button>
-                          </div>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
-                              Move Down
-                            </Button>
-                          </div>
-                        </div>
+                        <OverlayTrigger
+                          trigger="click"
+                          key="bottom"
+                          placement="auto"
+                          rootClose
+                          overlay={
+                            <Popover id={`popover-positioned-bottom`}>
+                              <Popover.Body>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-trash" />
+                                    Delete
+                                  </Button>
+                                </div>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                                    Move Up
+                                  </Button>
+                                </div>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                                    Move Down
+                                  </Button>
+                                </div>
+                              </Popover.Body>
+                            </Popover>
+                          }>
+                          <FontAwesomeIcon
+                            icon="fa-solid fa-ellipsis-vertical"
+                            style={{ color: "blue", paddingRight: ".25em" }}
+                          />
+                        </OverlayTrigger>
                       </td>
                     </tr>
                     <tr className="box-shadow curve-box-homelist">
@@ -428,39 +554,56 @@ export default function HomeList() {
                           style={{ backgroundColor: "white" }}>
                           Correction
                         </Button>{" "}
-                        <FontAwesomeIcon
-                          onClick={() => {
-                            open === 8 ? setOpen(null) : setOpen(8);
-                          }}
-                          icon="fa-solid fa-ellipsis-vertical"
-                          style={{ color: "blue", paddingRight: ".25em" }}
-                        />
-                        <div
-                          className="action-box"
-                          style={{ display: open === 8 ? "block" : "none" }}>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-trash" />
-                              Delete
-                            </Button>
-                          </div>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
-                              Move Up
-                            </Button>
-                          </div>
-                          <div style={{ marginBottom: ".5em" }}>
-                            <Button variant="light">
-                              <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
-                              Move Down
-                            </Button>
-                          </div>
-                        </div>
+                        <OverlayTrigger
+                          trigger="click"
+                          key="bottom"
+                          placement="auto"
+                          rootClose
+                          overlay={
+                            <Popover id={`popover-positioned-bottom`}>
+                              <Popover.Body>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-trash" />
+                                    Delete
+                                  </Button>
+                                </div>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-chevron-up" />
+                                    Move Up
+                                  </Button>
+                                </div>
+                                <div
+                                  className="d-grid gap-2"
+                                  style={{ marginBottom: ".5em" }}>
+                                  <Button
+                                    variant="light"
+                                    block>
+                                    <FontAwesomeIcon icon="fa-solid fa-chevron-down" />
+                                    Move Down
+                                  </Button>
+                                </div>
+                              </Popover.Body>
+                            </Popover>
+                          }>
+                          <FontAwesomeIcon
+                            icon="fa-solid fa-ellipsis-vertical"
+                            style={{ color: "blue", paddingRight: ".25em" }}
+                          />
+                        </OverlayTrigger>
                       </td>
                     </tr>
                   </tbody>
-                </table>
+                </Table>
               </Col>
             </Row>
           </Col>
