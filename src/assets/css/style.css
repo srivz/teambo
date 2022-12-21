@@ -52,6 +52,8 @@ body {
 }
 .curve-box {
   border-radius: 5px;
+  padding: auto;
+  text-align: center;
 }
 .form-box {
   max-width: 380px;
