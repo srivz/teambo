@@ -1,10 +1,12 @@
-
 @font-face {
   font-family: "helveticaneue";
-  src: local('helveticaneuew01-87hvcnoblRg') url("../fonts/HelveticaNeueW0187HvCnObl/helvetica_neue_w01_87_hv_cn_obl-webfont.woff")
-    format("woff"),url("../fonts/HelveticaNeueW0187HvCnObl/HelveticaNeueW0187HvCnObl.ttf")
-    format("truetype"),url("../fonts/HelveticaNeueW0187HvCnObl/HelveticaNeueW0187HvCnObl.otf")
-    format("opentype");
+  src: local("helveticaneuew01-87hvcnoblRg")
+      url("../fonts/HelveticaNeueW0187HvCnObl/helvetica_neue_w01_87_hv_cn_obl-webfont.woff")
+      format("woff"),
+    url("../fonts/HelveticaNeueW0187HvCnObl/HelveticaNeueW0187HvCnObl.ttf")
+      format("truetype"),
+    url("../fonts/HelveticaNeueW0187HvCnObl/HelveticaNeueW0187HvCnObl.otf")
+      format("opentype");
   font-weight: normal;
   font-style: normal;
 }
@@ -61,7 +63,7 @@ body {
 .box-shadow {
   box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 3px;
 }
-.curve-box-homelist tr{
+.curve-box-homelist tr {
   background-color: #fff;
   height: 70px;
   border-radius: 5px;
@@ -110,12 +112,23 @@ body {
   display: none;
 }
 .cards {
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  border-radius: 20px;
-  color:#fff;
+  box-shadow: rgba(0, 0, 0, 0.14) 0px 1px 5px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: small;
+  font-weight: 600;
   margin-top: 20px;
 }
-.cards .card-tasks{
-  color:rgb(0, 0, 0);
+.cards .card-tasks {
+  color: rgb(0, 0, 0);
   padding: 10px;
 }
+.task-status {
+  float: right;
+  text-align: right;
+}
+.cards hr.divider
+{ 
+   margin-top: 0.5em;
+   margin-bottom: 0.5em;
+} 

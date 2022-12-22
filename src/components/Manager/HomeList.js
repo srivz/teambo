@@ -22,7 +22,7 @@ export default function HomeList(props) {
   const [selected, setSelected] = useState(1);
   let done = 0;
   function handleViewChange() {
-    props.onChange(false);
+    props.onChange(true);
   }
   return (
     <div id="main">
@@ -62,6 +62,8 @@ export default function HomeList(props) {
                         backgroundColor: selected === 1 ? "#e2ecff" : "#f9fbff",
                         height: "fit-content",
                         borderRadius: "5px",
+                        paddingTop: ".5em",
+                        paddingBottom: "0em",
                       }}>
                       <h5>Feri Abishek</h5>
                       <p className="grey">Video Editor / Graphic Designer</p>
@@ -75,6 +77,8 @@ export default function HomeList(props) {
                         backgroundColor: selected === 2 ? "#e2ecff" : "#f9fbff",
                         height: "fit-content",
                         borderRadius: "5px",
+                        paddingTop: ".5em",
+                        paddingBottom: "0em",
                       }}>
                       <h5>Surya</h5>
                       <p className="grey">Graphic Designer</p>
@@ -88,6 +92,8 @@ export default function HomeList(props) {
                         backgroundColor: selected === 3 ? "#e2ecff" : "#f9fbff",
                         height: "fit-content",
                         borderRadius: "5px",
+                        paddingTop: ".5em",
+                        paddingBottom: "0em",
                       }}>
                       <h5>Sivasundar</h5>
                       <p className="grey">Video Editor / Graphic Designer</p>
@@ -101,6 +107,8 @@ export default function HomeList(props) {
                         backgroundColor: selected === 4 ? "#e2ecff" : "#f9fbff",
                         height: "fit-content",
                         borderRadius: "5px",
+                        paddingTop: ".5em",
+                        paddingBottom: "0em",
                       }}>
                       <h5>Mithun</h5>
                       <p className="grey">Graphic Designer</p>

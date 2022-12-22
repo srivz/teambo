@@ -12,7 +12,7 @@ import NavBar from "../Navs/NavBar";
 
 export default function HomeBlock(props) {
   function handleViewChange() {
-    props.onChange(true);
+    props.onChange(false);
   }
   return (
     <div id="main">
@@ -144,34 +144,45 @@ export default function HomeBlock(props) {
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Feri Abishek</h5>
-                  <h6>Video Editor / Graphic Designer</h6>
+                  <span>Video Editor / Graphic Designer</span>
                 </div>
                 <div className="card-tasks">
                   <Row>
-                    <Col sm="6">
-                      <h6>Chaicup</h6>
-                      <h6>Website UI</h6>
+                    <Col sm="8">
+                      <span>Chaicup</span>
+                      <br />
+                      <span>Website UI</span>
                     </Col>
-                    <Col sm="6">
-                      <h6 className="green fw-bold text-end">On Going</h6>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col sm="6">
-                      <h6>Teabon</h6>
-                      <h6>Menu</h6>
-                    </Col>
-                    <Col sm="6">
-                      <h6 className="yellow fw-bold text-end">Assigned</h6>
+                    <Col sm="4">
+                      <span className="green fw-bold text-end task-status">
+                        On Going
+                      </span>
                     </Col>
                   </Row>
+                  <hr class="divider" />
                   <Row>
-                    <Col sm="6">
-                      <h6>TVS</h6>
-                      <h6>Instagram ad Video</h6>
+                    <Col sm="8">
+                      <span>Teabon</span>
+                      <br />
+                      <span>Menu</span>
                     </Col>
-                    <Col sm="6">
-                      <h6 className="blue fw-bold text-end">Paused</h6>
+                    <Col sm="4">
+                      <span className="yellow fw-bold text-end task-status">
+                        Assigned
+                      </span>
+                    </Col>
+                  </Row>
+                  <hr class="divider" />
+                  <Row>
+                    <Col sm="8">
+                      <span>TVS</span>
+                      <br />
+                      <span>Instagram ad Video</span>
+                    </Col>
+                    <Col sm="4">
+                      <span className="blue fw-bold text-end task-status">
+                        Paused
+                      </span>
                     </Col>
                   </Row>
                 </div>
@@ -180,25 +191,32 @@ export default function HomeBlock(props) {
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Priyadharshan</h5>
-                  <h6>Video Editor / Graphic Designer</h6>
+                  <span>Video Editor / Graphic Designer</span>
                 </div>
                 <div className="card-tasks">
                   <Row>
-                    <Col sm="6">
-                      <h6>Chaicup</h6>
-                      <h6>Website UI</h6>
+                    <Col sm="8">
+                      <span>Chaicup</span>
+                      <br />
+                      <span>Website UI</span>
                     </Col>
-                    <Col sm="6">
-                      <h6 className="green fw-bold text-end">On Going</h6>
+                    <Col sm="4">
+                      <span className="green fw-bold text-end task-status">
+                        On Going
+                      </span>
                     </Col>
                   </Row>
+                  <hr class="divider" />
                   <Row>
-                    <Col sm="6">
-                      <h6>Teabon</h6>
-                      <h6>Menu</h6>
+                    <Col sm="8">
+                      <span>Teabon</span>
+                      <br />
+                      <span>Menu</span>
                     </Col>
-                    <Col sm="6">
-                      <h6 className="yellow fw-bold text-end">Assigned</h6>
+                    <Col sm="4">
+                      <span className="yellow fw-bold text-end task-status">
+                        Assigned
+                      </span>
                     </Col>
                   </Row>
                 </div>
@@ -210,43 +228,58 @@ export default function HomeBlock(props) {
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Surya</h5>
-                  <h6>Graphic Designer</h6>
+                  <span>Graphic Designer</span>
                 </div>
                 <div className="card-tasks">
                   <Row>
-                    <Col sm="6">
-                      <h6>Chaicup</h6>
-                      <h6>Website UI</h6>
+                    <Col sm="8">
+                      <span>Chaicup</span>
+                      <br />
+                      <span>Website UI</span>
                     </Col>
-                    <Col sm="6">
-                      <h6 className="green fw-bold text-end">On Going</h6>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col sm="6">
-                      <h6>Teabon</h6>
-                      <h6>Menu</h6>
-                    </Col>
-                    <Col sm="6">
-                      <h6 className="yellow fw-bold text-end">Assigned</h6>
+                    <Col sm="4">
+                      <span className="green fw-bold text-end task-status">
+                        On Going
+                      </span>
                     </Col>
                   </Row>
+                  <hr class="divider" />
                   <Row>
-                    <Col sm="6">
-                      <h6>TVS</h6>
-                      <h6>Instagram ad Video</h6>
+                    <Col sm="8">
+                      <span>Teabon</span>
+                      <br />
+                      <span>Menu</span>
                     </Col>
-                    <Col sm="6">
-                      <h6 className="blue fw-bold text-end">Paused</h6>
+                    <Col sm="4">
+                      <span className="yellow fw-bold text-end task-status">
+                        Assigned
+                      </span>
                     </Col>
                   </Row>
+                  <hr class="divider" />
                   <Row>
-                    <Col sm="6">
-                      <h6>TVS</h6>
-                      <h6>Instagram ad Video</h6>
+                    <Col sm="8">
+                      <span>TVS</span>
+                      <br />
+                      <span>Instagram ad Video</span>
                     </Col>
-                    <Col sm="6">
-                      <h6 className="blue fw-bold text-end">Paused</h6>
+                    <Col sm="4">
+                      <span className="blue fw-bold text-end task-status">
+                        Paused
+                      </span>
+                    </Col>
+                  </Row>
+                  <hr class="divider" />
+                  <Row>
+                    <Col sm="8">
+                      <span>TVS</span>
+                      <br />
+                      <span>Instagram ad Video</span>
+                    </Col>
+                    <Col sm="4">
+                      <span className="blue fw-bold text-end task-status">
+                        Paused
+                      </span>
                     </Col>
                   </Row>
                 </div>
@@ -254,34 +287,45 @@ export default function HomeBlock(props) {
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Feri Abishek</h5>
-                  <h6>Video Editor / Graphic Designer</h6>
+                  <span>Video Editor / Graphic Designer</span>
                 </div>
                 <div className="card-tasks">
                   <Row>
-                    <Col sm="6">
-                      <h6>Chaicup</h6>
-                      <h6>Website UI</h6>
+                    <Col sm="8">
+                      <span>Chaicup</span>
+                      <br />
+                      <span>Website UI</span>
                     </Col>
-                    <Col sm="6">
-                      <h6 className="green fw-bold text-end">On Going</h6>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col sm="6">
-                      <h6>Teabon</h6>
-                      <h6>Menu</h6>
-                    </Col>
-                    <Col sm="6">
-                      <h6 className="yellow fw-bold text-end">Assigned</h6>
+                    <Col sm="4">
+                      <span className="green fw-bold text-end task-status">
+                        On Going
+                      </span>
                     </Col>
                   </Row>
+                  <hr class="divider" />
                   <Row>
-                    <Col sm="6">
-                      <h6>TVS</h6>
-                      <h6>Instagram ad Video</h6>
+                    <Col sm="8">
+                      <span>Teabon</span>
+                      <br />
+                      <span>Menu</span>
                     </Col>
-                    <Col sm="6">
-                      <h6 className="blue fw-bold text-end">Paused</h6>
+                    <Col sm="4">
+                      <span className="yellow fw-bold text-end task-status">
+                        Assigned
+                      </span>
+                    </Col>
+                  </Row>
+                  <hr class="divider" />
+                  <Row>
+                    <Col sm="8">
+                      <span>TVS</span>
+                      <br />
+                      <span>Instagram ad Video</span>
+                    </Col>
+                    <Col sm="4">
+                      <span className="blue fw-bold text-end task-status">
+                        Paused
+                      </span>
                     </Col>
                   </Row>
                 </div>
@@ -293,25 +337,32 @@ export default function HomeBlock(props) {
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Sivasundar</h5>
-                  <h6>Video Editor / Graphic Designer</h6>
+                  <span>Video Editor / Graphic Designer</span>
                 </div>
                 <div className="card-tasks">
                   <Row>
-                    <Col sm="6">
-                      <h6>Chaicup</h6>
-                      <h6>Website UI</h6>
+                    <Col sm="8">
+                      <span>Chaicup</span>
+                      <br />
+                      <span>Website UI</span>
                     </Col>
-                    <Col sm="6">
-                      <h6 className="green fw-bold text-end">On Going</h6>
+                    <Col sm="4">
+                      <span className="green fw-bold text-end task-status">
+                        On Going
+                      </span>
                     </Col>
                   </Row>
+                  <hr class="divider" />
                   <Row>
-                    <Col sm="6">
-                      <h6>Teabon</h6>
-                      <h6>Menu</h6>
+                    <Col sm="8">
+                      <span>Teabon</span>
+                      <br />
+                      <span>Menu</span>
                     </Col>
-                    <Col sm="6">
-                      <h6 className="yellow fw-bold text-end">Assigned</h6>
+                    <Col sm="4">
+                      <span className="yellow fw-bold text-end task-status">
+                        Assigned
+                      </span>
                     </Col>
                   </Row>
                 </div>
@@ -319,25 +370,32 @@ export default function HomeBlock(props) {
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Mithun</h5>
-                  <h6>Video Editor / Graphic Designer</h6>
+                  <span>Video Editor / Graphic Designer</span>
                 </div>
                 <div className="card-tasks">
                   <Row>
-                    <Col sm="6">
-                      <h6>Chaicup</h6>
-                      <h6>Website UI</h6>
+                    <Col sm="8">
+                      <span>Chaicup</span>
+                      <br />
+                      <span>Website UI</span>
                     </Col>
-                    <Col sm="6">
-                      <h6 className="green fw-bold text-end">On Going</h6>
+                    <Col sm="4">
+                      <span className="green fw-bold text-end task-status">
+                        On Going
+                      </span>
                     </Col>
                   </Row>
+                  <hr class="divider" />
                   <Row>
-                    <Col sm="6">
-                      <h6>Teabon</h6>
-                      <h6>Menu</h6>
+                    <Col sm="8">
+                      <span>Teabon</span>
+                      <br />
+                      <span>Menu</span>
                     </Col>
-                    <Col sm="6">
-                      <h6 className="yellow fw-bold text-end">Assigned</h6>
+                    <Col sm="4">
+                      <span className="yellow fw-bold text-end task-status">
+                        Assigned
+                      </span>
                     </Col>
                   </Row>
                 </div>
@@ -345,34 +403,45 @@ export default function HomeBlock(props) {
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Thandil</h5>
-                  <h6> Graphic Designer</h6>
+                  <span> Graphic Designer</span>
                 </div>
                 <div className="card-tasks">
                   <Row>
-                    <Col sm="6">
-                      <h6>Chaicup</h6>
-                      <h6>Website UI</h6>
+                    <Col sm="8">
+                      <span>Chaicup</span>
+                      <br />
+                      <span>Website UI</span>
                     </Col>
-                    <Col sm="6">
-                      <h6 className="green fw-bold text-end">On Going</h6>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col sm="6">
-                      <h6>Teabon</h6>
-                      <h6>Menu</h6>
-                    </Col>
-                    <Col sm="6">
-                      <h6 className="yellow fw-bold text-end">Assigned</h6>
+                    <Col sm="4">
+                      <span className="green fw-bold text-end task-status">
+                        On Going
+                      </span>
                     </Col>
                   </Row>
+                  <hr class="divider" />
                   <Row>
-                    <Col sm="6">
-                      <h6>TVS</h6>
-                      <h6>Instagram ad Video</h6>
+                    <Col sm="8">
+                      <span>Teabon</span>
+                      <br />
+                      <span>Menu</span>
                     </Col>
-                    <Col sm="6">
-                      <h6 className="blue fw-bold text-end">Paused</h6>
+                    <Col sm="4">
+                      <span className="yellow fw-bold text-end task-status">
+                        Assigned
+                      </span>
+                    </Col>
+                  </Row>
+                  <hr class="divider" />
+                  <Row>
+                    <Col sm="8">
+                      <span>TVS</span>
+                      <br />
+                      <span>Instagram ad Video</span>
+                    </Col>
+                    <Col sm="4">
+                      <span className="blue fw-bold text-end task-status">
+                        Paused
+                      </span>
                     </Col>
                   </Row>
                 </div>
@@ -384,43 +453,58 @@ export default function HomeBlock(props) {
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Feri Abishek</h5>
-                  <h6>Video Editor / Graphic Designer</h6>
+                  <span>Video Editor / Graphic Designer</span>
                 </div>
                 <div className="card-tasks">
                   <Row>
                     <Col sm="6">
-                      <h6>Chaicup</h6>
-                      <h6>Website UI</h6>
+                      <span>Chaicup</span>
+                      <br />
+                      <span>Website UI</span>
                     </Col>
                     <Col sm="6">
-                      <h6 className="green fw-bold text-end">On Going</h6>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col sm="6">
-                      <h6>Teabon</h6>
-                      <h6>Menu</h6>
-                    </Col>
-                    <Col sm="6">
-                      <h6 className="yellow fw-bold text-end">Assigned</h6>
+                      <span className="green fw-bold text-end task-status">
+                        On Going
+                      </span>
                     </Col>
                   </Row>
+                  <hr class="divider" />
                   <Row>
                     <Col sm="6">
-                      <h6>TVS</h6>
-                      <h6>Instagram ad Video</h6>
+                      <span>Teabon</span>
+                      <br />
+                      <span>Menu</span>
                     </Col>
                     <Col sm="6">
-                      <h6 className="blue fw-bold text-end">Paused</h6>
+                      <span className="yellow fw-bold text-end task-status">
+                        Assigned
+                      </span>
                     </Col>
                   </Row>
+                  <hr class="divider" />
                   <Row>
                     <Col sm="6">
-                      <h6>TVS</h6>
-                      <h6>Instagram ad Video</h6>
+                      <span>TVS</span>
+                      <br />
+                      <span>Instagram ad Video</span>
                     </Col>
                     <Col sm="6">
-                      <h6 className="blue fw-bold text-end">Paused</h6>
+                      <span className="blue fw-bold text-end task-status">
+                        Paused
+                      </span>
+                    </Col>
+                  </Row>
+                  <hr class="divider" />
+                  <Row>
+                    <Col sm="6">
+                      <span>TVS</span>
+                      <br />
+                      <span>Instagram ad Video</span>
+                    </Col>
+                    <Col sm="6">
+                      <span className="blue fw-bold text-end task-status">
+                        Paused
+                      </span>
                     </Col>
                   </Row>
                 </div>
@@ -428,25 +512,32 @@ export default function HomeBlock(props) {
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Sathish</h5>
-                  <h6>Video Editor / Graphic Designer</h6>
+                  <span>Video Editor / Graphic Designer</span>
                 </div>
                 <div className="card-tasks">
                   <Row>
                     <Col sm="6">
-                      <h6>Chaicup</h6>
-                      <h6>Website UI</h6>
+                      <span>Chaicup</span>
+                      <br />
+                      <span>Website UI</span>
                     </Col>
                     <Col sm="6">
-                      <h6 className="green fw-bold text-end">On Going</h6>
+                      <span className="green fw-bold text-end task-status">
+                        On Going
+                      </span>
                     </Col>
                   </Row>
+                  <hr class="divider" />
                   <Row>
                     <Col sm="6">
-                      <h6>Teabon</h6>
-                      <h6>Menu</h6>
+                      <span>Teabon</span>
+                      <br />
+                      <span>Menu</span>
                     </Col>
                     <Col sm="6">
-                      <h6 className="yellow fw-bold text-end">Assigned</h6>
+                      <span className="yellow fw-bold text-end task-status">
+                        Assigned
+                      </span>
                     </Col>
                   </Row>
                 </div>

@@ -10,12 +10,12 @@ export default function Home() {
   return (
     <div>
       {viewType ? (
-        <HomeList
+        <HomeBlock
           viewType={viewType}
           onChange={handleChange}
         />
       ) : (
-        <HomeBlock
+        <HomeList
           viewType={viewType}
           onChange={handleChange}
         />
