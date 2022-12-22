@@ -143,7 +143,7 @@ export default function HomeBlock(props) {
               <Masonry>
                 <div>
                   <div className="cards">
-                    <div className="heading bg-blue p-2 rounded-3">
+                    <div className="heading bg-blue p-3 rounded-3">
                       <h5>Feri Abishek</h5>
                       <span>Video Editor / Graphic Designer</span>
                     </div>
@@ -192,7 +192,7 @@ export default function HomeBlock(props) {
 
                 <div>
                   <div className="cards">
-                    <div className="heading bg-blue p-2 rounded-3">
+                    <div className="heading  bg-blue p-3 rounded-3">
                       <h5>Priyadharshan</h5>
                       <span>Video Editor / Graphic Designer</span>
                     </div>
@@ -228,7 +228,7 @@ export default function HomeBlock(props) {
 
                 <div>
                   <div className="cards">
-                    <div className="heading bg-blue p-2 rounded-3">
+                    <div className="heading  bg-blue p-3 rounded-3">
                       <h5>Surya</h5>
                       <span>Graphic Designer</span>
                     </div>
@@ -290,7 +290,7 @@ export default function HomeBlock(props) {
 
                 <div>
                   <div className="cards">
-                    <div className="heading bg-blue p-2 rounded-3">
+                    <div className="heading  bg-blue p-3 rounded-3">
                       <h5>Feri Abishek</h5>
                       <span>Video Editor / Graphic Designer</span>
                     </div>
@@ -339,7 +339,7 @@ export default function HomeBlock(props) {
 
                 <div>
                   <div className="cards">
-                    <div className="heading bg-blue p-2 rounded-3">
+                    <div className="heading  bg-blue p-3 rounded-3">
                       <h5>Sivasundar</h5>
                       <span>Video Editor / Graphic Designer</span>
                     </div>
@@ -374,7 +374,7 @@ export default function HomeBlock(props) {
                 </div>
                 <div>
                   <div className="cards">
-                    <div className="heading bg-blue p-2 rounded-3">
+                    <div className="heading  bg-blue p-3 rounded-3">
                       <h5>Mithun</h5>
                       <span>Video Editor / Graphic Designer</span>
                     </div>
@@ -409,7 +409,7 @@ export default function HomeBlock(props) {
                 </div>
                 <div>
                   <div className="cards">
-                    <div className="heading bg-blue p-2 rounded-3">
+                    <div className="heading  bg-blue p-3 rounded-3">
                       <h5>Thandil</h5>
                       <span> Graphic Designer</span>
                     </div>
@@ -457,7 +457,7 @@ export default function HomeBlock(props) {
                 </div>
                 <div>
                   <div className="cards">
-                    <div className="heading bg-blue p-2 rounded-3">
+                    <div className="heading  bg-blue p-3 rounded-3">
                       <h5>Feri Abishek</h5>
                       <span>Video Editor / Graphic Designer</span>
                     </div>
@@ -518,7 +518,7 @@ export default function HomeBlock(props) {
                 </div>
                 <div>
                   <div className="cards">
-                    <div className="heading bg-blue p-2 rounded-3">
+                    <div className="heading  bg-blue p-3 rounded-3">
                       <h5>Sathish</h5>
                       <span>Video Editor / Graphic Designer</span>
                     </div>
