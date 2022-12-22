@@ -37,7 +37,13 @@ export default function HomeList(props) {
               <h4 className="blue">Teammate Tasks</h4>
               <input
                 className="rounded-2 w-100"
-                style={{ marginTop: "1em", padding: ".25em" }}
+                style={{
+                  marginTop: "1em",
+                  padding: ".25em",
+                  borderRadius: "25px",
+                  border: "2px solid #e8e7e7",
+                  paddingLeft: "20px",
+                }}
                 type="search"
                 name="search"
                 id="search"
