@@ -22,7 +22,7 @@ export default function HomeList(props) {
   const [selected, setSelected] = useState(1);
   let done = 0;
   function handleViewChange() {
-    window.location.href = "/manager/home/gridView";
+    props.onChange(false);
   }
   return (
     <div id="main">

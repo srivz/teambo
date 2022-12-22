@@ -6,8 +6,7 @@ import LoginHome from "./components/LoginHome";
 import LoginTeam from "./components/LoginPages/LoginTeam";
 import TeamMemberHome from "./components/TeamMate/Home";
 import SignUp from "./components/LoginPages/SignUp";
-import HomeList from "./components/Manager/HomeList";
-import HomeBlock from "./components/Manager/HomeBlock";
+import ManagerHome from "./components/Manager/Home";
 
 export default function App() {
   return (
@@ -17,7 +16,7 @@ export default function App() {
           path="/"
           element={<LoginHome />}></Route>
         <Route
-          path="/teammate/login"
+          path="/teammember/login"
           element={<LoginTeam text="Working" />}></Route>
         <Route
           path="/manager/login"
@@ -26,11 +25,8 @@ export default function App() {
           path="/signup"
           element={<SignUp />}></Route>
         <Route
-          path="/manager/home/listView"
-          element={<HomeList />}></Route>
-        <Route
-          path="/manager/home/gridView"
-          element={<HomeBlock />}></Route>
+          path="/manager/home"
+          element={<ManagerHome />}></Route>
         <Route
           path="/teammember/home"
           element={<TeamMemberHome />}></Route>
