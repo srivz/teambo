@@ -16,7 +16,7 @@ export default function App() {
           path="/"
           element={<LoginHome />}></Route>
         <Route
-          path="/teammember/login"
+          path="/teammate/login"
           element={<LoginTeam text="Working" />}></Route>
         <Route
           path="/manager/login"
