@@ -11,16 +11,19 @@ import {
   Button,
   Col,
   Container,
-  
+  Form,
   OverlayTrigger,
   Popover,
   Row,
 } from "react-bootstrap";
 import NavBar from "../Navs/NavBar";
 
-export default function HomeList() {
+export default function HomeList(props) {
   const [selected, setSelected] = useState(1);
   let done = 0;
+  function handleViewChange() {
+    props.onChange(false);
+  }
   return (
     <div id="main">
       <NavBar />
@@ -127,10 +130,14 @@ export default function HomeList() {
                 <div>
                   <FontAwesomeIcon
                     icon="fa-solid fa-list"
+                    color="#5f8fee"
                     style={{ paddingRight: "1em" }}
                   />
 
                   <FontAwesomeIcon
+                    onClick={() => {
+                      handleViewChange();
+                    }}
                     icon="fa-solid fa-grip "
                     style={{ paddingRight: "1em" }}
                   />
@@ -140,95 +147,74 @@ export default function HomeList() {
                     placement="bottom"
                     rootClose
                     overlay={
-                      <Popover id={`popover-positioned-bottom1`}>
-                        <Popover.Body>
-                          {/* <div>
-                            <h5 className="blue">Feri Abishek</h5>
-                            <h6>Video Editor / Graphic Designer</h6>
-                            <Form.Group
-                              as={Row}
-                              className="mb-3"
-                              controlId="formPlaintext1">
-                              <Form.Label
-                                column
-                                sm="2">
-                                Client
-                              </Form.Label>
-                              <Col sm="10">
-                                <Form.Control
-                                  plaintext
-                                  readOnly
-                                />
-                              </Col>
-                            </Form.Group>
-                            <Form.Group
-                              as={Row}
-                              className="mb-3"
-                              controlId="formPlaintext2">
-                              <Form.Label
-                                column
-                                sm="2">
-                                Task
-                              </Form.Label>
-                              <Col sm="10">
-                                <Form.Control
-                                  plaintext
-                                  readOnly
-                                />
-                              </Col>
-                            </Form.Group>
-                            <Form.Group
-                              as={Row}
-                              className="mb-3"
-                              controlId="formPlaintext3">
-                              <Form.Label
-                                column
-                                sm="2">
-                                Description
-                              </Form.Label>
-                              <Col sm="10">
-                                <Form.Control
-                                  plaintext
-                                  readOnly
-                                />
-                              </Col>
-                            </Form.Group>
-                            <div
-                              className="d-grid gap-2"
-                              style={{
-                                marginBottom: ".5em",
-                              }}>
-                              <Button
-                                variant="primary"
-                                style={{
-                                  textAlign: "center",
-                                }}
-                                block>
-                                Assign
-                              </Button>
-                            </div>
-                          </div> */}
-
-                          <div
-                            className="d-grid gap-2"
+                      <div
+                        className="bg-white"
+                        style={{
+                          padding: "1em",
+                          marginTop: "10px",
+                          marginLeft: "-50px",
+                          width: "400px",
+                          boxShadow: "rgba(0, 0, 0, 0.15) 1px 3px 5px",
+                        }}>
+                        <h5 className="blue">Feri Abishek</h5>
+                        <h6>Video Editor / Graphic Designer</h6>
+                        <Form.Group
+                          as={Row}
+                          className="mb-3"
+                          controlId="formPlaintext1">
+                          <Form.Label
+                            column
+                            sm="4"
+                            md="4">
+                            Client
+                          </Form.Label>
+                          <Col sm="7">
+                            <Form.Control type="text" />
+                          </Col>
+                        </Form.Group>
+                        <Form.Group
+                          as={Row}
+                          className="mb-3"
+                          controlId="formPlaintext2">
+                          <Form.Label
+                            column
+                            md="4"
+                            sm="4">
+                            Task
+                          </Form.Label>
+                          <Col sm="7">
+                            <Form.Control type="text" />
+                          </Col>
+                        </Form.Group>
+                        <Form.Group
+                          as={Row}
+                          className="mb-3"
+                          controlId="formPlaintext3">
+                          <Form.Label
+                            column
+                            md="4"
+                            sm="4">
+                            Description
+                          </Form.Label>
+                          <Col sm="7">
+                            <Form.Control as="textarea" />
+                          </Col>
+                        </Form.Group>
+                        <div
+                          className="d-grid gap-2"
+                          style={{
+                            marginBottom: ".5em",
+                          }}>
+                          <Button
+                            variant="primary"
                             style={{
-                              marginBottom: ".5em",
-                            }}>
-                            <Button
-                              variant="light"
-                              style={{
-                                textAlign: "left",
-                              }}
-                              block>
-                              <FontAwesomeIcon
-                                icon="fa-solid fa-trash"
-                                style={{ paddingRight: ".5em" }}
-                              />
-                              Delete Task
-                            </Button>
-                          </div>
-                        </Popover.Body>
-                      </Popover>
+                              textAlign: "center",
+                            }}
+                            block>
+                            Assign
+                          </Button>
+                        </div>
+                      </div>
                     }>
                     <Button
                       type="Button"
