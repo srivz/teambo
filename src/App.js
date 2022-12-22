@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/css/style.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import LoginHome from "./components/LoginHome";
-import LoginTeam from "./components/LoginTeam";
+import LoginTeam from "./components/LoginPages/LoginTeam";
 import ManagerHome from "./components/Manager/Home";
 import TeamMemberHome from "./components/TeamMate/Home";
 import SignUp from "./components/LoginPages/SignUp";

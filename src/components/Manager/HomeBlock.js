@@ -14,6 +14,45 @@ export default function HomeBlock(props) {
   function handleViewChange() {
     props.onChange(false);
   }
+  let mainId = "masonry-effect";
+  let itemIdentifier = "#masonry-effect .card-item";
+
+  document.addEventListener("DOMContentLoaded", function (e) {
+    let item = document.querySelector(itemIdentifier);
+    let parentWidth = item.parentNode.getBoundingClientRect().width;
+    let itemWidth =
+      item.getBoundingClientRect().width +
+      parseFloat(getComputedStyle(item).marginLeft) +
+      parseFloat(getComputedStyle(item).marginRight);
+    let columnWidth = Math.round(1 / (itemWidth / parentWidth));
+
+    let arrayOfItems = Array.prototype.slice.call(
+      document.querySelectorAll(itemIdentifier)
+    );
+    let trackHeights = {};
+    arrayOfItems.forEach(function (item) {
+      let thisIndex = arrayOfItems.indexOf(item);
+      let thisColumn = thisIndex % columnWidth;
+      if (typeof trackHeights[thisColumn] == "undefined") {
+        trackHeights[thisColumn] = 0;
+      }
+      trackHeights[thisColumn] +=
+        item.getBoundingClientRect().height +
+        parseFloat(getComputedStyle(item).marginBottom);
+      if (thisIndex - columnWidth >= 0) {
+        let getItemAbove = document.querySelector(
+          `${itemIdentifier}:nth-of-type(${thisIndex - columnWidth + 1})`
+        );
+        let previousBottom = getItemAbove.getBoundingClientRect().bottom;
+        let currentTop =
+          item.getBoundingClientRect().top -
+          parseFloat(getComputedStyle(item).marginBottom);
+        item.style.top = `-${currentTop - previousBottom}px`;
+      }
+    });
+    let max = Math.max(...Object.values(trackHeights));
+    document.getElementById(mainId).style.height = `${max}px`;
+  });
   return (
     <div id="main">
       <NavBar />
@@ -136,11 +175,8 @@ export default function HomeBlock(props) {
               </Col>
             </Row>
           </Col>
-
-          <Row>
-            <Col
-              sm="3"
-              md="3">
+          <div id="masonry-effect">
+            <div className="card-item">
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Feri Abishek</h5>
@@ -187,10 +223,9 @@ export default function HomeBlock(props) {
                   </Row>
                 </div>
               </div>
-            </Col>
-            <Col
-              sm="3"
-              md="3">
+            </div>
+
+            <div className="card-item">
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Priyadharshan</h5>
@@ -224,10 +259,9 @@ export default function HomeBlock(props) {
                   </Row>
                 </div>
               </div>
-            </Col>
-            <Col
-              sm="3"
-              md="3">
+            </div>
+
+            <div className="card-item">
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Surya</h5>
@@ -287,10 +321,9 @@ export default function HomeBlock(props) {
                   </Row>
                 </div>
               </div>
-            </Col>
-            <Col
-              sm="3"
-              md="3">
+            </div>
+
+            <div className="card-item">
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Feri Abishek</h5>
@@ -337,10 +370,9 @@ export default function HomeBlock(props) {
                   </Row>
                 </div>
               </div>
-            </Col>
-            <Col
-              sm="3"
-              md="3">
+            </div>
+
+            <div className="card-item">
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Sivasundar</h5>
@@ -374,10 +406,8 @@ export default function HomeBlock(props) {
                   </Row>
                 </div>
               </div>
-            </Col>
-            <Col
-              sm="3"
-              md="3">
+            </div>
+            <div className="card-item">
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Mithun</h5>
@@ -411,10 +441,8 @@ export default function HomeBlock(props) {
                   </Row>
                 </div>
               </div>
-            </Col>
-            <Col
-              sm="3"
-              md="3">
+            </div>
+            <div className="card-item">
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Thandil</h5>
@@ -461,10 +489,8 @@ export default function HomeBlock(props) {
                   </Row>
                 </div>
               </div>
-            </Col>
-            <Col
-              sm="3"
-              md="3">
+            </div>
+            <div className="card-item">
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Feri Abishek</h5>
@@ -524,10 +550,8 @@ export default function HomeBlock(props) {
                   </Row>
                 </div>
               </div>
-            </Col>
-            <Col
-              sm="3"
-              md="3">
+            </div>
+            <div className="card-item">
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Sathish</h5>
@@ -561,8 +585,8 @@ export default function HomeBlock(props) {
                   </Row>
                 </div>
               </div>
-            </Col>
-          </Row>
+            </div>
+          </div>
         </Row>
       </Container>
     </div>
