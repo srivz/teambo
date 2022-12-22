@@ -187,7 +187,10 @@ export default function HomeBlock(props) {
                   </Row>
                 </div>
               </div>
-
+            </Col>
+            <Col
+              sm="3"
+              md="3">
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Priyadharshan</h5>
@@ -284,6 +287,10 @@ export default function HomeBlock(props) {
                   </Row>
                 </div>
               </div>
+            </Col>
+            <Col
+              sm="3"
+              md="3">
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Feri Abishek</h5>
@@ -367,6 +374,10 @@ export default function HomeBlock(props) {
                   </Row>
                 </div>
               </div>
+            </Col>
+            <Col
+              sm="3"
+              md="3">
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Mithun</h5>
@@ -400,6 +411,10 @@ export default function HomeBlock(props) {
                   </Row>
                 </div>
               </div>
+            </Col>
+            <Col
+              sm="3"
+              md="3">
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Thandil</h5>
@@ -509,6 +524,10 @@ export default function HomeBlock(props) {
                   </Row>
                 </div>
               </div>
+            </Col>
+            <Col
+              sm="3"
+              md="3">
               <div className="cards">
                 <div className="heading bg-blue p-2 rounded-3">
                   <h5>Sathish</h5>
