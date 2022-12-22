@@ -141,8 +141,8 @@ export default function HomeBlock(props) {
             <Col
               sm="3"
               md="3">
-              <div class="cards">
-                <div class="heading bg-blue p-2 rounded-3">
+              <div className="cards">
+                <div className="heading bg-blue p-2 rounded-3">
                   <h5>Feri Abishek</h5>
                   <h6>Video Editor / Graphic Designer</h6>
                 </div>
@@ -153,7 +153,7 @@ export default function HomeBlock(props) {
                       <h6>Website UI</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="green fw-bold text-end">On Going</h6>
+                      <h6 className="green fw-bold text-end">On Going</h6>
                     </Col>
                   </Row>
                   <Row>
@@ -162,7 +162,7 @@ export default function HomeBlock(props) {
                       <h6>Menu</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="yellow fw-bold text-end">Assigned</h6>
+                      <h6 className="yellow fw-bold text-end">Assigned</h6>
                     </Col>
                   </Row>
                   <Row>
@@ -171,14 +171,14 @@ export default function HomeBlock(props) {
                       <h6>Instagram ad Video</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="blue fw-bold text-end">Paused</h6>
+                      <h6 className="blue fw-bold text-end">Paused</h6>
                     </Col>
                   </Row>
                 </div>
               </div>
 
-              <div class="cards">
-                <div class="heading bg-blue p-2 rounded-3">
+              <div className="cards">
+                <div className="heading bg-blue p-2 rounded-3">
                   <h5>Priyadharshan</h5>
                   <h6>Video Editor / Graphic Designer</h6>
                 </div>
@@ -189,7 +189,7 @@ export default function HomeBlock(props) {
                       <h6>Website UI</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="green fw-bold text-end">On Going</h6>
+                      <h6 className="green fw-bold text-end">On Going</h6>
                     </Col>
                   </Row>
                   <Row>
@@ -198,7 +198,7 @@ export default function HomeBlock(props) {
                       <h6>Menu</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="yellow fw-bold text-end">Assigned</h6>
+                      <h6 className="yellow fw-bold text-end">Assigned</h6>
                     </Col>
                   </Row>
                 </div>
@@ -207,8 +207,8 @@ export default function HomeBlock(props) {
             <Col
               sm="3"
               md="3">
-              <div class="cards">
-                <div class="heading bg-blue p-2 rounded-3">
+              <div className="cards">
+                <div className="heading bg-blue p-2 rounded-3">
                   <h5>Surya</h5>
                   <h6>Graphic Designer</h6>
                 </div>
@@ -219,7 +219,7 @@ export default function HomeBlock(props) {
                       <h6>Website UI</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="green fw-bold text-end">On Going</h6>
+                      <h6 className="green fw-bold text-end">On Going</h6>
                     </Col>
                   </Row>
                   <Row>
@@ -228,7 +228,7 @@ export default function HomeBlock(props) {
                       <h6>Menu</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="yellow fw-bold text-end">Assigned</h6>
+                      <h6 className="yellow fw-bold text-end">Assigned</h6>
                     </Col>
                   </Row>
                   <Row>
@@ -237,7 +237,7 @@ export default function HomeBlock(props) {
                       <h6>Instagram ad Video</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="blue fw-bold text-end">Paused</h6>
+                      <h6 className="blue fw-bold text-end">Paused</h6>
                     </Col>
                   </Row>
                   <Row>
@@ -246,13 +246,13 @@ export default function HomeBlock(props) {
                       <h6>Instagram ad Video</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="blue fw-bold text-end">Paused</h6>
+                      <h6 className="blue fw-bold text-end">Paused</h6>
                     </Col>
                   </Row>
                 </div>
               </div>
-              <div class="cards">
-                <div class="heading bg-blue p-2 rounded-3">
+              <div className="cards">
+                <div className="heading bg-blue p-2 rounded-3">
                   <h5>Feri Abishek</h5>
                   <h6>Video Editor / Graphic Designer</h6>
                 </div>
@@ -263,7 +263,7 @@ export default function HomeBlock(props) {
                       <h6>Website UI</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="green fw-bold text-end">On Going</h6>
+                      <h6 className="green fw-bold text-end">On Going</h6>
                     </Col>
                   </Row>
                   <Row>
@@ -272,7 +272,7 @@ export default function HomeBlock(props) {
                       <h6>Menu</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="yellow fw-bold text-end">Assigned</h6>
+                      <h6 className="yellow fw-bold text-end">Assigned</h6>
                     </Col>
                   </Row>
                   <Row>
@@ -281,7 +281,7 @@ export default function HomeBlock(props) {
                       <h6>Instagram ad Video</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="blue fw-bold text-end">Paused</h6>
+                      <h6 className="blue fw-bold text-end">Paused</h6>
                     </Col>
                   </Row>
                 </div>
@@ -290,8 +290,8 @@ export default function HomeBlock(props) {
             <Col
               sm="3"
               md="3">
-              <div class="cards">
-                <div class="heading bg-blue p-2 rounded-3">
+              <div className="cards">
+                <div className="heading bg-blue p-2 rounded-3">
                   <h5>Sivasundar</h5>
                   <h6>Video Editor / Graphic Designer</h6>
                 </div>
@@ -302,7 +302,7 @@ export default function HomeBlock(props) {
                       <h6>Website UI</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="green fw-bold text-end">On Going</h6>
+                      <h6 className="green fw-bold text-end">On Going</h6>
                     </Col>
                   </Row>
                   <Row>
@@ -311,13 +311,13 @@ export default function HomeBlock(props) {
                       <h6>Menu</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="yellow fw-bold text-end">Assigned</h6>
+                      <h6 className="yellow fw-bold text-end">Assigned</h6>
                     </Col>
                   </Row>
                 </div>
               </div>
-              <div class="cards">
-                <div class="heading bg-blue p-2 rounded-3">
+              <div className="cards">
+                <div className="heading bg-blue p-2 rounded-3">
                   <h5>Mithun</h5>
                   <h6>Video Editor / Graphic Designer</h6>
                 </div>
@@ -328,7 +328,7 @@ export default function HomeBlock(props) {
                       <h6>Website UI</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="green fw-bold text-end">On Going</h6>
+                      <h6 className="green fw-bold text-end">On Going</h6>
                     </Col>
                   </Row>
                   <Row>
@@ -337,13 +337,13 @@ export default function HomeBlock(props) {
                       <h6>Menu</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="yellow fw-bold text-end">Assigned</h6>
+                      <h6 className="yellow fw-bold text-end">Assigned</h6>
                     </Col>
                   </Row>
                 </div>
               </div>
-              <div class="cards">
-                <div class="heading bg-blue p-2 rounded-3">
+              <div className="cards">
+                <div className="heading bg-blue p-2 rounded-3">
                   <h5>Thandil</h5>
                   <h6> Graphic Designer</h6>
                 </div>
@@ -354,7 +354,7 @@ export default function HomeBlock(props) {
                       <h6>Website UI</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="green fw-bold text-end">On Going</h6>
+                      <h6 className="green fw-bold text-end">On Going</h6>
                     </Col>
                   </Row>
                   <Row>
@@ -363,7 +363,7 @@ export default function HomeBlock(props) {
                       <h6>Menu</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="yellow fw-bold text-end">Assigned</h6>
+                      <h6 className="yellow fw-bold text-end">Assigned</h6>
                     </Col>
                   </Row>
                   <Row>
@@ -372,7 +372,7 @@ export default function HomeBlock(props) {
                       <h6>Instagram ad Video</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="blue fw-bold text-end">Paused</h6>
+                      <h6 className="blue fw-bold text-end">Paused</h6>
                     </Col>
                   </Row>
                 </div>
@@ -381,8 +381,8 @@ export default function HomeBlock(props) {
             <Col
               sm="3"
               md="3">
-              <div class="cards">
-                <div class="heading bg-blue p-2 rounded-3">
+              <div className="cards">
+                <div className="heading bg-blue p-2 rounded-3">
                   <h5>Feri Abishek</h5>
                   <h6>Video Editor / Graphic Designer</h6>
                 </div>
@@ -393,7 +393,7 @@ export default function HomeBlock(props) {
                       <h6>Website UI</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="green fw-bold text-end">On Going</h6>
+                      <h6 className="green fw-bold text-end">On Going</h6>
                     </Col>
                   </Row>
                   <Row>
@@ -402,7 +402,7 @@ export default function HomeBlock(props) {
                       <h6>Menu</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="yellow fw-bold text-end">Assigned</h6>
+                      <h6 className="yellow fw-bold text-end">Assigned</h6>
                     </Col>
                   </Row>
                   <Row>
@@ -411,7 +411,7 @@ export default function HomeBlock(props) {
                       <h6>Instagram ad Video</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="blue fw-bold text-end">Paused</h6>
+                      <h6 className="blue fw-bold text-end">Paused</h6>
                     </Col>
                   </Row>
                   <Row>
@@ -420,13 +420,13 @@ export default function HomeBlock(props) {
                       <h6>Instagram ad Video</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="blue fw-bold text-end">Paused</h6>
+                      <h6 className="blue fw-bold text-end">Paused</h6>
                     </Col>
                   </Row>
                 </div>
               </div>
-              <div class="cards">
-                <div class="heading bg-blue p-2 rounded-3">
+              <div className="cards">
+                <div className="heading bg-blue p-2 rounded-3">
                   <h5>Sathish</h5>
                   <h6>Video Editor / Graphic Designer</h6>
                 </div>
@@ -437,7 +437,7 @@ export default function HomeBlock(props) {
                       <h6>Website UI</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="green fw-bold text-end">On Going</h6>
+                      <h6 className="green fw-bold text-end">On Going</h6>
                     </Col>
                   </Row>
                   <Row>
@@ -446,7 +446,7 @@ export default function HomeBlock(props) {
                       <h6>Menu</h6>
                     </Col>
                     <Col sm="6">
-                      <h6 class="yellow fw-bold text-end">Assigned</h6>
+                      <h6 className="yellow fw-bold text-end">Assigned</h6>
                     </Col>
                   </Row>
                 </div>
