@@ -146,33 +146,35 @@ export default function HomeBlock(props) {
                   <h5>Feri Abishek</h5>
                   <h6>Video Editor / Graphic Designer</h6>
                 </div>
-                <Row>
-                  <Col sm="6">
-                    <h6>Chaicup</h6>
-                    <h6>Website UI</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="green fw-bold text-end">On Going</h6>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm="6">
-                    <h6>Teabon</h6>
-                    <h6>Menu</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="yellow fw-bold text-end">Assigned</h6>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm="6">
-                    <h6>TVS</h6>
-                    <h6>Instagram ad Video</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="blue fw-bold text-end">Paused</h6>
-                  </Col>
-                </Row>
+                <div className="card-tasks">
+                  <Row>
+                    <Col sm="6">
+                      <h6>Chaicup</h6>
+                      <h6>Website UI</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="green fw-bold text-end">On Going</h6>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col sm="6">
+                      <h6>Teabon</h6>
+                      <h6>Menu</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="yellow fw-bold text-end">Assigned</h6>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col sm="6">
+                      <h6>TVS</h6>
+                      <h6>Instagram ad Video</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="blue fw-bold text-end">Paused</h6>
+                    </Col>
+                  </Row>
+                </div>
               </div>
 
               <div class="cards">
@@ -180,24 +182,26 @@ export default function HomeBlock(props) {
                   <h5>Priyadharshan</h5>
                   <h6>Video Editor / Graphic Designer</h6>
                 </div>
-                <Row>
-                  <Col sm="6">
-                    <h6>Chaicup</h6>
-                    <h6>Website UI</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="green fw-bold text-end">On Going</h6>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm="6">
-                    <h6>Teabon</h6>
-                    <h6>Menu</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="yellow fw-bold text-end">Assigned</h6>
-                  </Col>
-                </Row>
+                <div className="card-tasks">
+                  <Row>
+                    <Col sm="6">
+                      <h6>Chaicup</h6>
+                      <h6>Website UI</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="green fw-bold text-end">On Going</h6>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col sm="6">
+                      <h6>Teabon</h6>
+                      <h6>Menu</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="yellow fw-bold text-end">Assigned</h6>
+                    </Col>
+                  </Row>
+                </div>
               </div>
             </Col>
             <Col
@@ -208,75 +212,79 @@ export default function HomeBlock(props) {
                   <h5>Surya</h5>
                   <h6>Graphic Designer</h6>
                 </div>
-                <Row>
-                  <Col sm="6">
-                    <h6>Chaicup</h6>
-                    <h6>Website UI</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="green fw-bold text-end">On Going</h6>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm="6">
-                    <h6>Teabon</h6>
-                    <h6>Menu</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="yellow fw-bold text-end">Assigned</h6>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm="6">
-                    <h6>TVS</h6>
-                    <h6>Instagram ad Video</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="blue fw-bold text-end">Paused</h6>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm="6">
-                    <h6>TVS</h6>
-                    <h6>Instagram ad Video</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="blue fw-bold text-end">Paused</h6>
-                  </Col>
-                </Row>
+                <div className="card-tasks">
+                  <Row>
+                    <Col sm="6">
+                      <h6>Chaicup</h6>
+                      <h6>Website UI</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="green fw-bold text-end">On Going</h6>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col sm="6">
+                      <h6>Teabon</h6>
+                      <h6>Menu</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="yellow fw-bold text-end">Assigned</h6>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col sm="6">
+                      <h6>TVS</h6>
+                      <h6>Instagram ad Video</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="blue fw-bold text-end">Paused</h6>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col sm="6">
+                      <h6>TVS</h6>
+                      <h6>Instagram ad Video</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="blue fw-bold text-end">Paused</h6>
+                    </Col>
+                  </Row>
+                </div>
               </div>
               <div class="cards">
                 <div class="heading bg-blue p-2 rounded-3">
                   <h5>Feri Abishek</h5>
                   <h6>Video Editor / Graphic Designer</h6>
                 </div>
-                <Row>
-                  <Col sm="6">
-                    <h6>Chaicup</h6>
-                    <h6>Website UI</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="green fw-bold text-end">On Going</h6>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm="6">
-                    <h6>Teabon</h6>
-                    <h6>Menu</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="yellow fw-bold text-end">Assigned</h6>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm="6">
-                    <h6>TVS</h6>
-                    <h6>Instagram ad Video</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="blue fw-bold text-end">Paused</h6>
-                  </Col>
-                </Row>
+                <div className="card-tasks">
+                  <Row>
+                    <Col sm="6">
+                      <h6>Chaicup</h6>
+                      <h6>Website UI</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="green fw-bold text-end">On Going</h6>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col sm="6">
+                      <h6>Teabon</h6>
+                      <h6>Menu</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="yellow fw-bold text-end">Assigned</h6>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col sm="6">
+                      <h6>TVS</h6>
+                      <h6>Instagram ad Video</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="blue fw-bold text-end">Paused</h6>
+                    </Col>
+                  </Row>
+                </div>
               </div>
             </Col>
             <Col
@@ -287,81 +295,87 @@ export default function HomeBlock(props) {
                   <h5>Sivasundar</h5>
                   <h6>Video Editor / Graphic Designer</h6>
                 </div>
-                <Row>
-                  <Col sm="6">
-                    <h6>Chaicup</h6>
-                    <h6>Website UI</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="green fw-bold text-end">On Going</h6>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm="6">
-                    <h6>Teabon</h6>
-                    <h6>Menu</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="yellow fw-bold text-end">Assigned</h6>
-                  </Col>
-                </Row>
+                <div className="card-tasks">
+                  <Row>
+                    <Col sm="6">
+                      <h6>Chaicup</h6>
+                      <h6>Website UI</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="green fw-bold text-end">On Going</h6>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col sm="6">
+                      <h6>Teabon</h6>
+                      <h6>Menu</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="yellow fw-bold text-end">Assigned</h6>
+                    </Col>
+                  </Row>
+                </div>
               </div>
               <div class="cards">
                 <div class="heading bg-blue p-2 rounded-3">
                   <h5>Mithun</h5>
                   <h6>Video Editor / Graphic Designer</h6>
                 </div>
-                <Row>
-                  <Col sm="6">
-                    <h6>Chaicup</h6>
-                    <h6>Website UI</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="green fw-bold text-end">On Going</h6>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm="6">
-                    <h6>Teabon</h6>
-                    <h6>Menu</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="yellow fw-bold text-end">Assigned</h6>
-                  </Col>
-                </Row>
+                <div className="card-tasks">
+                  <Row>
+                    <Col sm="6">
+                      <h6>Chaicup</h6>
+                      <h6>Website UI</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="green fw-bold text-end">On Going</h6>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col sm="6">
+                      <h6>Teabon</h6>
+                      <h6>Menu</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="yellow fw-bold text-end">Assigned</h6>
+                    </Col>
+                  </Row>
+                </div>
               </div>
               <div class="cards">
                 <div class="heading bg-blue p-2 rounded-3">
                   <h5>Thandil</h5>
                   <h6> Graphic Designer</h6>
                 </div>
-                <Row>
-                  <Col sm="6">
-                    <h6>Chaicup</h6>
-                    <h6>Website UI</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="green fw-bold text-end">On Going</h6>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm="6">
-                    <h6>Teabon</h6>
-                    <h6>Menu</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="yellow fw-bold text-end">Assigned</h6>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm="6">
-                    <h6>TVS</h6>
-                    <h6>Instagram ad Video</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="blue fw-bold text-end">Paused</h6>
-                  </Col>
-                </Row>
+                <div className="card-tasks">
+                  <Row>
+                    <Col sm="6">
+                      <h6>Chaicup</h6>
+                      <h6>Website UI</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="green fw-bold text-end">On Going</h6>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col sm="6">
+                      <h6>Teabon</h6>
+                      <h6>Menu</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="yellow fw-bold text-end">Assigned</h6>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col sm="6">
+                      <h6>TVS</h6>
+                      <h6>Instagram ad Video</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="blue fw-bold text-end">Paused</h6>
+                    </Col>
+                  </Row>
+                </div>
               </div>
             </Col>
             <Col
@@ -372,66 +386,70 @@ export default function HomeBlock(props) {
                   <h5>Feri Abishek</h5>
                   <h6>Video Editor / Graphic Designer</h6>
                 </div>
-                <Row>
-                  <Col sm="6">
-                    <h6>Chaicup</h6>
-                    <h6>Website UI</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="green fw-bold text-end">On Going</h6>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm="6">
-                    <h6>Teabon</h6>
-                    <h6>Menu</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="yellow fw-bold text-end">Assigned</h6>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm="6">
-                    <h6>TVS</h6>
-                    <h6>Instagram ad Video</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="blue fw-bold text-end">Paused</h6>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm="6">
-                    <h6>TVS</h6>
-                    <h6>Instagram ad Video</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="blue fw-bold text-end">Paused</h6>
-                  </Col>
-                </Row>
+                <div className="card-tasks">
+                  <Row>
+                    <Col sm="6">
+                      <h6>Chaicup</h6>
+                      <h6>Website UI</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="green fw-bold text-end">On Going</h6>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col sm="6">
+                      <h6>Teabon</h6>
+                      <h6>Menu</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="yellow fw-bold text-end">Assigned</h6>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col sm="6">
+                      <h6>TVS</h6>
+                      <h6>Instagram ad Video</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="blue fw-bold text-end">Paused</h6>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col sm="6">
+                      <h6>TVS</h6>
+                      <h6>Instagram ad Video</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="blue fw-bold text-end">Paused</h6>
+                    </Col>
+                  </Row>
+                </div>
               </div>
               <div class="cards">
                 <div class="heading bg-blue p-2 rounded-3">
                   <h5>Sathish</h5>
                   <h6>Video Editor / Graphic Designer</h6>
                 </div>
-                <Row>
-                  <Col sm="6">
-                    <h6>Chaicup</h6>
-                    <h6>Website UI</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="green fw-bold text-end">On Going</h6>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm="6">
-                    <h6>Teabon</h6>
-                    <h6>Menu</h6>
-                  </Col>
-                  <Col sm="6">
-                    <h6 class="yellow fw-bold text-end">Assigned</h6>
-                  </Col>
-                </Row>
+                <div className="card-tasks">
+                  <Row>
+                    <Col sm="6">
+                      <h6>Chaicup</h6>
+                      <h6>Website UI</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="green fw-bold text-end">On Going</h6>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col sm="6">
+                      <h6>Teabon</h6>
+                      <h6>Menu</h6>
+                    </Col>
+                    <Col sm="6">
+                      <h6 class="yellow fw-bold text-end">Assigned</h6>
+                    </Col>
+                  </Row>
+                </div>
               </div>
             </Col>
           </Row>

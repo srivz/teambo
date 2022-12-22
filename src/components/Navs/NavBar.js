@@ -5,7 +5,7 @@ import logo from "../../assets/images/Group 3.svg";
 export default function NavBar() {
   return (
     <Container>
-      <Row>
+      <Row style={{ marginTop: "1em" }}>
         <Col
           sm={6}
           md={6}

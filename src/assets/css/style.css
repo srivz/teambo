@@ -112,6 +112,10 @@ body {
 .cards {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 20px;
-  padding: 10px;
+  color:#fff;
   margin-top: 20px;
+}
+.cards .card-tasks{
+  color:rgb(0, 0, 0);
+  padding: 10px;
 }
