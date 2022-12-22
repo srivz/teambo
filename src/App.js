@@ -4,9 +4,10 @@ import "./assets/css/style.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import LoginHome from "./components/LoginHome";
 import LoginTeam from "./components/LoginPages/LoginTeam";
-import ManagerHome from "./components/Manager/Home";
 import TeamMemberHome from "./components/TeamMate/Home";
 import SignUp from "./components/LoginPages/SignUp";
+import HomeList from "./components/Manager/HomeList";
+import HomeBlock from "./components/Manager/HomeBlock";
 
 export default function App() {
   return (
@@ -25,8 +26,11 @@ export default function App() {
           path="/signup"
           element={<SignUp />}></Route>
         <Route
-          path="/manager/home"
-          element={<ManagerHome />}></Route>
+          path="/manager/home/listView"
+          element={<HomeList />}></Route>
+        <Route
+          path="/manager/home/gridView"
+          element={<HomeBlock />}></Route>
         <Route
           path="/teammember/home"
           element={<TeamMemberHome />}></Route>

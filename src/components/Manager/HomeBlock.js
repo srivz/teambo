@@ -11,9 +11,9 @@ import {
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import NavBar from "../Navs/NavBar";
 
-export default function HomeBlock(props) {
+export default function HomeBlock() {
   function handleViewChange() {
-    props.onChange(false);
+    window.location.href = "/manager/home/listView";
   }
   return (
     <div id="main">
