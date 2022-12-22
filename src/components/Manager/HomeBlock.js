@@ -8,51 +8,13 @@ import {
   OverlayTrigger,
   Row,
 } from "react-bootstrap";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import NavBar from "../Navs/NavBar";
 
 export default function HomeBlock(props) {
   function handleViewChange() {
     props.onChange(false);
   }
-  let mainId = "masonry-effect";
-  let itemIdentifier = "#masonry-effect .card-item";
-
-  document.addEventListener("DOMContentLoaded", function (e) {
-    let item = document.querySelector(itemIdentifier);
-    let parentWidth = item.parentNode.getBoundingClientRect().width;
-    let itemWidth =
-      item.getBoundingClientRect().width +
-      parseFloat(getComputedStyle(item).marginLeft) +
-      parseFloat(getComputedStyle(item).marginRight);
-    let columnWidth = Math.round(1 / (itemWidth / parentWidth));
-
-    let arrayOfItems = Array.prototype.slice.call(
-      document.querySelectorAll(itemIdentifier)
-    );
-    let trackHeights = {};
-    arrayOfItems.forEach(function (item) {
-      let thisIndex = arrayOfItems.indexOf(item);
-      let thisColumn = thisIndex % columnWidth;
-      if (typeof trackHeights[thisColumn] == "undefined") {
-        trackHeights[thisColumn] = 0;
-      }
-      trackHeights[thisColumn] +=
-        item.getBoundingClientRect().height +
-        parseFloat(getComputedStyle(item).marginBottom);
-      if (thisIndex - columnWidth >= 0) {
-        let getItemAbove = document.querySelector(
-          `${itemIdentifier}:nth-of-type(${thisIndex - columnWidth + 1})`
-        );
-        let previousBottom = getItemAbove.getBoundingClientRect().bottom;
-        let currentTop =
-          item.getBoundingClientRect().top -
-          parseFloat(getComputedStyle(item).marginBottom);
-        item.style.top = `-${currentTop - previousBottom}px`;
-      }
-    });
-    let max = Math.max(...Object.values(trackHeights));
-    document.getElementById(mainId).style.height = `${max}px`;
-  });
   return (
     <div id="main">
       <NavBar />
@@ -175,418 +137,423 @@ export default function HomeBlock(props) {
               </Col>
             </Row>
           </Col>
-          <div id="masonry-effect">
-            <div className="card-item">
-              <div className="cards">
-                <div className="heading bg-blue p-2 rounded-3">
-                  <h5>Feri Abishek</h5>
-                  <span>Video Editor / Graphic Designer</span>
+          <Container>
+            <ResponsiveMasonry
+              columnsCountBreakPoints={{ 350: 1, 750: 3, 900: 4 }}>
+              <Masonry>
+                <div>
+                  <div className="cards">
+                    <div className="heading bg-blue p-2 rounded-3">
+                      <h5>Feri Abishek</h5>
+                      <span>Video Editor / Graphic Designer</span>
+                    </div>
+                    <div className="card-tasks">
+                      <Row>
+                        <Col sm="8">
+                          <span>Chaicup</span>
+                          <br />
+                          <span>Website UI</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="green fw-bold text-end task-status">
+                            On Going
+                          </span>
+                        </Col>
+                      </Row>
+                      <hr class="divider" />
+                      <Row>
+                        <Col sm="8">
+                          <span>Teabon</span>
+                          <br />
+                          <span>Menu</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="yellow fw-bold text-end task-status">
+                            Assigned
+                          </span>
+                        </Col>
+                      </Row>
+                      <hr class="divider" />
+                      <Row>
+                        <Col sm="8">
+                          <span>TVS</span>
+                          <br />
+                          <span>Instagram ad Video</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="blue fw-bold text-end task-status">
+                            Paused
+                          </span>
+                        </Col>
+                      </Row>
+                    </div>
+                  </div>
                 </div>
-                <div className="card-tasks">
-                  <Row>
-                    <Col sm="8">
-                      <span>Chaicup</span>
-                      <br />
-                      <span>Website UI</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="green fw-bold text-end task-status">
-                        On Going
-                      </span>
-                    </Col>
-                  </Row>
-                  <hr class="divider" />
-                  <Row>
-                    <Col sm="8">
-                      <span>Teabon</span>
-                      <br />
-                      <span>Menu</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="yellow fw-bold text-end task-status">
-                        Assigned
-                      </span>
-                    </Col>
-                  </Row>
-                  <hr class="divider" />
-                  <Row>
-                    <Col sm="8">
-                      <span>TVS</span>
-                      <br />
-                      <span>Instagram ad Video</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="blue fw-bold text-end task-status">
-                        Paused
-                      </span>
-                    </Col>
-                  </Row>
-                </div>
-              </div>
-            </div>
 
-            <div className="card-item">
-              <div className="cards">
-                <div className="heading bg-blue p-2 rounded-3">
-                  <h5>Priyadharshan</h5>
-                  <span>Video Editor / Graphic Designer</span>
+                <div>
+                  <div className="cards">
+                    <div className="heading bg-blue p-2 rounded-3">
+                      <h5>Priyadharshan</h5>
+                      <span>Video Editor / Graphic Designer</span>
+                    </div>
+                    <div className="card-tasks">
+                      <Row>
+                        <Col sm="8">
+                          <span>Chaicup</span>
+                          <br />
+                          <span>Website UI</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="green fw-bold text-end task-status">
+                            On Going
+                          </span>
+                        </Col>
+                      </Row>
+                      <hr class="divider" />
+                      <Row>
+                        <Col sm="8">
+                          <span>Teabon</span>
+                          <br />
+                          <span>Menu</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="yellow fw-bold text-end task-status">
+                            Assigned
+                          </span>
+                        </Col>
+                      </Row>
+                    </div>
+                  </div>
                 </div>
-                <div className="card-tasks">
-                  <Row>
-                    <Col sm="8">
-                      <span>Chaicup</span>
-                      <br />
-                      <span>Website UI</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="green fw-bold text-end task-status">
-                        On Going
-                      </span>
-                    </Col>
-                  </Row>
-                  <hr class="divider" />
-                  <Row>
-                    <Col sm="8">
-                      <span>Teabon</span>
-                      <br />
-                      <span>Menu</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="yellow fw-bold text-end task-status">
-                        Assigned
-                      </span>
-                    </Col>
-                  </Row>
-                </div>
-              </div>
-            </div>
 
-            <div className="card-item">
-              <div className="cards">
-                <div className="heading bg-blue p-2 rounded-3">
-                  <h5>Surya</h5>
-                  <span>Graphic Designer</span>
+                <div>
+                  <div className="cards">
+                    <div className="heading bg-blue p-2 rounded-3">
+                      <h5>Surya</h5>
+                      <span>Graphic Designer</span>
+                    </div>
+                    <div className="card-tasks">
+                      <Row>
+                        <Col sm="8">
+                          <span>Chaicup</span>
+                          <br />
+                          <span>Website UI</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="green fw-bold text-end task-status">
+                            On Going
+                          </span>
+                        </Col>
+                      </Row>
+                      <hr class="divider" />
+                      <Row>
+                        <Col sm="8">
+                          <span>Teabon</span>
+                          <br />
+                          <span>Menu</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="yellow fw-bold text-end task-status">
+                            Assigned
+                          </span>
+                        </Col>
+                      </Row>
+                      <hr class="divider" />
+                      <Row>
+                        <Col sm="8">
+                          <span>TVS</span>
+                          <br />
+                          <span>Instagram ad Video</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="blue fw-bold text-end task-status">
+                            Paused
+                          </span>
+                        </Col>
+                      </Row>
+                      <hr class="divider" />
+                      <Row>
+                        <Col sm="8">
+                          <span>TVS</span>
+                          <br />
+                          <span>Instagram ad Video</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="blue fw-bold text-end task-status">
+                            Paused
+                          </span>
+                        </Col>
+                      </Row>
+                    </div>
+                  </div>
                 </div>
-                <div className="card-tasks">
-                  <Row>
-                    <Col sm="8">
-                      <span>Chaicup</span>
-                      <br />
-                      <span>Website UI</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="green fw-bold text-end task-status">
-                        On Going
-                      </span>
-                    </Col>
-                  </Row>
-                  <hr class="divider" />
-                  <Row>
-                    <Col sm="8">
-                      <span>Teabon</span>
-                      <br />
-                      <span>Menu</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="yellow fw-bold text-end task-status">
-                        Assigned
-                      </span>
-                    </Col>
-                  </Row>
-                  <hr class="divider" />
-                  <Row>
-                    <Col sm="8">
-                      <span>TVS</span>
-                      <br />
-                      <span>Instagram ad Video</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="blue fw-bold text-end task-status">
-                        Paused
-                      </span>
-                    </Col>
-                  </Row>
-                  <hr class="divider" />
-                  <Row>
-                    <Col sm="8">
-                      <span>TVS</span>
-                      <br />
-                      <span>Instagram ad Video</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="blue fw-bold text-end task-status">
-                        Paused
-                      </span>
-                    </Col>
-                  </Row>
-                </div>
-              </div>
-            </div>
 
-            <div className="card-item">
-              <div className="cards">
-                <div className="heading bg-blue p-2 rounded-3">
-                  <h5>Feri Abishek</h5>
-                  <span>Video Editor / Graphic Designer</span>
+                <div>
+                  <div className="cards">
+                    <div className="heading bg-blue p-2 rounded-3">
+                      <h5>Feri Abishek</h5>
+                      <span>Video Editor / Graphic Designer</span>
+                    </div>
+                    <div className="card-tasks">
+                      <Row>
+                        <Col sm="8">
+                          <span>Chaicup</span>
+                          <br />
+                          <span>Website UI</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="green fw-bold text-end task-status">
+                            On Going
+                          </span>
+                        </Col>
+                      </Row>
+                      <hr class="divider" />
+                      <Row>
+                        <Col sm="8">
+                          <span>Teabon</span>
+                          <br />
+                          <span>Menu</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="yellow fw-bold text-end task-status">
+                            Assigned
+                          </span>
+                        </Col>
+                      </Row>
+                      <hr class="divider" />
+                      <Row>
+                        <Col sm="8">
+                          <span>TVS</span>
+                          <br />
+                          <span>Instagram ad Video</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="blue fw-bold text-end task-status">
+                            Paused
+                          </span>
+                        </Col>
+                      </Row>
+                    </div>
+                  </div>
                 </div>
-                <div className="card-tasks">
-                  <Row>
-                    <Col sm="8">
-                      <span>Chaicup</span>
-                      <br />
-                      <span>Website UI</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="green fw-bold text-end task-status">
-                        On Going
-                      </span>
-                    </Col>
-                  </Row>
-                  <hr class="divider" />
-                  <Row>
-                    <Col sm="8">
-                      <span>Teabon</span>
-                      <br />
-                      <span>Menu</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="yellow fw-bold text-end task-status">
-                        Assigned
-                      </span>
-                    </Col>
-                  </Row>
-                  <hr class="divider" />
-                  <Row>
-                    <Col sm="8">
-                      <span>TVS</span>
-                      <br />
-                      <span>Instagram ad Video</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="blue fw-bold text-end task-status">
-                        Paused
-                      </span>
-                    </Col>
-                  </Row>
-                </div>
-              </div>
-            </div>
 
-            <div className="card-item">
-              <div className="cards">
-                <div className="heading bg-blue p-2 rounded-3">
-                  <h5>Sivasundar</h5>
-                  <span>Video Editor / Graphic Designer</span>
+                <div>
+                  <div className="cards">
+                    <div className="heading bg-blue p-2 rounded-3">
+                      <h5>Sivasundar</h5>
+                      <span>Video Editor / Graphic Designer</span>
+                    </div>
+                    <div className="card-tasks">
+                      <Row>
+                        <Col sm="8">
+                          <span>Chaicup</span>
+                          <br />
+                          <span>Website UI</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="green fw-bold text-end task-status">
+                            On Going
+                          </span>
+                        </Col>
+                      </Row>
+                      <hr class="divider" />
+                      <Row>
+                        <Col sm="8">
+                          <span>Teabon</span>
+                          <br />
+                          <span>Menu</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="yellow fw-bold text-end task-status">
+                            Assigned
+                          </span>
+                        </Col>
+                      </Row>
+                    </div>
+                  </div>
                 </div>
-                <div className="card-tasks">
-                  <Row>
-                    <Col sm="8">
-                      <span>Chaicup</span>
-                      <br />
-                      <span>Website UI</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="green fw-bold text-end task-status">
-                        On Going
-                      </span>
-                    </Col>
-                  </Row>
-                  <hr class="divider" />
-                  <Row>
-                    <Col sm="8">
-                      <span>Teabon</span>
-                      <br />
-                      <span>Menu</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="yellow fw-bold text-end task-status">
-                        Assigned
-                      </span>
-                    </Col>
-                  </Row>
+                <div>
+                  <div className="cards">
+                    <div className="heading bg-blue p-2 rounded-3">
+                      <h5>Mithun</h5>
+                      <span>Video Editor / Graphic Designer</span>
+                    </div>
+                    <div className="card-tasks">
+                      <Row>
+                        <Col sm="8">
+                          <span>Chaicup</span>
+                          <br />
+                          <span>Website UI</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="green fw-bold text-end task-status">
+                            On Going
+                          </span>
+                        </Col>
+                      </Row>
+                      <hr class="divider" />
+                      <Row>
+                        <Col sm="8">
+                          <span>Teabon</span>
+                          <br />
+                          <span>Menu</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="yellow fw-bold text-end task-status">
+                            Assigned
+                          </span>
+                        </Col>
+                      </Row>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="card-item">
-              <div className="cards">
-                <div className="heading bg-blue p-2 rounded-3">
-                  <h5>Mithun</h5>
-                  <span>Video Editor / Graphic Designer</span>
+                <div>
+                  <div className="cards">
+                    <div className="heading bg-blue p-2 rounded-3">
+                      <h5>Thandil</h5>
+                      <span> Graphic Designer</span>
+                    </div>
+                    <div className="card-tasks">
+                      <Row>
+                        <Col sm="8">
+                          <span>Chaicup</span>
+                          <br />
+                          <span>Website UI</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="green fw-bold text-end task-status">
+                            On Going
+                          </span>
+                        </Col>
+                      </Row>
+                      <hr class="divider" />
+                      <Row>
+                        <Col sm="8">
+                          <span>Teabon</span>
+                          <br />
+                          <span>Menu</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="yellow fw-bold text-end task-status">
+                            Assigned
+                          </span>
+                        </Col>
+                      </Row>
+                      <hr class="divider" />
+                      <Row>
+                        <Col sm="8">
+                          <span>TVS</span>
+                          <br />
+                          <span>Instagram ad Video</span>
+                        </Col>
+                        <Col sm="4">
+                          <span className="blue fw-bold text-end task-status">
+                            Paused
+                          </span>
+                        </Col>
+                      </Row>
+                    </div>
+                  </div>
                 </div>
-                <div className="card-tasks">
-                  <Row>
-                    <Col sm="8">
-                      <span>Chaicup</span>
-                      <br />
-                      <span>Website UI</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="green fw-bold text-end task-status">
-                        On Going
-                      </span>
-                    </Col>
-                  </Row>
-                  <hr class="divider" />
-                  <Row>
-                    <Col sm="8">
-                      <span>Teabon</span>
-                      <br />
-                      <span>Menu</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="yellow fw-bold text-end task-status">
-                        Assigned
-                      </span>
-                    </Col>
-                  </Row>
+                <div>
+                  <div className="cards">
+                    <div className="heading bg-blue p-2 rounded-3">
+                      <h5>Feri Abishek</h5>
+                      <span>Video Editor / Graphic Designer</span>
+                    </div>
+                    <div className="card-tasks">
+                      <Row>
+                        <Col sm="6">
+                          <span>Chaicup</span>
+                          <br />
+                          <span>Website UI</span>
+                        </Col>
+                        <Col sm="6">
+                          <span className="green fw-bold text-end task-status">
+                            On Going
+                          </span>
+                        </Col>
+                      </Row>
+                      <hr class="divider" />
+                      <Row>
+                        <Col sm="6">
+                          <span>Teabon</span>
+                          <br />
+                          <span>Menu</span>
+                        </Col>
+                        <Col sm="6">
+                          <span className="yellow fw-bold text-end task-status">
+                            Assigned
+                          </span>
+                        </Col>
+                      </Row>
+                      <hr class="divider" />
+                      <Row>
+                        <Col sm="6">
+                          <span>TVS</span>
+                          <br />
+                          <span>Instagram ad Video</span>
+                        </Col>
+                        <Col sm="6">
+                          <span className="blue fw-bold text-end task-status">
+                            Paused
+                          </span>
+                        </Col>
+                      </Row>
+                      <hr class="divider" />
+                      <Row>
+                        <Col sm="6">
+                          <span>TVS</span>
+                          <br />
+                          <span>Instagram ad Video</span>
+                        </Col>
+                        <Col sm="6">
+                          <span className="blue fw-bold text-end task-status">
+                            Paused
+                          </span>
+                        </Col>
+                      </Row>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="card-item">
-              <div className="cards">
-                <div className="heading bg-blue p-2 rounded-3">
-                  <h5>Thandil</h5>
-                  <span> Graphic Designer</span>
+                <div>
+                  <div className="cards">
+                    <div className="heading bg-blue p-2 rounded-3">
+                      <h5>Sathish</h5>
+                      <span>Video Editor / Graphic Designer</span>
+                    </div>
+                    <div className="card-tasks">
+                      <Row>
+                        <Col sm="6">
+                          <span>Chaicup</span>
+                          <br />
+                          <span>Website UI</span>
+                        </Col>
+                        <Col sm="6">
+                          <span className="green fw-bold text-end task-status">
+                            On Going
+                          </span>
+                        </Col>
+                      </Row>
+                      <hr class="divider" />
+                      <Row>
+                        <Col sm="6">
+                          <span>Teabon</span>
+                          <br />
+                          <span>Menu</span>
+                        </Col>
+                        <Col sm="6">
+                          <span className="yellow fw-bold text-end task-status">
+                            Assigned
+                          </span>
+                        </Col>
+                      </Row>
+                    </div>
+                  </div>
                 </div>
-                <div className="card-tasks">
-                  <Row>
-                    <Col sm="8">
-                      <span>Chaicup</span>
-                      <br />
-                      <span>Website UI</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="green fw-bold text-end task-status">
-                        On Going
-                      </span>
-                    </Col>
-                  </Row>
-                  <hr class="divider" />
-                  <Row>
-                    <Col sm="8">
-                      <span>Teabon</span>
-                      <br />
-                      <span>Menu</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="yellow fw-bold text-end task-status">
-                        Assigned
-                      </span>
-                    </Col>
-                  </Row>
-                  <hr class="divider" />
-                  <Row>
-                    <Col sm="8">
-                      <span>TVS</span>
-                      <br />
-                      <span>Instagram ad Video</span>
-                    </Col>
-                    <Col sm="4">
-                      <span className="blue fw-bold text-end task-status">
-                        Paused
-                      </span>
-                    </Col>
-                  </Row>
-                </div>
-              </div>
-            </div>
-            <div className="card-item">
-              <div className="cards">
-                <div className="heading bg-blue p-2 rounded-3">
-                  <h5>Feri Abishek</h5>
-                  <span>Video Editor / Graphic Designer</span>
-                </div>
-                <div className="card-tasks">
-                  <Row>
-                    <Col sm="6">
-                      <span>Chaicup</span>
-                      <br />
-                      <span>Website UI</span>
-                    </Col>
-                    <Col sm="6">
-                      <span className="green fw-bold text-end task-status">
-                        On Going
-                      </span>
-                    </Col>
-                  </Row>
-                  <hr class="divider" />
-                  <Row>
-                    <Col sm="6">
-                      <span>Teabon</span>
-                      <br />
-                      <span>Menu</span>
-                    </Col>
-                    <Col sm="6">
-                      <span className="yellow fw-bold text-end task-status">
-                        Assigned
-                      </span>
-                    </Col>
-                  </Row>
-                  <hr class="divider" />
-                  <Row>
-                    <Col sm="6">
-                      <span>TVS</span>
-                      <br />
-                      <span>Instagram ad Video</span>
-                    </Col>
-                    <Col sm="6">
-                      <span className="blue fw-bold text-end task-status">
-                        Paused
-                      </span>
-                    </Col>
-                  </Row>
-                  <hr class="divider" />
-                  <Row>
-                    <Col sm="6">
-                      <span>TVS</span>
-                      <br />
-                      <span>Instagram ad Video</span>
-                    </Col>
-                    <Col sm="6">
-                      <span className="blue fw-bold text-end task-status">
-                        Paused
-                      </span>
-                    </Col>
-                  </Row>
-                </div>
-              </div>
-            </div>
-            <div className="card-item">
-              <div className="cards">
-                <div className="heading bg-blue p-2 rounded-3">
-                  <h5>Sathish</h5>
-                  <span>Video Editor / Graphic Designer</span>
-                </div>
-                <div className="card-tasks">
-                  <Row>
-                    <Col sm="6">
-                      <span>Chaicup</span>
-                      <br />
-                      <span>Website UI</span>
-                    </Col>
-                    <Col sm="6">
-                      <span className="green fw-bold text-end task-status">
-                        On Going
-                      </span>
-                    </Col>
-                  </Row>
-                  <hr class="divider" />
-                  <Row>
-                    <Col sm="6">
-                      <span>Teabon</span>
-                      <br />
-                      <span>Menu</span>
-                    </Col>
-                    <Col sm="6">
-                      <span className="yellow fw-bold text-end task-status">
-                        Assigned
-                      </span>
-                    </Col>
-                  </Row>
-                </div>
-              </div>
-            </div>
-          </div>
+              </Masonry>
+            </ResponsiveMasonry>
+          </Container>
         </Row>
       </Container>
     </div>

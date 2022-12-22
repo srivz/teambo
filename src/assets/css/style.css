@@ -91,6 +91,7 @@ body {
 .cards {
   box-shadow: rgba(0, 0, 0, 0.14) 0px 1px 5px;
   border-radius: 5px;
+  margin: 10px;
   color: #fff;
   font-size: small;
   margin-top: 20px;
@@ -106,19 +107,4 @@ body {
 .task-status {
   float: right;
   text-align: right;
-}
-#masonry-effect {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-.card-item {
-  flex-direction: column;
-  margin-right: 1em;
-  margin-bottom: 1em;
-  position: relative;
-  width: calc(25% - 1em);
-  border-radius: 12px;
-  box-sizing: border-box;
-  font-variation-settings: "wght" 600;
 }
