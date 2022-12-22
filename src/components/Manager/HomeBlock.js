@@ -139,7 +139,7 @@ export default function HomeBlock(props) {
           </Col>
           <Container>
             <ResponsiveMasonry
-              columnsCountBreakPoints={{ 350: 1, 750: 3, 900: 4 }}>
+              columnsCountBreakPoints={{ 300: 1, 600: 2, 750: 3, 900: 4 }}>
               <Masonry>
                 <div>
                   <div className="cards">
