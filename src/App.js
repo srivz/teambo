@@ -2,15 +2,18 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/css/style.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import LoginHome from "./components/LoginHome";
+import LoginTeam from "./components/LoginPages/LoginTeam";
 import ManagerHome from "./components/Manager/Home";
 import TeamMemberHome from "./components/TeamMate/Home";
+import Signup from "./components/LoginPages/Signup";
 
 export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginHome />}></Route>
+        <Route path="/" element={<LoginTeam text="Working" />}></Route>
+        <Route path="/manager/login" element={<LoginTeam text="Assigning" />}></Route>
+        <Route path="/signup" element={<Signup />}></Route>
         <Route path="/manager/home" element={<ManagerHome />}></Route>
         <Route path="/teammember/home" element={<TeamMemberHome />}></Route>
       </Routes>
