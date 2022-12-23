@@ -2,8 +2,9 @@ import React from "react";
 import logo from "../../assets/images/Group 3.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Login.css";
+import { Link } from "react-router-dom";
 
-export default function LoginTeam({ text }) {
+export default function LoginTeam({ text, user, name, role }) {
   return (
     <div className="container mt-5 login-container">
       <div className="form-box">
@@ -36,14 +37,27 @@ export default function LoginTeam({ text }) {
             />
             <p className="mt-3 blue">Forgot your password?</p>
           </div>
-          <button
-            type="button"
-            className="btn btn-primary bg-blue w-100 rounded-4"
-            style={{ background: "#3975EA" }}>
-            Log in
-          </button>
+
+          <Link
+            to={"/" + user + "/home"}
+            name1={name}
+            role1={role}>
+            <button
+              // onClick={() => {
+              //   window.location.href = "/" + user + "/home";
+              // }}
+              type="button"
+              className="btn btn-primary bg-blue w-100 rounded-4"
+              style={{ background: "#3975EA" }}>
+              Log in
+            </button>
+          </Link>
           <h6 className="text-center mt-1">or</h6>
           <button
+            onClick={() => {
+              window.location.href =
+                "https://mail.google.com/mail/?tab=rm&ogbl";
+            }}
             type="button"
             className="btn btn-light w-100 rounded-4 login-button">
             <FontAwesomeIcon

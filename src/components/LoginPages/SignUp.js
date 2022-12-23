@@ -102,6 +102,9 @@ export default function Signup() {
             </div>
           </div>
           <button
+            onClick={() => {
+              window.location.href = "/";
+            }}
             type="button"
             className="btn btn-primary bg-blue w-100 rounded-4 mt-4">
             Sign Up

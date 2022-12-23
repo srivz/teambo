@@ -9,7 +9,6 @@ import {
   Row,
 } from "react-bootstrap";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import NavBar from "../Navs/NavBar";
 
 export default function HomeBlock(props) {
   function handleViewChange() {
@@ -17,7 +16,6 @@ export default function HomeBlock(props) {
   }
   return (
     <div id="main">
-      <NavBar />
       <Container>
         <Row>
           <Col style={{ marginTop: "1em" }}>

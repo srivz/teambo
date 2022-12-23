@@ -16,7 +16,6 @@ import {
   Popover,
   Row,
 } from "react-bootstrap";
-import NavBar from "../Navs/NavBar";
 
 export default function HomeList(props) {
   const [selected, setSelected] = useState(1);
@@ -26,7 +25,6 @@ export default function HomeList(props) {
   }
   return (
     <div id="main">
-      <NavBar />
       <Container>
         <Row>
           <Col

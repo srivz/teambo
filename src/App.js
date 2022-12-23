@@ -4,7 +4,7 @@ import "./assets/css/style.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import LoginHome from "./components/LoginHome";
 import LoginTeam from "./components/LoginPages/LoginTeam";
-import TeamMemberHome from "./components/TeamMate/Home";
+import TeamMateHome from "./components/TeamMate/Home";
 import SignUp from "./components/LoginPages/SignUp";
 import ManagerHome from "./components/Manager/Home";
 
@@ -16,11 +16,21 @@ export default function App() {
           path="/"
           element={<LoginHome />}></Route>
         <Route
-          path="/teammember/login"
-          element={<LoginTeam text="Working" />}></Route>
+          path="/teamMate/login"
+          element={
+            <LoginTeam
+              text="Working"
+              user="teamMate"
+            />
+          }></Route>
         <Route
           path="/manager/login"
-          element={<LoginTeam text="Assigning" />}></Route>
+          element={
+            <LoginTeam
+              text="Assigning"
+              user="manager"
+            />
+          }></Route>
         <Route
           path="/signup"
           element={<SignUp />}></Route>
@@ -28,8 +38,8 @@ export default function App() {
           path="/manager/home"
           element={<ManagerHome />}></Route>
         <Route
-          path="/teammember/home"
-          element={<TeamMemberHome />}></Route>
+          path="/teamMate/home"
+          element={<TeamMateHome />}></Route>
       </Routes>
     </Router>
   );

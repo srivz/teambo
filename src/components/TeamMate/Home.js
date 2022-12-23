@@ -20,37 +20,12 @@ import NavBar from "../Navs/NavBar";
 export default function Home() {
   return (
     <div id="main">
+      <NavBar
+        user="TEAMMATE"
+        name="Feri Abishek"
+        role="Video Editor / Graphic Designer"
+      />
       <Container>
-        <NavBar />
-        {/* <Row>
-          <Col
-            sm="6"
-            md="6"
-            style={{ marginTop: "1em" }}>
-            <h5>
-              <img
-                className="w-25 m-lg-2"
-                src="./images/Group 3.svg"
-                alt=""
-              />
-              <span className="border-left"></span>
-              <span className="blue letter-spacing mt-2">MANAGER</span>
-            </h5>
-          </Col>
-          <Col
-            sm="6"
-            md="6"
-            style={{ marginTop: "1em" }}>
-            <h5
-              className="text-end"
-              id="heading-inTableRowo">
-              Feri Abishek<span className="border-left"></span>
-              <span className="grey h6">Video Editor / Graphic Designers</span>
-              <span className="border-left"></span>
-              <span className="blue mt-2">Log Out</span>
-            </h5>
-          </Col>
-        </Row> */}
         <Container>
           <Row>
             <Col style={{ marginTop: "1em" }}>
@@ -138,7 +113,7 @@ export default function Home() {
                         </TableCell>
                         <TableCell className="text-end">
                           <OverlayTrigger
-                            TableRowigger="click"
+                            trigger="click"
                             key="bottom"
                             placement="auto"
                             rootClose
@@ -157,7 +132,7 @@ export default function Home() {
                                       }}
                                       block>
                                       <FontAwesomeIcon
-                                        icon="fa-solid fa-TableRowash"
+                                        icon="fa-solid fa-trash"
                                         style={{ paddingRight: ".5em" }}
                                       />
                                       Delete Task
@@ -237,7 +212,7 @@ export default function Home() {
                         </TableCell>
                         <TableCell className="text-end">
                           <OverlayTrigger
-                            TableRowigger="click"
+                            trigger="click"
                             key="bottom"
                             placement="auto"
                             rootClose
@@ -256,7 +231,7 @@ export default function Home() {
                                       }}
                                       block>
                                       <FontAwesomeIcon
-                                        icon="fa-solid fa-TableRowash"
+                                        icon="fa-solid fa-trash"
                                         style={{ paddingRight: ".5em" }}
                                       />
                                       Delete Task
@@ -336,7 +311,7 @@ export default function Home() {
                         </TableCell>
                         <TableCell className="text-end">
                           <OverlayTrigger
-                            TableRowigger="click"
+                            trigger="click"
                             key="bottom"
                             placement="auto"
                             rootClose
@@ -355,7 +330,7 @@ export default function Home() {
                                       }}
                                       block>
                                       <FontAwesomeIcon
-                                        icon="fa-solid fa-TableRowash"
+                                        icon="fa-solid fa-trash"
                                         style={{ paddingRight: ".5em" }}
                                       />
                                       Delete Task
@@ -418,7 +393,7 @@ export default function Home() {
                         <TableCell align="center"></TableCell>
                         <TableCell className="text-end">
                           <OverlayTrigger
-                            TableRowigger="click"
+                            trigger="click"
                             key="bottom"
                             placement="auto"
                             rootClose
@@ -437,7 +412,7 @@ export default function Home() {
                                       }}
                                       block>
                                       <FontAwesomeIcon
-                                        icon="fa-solid fa-TableRowash"
+                                        icon="fa-solid fa-trash"
                                         style={{ paddingRight: ".5em" }}
                                       />
                                       Delete Task
@@ -500,7 +475,7 @@ export default function Home() {
                         <TableCell align="center"></TableCell>
                         <TableCell className="text-end">
                           <OverlayTrigger
-                            TableRowigger="click"
+                            trigger="click"
                             key="bottom"
                             placement="auto"
                             rootClose
@@ -519,7 +494,7 @@ export default function Home() {
                                       }}
                                       block>
                                       <FontAwesomeIcon
-                                        icon="fa-solid fa-TableRowash"
+                                        icon="fa-solid fa-trash"
                                         style={{ paddingRight: ".5em" }}
                                       />
                                       Delete Task
@@ -582,7 +557,7 @@ export default function Home() {
                         <TableCell align="center"></TableCell>
                         <TableCell className="text-end">
                           <OverlayTrigger
-                            TableRowigger="click"
+                            trigger="click"
                             key="bottom"
                             placement="auto"
                             rootClose
@@ -601,7 +576,7 @@ export default function Home() {
                                       }}
                                       block>
                                       <FontAwesomeIcon
-                                        icon="fa-solid fa-TableRowash"
+                                        icon="fa-solid fa-trash"
                                         style={{ paddingRight: ".5em" }}
                                       />
                                       Delete Task
@@ -664,7 +639,7 @@ export default function Home() {
                         <TableCell align="center"></TableCell>
                         <TableCell className="text-end">
                           <OverlayTrigger
-                            TableRowigger="click"
+                            trigger="click"
                             key="bottom"
                             placement="auto"
                             rootClose
@@ -683,7 +658,7 @@ export default function Home() {
                                       }}
                                       block>
                                       <FontAwesomeIcon
-                                        icon="fa-solid fa-TableRowash"
+                                        icon="fa-solid fa-trash"
                                         style={{ paddingRight: ".5em" }}
                                       />
                                       Delete Task
@@ -746,7 +721,7 @@ export default function Home() {
                         <TableCell align="center"></TableCell>
                         <TableCell className="text-end">
                           <OverlayTrigger
-                            TableRowigger="click"
+                            trigger="click"
                             key="bottom"
                             placement="auto"
                             rootClose
@@ -765,7 +740,7 @@ export default function Home() {
                                       }}
                                       block>
                                       <FontAwesomeIcon
-                                        icon="fa-solid fa-TableRowash"
+                                        icon="fa-solid fa-trash"
                                         style={{ paddingRight: ".5em" }}
                                       />
                                       Delete Task
