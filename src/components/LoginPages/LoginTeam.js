@@ -1,10 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../../assets/images/Group 3.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Login.css";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
+import { auth } from "../../firebase-config";
 
 export default function LoginTeam({ text, user, name, role }) {
+  const [userLog, setUserLog] = useState({
+    email: "",
+    password: "",
+  });
+
+
+
+
+  const handleChangeLog = (event) => {
+    let newInput1 = { [event.target.name]: event.target.value };
+    setUserLog({ ...userLog, ...newInput1 });
+  };
+
+  const registerLogin = () => {
+    signInWithEmailAndPassword(auth, userLog.email, userLog.password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        console.log(user);
+        if (user.displayName === 'Manager') {
+          window.location.href = "/manager/home"
+        } else {
+          window.location.href = "/teammate/home"
+        }
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage);
+      });
+  };
+
+
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (userLog.email === "" || userLog.password === "") {
+      alert("Fill the fields");
+    } else {
+      registerLogin();
+    }
+  };
+
+
+
   return (
     <div className="container mt-5 login-container">
       <div className="form-box">
@@ -16,14 +63,15 @@ export default function LoginTeam({ text, user, name, role }) {
           />
         </div>
         <h5 className="mt-3 text-center">Let's start {text}!</h5>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="form-group mb-2 ">
             <label htmlFor="email">Email</label>
             <input
               className="form-control"
               id="email"
               type="email"
-              name="Email "
+              name="email"
+              onChange={handleChangeLog}
               placeholder="Email"
             />
           </div>
@@ -34,24 +82,17 @@ export default function LoginTeam({ text, user, name, role }) {
               className="form-control"
               id="pwd"
               placeholder="Password"
+              name="password"
+              onChange={handleChangeLog}
             />
             <p className="mt-3 blue">Forgot your password?</p>
           </div>
-
-          <Link
-            to={"/" + user + "/home"}
-            name1={name}
-            role1={role}>
             <button
-              // onClick={() => {
-              //   window.location.href = "/" + user + "/home";
-              // }}
-              type="button"
+            type="Submit"
               className="btn btn-primary bg-blue w-100 rounded-4"
               style={{ background: "#3975EA" }}>
               Log in
-            </button>
-          </Link>
+          </button>
           <h6 className="text-center mt-1">or</h6>
           <button
             onClick={() => {
