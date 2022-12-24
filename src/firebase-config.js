@@ -1,11 +1,7 @@
 import { initializeApp } from "firebase/app";
-<<<<<<< HEAD
 import { getFirestore } from "@firebase/firestore";
 import { getDatabase } from 'firebase/database'
 import { getStorage } from "firebase/storage";
-=======
-import { getDatabase } from "@firebase/database";
->>>>>>> 69e6846faa2fd769419867581eb387894b7ecf61
 import { getAuth } from "firebase/auth";
 
 export const firebaseConfig = {
@@ -19,8 +15,6 @@ export const firebaseConfig = {
 
 export const fire = initializeApp(firebaseConfig);
 export const auth = getAuth(fire);
-<<<<<<< HEAD
 export const db = getDatabase(fire);
-=======
 export const database = getDatabase(fire);
->>>>>>> 69e6846faa2fd769419867581eb387894b7ecf61
+
