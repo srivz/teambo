@@ -6,12 +6,23 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { onAuthStateChanged } from "firebase/auth";
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import { auth } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 
 export default function Home() {
   let done = 0;
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // localStorage.setItem("currentUserDetails", JSON.stringify({ user }));
+    } else {
+      window.location.href = "/";
+    }
+  });
+
   return (
     <div id="main">
       <NavBar

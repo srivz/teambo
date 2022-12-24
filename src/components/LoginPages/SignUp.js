@@ -29,16 +29,15 @@ export default function Signup() {
   };
   const registerUser = (currentUser) => {
     if (user.designation === "Manager") {
-      set(ref(db, '/manager/' + currentUser.uid), {
+      set(ref(db, "/manager/" + currentUser.uid), {
         company: user.companyName,
         designation: user.designation,
         name: user.name,
         email: userLog.email,
-        teammates: ['basu1735@gmail.com', 'kaxesim316@gmail.com']
-
+        teammates: [],
       }).then((res) => {
-        window.location.href = '/manager/home'
-      })
+        window.location.href = "/";
+      });
     } else {
       set(ref(db, '/teammate/' + currentUser.uid), {
         company: user.companyName,
