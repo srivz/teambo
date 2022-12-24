@@ -36,6 +36,8 @@ export default function Signup() {
         email: userLog.email,
         teammates: ['basu1735@gmail.com', 'kaxesim316@gmail.com']
 
+      }).then((res) => {
+        window.location.href = '/manager/home'
       })
     } else {
       set(ref(db, '/teammate/' + currentUser.uid), {
@@ -44,6 +46,8 @@ export default function Signup() {
         name: user.name,
         email: userLog.email
 
+      }).then((res) => {
+        window.location.href = '/teammate/home'
       })
     }
   };
