@@ -18,7 +18,6 @@ export default function Home() {
       taskTitle: taskTitle,
       description: description,
       updates: {
-        // updateDoc(doc(database, "employees", info.adhaarCardNumber), {  companies: arrayUnion(info.companyId),})
         0: {
           date:
             String(today.getDate()).padStart(2, "0") +
