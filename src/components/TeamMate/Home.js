@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { onAuthStateChanged } from "firebase/auth";
-import { child, get } from "firebase/database";
+import { onValue, ref } from "firebase/database";
 import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { auth, db } from "../../firebase-config";
@@ -15,23 +15,22 @@ import NavBar from "../Navs/NavBar";
 
 export default function Home() {
   let done = 0;
+  const [once, setOnce] = useState(true);
 
   const [teammate, setTeammate] = useState({});
-
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      get(child(db, `teammate/${user.uid}`))
-        .then((snapshot) => {
+      if (once) {
+        onValue(ref(db, `teammate/${user.uid}`), (snapshot) => {
           if (snapshot.exists()) {
             console.log(snapshot.val());
             setTeammate(snapshot.val());
           } else {
             console.log("No data available");
           }
-        })
-        .catch((error) => {
-          console.error(error);
         });
+        setOnce(false);
+      }
     } else {
       window.location.href = "/";
     }
@@ -53,8 +52,8 @@ export default function Home() {
                   sm="6"
                   md="6"
                   style={{ marginTop: "1em" }}>
-                  <h5 className="blue">Feri Abishek</h5>
-                  <h6>Video Editor / Graphic Designer</h6>
+                  <h5 className="blue">{teammate.name}</h5>
+                  <h6>{teammate.designation}</h6>
                 </Col>
               </Row>
               <Row>
