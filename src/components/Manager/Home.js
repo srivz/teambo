@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { database } from "../../firebase-config";
+import { db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 import HomeBlock from "./HomeBlock";
 import HomeList from "./HomeList";
@@ -13,7 +13,7 @@ export default function Home() {
 
   function writeUserData(client, taskTitle, description) {
     var today = new Date();
-    set(ref(database, "teambo/companyName1/teammate/emailid1/tasks/1"), {
+    set(ref(db, "teambo/companyName1/teammate/emailid1/tasks/1"), {
       client: client,
       taskTitle: taskTitle,
       description: description,

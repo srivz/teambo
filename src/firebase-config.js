@@ -14,4 +14,3 @@ export const firebaseConfig = {
 export const fire = initializeApp(firebaseConfig);
 export const auth = getAuth(fire);
 export const db = getDatabase(fire);
-export const database = getDatabase(fire);
