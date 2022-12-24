@@ -45,6 +45,9 @@ body {
 .bg-blue {
   background-color: var(--blue);
 }
+.pointer{
+  cursor: pointer;;
+}
 .signuplink{
   text-decoration: none;
 }

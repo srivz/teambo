@@ -38,7 +38,7 @@ export default function NavBar({ user, name, role }) {
               onClick={() => {
                 signOut(auth);
               }}
-              class="blue"
+              class="blue pointer"
               style={{ marginTop: ".5em" }}>
               Log Out
             </span>
