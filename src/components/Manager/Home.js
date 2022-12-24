@@ -3,7 +3,7 @@ import { auth, db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 import HomeBlock from "./HomeBlock";
 import HomeList from "./HomeList";
-import { onValue, ref } from "firebase/database";
+import { child, get } from "firebase/database";
 import { onAuthStateChanged } from "firebase/auth";
 
 export default function Home() {
@@ -11,14 +11,18 @@ export default function Home() {
   const [manager, setManager] = useState({});
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      onValue(ref(db, "/" + user.displayName + "/" + user.uid), (snapshot) => {
-        if (snapshot.exists()) {
-          console.log(snapshot.val());
-          setManager(snapshot.val());
-        } else {
-          console.log("No data available");
-        }
-      });
+      get(child(db, `manager/${user.uid}`))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            console.log(snapshot.val());
+            setManager(snapshot.val());
+          } else {
+            console.log("No data available");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     } else {
       window.location.href = "/";
     }

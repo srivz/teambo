@@ -39,29 +39,26 @@ export default function Signup() {
         window.location.href = "/";
       });
     } else {
-      set(ref(db, '/teammate/' + currentUser.uid), {
+      set(ref(db, "/teammate/" + currentUser.uid), {
         company: user.companyName,
         designation: user.designation,
         name: user.name,
-        email: userLog.email
-
+        email: userLog.email,
       }).then((res) => {
-        window.location.href = '/teammate/home'
-      })
+        window.location.href = "/";
+      });
     }
   };
 
   const registerLogin = () => {
-    createUserWithEmailAndPassword(
-      auth,
-      userLog.email,
-      userLog.password
-    ).then((cred) => {
-      updateProfile(auth.currentUser, {
-        displayName: user.designation === 'Manager' ? "Manager" : "Teammate",
-      });
-      registerUser(auth.currentUser);
-    }).catch(err => alert(err))
+    createUserWithEmailAndPassword(auth, userLog.email, userLog.password)
+      .then((cred) => {
+        updateProfile(auth.currentUser, {
+          displayName: user.designation === "Manager" ? "manager" : "teammate",
+        });
+        registerUser(auth.currentUser);
+      })
+      .catch((err) => alert(err));
   };
 
   const handleSubmit = (event) => {

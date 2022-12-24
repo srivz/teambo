@@ -7,17 +7,31 @@ import {
   TableRow,
 } from "@mui/material";
 import { onAuthStateChanged } from "firebase/auth";
-import React from "react";
+import { child, get } from "firebase/database";
+import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import { auth } from "../../firebase-config";
+import { auth, db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 
 export default function Home() {
   let done = 0;
 
+  const [teammate, setTeammate] = useState({});
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      // localStorage.setItem("currentUserDetails", JSON.stringify({ user }));
+      get(child(db, `teammate/${user.uid}`))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            console.log(snapshot.val());
+            setTeammate(snapshot.val());
+          } else {
+            console.log("No data available");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     } else {
       window.location.href = "/";
     }
@@ -27,8 +41,8 @@ export default function Home() {
     <div id="main">
       <NavBar
         user="TEAMMATE"
-        name="Feri Abishek"
-        role="Video Editor / Graphic Designer"
+        name={teammate.name}
+        role={teammate.designation}
       />
       <Container>
         <Container>

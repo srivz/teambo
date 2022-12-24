@@ -1,8 +1,8 @@
 import { signOut } from "firebase/auth";
+import { auth } from "../../firebase-config";
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import logo from "../../assets/images/Group 3.svg";
-import { auth } from "../../firebase-config";
 
 export default function NavBar({ user, name, role }) {
   return (

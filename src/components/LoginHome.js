@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import logo from "../assets/images/Group 3.svg";
 import image1 from "../assets/images/Group 8.png";
 import rect from "../assets/images/Rectangle 4.svg";
 import Icon_feather_check from "../assets/images/Icon feather-check.svg";
 import { Link } from "react-router-dom";
-
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase-config";
 export default function LoginHome() {
+  useEffect(() => {
+    signOut(auth);
+  });
   return (
     <div id="main">
       <Container style={{ padding: "3em" }}>
@@ -43,7 +47,7 @@ export default function LoginHome() {
                   <img
                     src={rect}
                     alt=""
-                  />
+                  />{" "}
                   Manager Login
                 </Button>
               </Link>
@@ -54,7 +58,6 @@ export default function LoginHome() {
                   variant="light"
                   type="button"
                   className="w-75">
-                  {" "}
                   <img
                     src={Icon_feather_check}
                     alt=""
