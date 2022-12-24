@@ -3,7 +3,6 @@ import logo from "../../assets/images/Group 3.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Login.css";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { Link } from "react-router-dom";
 import { auth } from "../../firebase-config";
 
 export default function LoginTeam({ text, user, name, role }) {
@@ -11,9 +10,6 @@ export default function LoginTeam({ text, user, name, role }) {
     email: "",
     password: "",
   });
-
-
-
 
   const handleChangeLog = (event) => {
     let newInput1 = { [event.target.name]: event.target.value };
@@ -23,23 +19,18 @@ export default function LoginTeam({ text, user, name, role }) {
   const registerLogin = () => {
     signInWithEmailAndPassword(auth, userLog.email, userLog.password)
       .then((userCredential) => {
-        // Signed in 
         const user = userCredential.user;
         console.log(user);
-        if (user.displayName === 'Manager') {
-          window.location.href = "/manager/home"
+        if (user.displayName === "Manager") {
+          window.location.href = "/manager/home";
         } else {
-          window.location.href = "/teammate/home"
+          window.location.href = "/teammate/home";
         }
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage);
+        console.log(error);
       });
   };
-
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -49,9 +40,6 @@ export default function LoginTeam({ text, user, name, role }) {
       registerLogin();
     }
   };
-
-
-
   return (
     <div className="container mt-5 login-container">
       <div className="form-box">
@@ -87,11 +75,11 @@ export default function LoginTeam({ text, user, name, role }) {
             />
             <p className="mt-3 blue">Forgot your password?</p>
           </div>
-            <button
+          <button
             type="Submit"
-              className="btn btn-primary bg-blue w-100 rounded-4"
-              style={{ background: "#3975EA" }}>
-              Log in
+            className="btn btn-primary bg-blue w-100 rounded-4"
+            style={{ background: "#3975EA" }}>
+            Log in
           </button>
           <h6 className="text-center mt-1">or</h6>
           <button
