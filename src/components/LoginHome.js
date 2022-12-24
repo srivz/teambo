@@ -16,7 +16,7 @@ export default function LoginHome() {
             md="6"
             className="">
             <img
-              class="w-100"
+              className="w-100"
               src={image1}
               alt=""
             />
@@ -26,7 +26,7 @@ export default function LoginHome() {
             md="6"
             className="text-center">
             <img
-              class="w-75 "
+              className="w-75 "
               src={logo}
               alt=""
             />
@@ -39,7 +39,7 @@ export default function LoginHome() {
                 <Button
                   variant="light"
                   type="button"
-                  class="w-75">
+                  className="w-75">
                   <img
                     src={rect}
                     alt=""
@@ -53,7 +53,7 @@ export default function LoginHome() {
                 <Button
                   variant="light"
                   type="button"
-                  class="w-75">
+                  className="w-75">
                   {" "}
                   <img
                     src={Icon_feather_check}
@@ -65,9 +65,11 @@ export default function LoginHome() {
             </Row>
             <h6 style={{ marginTop: "1.5em" }}>
               Don't have an account?{" "}
-              <span class="blue">
-                <a href="/signUp">Signup</a>
-              </span>
+              <Link
+                to="/signUp"
+                className="signuplink">
+                <span className="blue">Signup</span>
+              </Link>
             </h6>
           </Col>
         </Row>

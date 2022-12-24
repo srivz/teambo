@@ -2,11 +2,11 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/css/style.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import LoginHome from "./components/LoginHome";
 import LoginTeam from "./components/LoginPages/LoginTeam";
 import TeamMateHome from "./components/TeamMate/Home";
 import SignUp from "./components/LoginPages/SignUp";
 import ManagerHome from "./components/Manager/Home";
+import LoginHome from "./components/LoginHome";
 
 export default function App() {
   return (
@@ -32,7 +32,7 @@ export default function App() {
             />
           }></Route>
         <Route
-          path="/signup"
+          path="/signUp"
           element={<SignUp />}></Route>
         <Route
           path="/manager/home"

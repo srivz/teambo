@@ -45,6 +45,9 @@ body {
 .bg-blue {
   background-color: var(--blue);
 }
+.signuplink{
+  text-decoration: none;
+}
 .letter-spacing {
   letter-spacing: 10px;
 }
