@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { auth, db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 import HomeBlock from "./HomeBlock";
