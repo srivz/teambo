@@ -214,6 +214,7 @@ export default function HomeList(props) {
                   </Row>
                 );
               })}
+
             <Row>
               <Col>
                 <Table
@@ -234,656 +235,134 @@ export default function HomeList(props) {
                     </TableRow>
                   </TableHead>
                   <TableBody className="curve-box-homelist">
-                    <TableRow
-                      style={{
-                        backgroundColor: done === 0 ? "#fff" : "#f9fbff",
-                        height: "70px",
-                      }}
-                      className="box-shadow">
-                      <TableCell align="center">Chaicup</TableCell>
-                      <TableCell align="center">Website UI</TableCell>
-                      <TableCell align="center">Jan,21 2023</TableCell>
-                      <TableCell align="center">11.00 am</TableCell>
-                      <TableCell align="center">+6</TableCell>
-                      <TableCell
-                        align="center"
-                        className="green fw-bold">
-                        On Going
-                      </TableCell>
-                      <TableCell align="center"></TableCell>
-                      <TableCell
-                        align="center"
-                        className="text-end">
-                        <OverlayTrigger
-                          trigger="click"
-                          key="bottom"
-                          placement="auto"
-                          rootClose
-                          overlay={
-                            <Popover id={`popover-positioned-bottom`}>
-                              <Popover.Body>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{
-                                    marginBottom: ".5em",
-                                  }}>
-                                  <Button
-                                    variant="light"
+                    {props.team
+                      .filter((info, id) => id === selected + 2)
+                      // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
+                      .map((info, id) => {
+                        return (
+                          <>
+                            {info.tasks
+                              // .filter((info1, id1) => id!== 0)
+                              // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
+                              .map((info1, id1) => {
+                                return (
+                                  <TableRow
+                                    key={id1}
                                     style={{
-                                      textAlign: "left",
+                                      backgroundColor:
+                                        done === 0 ? "#fff" : "#f9fbff",
+                                      height: "70px",
                                     }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-trash"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Delete Task
-                                  </Button>
-                                </div>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-chevron-up"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Move Up
-                                  </Button>
-                                </div>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-chevron-down"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Move Down
-                                  </Button>
-                                </div>
-                              </Popover.Body>
-                            </Popover>
-                          }>
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-ellipsis-vertical"
-                            style={{ color: "blue", paddingRight: ".25em" }}
-                          />
-                        </OverlayTrigger>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow
-                      style={{
-                        backgroundColor: done === 0 ? "#fff" : "#f9fbff",
-                        height: "70px",
-                      }}
-                      className="box-shadow">
-                      <TableCell align="center">Teabon</TableCell>
-                      <TableCell align="center">Menu</TableCell>
-                      <TableCell align="center">Jan,19 2023</TableCell>
-                      <TableCell align="center">11.00 am</TableCell>
-                      <TableCell align="center">0</TableCell>
-                      <TableCell
-                        align="center"
-                        className="yellow fw-bold">
-                        Assigned
-                      </TableCell>
-                      <TableCell align="center"></TableCell>
-
-                      <TableCell
-                        align="center"
-                        className="text-end">
-                        <OverlayTrigger
-                          trigger="click"
-                          key="bottom"
-                          placement="auto"
-                          rootClose
-                          overlay={
-                            <Popover id={`popover-positioned-bottom`}>
-                              <Popover.Body>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{
-                                    marginBottom: ".5em",
-                                  }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-trash"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Delete Task
-                                  </Button>
-                                </div>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-chevron-up"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Move Up
-                                  </Button>
-                                </div>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-chevron-down"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Move Down
-                                  </Button>
-                                </div>
-                              </Popover.Body>
-                            </Popover>
-                          }>
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-ellipsis-vertical"
-                            style={{ color: "blue", paddingRight: ".25em" }}
-                          />
-                        </OverlayTrigger>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow
-                      style={{
-                        backgroundColor: done === 0 ? "#fff" : "#f9fbff",
-                        height: "70px",
-                      }}
-                      className="box-shadow">
-                      <TableCell align="center">TVS</TableCell>
-                      <TableCell align="center">Instagram ad Video</TableCell>
-                      <TableCell align="center">Jan,18 2023</TableCell>
-                      <TableCell align="center">11.00 am</TableCell>
-                      <TableCell align="center">+2</TableCell>
-                      <TableCell
-                        align="center"
-                        className="blue fw-bold">
-                        Paused
-                      </TableCell>
-                      <TableCell align="center"></TableCell>
-
-                      <TableCell
-                        align="center"
-                        className="text-end">
-                        <OverlayTrigger
-                          trigger="click"
-                          key="bottom"
-                          placement="auto"
-                          rootClose
-                          overlay={
-                            <Popover id={`popover-positioned-bottom`}>
-                              <Popover.Body>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{
-                                    marginBottom: ".5em",
-                                  }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-trash"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Delete Task
-                                  </Button>
-                                </div>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-chevron-up"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Move Up
-                                  </Button>
-                                </div>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-chevron-down"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Move Down
-                                  </Button>
-                                </div>
-                              </Popover.Body>
-                            </Popover>
-                          }>
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-ellipsis-vertical"
-                            style={{ color: "blue", paddingRight: ".25em" }}
-                          />
-                        </OverlayTrigger>
-                      </TableCell>
-                    </TableRow>
-
-                    <TableRow
-                      style={{
-                        backgroundColor: done === 1 ? "#fff" : "#f9fbff",
-                        height: "70px",
-                      }}
-                      className="box-shadow">
-                      <TableCell align="center">TVS</TableCell>
-                      <TableCell align="center">banner design</TableCell>
-                      <TableCell align="center">Jan,15 2023</TableCell>
-                      <TableCell align="center">11.00 am</TableCell>
-                      <TableCell align="center">+2</TableCell>
-                      <TableCell
-                        align="center"
-                        className="fw-bold">
-                        Done
-                      </TableCell>
-                      <TableCell align="center">
-                        <Button
-                          type="Button"
-                          variant="light"
-                          style={{ backgroundColor: "white" }}>
-                          Correction
-                        </Button>{" "}
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        className="text-end">
-                        <OverlayTrigger
-                          trigger="click"
-                          key="bottom"
-                          placement="auto"
-                          rootClose
-                          overlay={
-                            <Popover id={`popover-positioned-bottom`}>
-                              <Popover.Body>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{
-                                    marginBottom: ".5em",
-                                  }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-trash"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Delete Task
-                                  </Button>
-                                </div>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-chevron-up"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Move Up
-                                  </Button>
-                                </div>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-chevron-down"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Move Down
-                                  </Button>
-                                </div>
-                              </Popover.Body>
-                            </Popover>
-                          }>
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-ellipsis-vertical"
-                            style={{ color: "blue", paddingRight: ".25em" }}
-                          />
-                        </OverlayTrigger>
-                      </TableCell>
-                    </TableRow>
-
-                    <TableRow
-                      style={{
-                        backgroundColor: done === 1 ? "#fff" : "#f9fbff",
-                        height: "70px",
-                      }}
-                      className="box-shadow">
-                      <TableCell align="center">TVS</TableCell>
-                      <TableCell align="center">banner design</TableCell>
-                      <TableCell align="center">Jan,15 2023</TableCell>
-                      <TableCell align="center">11.00 am</TableCell>
-                      <TableCell align="center">+2</TableCell>
-                      <TableCell
-                        align="center"
-                        className="fw-bold">
-                        Done
-                      </TableCell>
-                      <TableCell align="center">
-                        <Button
-                          type="Button"
-                          variant="light"
-                          style={{ backgroundColor: "white" }}>
-                          Correction
-                        </Button>{" "}
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        className="text-end">
-                        <OverlayTrigger
-                          trigger="click"
-                          key="bottom"
-                          placement="auto"
-                          rootClose
-                          overlay={
-                            <Popover id={`popover-positioned-bottom`}>
-                              <Popover.Body>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{
-                                    marginBottom: ".5em",
-                                  }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-trash"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Delete Task
-                                  </Button>
-                                </div>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-chevron-up"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Move Up
-                                  </Button>
-                                </div>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-chevron-down"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Move Down
-                                  </Button>
-                                </div>
-                              </Popover.Body>
-                            </Popover>
-                          }>
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-ellipsis-vertical"
-                            style={{ color: "blue", paddingRight: ".25em" }}
-                          />
-                        </OverlayTrigger>
-                      </TableCell>
-                    </TableRow>
-
-                    <TableRow
-                      style={{
-                        backgroundColor: done === 1 ? "#fff" : "#f9fbff",
-                        height: "70px",
-                      }}
-                      className="box-shadow">
-                      <TableCell align="center">TVS</TableCell>
-                      <TableCell align="center">banner design</TableCell>
-                      <TableCell align="center">Jan,15 2023</TableCell>
-                      <TableCell align="center">11.00 am</TableCell>
-                      <TableCell align="center">+2</TableCell>
-                      <TableCell
-                        align="center"
-                        className="fw-bold">
-                        Done
-                      </TableCell>
-                      <TableCell align="center">
-                        <Button
-                          type="Button"
-                          variant="light"
-                          style={{ backgroundColor: "white" }}>
-                          Correction
-                        </Button>{" "}
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        className="text-end">
-                        <OverlayTrigger
-                          trigger="click"
-                          key="bottom"
-                          placement="auto"
-                          rootClose
-                          overlay={
-                            <Popover id={`popover-positioned-bottom`}>
-                              <Popover.Body>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{
-                                    marginBottom: ".5em",
-                                  }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-trash"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Delete Task
-                                  </Button>
-                                </div>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-chevron-up"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Move Up
-                                  </Button>
-                                </div>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-chevron-down"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Move Down
-                                  </Button>
-                                </div>
-                              </Popover.Body>
-                            </Popover>
-                          }>
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-ellipsis-vertical"
-                            style={{ color: "blue", paddingRight: ".25em" }}
-                          />
-                        </OverlayTrigger>
-                      </TableCell>
-                    </TableRow>
-
-                    <TableRow
-                      style={{
-                        backgroundColor: done === 1 ? "#fff" : "#f9fbff",
-                        height: "70px",
-                      }}
-                      className="box-shadow">
-                      <TableCell align="center">TVS</TableCell>
-                      <TableCell align="center">banner design</TableCell>
-                      <TableCell align="center">Jan,15 2023</TableCell>
-                      <TableCell align="center">11.00 am</TableCell>
-                      <TableCell align="center">+2</TableCell>
-                      <TableCell
-                        align="center"
-                        className="fw-bold">
-                        Done
-                      </TableCell>
-                      <TableCell align="center">
-                        <Button
-                          type="Button"
-                          variant="light"
-                          style={{ backgroundColor: "white" }}>
-                          Correction
-                        </Button>{" "}
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        className="text-end">
-                        <OverlayTrigger
-                          trigger="click"
-                          key="bottom"
-                          placement="auto"
-                          rootClose
-                          overlay={
-                            <Popover id={`popover-positioned-bottom`}>
-                              <Popover.Body>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{
-                                    marginBottom: ".5em",
-                                  }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-trash"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Delete Task
-                                  </Button>
-                                </div>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-chevron-up"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Move Up
-                                  </Button>
-                                </div>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{ marginBottom: ".5em" }}>
-                                  <Button
-                                    variant="light"
-                                    style={{
-                                      textAlign: "left",
-                                    }}
-                                    block>
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-chevron-down"
-                                      style={{ paddingRight: ".5em" }}
-                                    />
-                                    Move Down
-                                  </Button>
-                                </div>
-                              </Popover.Body>
-                            </Popover>
-                          }>
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-ellipsis-vertical"
-                            style={{ color: "blue", paddingRight: ".25em" }}
-                          />
-                        </OverlayTrigger>
-                      </TableCell>
-                    </TableRow>
+                                    className="box-shadow">
+                                    <TableCell align="center">
+                                      {info1.client}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {info1.task}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      Jan,21 2023
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      11.00 am
+                                    </TableCell>
+                                    <TableCell align="center">+6</TableCell>
+                                    <TableCell
+                                      align="center"
+                                      className="green fw-bold">
+                                      On Going
+                                    </TableCell>
+                                    <TableCell align="center"></TableCell>
+                                    <TableCell
+                                      align="center"
+                                      className="text-end">
+                                      <OverlayTrigger
+                                        trigger="click"
+                                        key="bottom"
+                                        placement="auto"
+                                        rootClose
+                                        overlay={
+                                          <Popover
+                                            id={`popover-positioned-bottom`}>
+                                            <Popover.Body>
+                                              <div
+                                                className="d-grid gap-2"
+                                                style={{
+                                                  marginBottom: ".5em",
+                                                }}>
+                                                <Button
+                                                  variant="light"
+                                                  style={{
+                                                    textAlign: "left",
+                                                  }}
+                                                  block>
+                                                  <FontAwesomeIcon
+                                                    icon="fa-solid fa-trash"
+                                                    style={{
+                                                      paddingRight: ".5em",
+                                                    }}
+                                                  />
+                                                  Delete Task
+                                                </Button>
+                                              </div>
+                                              <div
+                                                className="d-grid gap-2"
+                                                style={{
+                                                  marginBottom: ".5em",
+                                                }}>
+                                                <Button
+                                                  variant="light"
+                                                  style={{
+                                                    textAlign: "left",
+                                                  }}
+                                                  block>
+                                                  <FontAwesomeIcon
+                                                    icon="fa-solid fa-chevron-up"
+                                                    style={{
+                                                      paddingRight: ".5em",
+                                                    }}
+                                                  />
+                                                  Move Up
+                                                </Button>
+                                              </div>
+                                              <div
+                                                className="d-grid gap-2"
+                                                style={{
+                                                  marginBottom: ".5em",
+                                                }}>
+                                                <Button
+                                                  variant="light"
+                                                  style={{
+                                                    textAlign: "left",
+                                                  }}
+                                                  block>
+                                                  <FontAwesomeIcon
+                                                    icon="fa-solid fa-chevron-down"
+                                                    style={{
+                                                      paddingRight: ".5em",
+                                                    }}
+                                                  />
+                                                  Move Down
+                                                </Button>
+                                              </div>
+                                            </Popover.Body>
+                                          </Popover>
+                                        }>
+                                        <FontAwesomeIcon
+                                          icon="fa-solid fa-ellipsis-vertical"
+                                          style={{
+                                            color: "blue",
+                                            paddingRight: ".25em",
+                                          }}
+                                        />
+                                      </OverlayTrigger>
+                                    </TableCell>
+                                  </TableRow>
+                                );
+                              })}
+                          </>
+                        );
+                      })}
 
                     <TableRow
                       style={{
