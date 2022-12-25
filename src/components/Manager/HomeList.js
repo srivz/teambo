@@ -60,7 +60,7 @@ export default function HomeList(props) {
                 <TableBody>
                   {console.log(props.team)}
                   {props.team
-                    .filter((info, id) => id % 2 !== 0)
+                    .filter((info, id) => id !== 0)
                     // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
                     .map((info, id) => {
                       return (
