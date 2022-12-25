@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { auth, db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 import HomeBlock from "./HomeBlock";
@@ -10,24 +10,40 @@ export default function Home() {
   const [view, setView] = useState(true);
   const [manager, setManager] = useState({});
   const [once, setOnce] = useState(true);
+  const [teammateList, setTeammateList] = useState([{}]);
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
       if (once) {
-        onValue(ref(db, `manager/${user.uid}`), (snapshot) => {
+        const userSet = onValue(ref(db, `manager/${user.uid}`), (snapshot) => {
           if (snapshot.exists()) {
-            console.log(snapshot.val());
             setManager(snapshot.val());
           } else {
             console.log("No data available");
           }
         });
+        if (userSet) getTeammates(manager.teammates);
         setOnce(false);
       }
     } else {
       window.location.href = "/";
     }
   });
+
+  const getTeammates = (teamList) => {
+    teamList.forEach((teammate) => {
+      console.log("asasdasdasda " + teammate);
+      onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          setTeammateList((teammateList) => [...teammateList, data], teammate);
+        } else {
+          console.log("No data available");
+        }
+      });
+    });
+  };
+
   function handleChange(newValue) {
     setView(newValue);
   }
@@ -64,15 +80,18 @@ export default function Home() {
         name={manager.name}
         role={manager.designation}
       />
+      {console.log(teammateList)}
       {view ? (
         <HomeList
           viewType={view}
+          team={teammateList}
           onChange={handleChange}
           addTask={writeUserData}
         />
       ) : (
         <HomeBlock
           viewType={view}
+          team={teammateList}
           onChange={handleChange}
           addTask={writeUserData}
         />

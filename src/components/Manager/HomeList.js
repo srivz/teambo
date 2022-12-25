@@ -58,66 +58,30 @@ export default function HomeList(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow
-                    className="box-shadow"
-                    onClick={() => setSelected(1)}>
-                    <TableCell
-                      style={{
-                        backgroundColor: selected === 1 ? "#e2ecff" : "#f9fbff",
-                        height: "fit-content",
-                        borderRadius: "5px",
-                        paddingTop: ".5em",
-                        paddingBottom: "0em",
-                      }}>
-                      <h5>Feri Abishek</h5>
-                      <p className="grey">Video Editor / Graphic Designer</p>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow
-                    className="box-shadow"
-                    onClick={() => setSelected(2)}>
-                    <TableCell
-                      style={{
-                        backgroundColor: selected === 2 ? "#e2ecff" : "#f9fbff",
-                        height: "fit-content",
-                        borderRadius: "5px",
-                        paddingTop: ".5em",
-                        paddingBottom: "0em",
-                      }}>
-                      <h5>Surya</h5>
-                      <p className="grey">Graphic Designer</p>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow
-                    className="box-shadow"
-                    onClick={() => setSelected(3)}>
-                    <TableCell
-                      style={{
-                        backgroundColor: selected === 3 ? "#e2ecff" : "#f9fbff",
-                        height: "fit-content",
-                        borderRadius: "5px",
-                        paddingTop: ".5em",
-                        paddingBottom: "0em",
-                      }}>
-                      <h5>Sivasundar</h5>
-                      <p className="grey">Video Editor / Graphic Designer</p>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow
-                    className="box-shadow"
-                    onClick={() => setSelected(4)}>
-                    <TableCell
-                      style={{
-                        backgroundColor: selected === 4 ? "#e2ecff" : "#f9fbff",
-                        height: "fit-content",
-                        borderRadius: "5px",
-                        paddingTop: ".5em",
-                        paddingBottom: "0em",
-                      }}>
-                      <h5>Mithun</h5>
-                      <p className="grey">Graphic Designer</p>
-                    </TableCell>
-                  </TableRow>
+                  {props.team
+                    .filter((info, id) => id !== 0)
+                    // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
+                    .map((info, id) => {
+                      return (
+                        <TableRow
+                          key={id}
+                          className="box-shadow"
+                          onClick={() => setSelected(id)}>
+                          <TableCell
+                            style={{
+                              backgroundColor:
+                                selected === id ? "#e2ecff" : "#f9fbff",
+                              height: "fit-content",
+                              borderRadius: "5px",
+                              paddingTop: ".5em",
+                              paddingBottom: "0em",
+                            }}>
+                            <h5>{info.name}</h5>
+                            <p className="grey">{info.designation}</p>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
                 </TableBody>
               </Table>
             </div>
@@ -126,122 +90,129 @@ export default function HomeList(props) {
             sm={9}
             md={9}
             style={{ marginTop: "1em" }}>
-            <Row>
-              <Col
-                sm={6}
-                md={6}
-                style={{ marginTop: "1em" }}>
-                <h5 className="blue">Feri Abishek</h5>
-                <h6>Video Editor / Graphic Designer</h6>
-              </Col>
-              <Col
-                sm={6}
-                md={6}
-                style={{ marginTop: "1em" }}
-                className="text-end">
-                <div>
-                  <FontAwesomeIcon
-                    icon="fa-solid fa-list"
-                    color="#5f8fee"
-                    style={{ paddingRight: "1em" }}
-                  />
+            {props.team
+              .filter((info, id) => id === selected)
+              // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
+              .map((info, id) => {
+                return (
+                  <Row>
+                    <Col
+                      sm={6}
+                      md={6}
+                      style={{ marginTop: "1em" }}>
+                      <h5 className="blue">{info.name}</h5>
+                      <h6>{info.designation}</h6>
+                    </Col>
+                    <Col
+                      sm={6}
+                      md={6}
+                      style={{ marginTop: "1em" }}
+                      className="text-end">
+                      <div>
+                        <FontAwesomeIcon
+                          icon="fa-solid fa-list"
+                          color="#5f8fee"
+                          style={{ paddingRight: "1em" }}
+                        />
 
-                  <FontAwesomeIcon
-                    onClick={() => {
-                      handleViewChange();
-                    }}
-                    icon="fa-solid fa-grip "
-                    style={{ paddingRight: "1em" }}
-                  />
-                  <OverlayTrigger
-                    trigger="click"
-                    key="bottom"
-                    placement="bottom"
-                    rootClose
-                    overlay={
-                      <div
-                        className="bg-white"
-                        style={{
-                          padding: "1em",
-                          marginTop: "10px",
-                          marginLeft: "-50px",
-                          width: "400px",
-                          boxShadow: "rgba(0, 0, 0, 0.15) 1px 3px 5px",
-                        }}>
-                        <h5 className="blue">Feri Abishek</h5>
-                        <h6>Video Editor / Graphic Designer</h6>
-                        <Form.Group
-                          as={Row}
-                          className="mb-3"
-                          controlId="formPlaintext1">
-                          <Form.Label
-                            column
-                            sm="4"
-                            md="4">
-                            Client
-                          </Form.Label>
-                          <Col sm="7">
-                            <Form.Control type="text" />
-                          </Col>
-                        </Form.Group>
-                        <Form.Group
-                          as={Row}
-                          className="mb-3"
-                          controlId="formPlaintext2">
-                          <Form.Label
-                            column
-                            md="4"
-                            sm="4">
-                            Task
-                          </Form.Label>
-                          <Col sm="7">
-                            <Form.Control type="text" />
-                          </Col>
-                        </Form.Group>
-                        <Form.Group
-                          as={Row}
-                          className="mb-3"
-                          controlId="formPlaintext3">
-                          <Form.Label
-                            column
-                            md="4"
-                            sm="4">
-                            Description
-                          </Form.Label>
-                          <Col sm="7">
-                            <Form.Control as="textarea" />
-                          </Col>
-                        </Form.Group>
-                        <div
-                          className="d-grid gap-2"
-                          style={{
-                            marginBottom: ".5em",
-                          }}>
+                        <FontAwesomeIcon
+                          onClick={() => {
+                            handleViewChange();
+                          }}
+                          icon="fa-solid fa-grip "
+                          style={{ paddingRight: "1em" }}
+                        />
+                        <OverlayTrigger
+                          trigger="click"
+                          key="bottom"
+                          placement="bottom"
+                          rootClose
+                          overlay={
+                            <div
+                              className="bg-white"
+                              style={{
+                                padding: "1em",
+                                marginTop: "10px",
+                                marginLeft: "-50px",
+                                width: "400px",
+                                boxShadow: "rgba(0, 0, 0, 0.15) 1px 3px 5px",
+                              }}>
+                              <h5 className="blue">{info.name}</h5>
+                              <h6>{info.designation}</h6>
+                              <Form.Group
+                                as={Row}
+                                className="mb-3"
+                                controlId="formPlaintext1">
+                                <Form.Label
+                                  column
+                                  sm="4"
+                                  md="4">
+                                  Client
+                                </Form.Label>
+                                <Col sm="7">
+                                  <Form.Control type="text" />
+                                </Col>
+                              </Form.Group>
+                              <Form.Group
+                                as={Row}
+                                className="mb-3"
+                                controlId="formPlaintext2">
+                                <Form.Label
+                                  column
+                                  md="4"
+                                  sm="4">
+                                  Task
+                                </Form.Label>
+                                <Col sm="7">
+                                  <Form.Control type="text" />
+                                </Col>
+                              </Form.Group>
+                              <Form.Group
+                                as={Row}
+                                className="mb-3"
+                                controlId="formPlaintext3">
+                                <Form.Label
+                                  column
+                                  md="4"
+                                  sm="4">
+                                  Description
+                                </Form.Label>
+                                <Col sm="7">
+                                  <Form.Control as="textarea" />
+                                </Col>
+                              </Form.Group>
+                              <div
+                                className="d-grid gap-2"
+                                style={{
+                                  marginBottom: ".5em",
+                                }}>
+                                <Button
+                                  variant="primary"
+                                  style={{
+                                    textAlign: "center",
+                                  }}
+                                  block>
+                                  Assign
+                                </Button>
+                              </div>
+                            </div>
+                          }>
                           <Button
-                            variant="primary"
-                            style={{
-                              textAlign: "center",
-                            }}
-                            block>
-                            Assign
+                            type="Button"
+                            variant="light"
+                            className="bg-white box-shadow rounded-4">
+                            <FontAwesomeIcon
+                              icon="fa-regular fa-square-plus"
+                              style={{ paddingRight: ".5em" }}
+                            />
+                            New Task
                           </Button>
-                        </div>
+                        </OverlayTrigger>
                       </div>
-                    }>
-                    <Button
-                      type="Button"
-                      variant="light"
-                      className="bg-white box-shadow rounded-4">
-                      <FontAwesomeIcon
-                        icon="fa-regular fa-square-plus"
-                        style={{ paddingRight: ".5em" }}
-                      />
-                      New Task
-                    </Button>
-                  </OverlayTrigger>
-                </div>
-              </Col>
-            </Row>
+                    </Col>
+                  </Row>
+                );
+              })}
             <Row>
               <Col>
                 <Table

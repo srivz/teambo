@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { onAuthStateChanged } from "firebase/auth";
 import { onValue, ref } from "firebase/database";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { auth, db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
@@ -17,9 +17,7 @@ export default function Home() {
   let done = 0;
   const [once, setOnce] = useState(true);
   const [teammate, setTeammate] = useState({});
-  useEffect(() => {
-    console.log(teammate);
-  });
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
       if (once) {
