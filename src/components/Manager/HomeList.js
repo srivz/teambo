@@ -18,7 +18,7 @@ import {
 } from "react-bootstrap";
 
 export default function HomeList(props) {
-  const [selected, setSelected] = useState(1);
+  const [selected, setSelected] = useState(0);
   let done = 0;
   function handleViewChange() {
     props.onChange(false);
@@ -59,7 +59,7 @@ export default function HomeList(props) {
                 </TableHead>
                 <TableBody>
                   {props.team
-                    .filter((info, id) => id !== 0)
+                    .filter((info, id) => id % 2 !== 0)
                     // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
                     .map((info, id) => {
                       return (
@@ -67,6 +67,7 @@ export default function HomeList(props) {
                           key={id}
                           className="box-shadow"
                           onClick={() => setSelected(id)}>
+                          {info.id}
                           <TableCell
                             style={{
                               backgroundColor:
@@ -91,7 +92,7 @@ export default function HomeList(props) {
             md={9}
             style={{ marginTop: "1em" }}>
             {props.team
-              .filter((info, id) => id === selected)
+              .filter((info, id) => id === selected + 2)
               // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
               .map((info, id) => {
                 return (
