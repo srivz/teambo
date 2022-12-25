@@ -59,7 +59,7 @@ export default function HomeList(props) {
                 </TableHead>
                 <TableBody>
                   {props.team
-                    .filter((info, id) => id % 2 !== 0)
+                    .filter((info, id) => id % 2 === 0)
                     // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
                     .map((info, id) => {
                       return (
@@ -92,7 +92,7 @@ export default function HomeList(props) {
             md={9}
             style={{ marginTop: "1em" }}>
             {props.team
-              .filter((info, id) => id === selected + 2)
+              .filter((info, id) => id === selected + 1)
               // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
               .map((info, id) => {
                 return (
@@ -236,7 +236,7 @@ export default function HomeList(props) {
                   </TableHead>
                   <TableBody className="curve-box-homelist">
                     {props.team
-                      .filter((info, id) => id === selected + 2)
+                      .filter((info, id) => id === selected + 1)
                       // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
                       .map((info, id) => {
                         return (
