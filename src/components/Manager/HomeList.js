@@ -264,7 +264,7 @@ export default function HomeList(props) {
                                       .sort((a, b) => (a > b ? 1 : -1))
                                       // .filter((info2, id2) => id2 === 0)
                                       .map((info2, id2) => {
-                                        return id === 0 ? (
+                                        return id2 === 0 ? (
                                           <>
                                             {console.log(info2.corrections)}
                                             <TableCell align="center">
