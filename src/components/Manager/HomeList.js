@@ -262,8 +262,8 @@ export default function HomeList(props) {
                                     </TableCell>
                                     {console.log(info1.updates)}
                                     {info1.updates
-                                      // .filter((info2, id2) => id !== 0)
-                                      // .sort((a, b) => (a > b ? -1 : 1))
+                                      .filter((info2, id2) => id2 === 0)
+                                      .sort((a, b) => (a > b ? -1 : 1))
                                       .map((info2) => {
                                         return (
                                           <>
