@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import {
+  Collapse,
   Button,
   Col,
   Container,
@@ -238,12 +239,10 @@ export default function HomeList(props) {
                   <TableBody className="curve-box-homelist">
                     {props.team
                       .filter((info, id) => id === selected + 1)
-                      // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
                       .map((info, id) => {
                         return (
                           <>
                             {info.tasks
-                              // .filter((info1, id1) => id!== 0)
                               // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
                               .map((info1, id1) => {
                                 return (
@@ -261,19 +260,44 @@ export default function HomeList(props) {
                                     <TableCell align="center">
                                       {info1.task}
                                     </TableCell>
-                                    <TableCell align="center">
-                                      Jan,21 2023
-                                    </TableCell>
-                                    <TableCell align="center">
-                                      11.00 am
-                                    </TableCell>
-                                    <TableCell align="center">+6</TableCell>
-                                    <TableCell
-                                      align="center"
-                                      className="green fw-bold">
-                                      On Going
-                                    </TableCell>
-                                    <TableCell align="center"></TableCell>
+                                    {console.log(info1.updates)}
+                                    {info1.updates
+                                      // .filter((info2, id2) => id !== 0)
+                                      // .sort((a, b) => (a > b ? -1 : 1))
+                                      .map((info2) => {
+                                        return (
+                                          <>
+                                            <TableCell align="center">
+                                              {info2.date}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                              {info2.time}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                              +{info2.corrections}
+                                            </TableCell>
+                                            <TableCell
+                                              align="center"
+                                              className="green fw-bold">
+                                              {info2.status}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                              {info2.status === "Done" ? (
+                                                <Button
+                                                  type="Button"
+                                                  variant="light"
+                                                  style={{
+                                                    backgroundColor: "white",
+                                                  }}>
+                                                  Correction
+                                                </Button>
+                                              ) : (
+                                                <></>
+                                              )}
+                                            </TableCell>
+                                          </>
+                                        );
+                                      })}
                                     <TableCell
                                       align="center"
                                       className="text-end">
@@ -358,6 +382,7 @@ export default function HomeList(props) {
                                         />
                                       </OverlayTrigger>
                                     </TableCell>
+                                    <Collapse in={false}></Collapse>
                                   </TableRow>
                                 );
                               })}
