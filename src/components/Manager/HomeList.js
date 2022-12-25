@@ -260,13 +260,13 @@ export default function HomeList(props) {
                                     <TableCell align="center">
                                       {info1.task}
                                     </TableCell>
-                                    {console.log(info1.updates)}
                                     {info1.updates
-                                      .filter((info2, id2) => id2 === 0)
-                                      .sort((a, b) => (a > b ? -1 : 1))
-                                      .map((info2) => {
-                                        return (
+                                      .sort((a, b) => (a > b ? 1 : -1))
+                                      // .filter((info2, id2) => id2 === 0)
+                                      .map((info2, id2) => {
+                                        return id === 0 ? (
                                           <>
+                                            {console.log(info2.corrections)}
                                             <TableCell align="center">
                                               {info2.date}
                                             </TableCell>
@@ -296,6 +296,8 @@ export default function HomeList(props) {
                                               )}
                                             </TableCell>
                                           </>
+                                        ) : (
+                                          <></>
                                         );
                                       })}
                                     <TableCell
