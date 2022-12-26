@@ -1,0 +1,297 @@
+{
+  "teambo": {
+    "CompanyName1": {
+      "teammate": {
+        "emailid1": {
+          "name": "a",
+          "company": "CompanyName",
+          "designation": "designer",
+          "tasks": {
+            "1": {
+              "client": "z",
+              "taskTitle": "asd",
+              "description": "sdfsdfasdfsdsadasdfasdf",
+              "updates": {
+                "4": {
+                  "date": "21/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+4",
+                  "status": "Done"
+                },
+                "3": {
+                  "date": "20/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+3",
+                  "status": ""
+                },
+                "2": {
+                  "date": "19/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+2",
+                  "status": ""
+                },
+                "1": {
+                  "date": "18/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+1",
+                  "status": ""
+                },
+                "0": {
+                  "date": "18/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+1",
+                  "status": ""
+                }
+              }
+            },
+            "2": {
+              "client": "y",
+              "taskTitle": "fgh",
+              "description": "sdfsdfasdfsdsadasdfasdf",
+              "updates": {
+                "4": {
+                  "date": "21/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+4",
+                  "status": "Done"
+                },
+                "3": {
+                  "date": "20/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+3",
+                  "status": ""
+                },
+                "2": {
+                  "date": "19/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+2",
+                  "status": ""
+                },
+                "1": {
+                  "date": "18/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+1",
+                  "status": ""
+                },
+                "0": {
+                  "date": "18/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+1",
+                  "status": ""
+                }
+              }
+            }
+          }
+        },
+        "emailid2": {
+          "name": "b",
+          "company": "CompanyName",
+          "designation": "developer",
+          "tasks": {
+            "1": {
+              "client": "d",
+              "taskTitle": "aqw",
+              "description": "sdfsdfasdfsdsadasdfasdf",
+              "updates": {
+                "4": {
+                  "date": "21/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+4",
+                  "status": "Done"
+                },
+                "3": {
+                  "date": "20/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+3",
+                  "status": ""
+                },
+                "2": {
+                  "date": "19/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+2",
+                  "status": ""
+                },
+                "1": {
+                  "date": "18/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+1",
+                  "status": ""
+                },
+                "0": {
+                  "date": "18/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+1",
+                  "status": ""
+                }
+              }
+            }
+          }
+        },
+        "emailid3": {
+          "name": "c",
+          "company": "CompanyName",
+          "designation": "writer",
+          "tasks": {
+            "1": {
+              "client": "z",
+              "taskTitle": "asd",
+              "description": "sdfsdfasdfsdsadasdfasdf",
+              "updates": {
+                "3": {
+                  "date": "20/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+3",
+                  "status": ""
+                },
+                "2": {
+                  "date": "19/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+2",
+                  "status": ""
+                },
+                "1": {
+                  "date": "18/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+1",
+                  "status": ""
+                },
+                "0": {
+                  "date": "18/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+1",
+                  "status": ""
+                }
+              }
+            },
+            "2": {
+              "client": "y",
+              "taskTitle": "fgh",
+              "description": "sdfsdfasdfsdsadasdfasdf",
+              "updates": {
+                "3": {
+                  "date": "20/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+3",
+                  "status": ""
+                },
+                "2": {
+                  "date": "19/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+2",
+                  "status": ""
+                },
+                "1": {
+                  "date": "18/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+1",
+                  "status": ""
+                },
+                "0": {
+                  "date": "18/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+1",
+                  "status": ""
+                }
+              }
+            },
+            "3": {
+              "client": "k",
+              "taskTitle": "frfh",
+              "description": "sdfsdfasdfsdsadasdfasdf",
+              "updates": {
+                "3": {
+                  "date": "20/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+3",
+                  "status": ""
+                },
+                "2": {
+                  "date": "19/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+2",
+                  "status": ""
+                },
+                "1": {
+                  "date": "18/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+1",
+                  "status": ""
+                },
+                "0": {
+                  "date": "18/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+1",
+                  "status": ""
+                }
+              }
+            }
+          }
+        }
+      },
+      "manager": {
+        "emailid0": {
+          "company": "CompanyName1",
+          "designation": "CEO",
+          "name": "managerName1",
+          "teammates": ["emailid1", "emailid2", "emailid3"]
+        }
+      }
+    },
+    "CompanyName2": {
+      "teammate": {
+        "emailid1": {
+          "name": "a",
+          "company": "CompanyName",
+          "designation": "designer",
+          "tasks": {
+            "1": {
+              "client": "z",
+              "taskTitle": "asd",
+              "description": "sdfsdfasdfsdsadasdfasdf",
+              "updates": {
+                "4": {
+                  "date": "21/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+4",
+                  "status": "Done"
+                },
+                "3": {
+                  "date": "20/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+3",
+                  "status": ""
+                },
+                "2": {
+                  "date": "19/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+2",
+                  "status": ""
+                },
+                "1": {
+                  "date": "18/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+1",
+                  "status": ""
+                },
+                "0": {
+                  "date": "18/12/2022",
+                  "time": "12:12:12",
+                  "corrections": "+1",
+                  "status": ""
+                }
+              }
+            }
+          }
+        }
+      },
+      "manager": {
+        "emailid0": {
+          "company": "CompanyName2",
+          "designation": "CEO",
+          "name": "managerName1",
+          "teammates": ["emailid1"]
+        }
+      }
+    }
+  }
+}

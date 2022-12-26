@@ -1,8 +1,10 @@
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase-config";
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import logo from "../../assets/images/Group 3.svg";
 
-export default function NavBar() {
+export default function NavBar({ user, name, role }) {
   return (
     <Container>
       <Row style={{ marginTop: "1em" }}>
@@ -21,7 +23,7 @@ export default function NavBar() {
             <span
               class="blue letter-spacing"
               style={{ marginTop: ".5em" }}>
-              MANAGER
+              {user}
             </span>
           </h5>
         </Col>
@@ -30,10 +32,13 @@ export default function NavBar() {
           md={6}
           style={{ marginTop: "1em" }}>
           <h5 class="text-end">
-            Pavithra <span class="grey h6">Manager</span>
+            {name} <span class="grey h6">{role}</span>
             <span class="border-left"></span>
             <span
-              class="blue"
+              onClick={() => {
+                signOut(auth);
+              }}
+              class="blue pointer"
               style={{ marginTop: ".5em" }}>
               Log Out
             </span>

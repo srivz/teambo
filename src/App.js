@@ -3,19 +3,43 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/css/style.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import LoginTeam from "./components/LoginPages/LoginTeam";
+import TeamMateHome from "./components/TeamMate/Home";
+import SignUp from "./components/LoginPages/SignUp";
 import ManagerHome from "./components/Manager/Home";
-import TeamMemberHome from "./components/TeamMate/Home";
-import Signup from "./components/LoginPages/Signup";
+import LoginHome from "./components/LoginHome";
 
 export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginTeam text="Working" />}></Route>
-        <Route path="/manager/login" element={<LoginTeam text="Assigning" />}></Route>
-        <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/manager/home" element={<ManagerHome />}></Route>
-        <Route path="/teammember/home" element={<TeamMemberHome />}></Route>
+        <Route
+          path="/"
+          element={<LoginHome />}></Route>
+        <Route
+          path="/teamMate/login"
+          element={
+            <LoginTeam
+              text="Working"
+              user="teamMate"
+            />
+          }></Route>
+        <Route
+          path="/manager/login"
+          element={
+            <LoginTeam
+              text="Assigning"
+              user="manager"
+            />
+          }></Route>
+        <Route
+          path="/signUp"
+          element={<SignUp />}></Route>
+        <Route
+          path="/manager/home"
+          element={<ManagerHome />}></Route>
+        <Route
+          path="/teamMate/home"
+          element={<TeamMateHome />}></Route>
       </Routes>
     </Router>
   );
