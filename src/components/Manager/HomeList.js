@@ -51,9 +51,10 @@ export default function HomeList(props) {
     let newInput = { [event.target.name]: event.target.value };
     setNewTask({ ...newTask, ...newInput });
   };
-  const handleNewTask = (id, index) => {
-    props.addTask(newTask, id, index);
-    window.location.reload();
+  const handleNewTask = async (id, index) => {
+    newTask.priority = index;
+    await props.addTask(newTask, id, index);
+    await window.location.reload();
   };
   const handleDeleteTask = (id, index) => {
     props.deleteTask(id, index);
@@ -243,18 +244,7 @@ export default function HomeList(props) {
                                     <Form.Control
                                       as="textarea"
                                       name="description"
-                                      onChange={() => {
-                                        setNewTask(
-                                          ...newTask,
-                                          ...{
-                                            priority:
-                                              info.data.tasks !== undefined
-                                                ? "" + info.data.tasks.length
-                                                : "0",
-                                          }
-                                        );
-                                        handleChange();
-                                      }}
+                                      onChange={handleChange}
                                     />
                                   </Col>
                                 </Form.Group>
@@ -269,8 +259,8 @@ export default function HomeList(props) {
                                       handleNewTask(
                                         info.teammate,
                                         info.data.tasks !== undefined
-                                          ? info.data.tasks.length
-                                          : 0
+                                          ? "" + info.data.tasks.length
+                                          : "0"
                                       );
                                     }}
                                     style={{
