@@ -23,6 +23,7 @@ export default function HomeList(props) {
   const [newTask, setNewTask] = useState({
     client: "",
     task: "",
+    //For moving up and down add priority:"",
     description: "",
     updates: {
       0: {
@@ -56,6 +57,12 @@ export default function HomeList(props) {
   const handleDeleteTask = (id, index) => {
     props.deleteTask(id, index);
   };
+  // const handleUpTask = (id, index) => {
+  //   props.UpTask(id, index);
+  // };
+  // const handleDownTask = (id, index) => {
+  //   props.DownTask(id, index);
+  // };
   return (
     <div id="main">
       <Container>
@@ -454,6 +461,7 @@ export default function HomeList(props) {
                                           </Popover>
                                         }>
                                         <FontAwesomeIcon
+                                          className="pointer"
                                           icon="fa-solid fa-ellipsis-vertical"
                                           style={{
                                             color: "blue",
