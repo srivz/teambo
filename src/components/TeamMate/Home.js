@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { onAuthStateChanged } from "firebase/auth";
-import { onValue, ref } from "firebase/database";
+import { onValue, ref, update } from "firebase/database";
 import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { auth, db } from "../../firebase-config";
@@ -17,14 +17,15 @@ export default function Home() {
   let done = 0;
   const [once, setOnce] = useState(true);
   const [teammate, setTeammate] = useState({});
+  const [id, setId] = useState("");
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
       if (once) {
         onValue(ref(db, `teammate/${user.uid}`), (snapshot) => {
           if (snapshot.exists()) {
-            console.log(snapshot.val());
             setTeammate(snapshot.val());
+            setId(user.uid);
           } else {
             console.log("No data available");
           }
@@ -36,6 +37,21 @@ export default function Home() {
     }
   });
 
+  const playTask = (e, index, length) => {
+    update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
+      status: "On Going",
+    });
+  };
+  const pauseTask = (e, index, length) => {
+    update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
+      status: "Paused",
+    });
+  };
+  const completeTask = (e, index, length) => {
+    update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
+      status: "Done",
+    });
+  };
   return (
     <div id="main">
       <NavBar
@@ -108,270 +124,148 @@ export default function Home() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {/* {teammate.tasks 
-                        // .filter((info) => id !== 0)
-                        // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
-                        // .map((info, id) => {
-                      //   return (*/}
-                      <TableRow
-                        // key={id}
-                        style={{
-                          backgroundColor: done === 0 ? "#fff" : "#f9fbff",
-                          height: "70px",
-                        }}
-                        className="box-shadow">
-                        <TableCell align="center">
-                          {/* {info.client} */}ctrf
-                        </TableCell>
-                        <TableCell align="center">
-                          add title
-                          {/* {info.task} */}
-                        </TableCell>
-                        {/* {info.updates 
-                                // .filter((info) => id !== 0)
-                                // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
-                                // .map((info1, id1) => {
-                                //   return (*/}
-                        <span
-                        // key={id1}
-                        >
-                          <TableCell align="center">
-                            12/12/12
-                            {/* {info1.date} */}
-                          </TableCell>
-                          <TableCell align="center">
-                            45:23:45
-                            {/* {info1.time} */}
-                          </TableCell>
-                          <TableCell align="center">
-                            +7
-                            {/* +{info1.corrections} */}
-                          </TableCell>
-                          <TableCell
-                            align="center"
-                            style={{
-                              color: "#24a43a",
-                              fontWeight: "bold",
-                            }}>
-                            {/* {info1.status} */}Done
-                          </TableCell>
-                        </span>
-                        {/* ); })} */}
-                        <TableCell align="center">
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-circle-play"
-                            size="lg"
-                            style={{ margin: ".5em" }}
-                            color="green"
-                          />
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-circle-pause"
-                            size="lg"
-                            style={{ margin: ".5em" }}
-                          />
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-circle-check"
-                            size="lg"
-                            style={{ margin: ".5em" }}
-                          />
-                        </TableCell>
-                      </TableRow>
-                      {/* );})} */}
-                      <TableRow
-                        style={{
-                          backgroundColor: done === 0 ? "#fff" : "#f9fbff",
-                          height: "70px",
-                        }}
-                        className="box-shadow">
-                        <TableCell align="center">Chaicup</TableCell>
-                        <TableCell align="center">Website UI</TableCell>
-                        <TableCell align="center">Jan,21 2023</TableCell>
-                        <TableCell align="center">11.00 am</TableCell>
-                        <TableCell align="center">+6</TableCell>
-                        <TableCell
-                          align="center"
-                          style={{ color: "#24a43a", fontWeight: "bold" }}>
-                          On Going
-                        </TableCell>
-                        <TableCell align="center">
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-circle-play"
-                            size="lg"
-                            style={{ margin: ".5em" }}
-                            color="green"
-                          />
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-circle-pause"
-                            size="lg"
-                            style={{ margin: ".5em" }}
-                          />
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-circle-check"
-                            size="lg"
-                            style={{ margin: ".5em" }}
-                          />
-                        </TableCell>
-                      </TableRow>
-                      <TableRow
-                        style={{
-                          backgroundColor: done === 0 ? "#fff" : "#f9fbff",
-                          height: "70px",
-                        }}
-                        className="box-shadow">
-                        <TableCell align="center">Teabon</TableCell>
-                        <TableCell align="center">Menu</TableCell>
-                        <TableCell align="center">Jan,19 2023</TableCell>
-                        <TableCell align="center">11.00 am</TableCell>
-                        <TableCell align="center">0</TableCell>
-                        <TableCell
-                          align="center"
-                          style={{ color: "#d1ae00", fontWeight: "bold" }}>
-                          Assigned
-                        </TableCell>
-                        <TableCell align="center">
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-circle-play"
-                            size="lg"
-                            style={{ margin: ".5em" }}
-                            color="green"
-                          />
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-circle-pause"
-                            size="lg"
-                            style={{ margin: ".5em" }}
-                          />
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-circle-check"
-                            size="lg"
-                            style={{ margin: ".5em" }}
-                          />
-                        </TableCell>
-                      </TableRow>
-                      <TableRow
-                        style={{
-                          backgroundColor: done === 0 ? "#fff" : "#f9fbff",
-                          height: "70px",
-                        }}
-                        className="box-shadow">
-                        <TableCell align="center">TVS</TableCell>
-                        <TableCell align="center">Instagram ad Video</TableCell>
-                        <TableCell align="center">Jan,18 2023</TableCell>
-                        <TableCell align="center">11.00 am</TableCell>
-                        <TableCell align="center">+2</TableCell>
-                        <TableCell
-                          align="center"
-                          style={{ color: "#3975ea", fontWeight: "bold" }}>
-                          Paused
-                        </TableCell>
-                        <TableCell align="center">
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-circle-play"
-                            size="lg"
-                            style={{ margin: ".5em" }}
-                            color="green"
-                          />
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-circle-pause"
-                            size="lg"
-                            style={{ margin: ".5em" }}
-                          />
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-circle-check"
-                            size="lg"
-                            style={{ margin: ".5em" }}
-                          />
-                        </TableCell>
-                      </TableRow>
-                      <TableRow
-                        style={{
-                          backgroundColor: done === 0 ? "#fff" : "#f9fbff",
-                          height: "70px",
-                        }}
-                        className="box-shadow">
-                        <TableCell align="center">TVS</TableCell>
-                        <TableCell align="center">banner design</TableCell>
-                        <TableCell align="center">Jan,15 2023</TableCell>
-                        <TableCell align="center">11.00 am</TableCell>
-                        <TableCell align="center">+2</TableCell>
-                        <TableCell
-                          style={{ fontWeight: "bold" }}
+                      {!teammate.tasks ? (
+                        <TableRow
+                          colSpan={7}
                           align="center">
-                          Done
-                        </TableCell>
-                        <TableCell align="center"></TableCell>
-                      </TableRow>
-                      <TableRow
-                        style={{
-                          backgroundColor: done === 0 ? "#fff" : "#f9fbff",
-                          height: "70px",
-                        }}
-                        className="box-shadow">
-                        <TableCell align="center">TVS</TableCell>
-                        <TableCell align="center">banner design</TableCell>
-                        <TableCell align="center">Jan,15 2023</TableCell>
-                        <TableCell align="center">11.00 am</TableCell>
-                        <TableCell align="center">+2</TableCell>
-                        <TableCell
-                          align="center"
-                          style={{ fontWeight: "bold" }}>
-                          Done
-                        </TableCell>
-                        <TableCell align="center"></TableCell>
-                      </TableRow>
-                      <TableRow
-                        style={{
-                          backgroundColor: done === 0 ? "#fff" : "#f9fbff",
-                          height: "70px",
-                        }}
-                        className="box-shadow">
-                        <TableCell align="center">TVS</TableCell>
-                        <TableCell align="center">banner design</TableCell>
-                        <TableCell align="center">Jan,15 2023</TableCell>
-                        <TableCell align="center">11.00 am</TableCell>
-                        <TableCell align="center">+2</TableCell>
-                        <TableCell
-                          align="center"
-                          style={{ fontWeight: "bold" }}>
-                          Done
-                        </TableCell>
-                        <TableCell align="center"></TableCell>
-                      </TableRow>
-                      <TableRow
-                        style={{
-                          backgroundColor: done === 0 ? "#fff" : "#f9fbff",
-                          height: "70px",
-                        }}
-                        className="box-shadow">
-                        <TableCell align="center">TVS</TableCell>
-                        <TableCell align="center">banner design</TableCell>
-                        <TableCell align="center">Jan,15 2023</TableCell>
-                        <TableCell align="center">11.00 am</TableCell>
-                        <TableCell align="center">+2</TableCell>
-                        <TableCell
-                          align="center"
-                          style={{ fontWeight: "bold" }}>
-                          Done
-                        </TableCell>
-                        <TableCell align="center"></TableCell>
-                      </TableRow>
-                      <TableRow
-                        style={{
-                          backgroundColor: done === 0 ? "#fff" : "#f9fbff",
-                          height: "70px",
-                        }}
-                        className="box-shadow">
-                        <TableCell align="center">TVS</TableCell>
-                        <TableCell align="center">banner design</TableCell>
-                        <TableCell align="center">Jan,15 2023</TableCell>
-                        <TableCell align="center">11.00 am</TableCell>
-                        <TableCell align="center">+2</TableCell>
-                        <TableCell
-                          align="center"
-                          style={{ fontWeight: "bold" }}>
-                          Done
-                        </TableCell>
-                        <TableCell align="center"></TableCell>
-                      </TableRow>
+                          No tasks right now
+                        </TableRow>
+                      ) : (
+                        teammate.tasks.map((info, index) => {
+                          return (
+                            <>
+                              <TableRow
+                                style={{
+                                  backgroundColor:
+                                    done === 0 ? "#fff" : "#f9fbff",
+                                  height: "70px",
+                                }}
+                                className="box-shadow"
+                                key={index}>
+                                <TableCell align="center">
+                                  {info.client}
+                                </TableCell>
+                                <TableCell align="center">
+                                  {info.task}
+                                </TableCell>
+                                {info?.updates ? (
+                                  <>
+                                    <TableCell align="center">
+                                      {
+                                        info.updates[info.updates.length - 1]
+                                          .date
+                                      }
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {
+                                        info.updates[info.updates.length - 1]
+                                          .time
+                                      }
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      +
+                                      {
+                                        info.updates[info.updates.length - 1]
+                                          .corrections
+                                      }
+                                    </TableCell>
+                                    <TableCell
+                                      align="center"
+                                      style={
+                                        (info.updates[info.updates.length - 1]
+                                          .status === "Done" && {
+                                          color: "#000000",
+                                          fontWeight: "bold",
+                                        }) ||
+                                        (info.updates[info.updates.length - 1]
+                                          .status === "On Going" && {
+                                          color: "#24A43A",
+                                          fontWeight: "bold",
+                                        }) ||
+                                        (info.updates[info.updates.length - 1]
+                                          .status === "Paused" && {
+                                          color: "#2972B2",
+                                          fontWeight: "bold",
+                                        }) ||
+                                        (info.updates[info.updates.length - 1]
+                                          .status === "Assigned" && {
+                                          color: "#D1AE00",
+                                          fontWeight: "bold",
+                                        })
+                                      }>
+                                      {
+                                        info.updates[info.updates.length - 1]
+                                          .status
+                                      }
+                                    </TableCell>{" "}
+                                  </>
+                                ) : (
+                                  <>
+                                    <TableCell align="center">
+                                      Not Available
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      Not Available
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      Not Available
+                                    </TableCell>
+                                    <TableCell
+                                      align="center"
+                                      style={{
+                                        color: "#24a43a",
+                                        fontWeight: "bold",
+                                      }}>
+                                      Not Available
+                                    </TableCell>
+                                  </>
+                                )}
+
+                                <TableCell align="center">
+                                  <FontAwesomeIcon
+                                    icon="fa-solid fa-circle-play"
+                                    size="lg"
+                                    style={{
+                                      margin: ".5em",
+                                      cursor: "pointer",
+                                    }}
+                                    color="green"
+                                    onClick={(e) => {
+                                      playTask(e, index, info.updates?.length);
+                                    }}
+                                  />
+                                  <FontAwesomeIcon
+                                    icon="fa-solid fa-circle-pause"
+                                    size="lg"
+                                    style={{
+                                      margin: ".5em",
+                                      cursor: "pointer",
+                                    }}
+                                    onClick={(e) => {
+                                      pauseTask(e, index, info.updates?.length);
+                                    }}
+                                  />
+                                  <FontAwesomeIcon
+                                    icon="fa-solid fa-circle-check"
+                                    size="lg"
+                                    style={{
+                                      margin: ".5em",
+                                      cursor: "pointer",
+                                    }}
+                                    onClick={(e) => {
+                                      completeTask(
+                                        e,
+                                        index,
+                                        info.updates?.length
+                                      );
+                                    }}
+                                  />
+                                </TableCell>
+                              </TableRow>
+                            </>
+                          );
+                        })
+                      )}
                     </TableBody>
                   </Table>
                 </Col>
