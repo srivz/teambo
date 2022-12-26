@@ -87,7 +87,6 @@ export default function Home() {
         role={manager.designation}
       />
 
-      {console.log(teammateList)}
       {view ? (
         <HomeList
           viewType={view}
