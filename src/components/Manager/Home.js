@@ -3,7 +3,7 @@ import { auth, db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 import HomeBlock from "./HomeBlock";
 import HomeList from "./HomeList";
-import { onValue, ref, set } from "firebase/database";
+import { onValue, ref, remove, set, update } from "firebase/database";
 import { onAuthStateChanged } from "firebase/auth";
 
 export default function Home() {
@@ -54,16 +54,60 @@ export default function Home() {
     setView(newValue);
   }
   function writeUserData(newTask, teammateId, index) {
-    set(ref(db, `/teammate/${teammateId}/tasks/${index}/`), newTask).then(
-      () => {
+    set(ref(db, `/teammate/${teammateId}/tasks/${index}/`), newTask)
+      .then(() => {
         window.location.reload();
-      }
-    );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   function deleteCurrentTask(teammateId, index) {
-    set(ref(db, `/teammate/${teammateId}/tasks/${index}/`), {}).then(() => {
-      window.location.reload();
-    });
+    remove(ref(db, `/teammate/${teammateId}/tasks/${index}/`))
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  function downCurrentTask(teammateId, index) {
+    update(
+      ref(db, `/teammate/${teammateId}/tasks/${index}/priority`),
+      index - 1
+    )
+      .then(() => {
+        update(
+          ref(db, `/teammate/${teammateId}/tasks/${index - 1}/priority`),
+          index + 1
+        )
+          .then(() => {
+            window.location.reload();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  function upCurrentTask(teammateId, index) {
+    set(ref(db, `/teammate/${teammateId}/tasks/${index}/priority`), index + 1)
+      .then(() => {
+        update(ref(db, `/teammate/${teammateId}/tasks/${index + 1}/`), {
+          priority: index - 1,
+        })
+          .then(() => {
+            window.location.reload();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   return (
     <div>
@@ -80,6 +124,8 @@ export default function Home() {
           onChange={handleChange}
           addTask={writeUserData}
           deleteTask={deleteCurrentTask}
+          DownTask={downCurrentTask}
+          UpTask={upCurrentTask}
         />
       ) : (
         <HomeBlock

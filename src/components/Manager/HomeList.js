@@ -23,7 +23,7 @@ export default function HomeList(props) {
   const [newTask, setNewTask] = useState({
     client: "",
     task: "",
-    //For moving up and down add priority:"",
+    priority: "",
     description: "",
     updates: {
       0: {
@@ -53,16 +53,17 @@ export default function HomeList(props) {
   };
   const handleNewTask = (id, index) => {
     props.addTask(newTask, id, index);
+    window.location.reload();
   };
   const handleDeleteTask = (id, index) => {
     props.deleteTask(id, index);
   };
-  // const handleUpTask = (id, index) => {
-  //   props.UpTask(id, index);
-  // };
-  // const handleDownTask = (id, index) => {
-  //   props.DownTask(id, index);
-  // };
+  const handleUpTask = (id, index) => {
+    props.UpTask(id, index);
+  };
+  const handleDownTask = (id, index) => {
+    props.DownTask(id, index);
+  };
   return (
     <div id="main">
       <Container>
@@ -161,7 +162,6 @@ export default function HomeList(props) {
                         md={6}
                         style={{ marginTop: "1em" }}
                         className="text-end">
-                        {console.log(info.data.tasks)}
                         <div>
                           <FontAwesomeIcon
                             icon="fa-solid fa-list"
@@ -243,7 +243,18 @@ export default function HomeList(props) {
                                     <Form.Control
                                       as="textarea"
                                       name="description"
-                                      onChange={handleChange}
+                                      onChange={() => {
+                                        setNewTask(
+                                          ...newTask,
+                                          ...{
+                                            priority:
+                                              info.data.tasks !== undefined
+                                                ? "" + info.data.tasks.length
+                                                : "0",
+                                          }
+                                        );
+                                        handleChange();
+                                      }}
                                     />
                                   </Col>
                                 </Form.Group>
@@ -257,7 +268,9 @@ export default function HomeList(props) {
                                     onClick={() => {
                                       handleNewTask(
                                         info.teammate,
-                                        info.data.tasks.length
+                                        info.data.tasks !== undefined
+                                          ? info.data.tasks.length
+                                          : 0
                                       );
                                     }}
                                     style={{
@@ -423,6 +436,12 @@ export default function HomeList(props) {
                                                   marginBottom: ".5em",
                                                 }}>
                                                 <Button
+                                                  onClick={() => {
+                                                    handleUpTask(
+                                                      info.teammate,
+                                                      index
+                                                    );
+                                                  }}
                                                   variant="light"
                                                   style={{
                                                     textAlign: "left",
@@ -443,6 +462,12 @@ export default function HomeList(props) {
                                                   marginBottom: ".5em",
                                                 }}>
                                                 <Button
+                                                  onClick={() => {
+                                                    handleDownTask(
+                                                      info.teammate,
+                                                      index
+                                                    );
+                                                  }}
                                                   variant="light"
                                                   style={{
                                                     textAlign: "left",
