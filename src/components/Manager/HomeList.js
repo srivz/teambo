@@ -59,11 +59,18 @@ export default function HomeList(props) {
   const handleDeleteTask = (id, index) => {
     props.deleteTask(id, index);
   };
-  const handleUpTask = (id, index) => {
-    props.UpTask(id, index);
+  const handleUpTask = (ida, index, total) => {
+    if (index !== total - 1) props.UpTask(ida, index);
+    else {
+      alert("It has the highest proiority");
+    }
   };
-  const handleDownTask = (id, index) => {
-    props.DownTask(id, index);
+  const handleDownTask = (ida, index) => {
+    //priority should be passed to index
+    if (index !== 0) props.DownTask(ida, index);
+    else {
+      alert("It has the least proiority");
+    }
   };
   return (
     <div id="main">
@@ -259,8 +266,8 @@ export default function HomeList(props) {
                                       handleNewTask(
                                         info.teammate,
                                         info.data.tasks !== undefined
-                                          ? "" + info.data.tasks.length
-                                          : "0"
+                                          ? info.data.tasks.length
+                                          : 0
                                       );
                                     }}
                                     style={{
@@ -429,7 +436,8 @@ export default function HomeList(props) {
                                                   onClick={() => {
                                                     handleUpTask(
                                                       info.teammate,
-                                                      index
+                                                      index,
+                                                      info.data.tasks.length
                                                     );
                                                   }}
                                                   variant="light"

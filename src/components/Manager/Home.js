@@ -72,15 +72,11 @@ export default function Home() {
       });
   }
   function downCurrentTask(teammateId, index) {
-    update(
-      ref(db, `/teammate/${teammateId}/tasks/${index}/priority`),
-      index - 1
-    )
+    set(ref(db, `/teammate/${teammateId}/tasks/${index}/priority`), index - 1)
       .then(() => {
-        update(
-          ref(db, `/teammate/${teammateId}/tasks/${index - 1}/priority`),
-          index + 1
-        )
+        update(ref(db, `/teammate/${teammateId}/tasks/${index - 1}/`), {
+          priority: index,
+        })
           .then(() => {
             window.location.reload();
           })
@@ -96,7 +92,7 @@ export default function Home() {
     set(ref(db, `/teammate/${teammateId}/tasks/${index}/priority`), index + 1)
       .then(() => {
         update(ref(db, `/teammate/${teammateId}/tasks/${index + 1}/`), {
-          priority: index - 1,
+          priority: index,
         })
           .then(() => {
             window.location.reload();
