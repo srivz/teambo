@@ -266,7 +266,7 @@ export default function HomeBlock(props) {
                                           .map((info2, id2) => {
                                             return id2 === 0 ? (
                                               <span className="green fw-bold text-end task-status">
-                                                On Going
+                                                {info2.status}
                                               </span>
                                             ) : (
                                               <></>
