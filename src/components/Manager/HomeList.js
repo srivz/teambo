@@ -59,9 +59,9 @@ export default function HomeList(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {console.log(props.team)}
+                  {/* {console.log(props.team)} */}
                   {props.team
-                    .filter((info, id) => id !== 0)
+                    .filter((info, id) => id % 2 !== 0)
                     // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
                     .map((info, id) => {
                       return (
@@ -94,7 +94,7 @@ export default function HomeList(props) {
             md={9}
             style={{ marginTop: "1em" }}>
             {props.team
-              .filter((info, id) => id === selected + 1)
+              .filter((info, id) => id === selected)
               // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
               .map((info, id) => {
                 return (
@@ -238,7 +238,7 @@ export default function HomeList(props) {
                   </TableHead>
                   <TableBody className="curve-box-homelist">
                     {props.team
-                      .filter((info, id) => id === selected + 1)
+                      .filter((info, id) => id === selected)
                       .map((info, id) => {
                         return (
                           <>
@@ -265,24 +265,24 @@ export default function HomeList(props) {
                                       // .filter((info2, id2) => id2 === 0)
                                       .map((info2, id2) => {
                                         return ( */}
-                                    <>
-                                      {/* {console.log(info2.corrections)} */}
-                                      <TableCell align="center">
-                                        {/* {info2.date} */}
-                                      </TableCell>
-                                      <TableCell align="center">
-                                        {/* {info2.time} */}
-                                      </TableCell>
-                                      <TableCell align="center">
-                                        {/* +{info2.corrections} */}
-                                      </TableCell>
-                                      <TableCell
-                                        align="center"
-                                        className="green fw-bold">
-                                        {/* {info2.status} */}
-                                      </TableCell>
-                                      <TableCell align="center">
-                                        {/* {info2.status === "Done" ? (
+                                    {/* <> */}
+                                    {/* {console.log(info2.corrections)} */}
+                                    <TableCell align="center">
+                                      {/* {info2.date} */}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {/* {info2.time} */}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {/* +{info2.corrections} */}
+                                    </TableCell>
+                                    <TableCell
+                                      align="center"
+                                      className="green fw-bold">
+                                      {/* {info2.status} */}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {/* {info2.status === "Done" ? (
                                           <Button
                                             type="Button"
                                             variant="light"
@@ -294,8 +294,8 @@ export default function HomeList(props) {
                                         ) : (
                                           <></>
                                         )} */}
-                                      </TableCell>
-                                    </>
+                                    </TableCell>
+                                    {/* </> */}
                                     {/* );})} */}
                                     <TableCell
                                       align="center"
