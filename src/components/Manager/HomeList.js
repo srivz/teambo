@@ -62,13 +62,13 @@ export default function HomeList(props) {
     props.deleteTask(id, index);
   };
 
-  //For the correct updates we need to have a list with priority:index separately
+  //For the correct updates we need to have a separate list with priority:index separately
   // For up temp=priority[i+1] priority[i+1]:priority[i] priority[i]:temp
   // For down temp=priority[i-1] priority[i-1]:priority[i] priority[i]:temp
   // OR
   // For up we can retrive data of next index and put it in current && get values from the table put it in next index.
   // For down we can retrive data of previous index and put it in current && get values from the table put it in previous index.
-
+  // Main issue if index==0 then index-1=-1. a new dataset is created in -1 and affecting map function.
   const handleUpTask = (ida, priority, tasknumber, total) => {
     if (priority + 1 !== total && tasknumber + 1 !== total) {
       // props.UpTask(ida, priority, tasknumber);
