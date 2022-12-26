@@ -12,24 +12,20 @@ export default function Home() {
   const [manager, setManager] = useState({});
   const [teammateList, setTeammateList] = useState([{}]);
 
-  onAuthStateChanged(auth, async (user) => {
+  onAuthStateChanged(auth, (user) => {
     if (user) {
       if (user.uid && once) {
+        onValue(ref(db, `manager/${user.uid}`), (snapshot) => {
+          if (snapshot.exists()) {
+            const data = snapshot.val();
+            setManager(data);
+            console.log(manager);
+            getTeammates(data.teammates);
+          } else {
+            console.log("No data available");
+          }
+        });
         setOnce(false);
-        await onValue(
-          ref(db, `manager/${user.uid}`),
-          (snapshot) => {
-            if (snapshot.exists()) {
-              const data = snapshot.val();
-              setManager(data);
-              console.log(manager);
-              getTeammates(data.teammates);
-            } else {
-              console.log("No data available");
-            }
-          },
-          { onlyOnce: true }
-        );
       }
     } else {
       window.location.href = "/";
