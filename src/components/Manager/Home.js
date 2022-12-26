@@ -3,7 +3,7 @@ import { auth, db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 import HomeBlock from "./HomeBlock";
 import HomeList from "./HomeList";
-import { onValue, ref } from "firebase/database";
+import { onValue, ref, set } from "firebase/database";
 import { onAuthStateChanged } from "firebase/auth";
 
 export default function Home() {
@@ -53,31 +53,8 @@ export default function Home() {
   function handleChange(newValue) {
     setView(newValue);
   }
-  function writeUserData(client, taskTitle, description) {
-    //   var today = new Date();
-    //   set(ref(db, "/teammate/id/tasks/1/"), {
-    //     client: client,
-    //     taskTitle: taskTitle,
-    //     description: description,
-    //     updates: {
-    //       0: {
-    //         date:
-    //           String(today.getDate()).padStart(2, "0") +
-    //           "/" +
-    //           String(today.getMonth() + 1).padStart(2, "0") +
-    //           "/" +
-    //           today.getFullYear(),
-    //         time:
-    //           today.getHours() +
-    //           ":" +
-    //           today.getMinutes() +
-    //           ":" +
-    //           today.getSeconds(),
-    //         corrections: "0",
-    //         status: "Assigned",
-    //       },
-    //     },
-    //   });
+  function writeUserData(newTask, teammateId, index) {
+    set(ref(db, `/teammate/${teammateId}/tasks/${index}/`), newTask);
   }
   return (
     <div>

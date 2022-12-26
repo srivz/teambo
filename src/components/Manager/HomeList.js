@@ -18,11 +18,41 @@ import {
 } from "react-bootstrap";
 
 export default function HomeList(props) {
+  var today = new Date();
   const [selected, setSelected] = useState(null);
-  let done = 0;
+  const [newTask, setNewTask] = useState({
+    client: "",
+    task: "",
+    description: "",
+    updates: {
+      0: {
+        date:
+          String(today.getDate()).padStart(2, "0") +
+          "/" +
+          String(today.getMonth() + 1).padStart(2, "0") +
+          "/" +
+          today.getFullYear(),
+        time:
+          today.getHours() +
+          ":" +
+          today.getMinutes() +
+          ":" +
+          today.getSeconds(),
+        corrections: "0",
+        status: "Assigned",
+      },
+    },
+  });
   function handleViewChange() {
     props.onChange(false);
   }
+  const handleChange = (event) => {
+    let newInput = { [event.target.name]: event.target.value };
+    setNewTask({ ...newTask, ...newInput });
+  };
+  const handleNewTask = (id, index) => {
+    props.addTask(newTask, id, index);
+  };
   return (
     <div id="main">
       <Container>
@@ -121,6 +151,7 @@ export default function HomeList(props) {
                         md={6}
                         style={{ marginTop: "1em" }}
                         className="text-end">
+                        {console.log(info.data.tasks)}
                         <div>
                           <FontAwesomeIcon
                             icon="fa-solid fa-list"
@@ -163,7 +194,11 @@ export default function HomeList(props) {
                                     Client
                                   </Form.Label>
                                   <Col sm="7">
-                                    <Form.Control type="text" />
+                                    <Form.Control
+                                      type="text"
+                                      name="client"
+                                      onChange={handleChange}
+                                    />
                                   </Col>
                                 </Form.Group>
                                 <Form.Group
@@ -177,7 +212,11 @@ export default function HomeList(props) {
                                     Task
                                   </Form.Label>
                                   <Col sm="7">
-                                    <Form.Control type="text" />
+                                    <Form.Control
+                                      type="text"
+                                      name="task"
+                                      onChange={handleChange}
+                                    />
                                   </Col>
                                 </Form.Group>
                                 <Form.Group
@@ -191,7 +230,11 @@ export default function HomeList(props) {
                                     Description
                                   </Form.Label>
                                   <Col sm="7">
-                                    <Form.Control as="textarea" />
+                                    <Form.Control
+                                      as="textarea"
+                                      name="description"
+                                      onChange={handleChange}
+                                    />
                                   </Col>
                                 </Form.Group>
                                 <div
@@ -201,6 +244,12 @@ export default function HomeList(props) {
                                   }}>
                                   <Button
                                     variant="primary"
+                                    onClick={() => {
+                                      handleNewTask(
+                                        info.teammate,
+                                        info.data.tasks.length
+                                      );
+                                    }}
                                     style={{
                                       textAlign: "center",
                                     }}
@@ -260,8 +309,8 @@ export default function HomeList(props) {
                                 <TableRow
                                   key={info1}
                                   style={{
-                                    backgroundColor:
-                                      done === 0 ? "#fff" : "#f9fbff",
+                                    // backgroundColor:
+                                    //   done === 0 ? "#fff" : "#f9fbff",
                                     height: "70px",
                                   }}
                                   className="box-shadow">
@@ -285,7 +334,9 @@ export default function HomeList(props) {
                                             {info2.time}
                                           </TableCell>
                                           <TableCell align="center">
-                                            +{info2.corrections}
+                                            {info2.corrections === 0
+                                              ? info2.corrections
+                                              : "+" + info2.corrections}
                                           </TableCell>
                                           <TableCell
                                             align="center"
