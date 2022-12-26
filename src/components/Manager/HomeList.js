@@ -19,7 +19,7 @@ import {
 } from "react-bootstrap";
 
 export default function HomeList(props) {
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState("TdHCcS7f8iWbiIK4rRdVbg5lGjf1");
   let done = 0;
   function handleViewChange() {
     props.onChange(false);
@@ -59,32 +59,28 @@ export default function HomeList(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {/* {console.log(props.team)} */}
-                  {props.team
-                    .filter((info, id) => id % 2 !== 0)
-                    // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
-                    .map((info, id) => {
-                      return (
-                        <TableRow
-                          key={id}
-                          className="box-shadow"
-                          onClick={() => setSelected(id)}>
-                          {info.id}
-                          <TableCell
-                            style={{
-                              backgroundColor:
-                                selected === id ? "#e2ecff" : "#f9fbff",
-                              height: "fit-content",
-                              borderRadius: "5px",
-                              paddingTop: ".5em",
-                              paddingBottom: "0em",
-                            }}>
-                            <h5>{info.name}</h5>
-                            <p className="grey">{info.designation}</p>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
+                  {console.log(props.team)}
+                  {props.team.map((info) => {
+                    return (
+                      <TableRow
+                        key={info[1]}
+                        className="box-shadow"
+                        onClick={() => setSelected(info[1])}>
+                        <TableCell
+                          style={{
+                            backgroundColor:
+                              selected === info[1] ? "#e2ecff" : "#f9fbff",
+                            height: "fit-content",
+                            borderRadius: "5px",
+                            paddingTop: ".5em",
+                            paddingBottom: "0em",
+                          }}>
+                          <h5>{info.name[0]}</h5>
+                          <p className="grey">{info[0].designation}</p>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </div>
@@ -94,17 +90,17 @@ export default function HomeList(props) {
             md={9}
             style={{ marginTop: "1em" }}>
             {props.team
-              .filter((info, id) => id === selected)
+              .filter((info) => info[1] === selected)
               // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
-              .map((info, id) => {
-                return (
+              .map((info) => {
+                return selected ? (
                   <Row>
                     <Col
                       sm={6}
                       md={6}
                       style={{ marginTop: "1em" }}>
-                      <h5 className="blue">{info.name}</h5>
-                      <h6>{info.designation}</h6>
+                      <h5 className="blue">{info[0].name}</h5>
+                      <h6>{info[0].designation}</h6>
                     </Col>
                     <Col
                       sm={6}
@@ -214,6 +210,8 @@ export default function HomeList(props) {
                       </div>
                     </Col>
                   </Row>
+                ) : (
+                  <></>
                 );
               })}
 
@@ -238,16 +236,17 @@ export default function HomeList(props) {
                   </TableHead>
                   <TableBody className="curve-box-homelist">
                     {props.team
-                      .filter((info, id) => id === selected)
-                      .map((info, id) => {
+                      .filter((info) => info[1] === selected)
+                      .map((info) => {
                         return (
                           <>
-                            {info.tasks
+                            {/* {console.log(info[0])} */}
+                            {info[0].tasks
                               // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
-                              .map((info1, id1) => {
+                              .map((info1) => {
                                 return (
                                   <TableRow
-                                    key={id1}
+                                    key={info1[1]}
                                     style={{
                                       backgroundColor:
                                         done === 0 ? "#fff" : "#f9fbff",
@@ -255,48 +254,48 @@ export default function HomeList(props) {
                                     }}
                                     className="box-shadow">
                                     <TableCell align="center">
-                                      {info1.client}
+                                      {info1[0].client}
                                     </TableCell>
                                     <TableCell align="center">
-                                      {info1.task}
+                                      {info1[0].task}
                                     </TableCell>
-                                    {/* {info1.updates
-                                      .sort((a, b) => (a > b ? 1 : -1))
+                                    {/* {console.log(info1[0])} */}
+                                    {info1[0].updates
                                       // .filter((info2, id2) => id2 === 0)
                                       .map((info2, id2) => {
-                                        return ( */}
-                                    {/* <> */}
-                                    {/* {console.log(info2.corrections)} */}
-                                    <TableCell align="center">
-                                      {/* {info2.date} */}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                      {/* {info2.time} */}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                      {/* +{info2.corrections} */}
-                                    </TableCell>
-                                    <TableCell
-                                      align="center"
-                                      className="green fw-bold">
-                                      {/* {info2.status} */}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                      {/* {info2.status === "Done" ? (
-                                          <Button
-                                            type="Button"
-                                            variant="light"
-                                            style={{
-                                              backgroundColor: "white",
-                                            }}>
-                                            Correction
-                                          </Button>
-                                        ) : (
-                                          <></>
-                                        )} */}
-                                    </TableCell>
-                                    {/* </> */}
-                                    {/* );})} */}
+                                        return (
+                                          <>
+                                            <TableCell align="center">
+                                              {info2.date}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                              {info2.time}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                              +{info2.corrections}
+                                            </TableCell>
+                                            <TableCell
+                                              align="center"
+                                              className="green fw-bold">
+                                              {info2.status}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                              {info2.status === "Done" ? (
+                                                <Button
+                                                  type="Button"
+                                                  variant="light"
+                                                  style={{
+                                                    backgroundColor: "white",
+                                                  }}>
+                                                  Correction
+                                                </Button>
+                                              ) : (
+                                                <></>
+                                              )}
+                                            </TableCell>
+                                          </>
+                                        );
+                                      })}
                                     <TableCell
                                       align="center"
                                       className="text-end">
