@@ -334,7 +334,7 @@ export default function HomeList(props) {
                                             {info2.time}
                                           </TableCell>
                                           <TableCell align="center">
-                                            {info2.corrections === 0
+                                            {info2.corrections === "0"
                                               ? info2.corrections
                                               : "+" + info2.corrections}
                                           </TableCell>
