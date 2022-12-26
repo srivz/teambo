@@ -272,40 +272,46 @@ export default function HomeList(props) {
                                   <TableCell align="center">
                                     {info1.task}
                                   </TableCell>
-                                  {info1.updates.map((info2, id2) => {
-                                    return (
-                                      <TableRow>
-                                        <TableCell align="center">
-                                          {info2.date}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                          {info2.time}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                          +{info2.corrections}
-                                        </TableCell>
-                                        <TableCell
-                                          align="center"
-                                          className="green fw-bold">
-                                          {info2.status}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                          {info2.status === "Done" ? (
-                                            <Button
-                                              type="Button"
-                                              variant="light"
-                                              style={{
-                                                backgroundColor: "white",
-                                              }}>
-                                              Correction
-                                            </Button>
-                                          ) : (
-                                            <></>
-                                          )}
-                                        </TableCell>
-                                      </TableRow>
-                                    );
-                                  })}
+                                  {info1.updates
+                                    .sort((a, b) =>
+                                      a.corrections > b.corrections ? -1 : 1
+                                    )
+                                    .map((info2, id2) => {
+                                      return id2 === 0 ? (
+                                        <>
+                                          <TableCell align="center">
+                                            {info2.date}
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            {info2.time}
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            +{info2.corrections}
+                                          </TableCell>
+                                          <TableCell
+                                            align="center"
+                                            className="green fw-bold">
+                                            {info2.status}
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            {info2.status === "Done" ? (
+                                              <Button
+                                                type="Button"
+                                                variant="light"
+                                                style={{
+                                                  backgroundColor: "white",
+                                                }}>
+                                                Correction
+                                              </Button>
+                                            ) : (
+                                              <></>
+                                            )}
+                                          </TableCell>
+                                        </>
+                                      ) : (
+                                        <></>
+                                      );
+                                    })}
                                   <TableCell
                                     align="center"
                                     className="text-end">
