@@ -3,7 +3,7 @@ import { auth, db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 import HomeBlock from "./HomeBlock";
 import HomeList from "./HomeList";
-import { onValue, ref, set } from "firebase/database";
+import { onValue, ref, set, update } from "firebase/database";
 import { onAuthStateChanged } from "firebase/auth";
 
 export default function Home() {
@@ -60,6 +60,11 @@ export default function Home() {
       }
     );
   }
+  function deleteCurrentTask(teammateId, index) {
+    set(ref(db, `/teammate/${teammateId}/tasks/${index}/`), {}).then(() => {
+      window.location.reload();
+    });
+  }
   return (
     <div>
       <NavBar
@@ -74,6 +79,7 @@ export default function Home() {
           team={teammateList}
           onChange={handleChange}
           addTask={writeUserData}
+          deleteTask={deleteCurrentTask}
         />
       ) : (
         <HomeBlock

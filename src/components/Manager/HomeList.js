@@ -53,6 +53,9 @@ export default function HomeList(props) {
   const handleNewTask = (id, index) => {
     props.addTask(newTask, id, index);
   };
+  const handleDeleteTask = (id, index) => {
+    props.deleteTask(id, index);
+  };
   return (
     <div id="main">
       <Container>
@@ -304,151 +307,165 @@ export default function HomeList(props) {
                       .map((info) => {
                         return (
                           <>
-                            {info.data.tasks.map((info1) => {
-                              return (
-                                <TableRow
-                                  key={info1}
-                                  style={{
-                                    // backgroundColor:
-                                    //   done === 0 ? "#fff" : "#f9fbff",
-                                    height: "70px",
-                                  }}
-                                  className="box-shadow">
-                                  <TableCell align="center">
-                                    {info1.client}
-                                  </TableCell>
-                                  <TableCell align="center">
-                                    {info1.task}
-                                  </TableCell>
-                                  {info1.updates
-                                    .sort((a, b) =>
-                                      a.corrections > b.corrections ? -1 : 1
-                                    )
-                                    .map((info2, id2) => {
-                                      return id2 === 0 ? (
-                                        <>
-                                          <TableCell align="center">
-                                            {info2.date}
-                                          </TableCell>
-                                          <TableCell align="center">
-                                            {info2.time}
-                                          </TableCell>
-                                          <TableCell align="center">
-                                            {info2.corrections === "0"
-                                              ? info2.corrections
-                                              : "+" + info2.corrections}
-                                          </TableCell>
-                                          <TableCell
-                                            align="center"
-                                            className="green fw-bold">
-                                            {info2.status}
-                                          </TableCell>
-                                          <TableCell align="center">
-                                            {info2.status === "Done" ? (
-                                              <Button
-                                                type="Button"
-                                                variant="light"
+                            {!info.data.tasks ? (
+                              <TableRow
+                                colSpan={7}
+                                align="center">
+                                No tasks assigned
+                              </TableRow>
+                            ) : (
+                              info.data.tasks.map((info1, index) => {
+                                return (
+                                  <TableRow
+                                    key={info1}
+                                    style={{
+                                      // backgroundColor:
+                                      //   done === 0 ? "#fff" : "#f9fbff",
+                                      height: "70px",
+                                    }}
+                                    className="box-shadow">
+                                    <TableCell align="center">
+                                      {info1.client}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {info1.task}
+                                    </TableCell>
+                                    {info1.updates
+                                      .sort((a, b) =>
+                                        a.corrections > b.corrections ? -1 : 1
+                                      )
+                                      .map((info2, id2) => {
+                                        return id2 === 0 ? (
+                                          <>
+                                            <TableCell align="center">
+                                              {info2.date}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                              {info2.time}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                              {info2.corrections === "0"
+                                                ? info2.corrections
+                                                : "+" + info2.corrections}
+                                            </TableCell>
+                                            <TableCell
+                                              align="center"
+                                              className="green fw-bold">
+                                              {info2.status}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                              {info2.status === "Done" ? (
+                                                <Button
+                                                  type="Button"
+                                                  variant="light"
+                                                  style={{
+                                                    backgroundColor: "white",
+                                                  }}>
+                                                  Correction
+                                                </Button>
+                                              ) : (
+                                                <></>
+                                              )}
+                                            </TableCell>
+                                          </>
+                                        ) : (
+                                          <></>
+                                        );
+                                      })}
+                                    <TableCell
+                                      align="center"
+                                      className="text-end">
+                                      <OverlayTrigger
+                                        trigger="click"
+                                        key="bottom"
+                                        placement="auto"
+                                        rootClose
+                                        overlay={
+                                          <Popover
+                                            id={`popover-positioned-bottom`}>
+                                            <Popover.Body>
+                                              <div
+                                                className="d-grid gap-2"
                                                 style={{
-                                                  backgroundColor: "white",
+                                                  marginBottom: ".5em",
                                                 }}>
-                                                Correction
-                                              </Button>
-                                            ) : (
-                                              <></>
-                                            )}
-                                          </TableCell>
-                                        </>
-                                      ) : (
-                                        <></>
-                                      );
-                                    })}
-                                  <TableCell
-                                    align="center"
-                                    className="text-end">
-                                    <OverlayTrigger
-                                      trigger="click"
-                                      key="bottom"
-                                      placement="auto"
-                                      rootClose
-                                      overlay={
-                                        <Popover
-                                          id={`popover-positioned-bottom`}>
-                                          <Popover.Body>
-                                            <div
-                                              className="d-grid gap-2"
-                                              style={{
-                                                marginBottom: ".5em",
-                                              }}>
-                                              <Button
-                                                variant="light"
-                                                style={{
-                                                  textAlign: "left",
-                                                }}
-                                                block>
-                                                <FontAwesomeIcon
-                                                  icon="fa-solid fa-trash"
-                                                  style={{
-                                                    paddingRight: ".5em",
+                                                <Button
+                                                  onClick={() => {
+                                                    handleDeleteTask(
+                                                      info.teammate,
+                                                      index
+                                                    );
                                                   }}
-                                                />
-                                                Delete Task
-                                              </Button>
-                                            </div>
-                                            <div
-                                              className="d-grid gap-2"
-                                              style={{
-                                                marginBottom: ".5em",
-                                              }}>
-                                              <Button
-                                                variant="light"
-                                                style={{
-                                                  textAlign: "left",
-                                                }}
-                                                block>
-                                                <FontAwesomeIcon
-                                                  icon="fa-solid fa-chevron-up"
+                                                  variant="light"
                                                   style={{
-                                                    paddingRight: ".5em",
+                                                    textAlign: "left",
                                                   }}
-                                                />
-                                                Move Up
-                                              </Button>
-                                            </div>
-                                            <div
-                                              className="d-grid gap-2"
-                                              style={{
-                                                marginBottom: ".5em",
-                                              }}>
-                                              <Button
-                                                variant="light"
+                                                  block>
+                                                  <FontAwesomeIcon
+                                                    icon="fa-solid fa-trash"
+                                                    style={{
+                                                      paddingRight: ".5em",
+                                                    }}
+                                                  />
+                                                  Delete Task
+                                                </Button>
+                                              </div>
+                                              <div
+                                                className="d-grid gap-2"
                                                 style={{
-                                                  textAlign: "left",
-                                                }}
-                                                block>
-                                                <FontAwesomeIcon
-                                                  icon="fa-solid fa-chevron-down"
+                                                  marginBottom: ".5em",
+                                                }}>
+                                                <Button
+                                                  variant="light"
                                                   style={{
-                                                    paddingRight: ".5em",
+                                                    textAlign: "left",
                                                   }}
-                                                />
-                                                Move Down
-                                              </Button>
-                                            </div>
-                                          </Popover.Body>
-                                        </Popover>
-                                      }>
-                                      <FontAwesomeIcon
-                                        icon="fa-solid fa-ellipsis-vertical"
-                                        style={{
-                                          color: "blue",
-                                          paddingRight: ".25em",
-                                        }}
-                                      />
-                                    </OverlayTrigger>
-                                  </TableCell>
-                                </TableRow>
-                              );
-                            })}
+                                                  block>
+                                                  <FontAwesomeIcon
+                                                    icon="fa-solid fa-chevron-up"
+                                                    style={{
+                                                      paddingRight: ".5em",
+                                                    }}
+                                                  />
+                                                  Move Up
+                                                </Button>
+                                              </div>
+                                              <div
+                                                className="d-grid gap-2"
+                                                style={{
+                                                  marginBottom: ".5em",
+                                                }}>
+                                                <Button
+                                                  variant="light"
+                                                  style={{
+                                                    textAlign: "left",
+                                                  }}
+                                                  block>
+                                                  <FontAwesomeIcon
+                                                    icon="fa-solid fa-chevron-down"
+                                                    style={{
+                                                      paddingRight: ".5em",
+                                                    }}
+                                                  />
+                                                  Move Down
+                                                </Button>
+                                              </div>
+                                            </Popover.Body>
+                                          </Popover>
+                                        }>
+                                        <FontAwesomeIcon
+                                          icon="fa-solid fa-ellipsis-vertical"
+                                          style={{
+                                            color: "blue",
+                                            paddingRight: ".25em",
+                                          }}
+                                        />
+                                      </OverlayTrigger>
+                                    </TableCell>
+                                  </TableRow>
+                                );
+                              })
+                            )}
                           </>
                         );
                       })}
