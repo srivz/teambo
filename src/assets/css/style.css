@@ -45,6 +45,12 @@ body {
 .bg-blue {
   background-color: var(--blue);
 }
+.pointer{
+  cursor: pointer;;
+}
+.signuplink{
+  text-decoration: none;
+}
 .letter-spacing {
   letter-spacing: 10px;
 }

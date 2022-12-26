@@ -5,7 +5,6 @@ import image1 from "../assets/images/Group 8.png";
 import rect from "../assets/images/Rectangle 4.svg";
 import Icon_feather_check from "../assets/images/Icon feather-check.svg";
 import { Link } from "react-router-dom";
-
 export default function LoginHome() {
   return (
     <div id="main">
@@ -16,7 +15,7 @@ export default function LoginHome() {
             md="6"
             className="">
             <img
-              class="w-100"
+              className="w-100"
               src={image1}
               alt=""
             />
@@ -26,7 +25,7 @@ export default function LoginHome() {
             md="6"
             className="text-center">
             <img
-              class="w-75 "
+              className="w-75 "
               src={logo}
               alt=""
             />
@@ -39,11 +38,11 @@ export default function LoginHome() {
                 <Button
                   variant="light"
                   type="button"
-                  class="w-75">
+                  className="w-75">
                   <img
                     src={rect}
                     alt=""
-                  />
+                  />{" "}
                   Manager Login
                 </Button>
               </Link>
@@ -53,8 +52,7 @@ export default function LoginHome() {
                 <Button
                   variant="light"
                   type="button"
-                  class="w-75">
-                  {" "}
+                  className="w-75">
                   <img
                     src={Icon_feather_check}
                     alt=""
@@ -65,9 +63,11 @@ export default function LoginHome() {
             </Row>
             <h6 style={{ marginTop: "1.5em" }}>
               Don't have an account?{" "}
-              <span class="blue">
-                <a href="/signUp">Signup</a>
-              </span>
+              <Link
+                to="/signUp"
+                className="signuplink">
+                <span className="blue">Signup</span>
+              </Link>
             </h6>
           </Col>
         </Row>

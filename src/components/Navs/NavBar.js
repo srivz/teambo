@@ -1,3 +1,5 @@
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase-config";
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import logo from "../../assets/images/Group 3.svg";
@@ -34,9 +36,9 @@ export default function NavBar({ user, name, role }) {
             <span class="border-left"></span>
             <span
               onClick={() => {
-                window.location.href = "/";
+                signOut(auth);
               }}
-              class="blue"
+              class="blue pointer"
               style={{ marginTop: ".5em" }}>
               Log Out
             </span>
