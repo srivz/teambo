@@ -3,7 +3,7 @@ import { auth, db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 import HomeBlock from "./HomeBlock";
 import HomeList from "./HomeList";
-import { onValue, ref, remove, set, update } from "firebase/database";
+import { onValue, ref, remove, set } from "firebase/database";
 import { onAuthStateChanged } from "firebase/auth";
 
 export default function Home() {
@@ -71,12 +71,16 @@ export default function Home() {
         console.log(err);
       });
   }
-  function downCurrentTask(teammateId, index) {
-    set(ref(db, `/teammate/${teammateId}/tasks/${index}/priority`), index - 1)
+  function downCurrentTask(teammateId, priority, index) {
+    set(
+      ref(db, `/teammate/${teammateId}/tasks/${index}/priority`),
+      priority - 1
+    )
       .then(() => {
-        update(ref(db, `/teammate/${teammateId}/tasks/${index - 1}/`), {
-          priority: index,
-        })
+        set(
+          ref(db, `/teammate/${teammateId}/tasks/${index - 1}/priority`),
+          priority
+        )
           .then(() => {
             window.location.reload();
           })
@@ -88,12 +92,16 @@ export default function Home() {
         console.log(err);
       });
   }
-  function upCurrentTask(teammateId, index) {
-    set(ref(db, `/teammate/${teammateId}/tasks/${index}/priority`), index + 1)
+  function upCurrentTask(teammateId, priority, index) {
+    set(
+      ref(db, `/teammate/${teammateId}/tasks/${index}/priority`),
+      priority + 1
+    )
       .then(() => {
-        update(ref(db, `/teammate/${teammateId}/tasks/${index + 1}/`), {
-          priority: index,
-        })
+        set(
+          ref(db, `/teammate/${teammateId}/tasks/${index + 1}/priority`),
+          priority
+        )
           .then(() => {
             window.location.reload();
           })
