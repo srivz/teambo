@@ -32,8 +32,9 @@ export default function Home() {
       window.location.href = "/";
     }
   });
+
   const getTeammates = (teamList) => {
-    if (once1) {
+    if (once1)
       teamList.forEach((teammate) => {
         onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
           if (snapshot.exists()) {
@@ -47,7 +48,6 @@ export default function Home() {
           }
         });
       });
-    }
     setOnce1(false);
   };
   function handleChange(newValue) {
