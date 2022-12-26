@@ -54,7 +54,11 @@ export default function Home() {
     setView(newValue);
   }
   function writeUserData(newTask, teammateId, index) {
-    set(ref(db, `/teammate/${teammateId}/tasks/${index}/`), newTask);
+    set(ref(db, `/teammate/${teammateId}/tasks/${index}/`), newTask).then(
+      () => {
+        window.location.reload();
+      }
+    );
   }
   return (
     <div>
