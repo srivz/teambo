@@ -160,11 +160,11 @@ export default function HomeList(props) {
             md={9}
             style={{ marginTop: "1em" }}>
             {!selected ? (
-              <TableRow
+              <Row
                 colSpan={7}
                 align="center">
                 Select a teammate
-              </TableRow>
+              </Row>
             ) : (
               props.team
                 .filter((info) => info.teammate === selected)
