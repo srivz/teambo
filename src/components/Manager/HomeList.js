@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import {
-  Collapse,
   Button,
   Col,
   Container,
@@ -20,6 +19,7 @@ import {
 
 export default function HomeList(props) {
   const [selected, setSelected] = useState("TdHCcS7f8iWbiIK4rRdVbg5lGjf1");
+  const teammateList = useState(props.team);
   let done = 0;
   function handleViewChange() {
     props.onChange(false);
@@ -59,28 +59,38 @@ export default function HomeList(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {console.log(props.team)}
-                  {props.team.map((info) => {
-                    return (
-                      <TableRow
-                        key={info[1]}
-                        className="box-shadow"
-                        onClick={() => setSelected(info[1])}>
-                        <TableCell
-                          style={{
-                            backgroundColor:
-                              selected === info[1] ? "#e2ecff" : "#f9fbff",
-                            height: "fit-content",
-                            borderRadius: "5px",
-                            paddingTop: ".5em",
-                            paddingBottom: "0em",
-                          }}>
-                          <h5>{info.name[0]}</h5>
-                          <p className="grey">{info[0].designation}</p>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
+                  {/* {console.log(props.team)} */}
+                  {!teammateList ? (
+                    <TableRow
+                      colSpan={7}
+                      align="center">
+                      No teammate right now
+                    </TableRow>
+                  ) : (
+                    teammateList.map((info) => {
+                      return (
+                        <>
+                          <TableRow
+                            key={info[1]}
+                            className="box-shadow"
+                            onClick={() => setSelected(info[1])}>
+                            <TableCell
+                              style={{
+                                backgroundColor:
+                                  selected === info[1] ? "#e2ecff" : "#f9fbff",
+                                height: "fit-content",
+                                borderRadius: "5px",
+                                paddingTop: ".5em",
+                                paddingBottom: "0em",
+                              }}>
+                              <h5>{info[0].name}</h5>
+                              <p className="grey">{info[0].designation}</p>
+                            </TableCell>
+                          </TableRow>
+                        </>
+                      );
+                    })
+                  )}
                 </TableBody>
               </Table>
             </div>
@@ -89,131 +99,138 @@ export default function HomeList(props) {
             sm={9}
             md={9}
             style={{ marginTop: "1em" }}>
-            {props.team
-              .filter((info) => info[1] === selected)
-              // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
-              .map((info) => {
-                return selected ? (
-                  <Row>
-                    <Col
-                      sm={6}
-                      md={6}
-                      style={{ marginTop: "1em" }}>
-                      <h5 className="blue">{info[0].name}</h5>
-                      <h6>{info[0].designation}</h6>
-                    </Col>
-                    <Col
-                      sm={6}
-                      md={6}
-                      style={{ marginTop: "1em" }}
-                      className="text-end">
-                      <div>
-                        <FontAwesomeIcon
-                          icon="fa-solid fa-list"
-                          color="#5f8fee"
-                          style={{ paddingRight: "1em" }}
-                        />
+            {/* {!props.team ? (
+              <TableRow
+                colSpan={7}
+                align="center">
+                No teammate right now
+              </TableRow>
+            ) : (
+              props.team
+                .filter((info) => info[1] === selected)
+                .map((info) => {
+                  return selected ? ( */}
+            <Row>
+              <Col
+                sm={6}
+                md={6}
+                style={{ marginTop: "1em" }}>
+                {/* <h5 className="blue">{info[0].name}</h5>
+                        <h6>{info[0].designation}</h6> */}
+              </Col>
+              <Col
+                sm={6}
+                md={6}
+                style={{ marginTop: "1em" }}
+                className="text-end">
+                <div>
+                  <FontAwesomeIcon
+                    icon="fa-solid fa-list"
+                    color="#5f8fee"
+                    style={{ paddingRight: "1em" }}
+                  />
 
-                        <FontAwesomeIcon
-                          onClick={() => {
-                            handleViewChange();
-                          }}
-                          icon="fa-solid fa-grip "
-                          style={{ paddingRight: "1em" }}
-                        />
-                        <OverlayTrigger
-                          trigger="click"
-                          key="bottom"
-                          placement="bottom"
-                          rootClose
-                          overlay={
-                            <div
-                              className="bg-white"
-                              style={{
-                                padding: "1em",
-                                marginTop: "10px",
-                                marginLeft: "-50px",
-                                width: "400px",
-                                boxShadow: "rgba(0, 0, 0, 0.15) 1px 3px 5px",
-                              }}>
-                              <h5 className="blue">{info.name}</h5>
-                              <h6>{info.designation}</h6>
-                              <Form.Group
-                                as={Row}
-                                className="mb-3"
-                                controlId="formPlaintext1">
-                                <Form.Label
-                                  column
-                                  sm="4"
-                                  md="4">
-                                  Client
-                                </Form.Label>
-                                <Col sm="7">
-                                  <Form.Control type="text" />
-                                </Col>
-                              </Form.Group>
-                              <Form.Group
-                                as={Row}
-                                className="mb-3"
-                                controlId="formPlaintext2">
-                                <Form.Label
-                                  column
-                                  md="4"
-                                  sm="4">
-                                  Task
-                                </Form.Label>
-                                <Col sm="7">
-                                  <Form.Control type="text" />
-                                </Col>
-                              </Form.Group>
-                              <Form.Group
-                                as={Row}
-                                className="mb-3"
-                                controlId="formPlaintext3">
-                                <Form.Label
-                                  column
-                                  md="4"
-                                  sm="4">
-                                  Description
-                                </Form.Label>
-                                <Col sm="7">
-                                  <Form.Control as="textarea" />
-                                </Col>
-                              </Form.Group>
-                              <div
-                                className="d-grid gap-2"
-                                style={{
-                                  marginBottom: ".5em",
-                                }}>
-                                <Button
-                                  variant="primary"
-                                  style={{
-                                    textAlign: "center",
-                                  }}
-                                  block>
-                                  Assign
-                                </Button>
-                              </div>
-                            </div>
-                          }>
+                  <FontAwesomeIcon
+                    onClick={() => {
+                      handleViewChange();
+                    }}
+                    icon="fa-solid fa-grip "
+                    style={{ paddingRight: "1em" }}
+                  />
+                  <OverlayTrigger
+                    trigger="click"
+                    key="bottom"
+                    placement="bottom"
+                    rootClose
+                    overlay={
+                      <div
+                        className="bg-white"
+                        style={{
+                          padding: "1em",
+                          marginTop: "10px",
+                          marginLeft: "-50px",
+                          width: "400px",
+                          boxShadow: "rgba(0, 0, 0, 0.15) 1px 3px 5px",
+                        }}>
+                        {/* <h5 className="blue">{info.name}</h5>
+                                <h6>{info.designation}</h6> */}
+                        <Form.Group
+                          as={Row}
+                          className="mb-3"
+                          controlId="formPlaintext1">
+                          <Form.Label
+                            column
+                            sm="4"
+                            md="4">
+                            Client
+                          </Form.Label>
+                          <Col sm="7">
+                            <Form.Control type="text" />
+                          </Col>
+                        </Form.Group>
+                        <Form.Group
+                          as={Row}
+                          className="mb-3"
+                          controlId="formPlaintext2">
+                          <Form.Label
+                            column
+                            md="4"
+                            sm="4">
+                            Task
+                          </Form.Label>
+                          <Col sm="7">
+                            <Form.Control type="text" />
+                          </Col>
+                        </Form.Group>
+                        <Form.Group
+                          as={Row}
+                          className="mb-3"
+                          controlId="formPlaintext3">
+                          <Form.Label
+                            column
+                            md="4"
+                            sm="4">
+                            Description
+                          </Form.Label>
+                          <Col sm="7">
+                            <Form.Control as="textarea" />
+                          </Col>
+                        </Form.Group>
+                        <div
+                          className="d-grid gap-2"
+                          style={{
+                            marginBottom: ".5em",
+                          }}>
                           <Button
-                            type="Button"
-                            variant="light"
-                            className="bg-white box-shadow rounded-4">
-                            <FontAwesomeIcon
-                              icon="fa-regular fa-square-plus"
-                              style={{ paddingRight: ".5em" }}
-                            />
-                            New Task
+                            variant="primary"
+                            style={{
+                              textAlign: "center",
+                            }}
+                            block>
+                            Assign
                           </Button>
-                        </OverlayTrigger>
+                        </div>
                       </div>
-                    </Col>
-                  </Row>
-                ) : (
-                  <></>
-                );
-              })}
+                    }>
+                    <Button
+                      type="Button"
+                      variant="light"
+                      className="bg-white box-shadow rounded-4">
+                      <FontAwesomeIcon
+                        icon="fa-regular fa-square-plus"
+                        style={{ paddingRight: ".5em" }}
+                      />
+                      New Task
+                    </Button>
+                  </OverlayTrigger>
+                </div>
+              </Col>
+            </Row>
+            {/* ) : (
+                    <></>
+                  );
+                })
+            )} */}
 
             <Row>
               <Col>
@@ -235,14 +252,12 @@ export default function HomeList(props) {
                     </TableRow>
                   </TableHead>
                   <TableBody className="curve-box-homelist">
-                    {props.team
+                    {/* {props.team
                       .filter((info) => info[1] === selected)
                       .map((info) => {
                         return (
                           <>
-                            {/* {console.log(info[0])} */}
                             {info[0].tasks
-                              // .sort((a, b) => (a.dateJoined > b.dateJoined ? -1 : 1))
                               .map((info1) => {
                                 return (
                                   <TableRow
@@ -259,9 +274,7 @@ export default function HomeList(props) {
                                     <TableCell align="center">
                                       {info1[0].task}
                                     </TableCell>
-                                    {/* {console.log(info1[0])} */}
                                     {info1[0].updates
-                                      // .filter((info2, id2) => id2 === 0)
                                       .map((info2, id2) => {
                                         return (
                                           <>
@@ -386,8 +399,8 @@ export default function HomeList(props) {
                               })}
                           </>
                         );
-                      })}
-
+                      })} 
+*/}
                     <TableRow
                       style={{
                         backgroundColor: done === 1 ? "#fff" : "#f9fbff",
