@@ -11,7 +11,10 @@ export default function SignUpResponse() {
           alt=""
         />
         <h3 class="mt-5">
-          Hi, <span class="blue">Shiva! </span>
+          Hi,{" "}
+          <span class="blue">
+            {JSON.parse(localStorage.getItem("currentUser"))}!{" "}
+          </span>
         </h3>
         <h3>Thank you for signing up</h3>
         <p class="grey mt-4">

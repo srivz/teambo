@@ -7,7 +7,6 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { ref, set } from "firebase/database";
-import { Link } from "react-router-dom";
 
 export default function Signup() {
   const [user, setUser] = useState({
@@ -36,14 +35,14 @@ export default function Signup() {
         name: user.name,
         email: userLog.email,
         teammates: [],
-      });
+      }).then(() => (window.location.href = "/signUp/response"));
     } else {
       set(ref(db, "/teammate/" + currentUser.uid), {
         company: user.companyName,
         designation: user.designation,
         name: user.name,
         email: userLog.email,
-      });
+      }).then(() => (window.location.href = "/signUp/response"));
     }
   };
 
@@ -70,6 +69,7 @@ export default function Signup() {
       alert("Password should be atleast 6 characters!!!");
     } else {
       if (userLog.password === userLog.confirmPassword) {
+        localStorage.setItem("currentUser", JSON.stringify(user.name));
         registerLogin();
       } else {
         alert("Passwords does not match!!");
@@ -184,13 +184,11 @@ export default function Signup() {
               </div>
             </div>
           </div>
-          <Link to="/signUp/response">
-            <button
-              type="submit"
-              className="btn btn-primary bg-blue w-100 rounded-4 mt-4">
-              Sign Up
-            </button>
-          </Link>
+          <button
+            type="submit"
+            className="btn btn-primary bg-blue w-100 rounded-4 mt-4">
+            Sign Up
+          </button>
         </form>
       </div>
     </div>
