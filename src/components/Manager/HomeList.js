@@ -100,9 +100,10 @@ export default function HomeList(props) {
     if (index === taskLength - 1) {
       alert("Its already on the bottom")
     } else {
-      swap(tasks, index, index + 1);
+      let newarr = tasks;
+      swap(newarr, index, index + 1);
       update(ref(db, `teammate / ${id}`), {
-        tasks
+        tasks: newarr
       })
       window.location.reload();
     }
