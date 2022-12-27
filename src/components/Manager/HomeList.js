@@ -101,8 +101,8 @@ export default function HomeList(props) {
       alert("Its already on the bottom")
     } else {
       let newarr = tasks;
-      swap(newarr, index, index + 1);
-      update(ref(db, `teammate / ${id}`), {
+      swap(newarr, index + 1, index);
+      update(ref(db, `teammate/${id}/`), {
         tasks: newarr
       })
       window.location.reload();
