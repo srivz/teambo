@@ -163,7 +163,129 @@ export default function HomeList(props) {
               <Row
                 colSpan={7}
                 align="center">
-                Select a teammate
+                <Col
+                  sm={6}
+                  md={6}
+                  style={{ marginTop: "1em" }}>
+                  <h5 className="blue">No Teammate</h5>
+                  <h6>Selected</h6>
+                </Col>
+                <Col
+                  sm={6}
+                  md={6}
+                  style={{ marginTop: "1em" }}
+                  className="text-end">
+                  <div>
+                    <FontAwesomeIcon
+                      icon="fa-solid fa-list"
+                      color="#5f8fee"
+                      style={{ paddingRight: "1em" }}
+                    />
+
+                    <FontAwesomeIcon
+                      onClick={() => {
+                        handleViewChange();
+                      }}
+                      icon="fa-solid fa-grip "
+                      style={{ paddingRight: "1em" }}
+                    />
+                    <OverlayTrigger
+                      trigger="click"
+                      key="bottom"
+                      placement="bottom"
+                      rootClose
+                      overlay={
+                        <div
+                          className="bg-white"
+                          style={{
+                            padding: "1em",
+                            marginTop: "10px",
+                            marginLeft: "-50px",
+                            width: "400px",
+                            boxShadow: "rgba(0, 0, 0, 0.15) 1px 3px 5px",
+                          }}>
+                          <h5 className="blue">No Teammate</h5>
+                          <h6>Selected</h6>
+                          <Form.Group
+                            as={Row}
+                            className="mb-3"
+                            controlId="formPlaintext1">
+                            <Form.Label
+                              column
+                              sm="4"
+                              md="4">
+                              Client
+                            </Form.Label>
+                            <Col sm="7">
+                              <Form.Control
+                                type="text"
+                                name="client"
+                              />
+                            </Col>
+                          </Form.Group>
+                          <Form.Group
+                            as={Row}
+                            className="mb-3"
+                            controlId="formPlaintext2">
+                            <Form.Label
+                              column
+                              md="4"
+                              sm="4">
+                              Task
+                            </Form.Label>
+                            <Col sm="7">
+                              <Form.Control
+                                type="text"
+                                name="task"
+                              />
+                            </Col>
+                          </Form.Group>
+                          <Form.Group
+                            as={Row}
+                            className="mb-3"
+                            controlId="formPlaintext3">
+                            <Form.Label
+                              column
+                              md="4"
+                              sm="4">
+                              Description
+                            </Form.Label>
+                            <Col sm="7">
+                              <Form.Control
+                                as="textarea"
+                                name="description"
+                              />
+                            </Col>
+                          </Form.Group>
+                          <div
+                            className="d-grid gap-2"
+                            style={{
+                              marginBottom: ".5em",
+                            }}>
+                            <Button
+                              variant="primary"
+                              style={{
+                                textAlign: "center",
+                              }}
+                              block>
+                              Assign
+                            </Button>
+                          </div>
+                        </div>
+                      }>
+                      <Button
+                        type="Button"
+                        variant="light"
+                        className="bg-white box-shadow rounded-4">
+                        <FontAwesomeIcon
+                          icon="fa-regular fa-square-plus"
+                          style={{ paddingRight: ".5em" }}
+                        />
+                        New Task
+                      </Button>
+                    </OverlayTrigger>
+                  </div>
+                </Col>
               </Row>
             ) : (
               props.team
