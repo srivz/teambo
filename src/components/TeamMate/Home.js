@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { NoEncryption } from "@mui/icons-material";
 import {
   Table,
   TableBody,
@@ -14,7 +15,6 @@ import { auth, db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 
 export default function Home() {
-  let done = 0;
   const [once, setOnce] = useState(true);
   const [teammate, setTeammate] = useState({});
   const [id, setId] = useState("");
@@ -83,7 +83,6 @@ export default function Home() {
                     <TableHead>
                       <TableRow
                         style={{
-                          backgroundColor: done === 0 ? "#fff" : "#f9fbff",
                           height: "70px",
                         }}>
                         <TableCell
@@ -136,8 +135,6 @@ export default function Home() {
                             <>
                               <TableRow
                                 style={{
-                                  backgroundColor:
-                                    done === 0 ? "#fff" : "#f9fbff",
                                   height: "70px",
                                 }}
                                 className="box-shadow"
@@ -197,7 +194,67 @@ export default function Home() {
                                         info.updates[info.updates.length - 1]
                                           .status
                                       }
-                                    </TableCell>{" "}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      <FontAwesomeIcon
+                                        icon="fa-solid fa-circle-play"
+                                        size="lg"
+                                        style={{
+                                          pointerEvents:
+                                            info.updates[
+                                              info.updates.length - 1
+                                            ].status === "Done"
+                                              ? "none"
+                                              : "",
+                                          margin: ".5em",
+                                          cursor: "pointer",
+                                        }}
+                                        color="green"
+                                        onClick={(e) => {
+                                          playTask(
+                                            e,
+                                            index,
+                                            info.updates?.length
+                                          );
+                                        }}
+                                      />
+                                      <FontAwesomeIcon
+                                        icon="fa-solid fa-circle-pause"
+                                        size="lg"
+                                        style={{
+                                          pointerEvents:
+                                            info.updates[
+                                              info.updates.length - 1
+                                            ].status === "Done"
+                                              ? "none"
+                                              : "",
+                                          margin: ".5em",
+                                          cursor: "pointer",
+                                        }}
+                                        onClick={(e) => {
+                                          pauseTask(
+                                            e,
+                                            index,
+                                            info.updates?.length
+                                          );
+                                        }}
+                                      />
+                                      <FontAwesomeIcon
+                                        icon="fa-solid fa-circle-check"
+                                        size="lg"
+                                        style={{
+                                          margin: ".5em",
+                                          cursor: "pointer",
+                                        }}
+                                        onClick={(e) => {
+                                          completeTask(
+                                            e,
+                                            index,
+                                            info.updates?.length
+                                          );
+                                        }}
+                                      />
+                                    </TableCell>
                                   </>
                                 ) : (
                                   <>
@@ -220,47 +277,6 @@ export default function Home() {
                                     </TableCell>
                                   </>
                                 )}
-
-                                <TableCell align="center">
-                                  <FontAwesomeIcon
-                                    icon="fa-solid fa-circle-play"
-                                    size="lg"
-                                    style={{
-                                      margin: ".5em",
-                                      cursor: "pointer",
-                                    }}
-                                    color="green"
-                                    onClick={(e) => {
-                                      playTask(e, index, info.updates?.length);
-                                    }}
-                                  />
-                                  <FontAwesomeIcon
-                                    icon="fa-solid fa-circle-pause"
-                                    size="lg"
-                                    style={{
-                                      margin: ".5em",
-                                      cursor: "pointer",
-                                    }}
-                                    onClick={(e) => {
-                                      pauseTask(e, index, info.updates?.length);
-                                    }}
-                                  />
-                                  <FontAwesomeIcon
-                                    icon="fa-solid fa-circle-check"
-                                    size="lg"
-                                    style={{
-                                      margin: ".5em",
-                                      cursor: "pointer",
-                                    }}
-                                    onClick={(e) => {
-                                      completeTask(
-                                        e,
-                                        index,
-                                        info.updates?.length
-                                      );
-                                    }}
-                                  />
-                                </TableCell>
                               </TableRow>
                             </>
                           );
