@@ -49,7 +49,7 @@ export default function HomeBlock(props) {
     newTask.priority = tasknumber;
     newTask.tasknumber = tasknumber;
     await props.addTask(newTask, id, tasknumber);
-    await window.location.reload();
+    window.location.reload();
   };
   return (
     <div id="main">
@@ -400,7 +400,8 @@ export default function HomeBlock(props) {
                     );
                   })
                 )}
-                {/* 
+                {
+                  /* 
                 <div>
                   <div className="cards">
                     <div className="heading bg-blue p-3 rounded-3">

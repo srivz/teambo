@@ -21,7 +21,7 @@ export default function LoginTeam({ text, user, name, role }) {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
-        if (user.displayName === "manager") {
+        if (user.displayName === "Manager") {
           window.location.href = "/manager/home";
         } else {
           window.location.href = "/teammate/home";

@@ -25,11 +25,7 @@ export default function Home() {
         onValue(ref(db, `teammate/${user.uid}`), (snapshot) => {
           if (snapshot.exists()) {
             setTeammate(snapshot.val());
-<<<<<<< HEAD
-            setId(user.uid)
-=======
             setId(user.uid);
->>>>>>> fb127afcc695e30315dccbe2416c75af96a16282
           } else {
             console.log("No data available");
           }
@@ -42,19 +38,6 @@ export default function Home() {
   });
 
   const playTask = (e, index, length) => {
-<<<<<<< HEAD
-    update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), { status: "On Going" })
-  }
-  const pauseTask = (e, index, length) => {
-    update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), { status: "Paused" })
-  }
-  const completeTask = (e, index, length) => {
-    update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), { status: "Done" })
-  }
-
-
-
-=======
     update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
       status: "On Going",
     });
@@ -69,7 +52,7 @@ export default function Home() {
       status: "Done",
     });
   };
->>>>>>> fb127afcc695e30315dccbe2416c75af96a16282
+
   return (
     <div id="main">
       <NavBar
@@ -141,10 +124,7 @@ export default function Home() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-<<<<<<< HEAD
-                      {
-                        !teammate.tasks ? <TableRow colSpan={7} align="center">No tasks right now</TableRow> : teammate.tasks.map((info, index) => {
-=======
+
                       {!teammate.tasks ? (
                         <TableRow
                           colSpan={7}
@@ -153,84 +133,11 @@ export default function Home() {
                         </TableRow>
                       ) : (
                         teammate.tasks.map((info, index) => {
->>>>>>> fb127afcc695e30315dccbe2416c75af96a16282
+
                           return (
                             <>
                               <TableRow
                                 style={{
-<<<<<<< HEAD
-                                  backgroundColor: done === 0 ? "#fff" : "#f9fbff",
-                                  height: "70px",
-                                }}
-                                className="box-shadow"
-                                key={index}
-
-                              >
-                                <TableCell align="center">{info.client}</TableCell>
-                                <TableCell align="center">{info.task}</TableCell>
-                                {
-                                  info?.updates ? <>
-                                    <TableCell align="center">{info.updates[info.updates.length - 1].date}</TableCell>
-                                    <TableCell align="center">{info.updates[info.updates.length - 1].time}</TableCell>
-                                    <TableCell align="center">+{info.updates[info.updates.length - 1].corrections}</TableCell>
-                                    <TableCell
-
-                                      align="center"
-                                      style={info.updates[info.updates.length - 1].status === "Done" && { color: "#000000", fontWeight: "bold" } ||
-                                        info.updates[info.updates.length - 1].status === "On Going" && { color: "#24A43A", fontWeight: "bold" } ||
-                                        info.updates[info.updates.length - 1].status === "Paused" && { color: "#2972B2", fontWeight: "bold" } ||
-                                        info.updates[info.updates.length - 1].status === "Assigned" && { color: "#D1AE00", fontWeight: "bold" }
-
-                                      }>
-                                      {info.updates[info.updates.length - 1].status}
-                                    </TableCell> </> :
-                                    <>
-                                      <TableCell align="center">Not Available</TableCell>
-                                      <TableCell align="center">Not Available</TableCell>
-                                      <TableCell align="center">Not Available</TableCell>
-                                      <TableCell
-
-                                        align="center"
-                                        style={{ color: "#24a43a", fontWeight: "bold" }}>
-                                        Not Available
-                                      </TableCell>
-                                    </>
-                                }
-
-                                <TableCell align="center">
-                                  <FontAwesomeIcon
-                                    icon="fa-solid fa-circle-play"
-                                    size="lg"
-                                    style={{ margin: ".5em", cursor: "pointer" }}
-                                    color="green"
-                                    onClick={(e) => {
-                                      playTask(e, index, info.updates?.length)
-                                    }}
-                                  />
-                                  <FontAwesomeIcon
-                                    icon="fa-solid fa-circle-pause"
-                                    size="lg"
-                                    style={{ margin: ".5em", cursor: "pointer" }}
-                                    onClick={(e) => {
-                                      pauseTask(e, index, info.updates?.length)
-                                    }}
-                                  />
-                                  <FontAwesomeIcon
-                                    icon="fa-solid fa-circle-check"
-                                    size="lg"
-                                    style={{ margin: ".5em", cursor: "pointer" }}
-                                    onClick={(e) => {
-                                      completeTask(e, index, info.updates?.length)
-                                    }}
-                                  />
-                                </TableCell>
-                              </TableRow>
-                            </>
-                          )
-                        })
-                      }
-
-=======
                                   height: "70px",
                                 }}
                                 className="box-shadow"
@@ -378,7 +285,6 @@ export default function Home() {
                           );
                         })
                       )}
->>>>>>> fb127afcc695e30315dccbe2416c75af96a16282
                     </TableBody>
                   </Table>
                 </Col>

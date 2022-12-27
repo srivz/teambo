@@ -34,6 +34,7 @@ export default function Home() {
   });
 
   const getTeammates = (teamList) => {
+    console.log(teamList);
     if (once1)
       teamList.forEach((teammate) => {
         onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
@@ -113,6 +114,7 @@ export default function Home() {
         console.log(err);
       });
   }
+
   return (
     <div>
       <NavBar

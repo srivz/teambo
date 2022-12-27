@@ -6,6 +6,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { update, ref } from "firebase/database";
 import React, { useState } from "react";
 import {
   Button,
@@ -16,6 +17,8 @@ import {
   Popover,
   Row,
 } from "react-bootstrap";
+import { db } from "../../firebase-config";
+
 
 export default function HomeList(props) {
   var today = new Date();
@@ -69,22 +72,43 @@ export default function HomeList(props) {
   // For up we can retrive data of next index and put it in current && get values from the table put it in next index.
   // For down we can retrive data of previous index and put it in current && get values from the table put it in previous index.
   // Main issue if index==0 then index-1=-1. a new dataset is created in -1 and affecting map function.
-  const handleUpTask = (ida, priority, tasknumber, total) => {
-    if (priority + 1 !== total && tasknumber + 1 !== total) {
-      // props.UpTask(ida, priority, tasknumber);
-      console.log("increase priority");
+  function swap(arr, from, to) {
+    let temp = arr[from];
+    // console.log(temp);
+    arr[from] = arr[to];
+    // console.log(arr[from]);
+    arr[to] = temp;
+    // console.log(arr[to]);
+    // console.log(arr);
+  }
+
+
+
+  const handleUpTask = (id, index, tasks, taskLength) => {
+    if (index === 0) {
+      alert("Its already on the top")
     } else {
-      alert("It has the highest proiority");
+      let newarr = tasks;
+      swap(newarr, index, index - 1);
+      update(ref(db, `teammate/${id}/`), {
+        tasks: newarr
+      });
+      window.location.reload();
     }
   };
-  const handleDownTask = (ida, priority, tasknumber) => {
-    if (priority !== 0 && tasknumber > 0) {
-      // props.DownTask(ida, priority, tasknumber);
-      console.log("decrease priority");
+  const handleDownTask = (id, index, tasks, taskLength) => {
+    if (index === taskLength - 1) {
+      alert("Its already on the bottom")
     } else {
-      alert("It has the least proiority");
+      swap(tasks, index, index + 1);
+      update(ref(db, `teammate / ${id}`), {
+        tasks
+      })
+      window.location.reload();
     }
   };
+
+
   return (
     <div id="main">
       <Container>
@@ -127,7 +151,7 @@ export default function HomeList(props) {
                       No teammate right now
                     </TableRow>
                   ) : (
-                    props.team.map((info) => {
+                      props.team.map((info) => {
                       return (
                         <TableRow
                           key={info.teammate}
@@ -286,11 +310,11 @@ export default function HomeList(props) {
                 </Col>
               </Row>
             ) : (
-              props.team
+                props.team
                 .filter((info) => info.teammate === selected)
-                .map((info) => {
+                  .map((info, index) => {
                   return selected ? (
-                    <Row>
+                    <Row key={index}>
                       <Col
                         sm={6}
                         md={6}
@@ -454,7 +478,7 @@ export default function HomeList(props) {
                   <TableBody className="curve-box-homelist">
                     {props.team
                       .filter((info) => info.teammate === selected)
-                      .map((info) => {
+                      .map((info, index) => {
                         return (
                           <>
                             {!info.data.tasks ? (
@@ -464,10 +488,7 @@ export default function HomeList(props) {
                                 No tasks assigned
                               </TableRow>
                             ) : (
-                              info.data.tasks
-                                .sort((a, b) =>
-                                  a.priority > b.priority ? 1 : -1
-                                )
+                                info.data.tasks
                                 .map((info1, index) => {
                                   return (
                                     <TableRow
@@ -574,10 +595,7 @@ export default function HomeList(props) {
                                                   <Button
                                                     onClick={() => {
                                                       handleUpTask(
-                                                        info.teammate,
-                                                        info1.priority,
-                                                        info1.tasknumber,
-                                                        info.data.tasks.length
+                                                        info.teammate, index, info.data.tasks, info.data.tasks.length
                                                       );
                                                     }}
                                                     variant="light"
@@ -602,9 +620,7 @@ export default function HomeList(props) {
                                                   <Button
                                                     onClick={() => {
                                                       handleDownTask(
-                                                        info.teammate,
-                                                        info1.priority,
-                                                        info1.tasknumber
+                                                        info.teammate, index, info.data.tasks, info.data.tasks.length
                                                       );
                                                     }}
                                                     variant="light"
