@@ -71,48 +71,6 @@ export default function Home() {
         console.log(err);
       });
   }
-  function downCurrentTask(teammateId, priority, index) {
-    set(
-      ref(db, `/teammate/${teammateId}/tasks/${index}/priority`),
-      priority - 1
-    )
-      .then(() => {
-        set(
-          ref(db, `/teammate/${teammateId}/tasks/${index - 1}/priority`),
-          priority
-        )
-          .then(() => {
-            window.location.reload();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  function upCurrentTask(teammateId, priority, index) {
-    set(
-      ref(db, `/teammate/${teammateId}/tasks/${index}/priority`),
-      priority + 1
-    )
-      .then(() => {
-        set(
-          ref(db, `/teammate/${teammateId}/tasks/${index + 1}/priority`),
-          priority
-        )
-          .then(() => {
-            window.location.reload();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
   return (
     <div>
       <NavBar
@@ -128,8 +86,6 @@ export default function Home() {
           onChange={handleChange}
           addTask={writeUserData}
           deleteTask={deleteCurrentTask}
-          DownTask={downCurrentTask}
-          UpTask={upCurrentTask}
         />
       ) : (
         <HomeBlock

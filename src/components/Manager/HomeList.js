@@ -6,6 +6,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { ref, update } from "firebase/database";
 import React, { useState } from "react";
 import {
   Button,
@@ -16,6 +17,7 @@ import {
   Popover,
   Row,
 } from "react-bootstrap";
+import { db } from "../../firebase-config";
 
 export default function HomeList(props) {
   var today = new Date();
@@ -53,7 +55,6 @@ export default function HomeList(props) {
     setNewTask({ ...newTask, ...newInput });
   };
   const handleNewTask = async (id, tasknumber) => {
-    newTask.priority = tasknumber;
     newTask.tasknumber = tasknumber;
     await props.addTask(newTask, id, tasknumber);
     await window.location.reload();
@@ -62,27 +63,33 @@ export default function HomeList(props) {
     props.deleteTask(id, index);
   };
 
-  //For the correct updates we need to have a separate list with priority:index separately
-  // For up temp=priority[i+1] priority[i+1]:priority[i] priority[i]:temp
-  // For down temp=priority[i-1] priority[i-1]:priority[i] priority[i]:temp
-  // OR
-  // For up we can retrive data of next index and put it in current && get values from the table put it in next index.
-  // For down we can retrive data of previous index and put it in current && get values from the table put it in previous index.
-  // Main issue if index==0 then index-1=-1. a new dataset is created in -1 and affecting map function.
-  const handleUpTask = (ida, priority, tasknumber, total) => {
-    if (priority + 1 !== total && tasknumber + 1 !== total) {
-      // props.UpTask(ida, priority, tasknumber);
-      console.log("increase priority");
+  function swap(arr, from, to) {
+    let temp = arr[from];
+    arr[from] = arr[to];
+    arr[to] = temp;
+  }
+
+  const handleUpTask = (id, index, tasks, taskLength) => {
+    if (index === 0) {
+      alert("Its already on the top");
     } else {
-      alert("It has the highest proiority");
+      let newarr = tasks;
+      swap(newarr, index, index - 1);
+      update(ref(db, `teammate/${id}/`), {
+        tasks: newarr,
+      });
+      window.location.reload();
     }
   };
-  const handleDownTask = (ida, priority, tasknumber) => {
-    if (priority !== 0 && tasknumber > 0) {
-      // props.DownTask(ida, priority, tasknumber);
-      console.log("decrease priority");
+  const handleDownTask = (id, index, tasks, taskLength) => {
+    if (index === taskLength - 1) {
+      alert("Its already on the bottom");
     } else {
-      alert("It has the least proiority");
+      swap(tasks, index, index + 1);
+      update(ref(db, `teammate / ${id}`), {
+        tasks,
+      });
+      window.location.reload();
     }
   };
   return (
@@ -288,9 +295,9 @@ export default function HomeList(props) {
             ) : (
               props.team
                 .filter((info) => info.teammate === selected)
-                .map((info) => {
+                .map((info, index) => {
                   return selected ? (
-                    <Row>
+                    <Row key={index}>
                       <Col
                         sm={6}
                         md={6}
@@ -463,9 +470,9 @@ export default function HomeList(props) {
                               </TableRow>
                             ) : (
                               info.data.tasks
-                                .sort((a, b) =>
-                                  a.priority > b.priority ? 1 : -1
-                                )
+                                // .sort((a, b) =>
+                                //   a.priority > b.priority ? 1 : -1
+                                // )
                                 .map((info1, index) => {
                                   return (
                                     <TableRow
@@ -617,8 +624,8 @@ export default function HomeList(props) {
                                                     onClick={() => {
                                                       handleUpTask(
                                                         info.teammate,
-                                                        info1.priority,
-                                                        info1.tasknumber,
+                                                        index,
+                                                        info.data.tasks,
                                                         info.data.tasks.length
                                                       );
                                                     }}
@@ -645,8 +652,9 @@ export default function HomeList(props) {
                                                     onClick={() => {
                                                       handleDownTask(
                                                         info.teammate,
-                                                        info1.priority,
-                                                        info1.tasknumber
+                                                        index,
+                                                        info.data.tasks,
+                                                        info.data.tasks.length
                                                       );
                                                     }}
                                                     variant="light"
