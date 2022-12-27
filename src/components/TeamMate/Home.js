@@ -135,10 +135,8 @@ export default function Home() {
                               <TableRow
                                 style={{
                                   backgroundColor:
-                                    (info.updates[info.updates.length - 1]
-                                      .status ===
-                                      "Done") ===
-                                    0
+                                    info.updates[info.updates.length - 1]
+                                      .status === "Done"
                                       ? "#fff"
                                       : "#f9fbff",
                                   height: "70px",
