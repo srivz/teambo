@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { NoEncryption } from "@mui/icons-material";
 import {
   Table,
   TableBody,
