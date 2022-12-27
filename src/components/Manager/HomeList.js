@@ -25,7 +25,6 @@ export default function HomeList(props) {
   const [newTask, setNewTask] = useState({
     client: "",
     task: "",
-    tasknumber: "",
     description: "",
     updates: {
       0: {
@@ -54,7 +53,6 @@ export default function HomeList(props) {
     setNewTask({ ...newTask, ...newInput });
   };
   const handleNewTask = async (id, tasknumber) => {
-    newTask.tasknumber = tasknumber;
     await props.addTask(newTask, id, tasknumber);
     await window.location.reload();
   };
