@@ -486,71 +486,71 @@ export default function HomeList(props) {
                                         {info1.priority}
                                         {info1.task}
                                       </TableCell>
-                                      {info?.updates ? (
+                                      {info1?.updates ? (
                                         <>
                                           <TableCell align="center">
                                             {
-                                              info.updates[
-                                                info.updates.length - 1
+                                              info1.updates[
+                                                info1.updates.length - 1
                                               ].date
                                             }
                                           </TableCell>
                                           <TableCell align="center">
                                             {
-                                              info.updates[
-                                                info.updates.length - 1
+                                              info1.updates[
+                                                info1.updates.length - 1
                                               ].time
                                             }
                                           </TableCell>
                                           <TableCell align="center">
-                                            {info.updates[
-                                              info.updates.length - 1
+                                            {info1.updates[
+                                              info1.updates.length - 1
                                             ].corrections === "0"
-                                              ? info.updates[
-                                                  info.updates.length - 1
+                                              ? info1.updates[
+                                                  info1.updates.length - 1
                                                 ].corrections
                                               : "+" +
-                                                info.updates[
-                                                  info.updates.length - 1
+                                                info1.updates[
+                                                  info1.updates.length - 1
                                                 ].corrections}
                                           </TableCell>
                                           <TableCell
                                             align="center"
                                             style={
-                                              (info.updates[
-                                                info.updates.length - 1
+                                              (info1.updates[
+                                                info1.updates.length - 1
                                               ].status === "Done" && {
                                                 color: "#000000",
                                                 fontWeight: "bold",
                                               }) ||
-                                              (info.updates[
-                                                info.updates.length - 1
+                                              (info1.updates[
+                                                info1.updates.length - 1
                                               ].status === "On Going" && {
                                                 color: "#24A43A",
                                                 fontWeight: "bold",
                                               }) ||
-                                              (info.updates[
-                                                info.updates.length - 1
+                                              (info1.updates[
+                                                info1.updates.length - 1
                                               ].status === "Paused" && {
                                                 color: "#2972B2",
                                                 fontWeight: "bold",
                                               }) ||
-                                              (info.updates[
-                                                info.updates.length - 1
+                                              (info1.updates[
+                                                info1.updates.length - 1
                                               ].status === "Assigned" && {
                                                 color: "#D1AE00",
                                                 fontWeight: "bold",
                                               })
                                             }>
                                             {
-                                              info.updates[
-                                                info.updates.length - 1
+                                              info1.updates[
+                                                info1.updates.length - 1
                                               ].status
                                             }
                                           </TableCell>
                                           <TableCell align="center">
-                                            {info.updates[
-                                              info.updates.length - 1
+                                            {info1.updates[
+                                              info1.updates.length - 1
                                             ].status === "Done" ? (
                                               <Button
                                                 type="Button"
