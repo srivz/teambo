@@ -3,27 +3,29 @@ import { auth, db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 import HomeBlock from "./HomeBlock";
 import HomeList from "./HomeList";
-import { onValue, ref } from "firebase/database";
+import { onValue, ref, remove, set } from "firebase/database";
 import { onAuthStateChanged } from "firebase/auth";
 
 export default function Home() {
   const [view, setView] = useState(true);
   const [manager, setManager] = useState({});
   const [once, setOnce] = useState(true);
-  const [teammateList, setTeammateList] = useState([{}]);
+  const [once1, setOnce1] = useState(true);
+  const [teammateList, setTeammateList] = useState([]);
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
       if (once) {
-        const userSet = onValue(ref(db, `manager/${user.uid}`), (snapshot) => {
-          console.log(snapshot.exists());
+        let userSet = onValue(ref(db, `manager/${user.uid}`), (snapshot) => {
           if (snapshot.exists()) {
-            setManager(snapshot.val());
+            let data = snapshot.val();
+            setManager(data);
           } else {
             console.log("No data available");
           }
         });
         if (userSet) getTeammates(manager.teammates);
+
         setOnce(false);
       }
     } else {
@@ -32,47 +34,84 @@ export default function Home() {
   });
 
   const getTeammates = (teamList) => {
-    teamList.forEach((teammate) => {
-      console.log("asasdasdasda " + teammate);
-      onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
-        if (snapshot.exists()) {
-          const data = snapshot.val();
-          setTeammateList((teammateList) => [...teammateList, data], teammate);
-        } else {
-          console.log("No data available");
-        }
+    if (once1)
+      teamList.forEach((teammate) => {
+        onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
+          if (snapshot.exists()) {
+            const data = snapshot.val();
+            setTeammateList((teammateList) => [
+              ...teammateList,
+              { data, teammate },
+            ]);
+          } else {
+            console.log("No data available");
+          }
+        });
       });
-    });
+    setOnce1(false);
   };
-
   function handleChange(newValue) {
     setView(newValue);
   }
-  function writeUserData(client, taskTitle, description) {
-    //   var today = new Date();
-    //   set(ref(db, "/teammate/id/tasks/1/"), {
-    //     client: client,
-    //     taskTitle: taskTitle,
-    //     description: description,
-    //     updates: {
-    //       0: {
-    //         date:
-    //           String(today.getDate()).padStart(2, "0") +
-    //           "/" +
-    //           String(today.getMonth() + 1).padStart(2, "0") +
-    //           "/" +
-    //           today.getFullYear(),
-    //         time:
-    //           today.getHours() +
-    //           ":" +
-    //           today.getMinutes() +
-    //           ":" +
-    //           today.getSeconds(),
-    //         corrections: "0",
-    //         status: "Assigned",
-    //       },
-    //     },
-    //   });
+  function writeUserData(newTask, teammateId, index) {
+    set(ref(db, `/teammate/${teammateId}/tasks/${index}/`), newTask)
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  function deleteCurrentTask(teammateId, index) {
+    remove(ref(db, `/teammate/${teammateId}/tasks/${index}/`))
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  function downCurrentTask(teammateId, priority, index) {
+    set(
+      ref(db, `/teammate/${teammateId}/tasks/${index}/priority`),
+      priority - 1
+    )
+      .then(() => {
+        set(
+          ref(db, `/teammate/${teammateId}/tasks/${index - 1}/priority`),
+          priority
+        )
+          .then(() => {
+            window.location.reload();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  function upCurrentTask(teammateId, priority, index) {
+    set(
+      ref(db, `/teammate/${teammateId}/tasks/${index}/priority`),
+      priority + 1
+    )
+      .then(() => {
+        set(
+          ref(db, `/teammate/${teammateId}/tasks/${index + 1}/priority`),
+          priority
+        )
+          .then(() => {
+            window.location.reload();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   return (
     <div>
@@ -81,13 +120,16 @@ export default function Home() {
         name={manager.name}
         role={manager.designation}
       />
-      {console.log(teammateList)}
+
       {view ? (
         <HomeList
           viewType={view}
           team={teammateList}
           onChange={handleChange}
           addTask={writeUserData}
+          deleteTask={deleteCurrentTask}
+          DownTask={downCurrentTask}
+          UpTask={upCurrentTask}
         />
       ) : (
         <HomeBlock
