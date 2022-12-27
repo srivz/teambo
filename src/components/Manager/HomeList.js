@@ -161,7 +161,8 @@ export default function HomeList(props) {
             style={{ marginTop: "1em" }}>
             {!selected ? (
               <Row
-                colSpan={7}
+                sm={6}
+                md={6}
                 align="center">
                 <Col
                   sm={6}
