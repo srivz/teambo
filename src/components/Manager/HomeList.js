@@ -458,9 +458,7 @@ export default function HomeList(props) {
                         return (
                           <>
                             {!info.data.tasks ? (
-                              <TableRow
-                                colSpan={7}
-                                align="center">
+                              <TableRow align="center">
                                 No tasks assigned
                               </TableRow>
                             ) : (
