@@ -25,7 +25,6 @@ export default function HomeList(props) {
   const [newTask, setNewTask] = useState({
     client: "",
     task: "",
-    priority: "",
     tasknumber: "",
     description: "",
     updates: {
@@ -469,224 +468,219 @@ export default function HomeList(props) {
                                 <TableCell>No tasks assigned</TableCell>
                               </TableRow>
                             ) : (
-                              info.data.tasks
-                                // .sort((a, b) =>
-                                //   a.priority > b.priority ? 1 : -1
-                                // )
-                                .map((info1, index) => {
-                                  return (
-                                    <TableRow
-                                      key={info1}
-                                      style={{
-                                        backgroundColor:
-                                          (info1.updates[
+                              info.data.tasks.map((info1, index) => {
+                                return (
+                                  <TableRow
+                                    key={index}
+                                    style={{
+                                      backgroundColor:
+                                        (info1.updates[info1.updates.length - 1]
+                                          .status ===
+                                          "Done") ===
+                                        0
+                                          ? "#fff"
+                                          : "#f9fbff",
+                                      height: "70px",
+                                    }}
+                                    className="box-shadow">
+                                    <TableCell align="center">
+                                      {info1.client}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {info1.task}
+                                    </TableCell>
+                                    {info1?.updates ? (
+                                      <>
+                                        <TableCell align="center">
+                                          {
+                                            info1.updates[
+                                              info1.updates.length - 1
+                                            ].date
+                                          }
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          {
+                                            info1.updates[
+                                              info1.updates.length - 1
+                                            ].time
+                                          }
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          {info1.updates[
                                             info1.updates.length - 1
-                                          ].status ===
-                                            "Done") ===
-                                          0
-                                            ? "#fff"
-                                            : "#f9fbff",
-                                        height: "70px",
-                                      }}
-                                      className="box-shadow">
-                                      <TableCell align="center">
-                                        {info1.client}
-                                      </TableCell>
-                                      <TableCell align="center">
-                                        {info1.task}
-                                      </TableCell>
-                                      {info1?.updates ? (
-                                        <>
-                                          <TableCell align="center">
-                                            {
+                                          ].corrections === "0"
+                                            ? info1.updates[
+                                                info1.updates.length - 1
+                                              ].corrections
+                                            : "+" +
                                               info1.updates[
                                                 info1.updates.length - 1
-                                              ].date
-                                            }
-                                          </TableCell>
-                                          <TableCell align="center">
-                                            {
-                                              info1.updates[
-                                                info1.updates.length - 1
-                                              ].time
-                                            }
-                                          </TableCell>
-                                          <TableCell align="center">
-                                            {info1.updates[
+                                              ].corrections}
+                                        </TableCell>
+                                        <TableCell
+                                          align="center"
+                                          style={
+                                            (info1.updates[
                                               info1.updates.length - 1
-                                            ].corrections === "0"
-                                              ? info1.updates[
-                                                  info1.updates.length - 1
-                                                ].corrections
-                                              : "+" +
-                                                info1.updates[
-                                                  info1.updates.length - 1
-                                                ].corrections}
-                                          </TableCell>
-                                          <TableCell
-                                            align="center"
-                                            style={
-                                              (info1.updates[
-                                                info1.updates.length - 1
-                                              ].status === "Done" && {
-                                                color: "#000000",
-                                                fontWeight: "bold",
-                                              }) ||
-                                              (info1.updates[
-                                                info1.updates.length - 1
-                                              ].status === "On Going" && {
-                                                color: "#24A43A",
-                                                fontWeight: "bold",
-                                              }) ||
-                                              (info1.updates[
-                                                info1.updates.length - 1
-                                              ].status === "Paused" && {
-                                                color: "#2972B2",
-                                                fontWeight: "bold",
-                                              }) ||
-                                              (info1.updates[
-                                                info1.updates.length - 1
-                                              ].status === "Assigned" && {
-                                                color: "#D1AE00",
-                                                fontWeight: "bold",
-                                              })
-                                            }>
-                                            {
-                                              info1.updates[
-                                                info1.updates.length - 1
-                                              ].status
-                                            }
-                                          </TableCell>
-                                          <TableCell align="center">
-                                            {info1.updates[
+                                            ].status === "Done" && {
+                                              color: "#000000",
+                                              fontWeight: "bold",
+                                            }) ||
+                                            (info1.updates[
                                               info1.updates.length - 1
-                                            ].status === "Done" ? (
-                                              <Button
-                                                type="Button"
-                                                variant="light"
-                                                style={{
-                                                  backgroundColor: "white",
-                                                }}>
-                                                Correction
-                                              </Button>
-                                            ) : (
-                                              <></>
-                                            )}
-                                          </TableCell>
-                                        </>
-                                      ) : (
-                                        <></>
-                                      )}
-                                      <TableCell
-                                        align="center"
-                                        className="text-end">
-                                        <OverlayTrigger
-                                          trigger="click"
-                                          key="bottom"
-                                          placement="auto"
-                                          rootClose
-                                          overlay={
-                                            <Popover
-                                              id={`popover-positioned-bottom`}>
-                                              <Popover.Body>
-                                                <div
-                                                  className="d-grid gap-2"
-                                                  style={{
-                                                    marginBottom: ".5em",
-                                                  }}>
-                                                  <Button
-                                                    onClick={() => {
-                                                      handleDeleteTask(
-                                                        info.teammate,
-                                                        index
-                                                      );
-                                                    }}
-                                                    variant="light"
-                                                    style={{
-                                                      textAlign: "left",
-                                                    }}
-                                                    block>
-                                                    <FontAwesomeIcon
-                                                      icon="fa-solid fa-trash"
-                                                      style={{
-                                                        paddingRight: ".5em",
-                                                      }}
-                                                    />
-                                                    Delete Task
-                                                  </Button>
-                                                </div>
-                                                <div
-                                                  className="d-grid gap-2"
-                                                  style={{
-                                                    marginBottom: ".5em",
-                                                  }}>
-                                                  <Button
-                                                    onClick={() => {
-                                                      handleUpTask(
-                                                        info.teammate,
-                                                        index,
-                                                        info.data.tasks,
-                                                        info.data.tasks.length
-                                                      );
-                                                    }}
-                                                    variant="light"
-                                                    style={{
-                                                      textAlign: "left",
-                                                    }}
-                                                    block>
-                                                    <FontAwesomeIcon
-                                                      icon="fa-solid fa-chevron-up"
-                                                      style={{
-                                                        paddingRight: ".5em",
-                                                      }}
-                                                    />
-                                                    Move Up
-                                                  </Button>
-                                                </div>
-                                                <div
-                                                  className="d-grid gap-2"
-                                                  style={{
-                                                    marginBottom: ".5em",
-                                                  }}>
-                                                  <Button
-                                                    onClick={() => {
-                                                      handleDownTask(
-                                                        info.teammate,
-                                                        index,
-                                                        info.data.tasks,
-                                                        info.data.tasks.length
-                                                      );
-                                                    }}
-                                                    variant="light"
-                                                    style={{
-                                                      textAlign: "left",
-                                                    }}
-                                                    block>
-                                                    <FontAwesomeIcon
-                                                      icon="fa-solid fa-chevron-down"
-                                                      style={{
-                                                        paddingRight: ".5em",
-                                                      }}
-                                                    />
-                                                    Move Down
-                                                  </Button>
-                                                </div>
-                                              </Popover.Body>
-                                            </Popover>
+                                            ].status === "On Going" && {
+                                              color: "#24A43A",
+                                              fontWeight: "bold",
+                                            }) ||
+                                            (info1.updates[
+                                              info1.updates.length - 1
+                                            ].status === "Paused" && {
+                                              color: "#2972B2",
+                                              fontWeight: "bold",
+                                            }) ||
+                                            (info1.updates[
+                                              info1.updates.length - 1
+                                            ].status === "Assigned" && {
+                                              color: "#D1AE00",
+                                              fontWeight: "bold",
+                                            })
                                           }>
-                                          <FontAwesomeIcon
-                                            className="pointer"
-                                            icon="fa-solid fa-ellipsis-vertical"
-                                            style={{
-                                              color: "blue",
-                                              paddingRight: ".25em",
-                                            }}
-                                          />
-                                        </OverlayTrigger>
-                                      </TableCell>
-                                    </TableRow>
-                                  );
-                                })
+                                          {
+                                            info1.updates[
+                                              info1.updates.length - 1
+                                            ].status
+                                          }
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          {info1.updates[
+                                            info1.updates.length - 1
+                                          ].status === "Done" ? (
+                                            <Button
+                                              type="Button"
+                                              variant="light"
+                                              style={{
+                                                backgroundColor: "white",
+                                              }}>
+                                              Correction
+                                            </Button>
+                                          ) : (
+                                            <></>
+                                          )}
+                                        </TableCell>
+                                      </>
+                                    ) : (
+                                      <></>
+                                    )}
+                                    <TableCell
+                                      align="center"
+                                      className="text-end">
+                                      <OverlayTrigger
+                                        trigger="click"
+                                        key="bottom"
+                                        placement="auto"
+                                        rootClose
+                                        overlay={
+                                          <Popover
+                                            id={`popover-positioned-bottom`}>
+                                            <Popover.Body>
+                                              <div
+                                                className="d-grid gap-2"
+                                                style={{
+                                                  marginBottom: ".5em",
+                                                }}>
+                                                <Button
+                                                  onClick={() => {
+                                                    handleDeleteTask(
+                                                      info.teammate,
+                                                      index
+                                                    );
+                                                  }}
+                                                  variant="light"
+                                                  style={{
+                                                    textAlign: "left",
+                                                  }}
+                                                  block>
+                                                  <FontAwesomeIcon
+                                                    icon="fa-solid fa-trash"
+                                                    style={{
+                                                      paddingRight: ".5em",
+                                                    }}
+                                                  />
+                                                  Delete Task
+                                                </Button>
+                                              </div>
+                                              <div
+                                                className="d-grid gap-2"
+                                                style={{
+                                                  marginBottom: ".5em",
+                                                }}>
+                                                <Button
+                                                  onClick={() => {
+                                                    handleUpTask(
+                                                      info.teammate,
+                                                      index,
+                                                      info.data.tasks,
+                                                      info.data.tasks.length
+                                                    );
+                                                  }}
+                                                  variant="light"
+                                                  style={{
+                                                    textAlign: "left",
+                                                  }}
+                                                  block>
+                                                  <FontAwesomeIcon
+                                                    icon="fa-solid fa-chevron-up"
+                                                    style={{
+                                                      paddingRight: ".5em",
+                                                    }}
+                                                  />
+                                                  Move Up
+                                                </Button>
+                                              </div>
+                                              <div
+                                                className="d-grid gap-2"
+                                                style={{
+                                                  marginBottom: ".5em",
+                                                }}>
+                                                <Button
+                                                  onClick={() => {
+                                                    handleDownTask(
+                                                      info.teammate,
+                                                      index,
+                                                      info.data.tasks,
+                                                      info.data.tasks.length
+                                                    );
+                                                  }}
+                                                  variant="light"
+                                                  style={{
+                                                    textAlign: "left",
+                                                  }}
+                                                  block>
+                                                  <FontAwesomeIcon
+                                                    icon="fa-solid fa-chevron-down"
+                                                    style={{
+                                                      paddingRight: ".5em",
+                                                    }}
+                                                  />
+                                                  Move Down
+                                                </Button>
+                                              </div>
+                                            </Popover.Body>
+                                          </Popover>
+                                        }>
+                                        <FontAwesomeIcon
+                                          className="pointer"
+                                          icon="fa-solid fa-ellipsis-vertical"
+                                          style={{
+                                            color: "blue",
+                                            paddingRight: ".25em",
+                                          }}
+                                        />
+                                      </OverlayTrigger>
+                                    </TableCell>
+                                  </TableRow>
+                                );
+                              })
                             )}
                           </>
                         );
