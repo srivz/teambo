@@ -7,6 +7,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { ref, set } from "firebase/database";
+import { Link } from "react-router-dom";
 
 export default function Signup() {
   const [user, setUser] = useState({
@@ -35,8 +36,6 @@ export default function Signup() {
         name: user.name,
         email: userLog.email,
         teammates: [],
-      }).then((res) => {
-        window.location.href = "/";
       });
     } else {
       set(ref(db, "/teammate/" + currentUser.uid), {
@@ -44,8 +43,6 @@ export default function Signup() {
         designation: user.designation,
         name: user.name,
         email: userLog.email,
-      }).then((res) => {
-        window.location.href = "/";
       });
     }
   };
@@ -63,10 +60,13 @@ export default function Signup() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (user.name === "" || user.companyName === "" || user.designation === "") {
+    if (
+      user.name === "" ||
+      user.companyName === "" ||
+      user.designation === ""
+    ) {
       alert("Fill the fields");
-    }
-    else if (userLog.password.length < 6) {
+    } else if (userLog.password.length < 6) {
       alert("Password should be atleast 6 characters!!!");
     } else {
       if (userLog.password === userLog.confirmPassword) {
@@ -76,18 +76,6 @@ export default function Signup() {
       }
     }
   };
-
-
-
-
-
-
-
-
-
-
-
-
   return (
     <div className="container mt-5 login-container">
       <div className="form-box1">
@@ -134,16 +122,17 @@ export default function Signup() {
                   className="form-select"
                   aria-label="Default select example"
                   name="companyName"
-                  onChange={handleChange}
-                >
+                  onChange={handleChange}>
                   <option
                     selected
                     hidden>
                     Select Company
                   </option>
-                  <option value="The Madras branding Company">The Madras branding Company</option>
-                  <option value='Brand Moustache'>Brand Moustache</option>
-                  <option value='Little Show'>Little Show</option>
+                  <option value="The Madras branding Company">
+                    The Madras branding Company
+                  </option>
+                  <option value="Brand Moustache">Brand Moustache</option>
+                  <option value="Little Show">Little Show</option>
                   <option value="Facebook">Facebook</option>
                 </select>
               </div>
@@ -166,7 +155,9 @@ export default function Signup() {
                 <label htmlFor="pwd">Designation</label>
                 <select
                   className="form-select"
-                  aria-label="Default select example" name="designation" onChange={handleChange}>
+                  aria-label="Default select example"
+                  name="designation"
+                  onChange={handleChange}>
                   <option
                     selected
                     hidden>
@@ -193,11 +184,13 @@ export default function Signup() {
               </div>
             </div>
           </div>
-          <button
-            type="submit"
-            className="btn btn-primary bg-blue w-100 rounded-4 mt-4">
-            Sign Up
-          </button>
+          <Link to="/signUp/response">
+            <button
+              type="submit"
+              className="btn btn-primary bg-blue w-100 rounded-4 mt-4">
+              Sign Up
+            </button>
+          </Link>
         </form>
       </div>
     </div>
