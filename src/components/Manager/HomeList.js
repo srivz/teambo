@@ -477,11 +477,9 @@ export default function HomeList(props) {
                                       }}
                                       className="box-shadow">
                                       <TableCell align="center">
-                                        {info1.tasknumber}
                                         {info1.client}
                                       </TableCell>
                                       <TableCell align="center">
-                                        {info1.priority}
                                         {info1.task}
                                       </TableCell>
                                       {info1?.updates ? (
