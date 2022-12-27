@@ -458,7 +458,9 @@ export default function HomeList(props) {
                         return (
                           <>
                             {!info.data.tasks ? (
-                              <Row align="center">No tasks assigned</Row>
+                              <Row align="center">
+                                <Col>No tasks assigned</Col>
+                              </Row>
                             ) : (
                               info.data.tasks
                                 .sort((a, b) =>
