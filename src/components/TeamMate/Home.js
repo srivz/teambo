@@ -136,7 +136,7 @@ export default function Home() {
                                 style={{
                                   backgroundColor:
                                     info.updates[info.updates.length - 1]
-                                      .status === "Done"
+                                      .status !== "Done"
                                       ? "#fff"
                                       : "#f9fbff",
                                   height: "70px",
