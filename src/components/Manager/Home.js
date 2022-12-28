@@ -63,6 +63,7 @@ export default function Home() {
   };
 
   const addNewTeammate = (teammateEmail) => {
+        setLoading(true);
     if (teammateEmail === "") {
       alert("Enter email first");
       return;
@@ -88,6 +89,7 @@ export default function Home() {
   }
 
   function writeUserData(newTask, teammateId, index) {
+        setLoading(true);
     set(ref(db, `/teammate/${teammateId}/tasks/${index}/`), newTask)
       .then(() => {
         window.location.reload();
@@ -98,6 +100,7 @@ export default function Home() {
   }
 
   function deleteCurrentTask(teammateId, index) {
+        setLoading(true);
     remove(ref(db, `/teammate/${teammateId}/tasks/${index}/`))
       .then(() => {
         window.location.reload();

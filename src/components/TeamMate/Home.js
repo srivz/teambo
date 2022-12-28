@@ -46,16 +46,19 @@ export default function Home() {
   });
 
   const playTask = (e, index, length) => {
+        setLoading(true);
     update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
       status: "On Going",
     });
   };
   const pauseTask = (e, index, length) => {
+        setLoading(true);
     update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
       status: "Paused",
     });
   };
   const completeTask = (e, index, length) => {
+        setLoading(true);
     update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
       status: "Done",
     });
