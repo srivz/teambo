@@ -492,8 +492,7 @@ export default function Home() {
                                   size="lg"
                                   style={{
                                     pointerEvents:
-                                      info.updates[info.updates.length - 1]
-                                        .status === "Done"
+                                      info.updates[0].status === "Done"
                                         ? "none"
                                         : "",
                                     margin: ".5em",
@@ -509,8 +508,7 @@ export default function Home() {
                                   size="lg"
                                   style={{
                                     pointerEvents:
-                                      info.updates[info.updates.length - 1]
-                                        .status === "Done"
+                                      info.updates[0].status === "Done"
                                         ? "none"
                                         : "",
                                     margin: ".5em",
