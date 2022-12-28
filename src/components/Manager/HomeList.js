@@ -24,6 +24,7 @@ export default function HomeList(props) {
   const [selected, setSelected] = useState(
     JSON.parse(localStorage.getItem("teammateSelected"))
   );
+  const [taskSelected, setTaskSelected] = useState();
   const [newTask, setNewTask] = useState({
     client: "",
     task: "",
@@ -150,6 +151,7 @@ export default function HomeList(props) {
                               "teammateSelected",
                               JSON.stringify(info.teammate)
                             );
+                            setTaskSelected(null);
                             setSelected(info.teammate);
                           }}>
                           <TableCell
@@ -482,8 +484,11 @@ export default function HomeList(props) {
                               </TableRow>
                             ) : (
                               info.data.tasks.map((info1, index) => {
-                                return (
+                                return taskSelected !== index ? (
                                   <TableRow
+                                    onClick={() => {
+                                      setTaskSelected(index);
+                                    }}
                                     key={index}
                                     style={{
                                       backgroundColor:
@@ -500,7 +505,7 @@ export default function HomeList(props) {
                                     <TableCell align="center">
                                       {info1.task}
                                     </TableCell>
-                                    {info1?.updates ? (
+                                    {info1.updates ? (
                                       <>
                                         <TableCell align="center">
                                           {
@@ -582,6 +587,227 @@ export default function HomeList(props) {
                                     ) : (
                                       <></>
                                     )}
+                                    <TableCell
+                                      align="center"
+                                      className="text-end">
+                                      <OverlayTrigger
+                                        trigger="click"
+                                        key="bottom"
+                                        placement="auto"
+                                        rootClose
+                                        overlay={
+                                          <Popover
+                                            id={`popover-positioned-bottom`}>
+                                            <Popover.Body>
+                                              <div
+                                                className="d-grid gap-2"
+                                                style={{
+                                                  marginBottom: ".5em",
+                                                }}>
+                                                <Button
+                                                  onClick={() => {
+                                                    handleDeleteTask(
+                                                      info.teammate,
+                                                      index
+                                                    );
+                                                  }}
+                                                  variant="light"
+                                                  style={{
+                                                    textAlign: "left",
+                                                  }}
+                                                  block>
+                                                  <FontAwesomeIcon
+                                                    icon="fa-solid fa-trash"
+                                                    style={{
+                                                      paddingRight: ".5em",
+                                                    }}
+                                                  />
+                                                  Delete Task
+                                                </Button>
+                                              </div>
+                                              <div
+                                                className="d-grid gap-2"
+                                                style={{
+                                                  marginBottom: ".5em",
+                                                }}>
+                                                <Button
+                                                  onClick={() => {
+                                                    handleUpTask(
+                                                      info.teammate,
+                                                      index,
+                                                      info.data.tasks,
+                                                      info.data.tasks.length
+                                                    );
+                                                  }}
+                                                  variant="light"
+                                                  style={{
+                                                    textAlign: "left",
+                                                  }}
+                                                  block>
+                                                  <FontAwesomeIcon
+                                                    icon="fa-solid fa-chevron-up"
+                                                    style={{
+                                                      paddingRight: ".5em",
+                                                    }}
+                                                  />
+                                                  Move Up
+                                                </Button>
+                                              </div>
+                                              <div
+                                                className="d-grid gap-2"
+                                                style={{
+                                                  marginBottom: ".5em",
+                                                }}>
+                                                <Button
+                                                  onClick={() => {
+                                                    handleDownTask(
+                                                      info.teammate,
+                                                      index,
+                                                      info.data.tasks,
+                                                      info.data.tasks.length
+                                                    );
+                                                  }}
+                                                  variant="light"
+                                                  style={{
+                                                    textAlign: "left",
+                                                  }}
+                                                  block>
+                                                  <FontAwesomeIcon
+                                                    icon="fa-solid fa-chevron-down"
+                                                    style={{
+                                                      paddingRight: ".5em",
+                                                    }}
+                                                  />
+                                                  Move Down
+                                                </Button>
+                                              </div>
+                                            </Popover.Body>
+                                          </Popover>
+                                        }>
+                                        <FontAwesomeIcon
+                                          className="pointer"
+                                          icon="fa-solid fa-ellipsis-vertical"
+                                          style={{
+                                            color: "blue",
+                                            paddingRight: ".25em",
+                                          }}
+                                        />
+                                      </OverlayTrigger>
+                                    </TableCell>
+                                  </TableRow>
+                                ) : (
+                                  <TableRow
+                                    onClick={() => {
+                                      setTaskSelected(null);
+                                    }}
+                                    key={index}
+                                    style={{
+                                      backgroundColor:
+                                        info1.updates[info1.updates.length - 1]
+                                          .status !== "Done"
+                                          ? "#fff"
+                                          : "#f9fbff",
+                                    }}
+                                    className="box-shadow">
+                                    <TableCell align="center">
+                                      {info1.client}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {info1.task}
+                                      <br />
+                                      <br />
+                                      {info1.description}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {info1.updates
+                                        .sort((a, b) =>
+                                          a.corrections > b.corrections ? -1 : 1
+                                        )
+                                        .map((info2) => {
+                                          return (
+                                            <p>
+                                              {info2.date}
+                                              <br />
+                                            </p>
+                                          );
+                                        })}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {info1.updates
+                                        .sort((a, b) =>
+                                          a.corrections > b.corrections ? -1 : 1
+                                        )
+                                        .map((info2) => {
+                                          return (
+                                            <p>
+                                              {info2.time}
+                                              <br />
+                                            </p>
+                                          );
+                                        })}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {info1.updates
+                                        .sort((a, b) =>
+                                          a.corrections > b.corrections ? -1 : 1
+                                        )
+                                        .map((info2) => {
+                                          return (
+                                            <p>
+                                              {info2.corrections === "0"
+                                                ? info2.corrections
+                                                : "+" + info2.corrections}
+                                              <br />
+                                            </p>
+                                          );
+                                        })}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {info1.updates
+                                        .sort((a, b) =>
+                                          a.corrections > b.corrections ? -1 : 1
+                                        )
+                                        .map((info2) => {
+                                          return (
+                                            <p
+                                              style={
+                                                (info2.status === "Done" && {
+                                                  color: "#000000",
+                                                }) ||
+                                                (info2.status ===
+                                                  "On Going" && {
+                                                  color: "#24A43A",
+                                                }) ||
+                                                (info2.status === "Paused" && {
+                                                  color: "#2972B2",
+                                                }) ||
+                                                (info2.status ===
+                                                  "Assigned" && {
+                                                  color: "#D1AE00",
+                                                })
+                                              }>
+                                              {info2.status}
+                                              <br />
+                                            </p>
+                                          );
+                                        })}
+                                    </TableCell>
+
+                                    <TableCell align="center">
+                                      {info1.updates[info1.updates.length - 1]
+                                        .status === "Done" ? (
+                                        <Button
+                                          type="Button"
+                                          variant="light"
+                                          style={{
+                                            backgroundColor: "white",
+                                          }}>
+                                          Correction
+                                        </Button>
+                                      ) : (
+                                        <></>
+                                      )}
+                                    </TableCell>
                                     <TableCell
                                       align="center"
                                       className="text-end">
