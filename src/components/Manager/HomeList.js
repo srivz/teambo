@@ -126,10 +126,21 @@ const addTeammate=()=>{
   }
    let id = teammateEmail.split(".");
    let newId = id.join("_");
-   let newArr=[...props.team,newId]
-   update(ref(db, `manager/${auth.currentUser.uid}/`), {
-     teammates: newArr,
-   });
+    if(props.team.length===0){
+      let newArr = [...props.team, newId];
+       update(ref(db, `manager/${auth.currentUser.uid}/`), {
+         teammates: newArr,
+       });
+    }else{
+      let newArr = [];
+      props.team.forEach((element) => {
+        newArr.push(element.teammate);
+      });
+      let newArr2 = [...newArr, newId];
+       update(ref(db, `manager/${auth.currentUser.uid}/`), {
+         teammates: newArr2,
+       });
+    }
    window.location.reload()
 }
 

@@ -92,6 +92,7 @@ export default function Home() {
           addTask={writeUserData}
           deleteTask={deleteCurrentTask}
           managerId={managerId}
+          manager={manager}
         />
       ) : (
         <HomeBlock
