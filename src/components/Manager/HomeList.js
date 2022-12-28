@@ -60,12 +60,12 @@ export default function HomeList(props) {
     setNewTask({ ...newTask, ...newInput });
   };
   const handleNewTask = async (id, tasknumber) => {
-        setLoading(true);
+    setLoading(true);
     await props.addTask(newTask, id, tasknumber);
     await window.location.reload();
   };
   const handleTaskCorrection = (id, index, correction) => {
-        setLoading(true);
+    setLoading(true);
     set(ref(db, `/teammate/${id}/tasks/${index}/updates/${correction}`), {
       date:
         String(today.getDate()).padStart(2, "0") +
@@ -82,12 +82,12 @@ export default function HomeList(props) {
     });
   };
   const handleDeleteTask = (id, index) => {
-        setLoading(true);
+    setLoading(true);
     props.deleteTask(id, index);
   };
 
   onChildChanged(ref(db, `/teammate/`), () => {
-        setLoading(true);
+    setLoading(true);
     window.location.reload();
   });
   function swap(arr, from, to) {
@@ -97,7 +97,7 @@ export default function HomeList(props) {
   }
 
   const handleUpTask = (id, index, tasks, taskLength) => {
-        setLoading(true);
+    setLoading(true);
     if (index === 0) {
       alert("Its already on the top");
     } else {
@@ -110,7 +110,7 @@ export default function HomeList(props) {
   };
 
   const handleDownTask = (id, index, tasks, taskLength) => {
-        setLoading(true);
+    setLoading(true);
     if (index === taskLength - 1) {
       alert("Its already on the bottom");
     } else {
