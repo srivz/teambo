@@ -5,11 +5,13 @@ import HomeBlock from "./HomeBlock";
 import HomeList from "./HomeList";
 import { onValue, ref, remove, set } from "firebase/database";
 import { onAuthStateChanged } from "firebase/auth";
+import Loader from "../Loader/Loader";
 
 export default function Home() {
   const [view, setView] = useState(true);
   const [manager, setManager] = useState({});
   const [once, setOnce] = useState(true);
+  const [loading,setLoading]=useState(false)
   const [once1, setOnce1] = useState(true);
   const [managerId,setManagerId]=useState("");
   const [teammateList, setTeammateList] = useState([]);
@@ -17,12 +19,15 @@ export default function Home() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       if (once) {
+        setLoading(true)
         let userSet = onValue(ref(db, `manager/${user.uid}`), (snapshot) => {
           if (snapshot.exists()) {
             let data = snapshot.val();
             setManager(data);
             setManagerId(user.uid)
+            setLoading(false)
           } else {
+            setLoading(false)
             console.log("No data available");
           }
         });
@@ -39,7 +44,7 @@ export default function Home() {
 
 
   const getTeammates = (teamList) => {
-    if (once1)
+    if (once1){
         teamList.forEach((teammate) => {
           onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
             if (snapshot.exists()) {
@@ -53,7 +58,7 @@ export default function Home() {
             }
           });
         });
-    
+      }
   
     setOnce1(false);
   };
@@ -82,31 +87,35 @@ export default function Home() {
 
 
   return (
-    <div>
-      <NavBar
-        user="MANAGER"
-        name={manager.name}
-        role={manager.designation}
-      />
+    <>{
+      loading ? <Loader /> : <div>
+        <NavBar
+          user="MANAGER"
+          name={manager.name}
+          role={manager.designation}
+        />
 
-      {view ? (
-        <HomeList
-          viewType={view}
-          team={teammateList}
-          onChange={handleChange}
-          addTask={writeUserData}
-          deleteTask={deleteCurrentTask}
-          managerId={managerId}
-          manager={manager}
-        />
-      ) : (
-        <HomeBlock
-          viewType={view}
-          team={teammateList}
-          onChange={handleChange}
-          addTask={writeUserData}
-        />
-      )}
-    </div>
+        {view ? (
+          <HomeList
+            viewType={view}
+            team={teammateList}
+            onChange={handleChange}
+            addTask={writeUserData}
+            deleteTask={deleteCurrentTask}
+            managerId={managerId}
+            manager={manager}
+          />
+        ) : (
+          <HomeBlock
+            viewType={view}
+            team={teammateList}
+            onChange={handleChange}
+            addTask={writeUserData}
+          />
+        )}
+      </div>
+
+    }</>
+    
   );
 }

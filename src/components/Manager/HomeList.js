@@ -23,8 +23,8 @@ export default function HomeList(props) {
   const [selected, setSelected] = useState(
     JSON.parse(localStorage.getItem("teammateSelected"))
   );
-  const [display,setDisplay]=useState("none")
-  const [teammateEmail,setTeammateEmail]=useState("")
+
+  const [teammateEmail, setTeammateEmail] = useState("");
   const [taskSelected, setTaskSelected] = useState();
   const [newTask, setNewTask] = useState({
     client: "",
@@ -83,7 +83,6 @@ export default function HomeList(props) {
   onChildChanged(ref(db, `/teammate/`), () => {
     window.location.reload();
   });
-
   function swap(arr, from, to) {
     let temp = arr[from];
     arr[from] = arr[to];
@@ -115,36 +114,9 @@ export default function HomeList(props) {
       window.location.reload();
     }
   };
- const show=()=>{
-  setDisplay("block")
- }
-   
-const addTeammate=()=>{
-  if(teammateEmail===""){
-    alert("Enter email first")
-    return;
-  }
-   let id = teammateEmail.split(".");
-   let newId = id.join("_");
-    if(props.team.length===0){
-      let newArr = [...props.team, newId];
-       update(ref(db, `manager/${auth.currentUser.uid}/`), {
-         teammates: newArr,
-       });
-    }else{
-      let newArr = [];
-      props.team.forEach((element) => {
-        newArr.push(element.teammate);
-      });
-      let newArr2 = [...newArr, newId];
-       update(ref(db, `manager/${auth.currentUser.uid}/`), {
-         teammates: newArr2,
-       });
-    }
-   window.location.reload()
-}
-
-
+  const addTeammate = () => {
+    props.addTeammate(teammateEmail);
+  };
 
 
   return (
@@ -154,6 +126,68 @@ const addTeammate=()=>{
           <Col sm={3} md={3} style={{ marginTop: "1em" }}>
             <div className="task-box">
               <h4 className="blue">Teammate Tasks</h4>
+              <OverlayTrigger
+                trigger="click"
+                key="auto"
+                placement="auto"
+                rootClose
+                overlay={
+                  <div
+                    className="bg-white"
+                    style={{
+                      padding: "1em",
+                      marginTop: "10px",
+                      marginLeft: "-50px",
+                      width: "400px",
+                      boxShadow: "rgba(0, 0, 0, 0.15) 1px 3px 5px",
+                    }}>
+                    <Row>
+                      <Col md={"10"}>
+                        <input
+                          className="rounded-2 w-100"
+                          style={{
+                            marginTop: ".5em",
+                            padding: ".25em",
+                            borderRadius: "25px",
+                            border: "2px solid #e8e7e7",
+                            paddingLeft: "20px",
+                          }}
+                          type="email"
+                          name="email"
+                          id="search"
+                          placeholder="Teammate's Email"
+                          onChange={(e) => setTeammateEmail(e.target.value)}
+                        />
+                      </Col>
+                      <Col md={"2"}>
+                        <Button
+                          style={{
+                            marginTop: ".5em",
+                            borderRadius: "25px",
+                            border: "2px solid #e8e7e7",
+                          }}
+                          type="Button"
+                          variant="light"
+                          onClick={() => addTeammate()}
+                          className="bg-white box-shadow rounded-4">
+                          <FontAwesomeIcon icon="fa-regular fa-square-plus" />
+                        </Button>
+                      </Col>
+                    </Row>
+                  </div>
+                }>
+                <Button
+                  type="Button"
+                  variant="light"
+                  className="bg-white box-shadow rounded-4">
+                  <FontAwesomeIcon
+                    icon="fa-regular fa-square-plus"
+                    style={{ paddingRight: ".5em" }}
+                  />
+                  Add Teammate
+                </Button>
+              </OverlayTrigger>
+
               <input
                 className="rounded-2 w-100"
                 style={{
@@ -172,28 +206,10 @@ const addTeammate=()=>{
                 style={{
                   borderCollapse: "separate",
                   borderSpacing: "0 20px",
-                }}
-              >
-                <input
-                  className="rounded-2 w-100"
-                  style={{
-                    marginTop: "1em",
-                    padding: ".25em",
-                    borderRadius: "25px",
-                    border: "2px solid #e8e7e7",
-                    paddingLeft: "20px",
-                    display
-                  }}
-                  type="email"
-                  name="email"
-                  id="search"
-                  placeholder="Teammate's Email"
-                  onChange={(e)=>setTeammateEmail(e.target.value)}
-                />
-                <button className="add-teammate-button"
-                onClick={display==='none'?show:addTeammate}
-                >Add Teammate</button>
-
+                }}>
+                <TableHead>
+                  <TableRow></TableRow>
+                </TableHead>
                 <TableBody>
                   {!props.team ? (
                     <TableRow colSpan={7} align="center">
@@ -572,8 +588,10 @@ const addTeammate=()=>{
                         return (
                           <>
                             {!info.data.tasks ? (
-                              <TableRow align="center">
-                                <TableCell>No tasks assigned</TableCell>
+                              <TableRow
+                                colSpan={7}
+                                align="center">
+                                No tasks assigned
                               </TableRow>
                             ) : (
                               info.data.tasks.map((info1, index) => {
@@ -887,6 +905,7 @@ const addTeammate=()=>{
                                     </TableCell>
                                     <TableCell
                                       style={{
+                                        width: "100px",
                                         fontFamily: "rockwen",
                                       }}
                                       onClick={() => {
@@ -897,7 +916,13 @@ const addTeammate=()=>{
                                       {info1.task}
                                       <br />
                                       <br />
-                                      <p>{info1.description}</p>
+                                      <p
+                                        style={{
+                                          width: "100px",
+                                          fontSize: "smaller",
+                                        }}>
+                                        {info1.description}
+                                      </p>
                                     </TableCell>
                                     <TableCell
                                       onClick={() => {
