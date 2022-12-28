@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { auth, db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 import HomeBlock from "./HomeBlock";
@@ -35,21 +35,26 @@ export default function Home() {
     }
   });
 
+
+
+
   const getTeammates = (teamList) => {
     if (once1)
-      teamList.forEach((teammate) => {
-        onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
-          if (snapshot.exists()) {
-            const data = snapshot.val();
-            setTeammateList((teammateList) => [
-              ...teammateList,
-              { data, teammate },
-            ]);
-          } else {
-            console.log("No data available");
-          }
+        teamList.forEach((teammate) => {
+          onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
+            if (snapshot.exists()) {
+              const data = snapshot.val();
+              setTeammateList((teammateList) => [
+                ...teammateList,
+                { data, teammate },
+              ]);
+            } else {
+              console.log("No data available");
+            }
+          });
         });
-      });
+    
+  
     setOnce1(false);
   };
   function handleChange(newValue) {
