@@ -51,19 +51,19 @@ export default function Home() {
     window.location.reload();
   });
   const playTask = (e, index, length) => {
-        setLoading(true);
+    setLoading(true);
     update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
       status: "On Going",
     });
   };
   const pauseTask = (e, index, length) => {
-        setLoading(true);
+    setLoading(true);
     update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
       status: "Paused",
     });
   };
   const completeTask = (e, index, length) => {
-        setLoading(true);
+    setLoading(true);
     update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
       status: "Done",
     });
@@ -302,10 +302,9 @@ export default function Home() {
                                                 icon="fa-solid fa-circle-play"
                                                 size="lg"
                                                 style={{
-                                                  pointerEvents:
-                                                    info.updates[
-                                                      info.updates.length - 1
-                                                    ].status === "Done"
+                                                  display:
+                                                    info.updates[0].status ===
+                                                    "Done"
                                                       ? "none"
                                                       : "",
                                                   margin: ".5em",
@@ -324,10 +323,9 @@ export default function Home() {
                                                 icon="fa-solid fa-circle-pause"
                                                 size="lg"
                                                 style={{
-                                                  pointerEvents:
-                                                    info.updates[
-                                                      info.updates.length - 1
-                                                    ].status === "Done"
+                                                  display:
+                                                    info.updates[0].status ===
+                                                    "Done"
                                                       ? "none"
                                                       : "",
                                                   margin: ".5em",
@@ -345,6 +343,11 @@ export default function Home() {
                                                 icon="fa-solid fa-circle-check"
                                                 size="lg"
                                                 style={{
+                                                  display:
+                                                    info.updates[0].status ===
+                                                    "Done"
+                                                      ? "none"
+                                                      : "",
                                                   margin: ".5em",
                                                   cursor: "pointer",
                                                 }}
