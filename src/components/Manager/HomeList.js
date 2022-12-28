@@ -17,7 +17,7 @@ import {
   Popover,
   Row,
 } from "react-bootstrap";
-import { db,auth } from "../../firebase-config";
+import { db } from "../../firebase-config";
 export default function HomeList(props) {
   var today = new Date();
   const [selected, setSelected] = useState(
