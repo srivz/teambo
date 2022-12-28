@@ -37,7 +37,9 @@ export default function Signup() {
         teammates: [],
       }).then(() => (window.location.href = "/signUp/response"));
     } else {
-      set(ref(db, "/teammate/" + userLog.email), {
+      let id = userLog.email.split('.');
+      let newId = id.join('_')
+      set(ref(db, "/teammate/" + newId), {
         company: user.companyName,
         designation: user.designation,
         name: user.name,

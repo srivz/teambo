@@ -75,30 +75,7 @@ body {
   height: 70px;
   border-radius: 5px;
 }
-<<<<<<< HEAD
-.form-box {
-  max-width: 460px;
-  margin: auto;
-  padding: 60px;
-  background: transparent;
-  box-shadow: 0px 3px 18px #0000001A;
-  border-radius: 20px;
-}
-.form-box1 {
-  width: 800px;
-  margin: auto;
-  padding: 60px;
-  background: transparent;
-  box-shadow: 0px 3px 18px #0000001A;
-  border-radius: 20px;
-}
-.form-box1 input,.form-box input{
-  padding: 12px;
-  border: 2px solid #e8e7e7;
-  border-radius: 20px !important;
-}
-=======
->>>>>>> 3c97ddc31b9e1b2573f7ff773f885324043cc8dc
+
 .msg-box {
   max-width: 600px;
   margin: auto;
@@ -112,6 +89,19 @@ body {
   border-collapse: separate;
   border-spacing: 0 20px;
 }
+.add-teammate-button{
+  width: 100%;
+  border: 0;
+  padding: 8px;
+  color: #fff;
+  margin-top: 10px;
+  background-color: rgb(59, 134, 188);
+}
+.add-teammate-button:hover{
+  background-color: rgb(84, 128, 239);
+}
+
+
 .task-box {
   background-color: white;
   max-width: 450px;

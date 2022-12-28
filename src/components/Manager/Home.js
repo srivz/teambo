@@ -11,6 +11,7 @@ export default function Home() {
   const [manager, setManager] = useState({});
   const [once, setOnce] = useState(true);
   const [once1, setOnce1] = useState(true);
+  const [managerId,setManagerId]=useState("");
   const [teammateList, setTeammateList] = useState([]);
 
   onAuthStateChanged(auth, (user) => {
@@ -20,6 +21,7 @@ export default function Home() {
           if (snapshot.exists()) {
             let data = snapshot.val();
             setManager(data);
+            setManagerId(user.uid)
           } else {
             console.log("No data available");
           }
@@ -89,6 +91,7 @@ export default function Home() {
           onChange={handleChange}
           addTask={writeUserData}
           deleteTask={deleteCurrentTask}
+          managerId={managerId}
         />
       ) : (
         <HomeBlock
