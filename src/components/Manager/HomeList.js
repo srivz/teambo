@@ -486,9 +486,6 @@ export default function HomeList(props) {
                               info.data.tasks.map((info1, index) => {
                                 return taskSelected !== index ? (
                                   <TableRow
-                                    onClick={() => {
-                                      setTaskSelected(index);
-                                    }}
                                     key={index}
                                     style={{
                                       backgroundColor:
@@ -499,29 +496,49 @@ export default function HomeList(props) {
                                       height: "70px",
                                     }}
                                     className="box-shadow">
-                                    <TableCell align="center">
+                                    <TableCell
+                                      onClick={() => {
+                                        setTaskSelected(index);
+                                      }}
+                                      align="center">
                                       {info1.client}
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell
+                                      onClick={() => {
+                                        setTaskSelected(index);
+                                      }}
+                                      align="center">
                                       {info1.task}
                                     </TableCell>
                                     {info1.updates ? (
                                       <>
-                                        <TableCell align="center">
+                                        <TableCell
+                                          onClick={() => {
+                                            setTaskSelected(index);
+                                          }}
+                                          align="center">
                                           {
                                             info1.updates[
                                               info1.updates.length - 1
                                             ].date
                                           }
                                         </TableCell>
-                                        <TableCell align="center">
+                                        <TableCell
+                                          onClick={() => {
+                                            setTaskSelected(index);
+                                          }}
+                                          align="center">
                                           {
                                             info1.updates[
                                               info1.updates.length - 1
                                             ].time
                                           }
                                         </TableCell>
-                                        <TableCell align="center">
+                                        <TableCell
+                                          onClick={() => {
+                                            setTaskSelected(index);
+                                          }}
+                                          align="center">
                                           {info1.updates[
                                             info1.updates.length - 1
                                           ].corrections === "0"
@@ -534,6 +551,9 @@ export default function HomeList(props) {
                                               ].corrections}
                                         </TableCell>
                                         <TableCell
+                                          onClick={() => {
+                                            setTaskSelected(index);
+                                          }}
                                           align="center"
                                           style={
                                             (info1.updates[
@@ -697,9 +717,6 @@ export default function HomeList(props) {
                                   </TableRow>
                                 ) : (
                                   <TableRow
-                                    onClick={() => {
-                                      setTaskSelected(null);
-                                    }}
                                     key={index}
                                     style={{
                                       backgroundColor:
@@ -709,16 +726,28 @@ export default function HomeList(props) {
                                           : "#f9fbff",
                                     }}
                                     className="box-shadow">
-                                    <TableCell align="center">
+                                    <TableCell
+                                      onClick={() => {
+                                        setTaskSelected(null);
+                                      }}
+                                      align="center">
                                       {info1.client}
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell
+                                      onClick={() => {
+                                        setTaskSelected(null);
+                                      }}
+                                      align="center">
                                       {info1.task}
                                       <br />
                                       <br />
-                                      {info1.description}
+                                      <p>{info1.description}</p>
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell
+                                      onClick={() => {
+                                        setTaskSelected(null);
+                                      }}
+                                      align="center">
                                       {info1.updates
                                         .sort((a, b) =>
                                           a.corrections > b.corrections ? -1 : 1
@@ -732,7 +761,11 @@ export default function HomeList(props) {
                                           );
                                         })}
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell
+                                      onClick={() => {
+                                        setTaskSelected(null);
+                                      }}
+                                      align="center">
                                       {info1.updates
                                         .sort((a, b) =>
                                           a.corrections > b.corrections ? -1 : 1
@@ -746,7 +779,11 @@ export default function HomeList(props) {
                                           );
                                         })}
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell
+                                      onClick={() => {
+                                        setTaskSelected(null);
+                                      }}
+                                      align="center">
                                       {info1.updates
                                         .sort((a, b) =>
                                           a.corrections > b.corrections ? -1 : 1
@@ -762,7 +799,11 @@ export default function HomeList(props) {
                                           );
                                         })}
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell
+                                      onClick={() => {
+                                        setTaskSelected(null);
+                                      }}
+                                      align="center">
                                       {info1.updates
                                         .sort((a, b) =>
                                           a.corrections > b.corrections ? -1 : 1
