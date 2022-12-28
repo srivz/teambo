@@ -21,7 +21,9 @@ import { db } from "../../firebase-config";
 
 export default function HomeList(props) {
   var today = new Date();
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(
+    JSON.parse(localStorage.getItem("teammateSelected"))
+  );
   const [newTask, setNewTask] = useState({
     client: "",
     task: "",
@@ -78,7 +80,7 @@ export default function HomeList(props) {
       window.location.reload();
     }
   };
- 
+
   const handleDownTask = (id, index, tasks, taskLength) => {
     if (index === taskLength - 1) {
       alert("Its already on the bottom");
@@ -138,7 +140,13 @@ export default function HomeList(props) {
                         <TableRow
                           key={info.teammate}
                           className="box-shadow"
-                          onClick={() => setSelected(info.teammate)}>
+                          onClick={() => {
+                            localStorage.setItem(
+                              "teammateSelected",
+                              JSON.stringify(info.teammate)
+                            );
+                            setSelected(info.teammate);
+                          }}>
                           <TableCell
                             style={{
                               backgroundColor:
