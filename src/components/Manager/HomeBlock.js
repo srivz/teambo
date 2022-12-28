@@ -363,43 +363,66 @@ export default function HomeBlock(props) {
                               </Row>
                             </div>
                           ) : (
-                            info.data.tasks
-                              .sort((a, b) =>
-                                a.priority > b.priority ? 1 : -1
-                              )
-                              .map((info1, index) => {
-                                return (
-                                  <div
-                                    key={index}
-                                    className="card-tasks">
-                                    <Row>
-                                      <Col sm="8">
-                                        <span>{info1.client}</span>
-                                        <br />
-                                        <span>{info1.task}</span>
-                                      </Col>
-                                      <Col sm="4">
-                                        {info1.updates
-                                          .sort((a, b) =>
-                                            a.corrections > b.corrections
-                                              ? -1
-                                              : 1
-                                          )
-                                          .map((info2, id2) => {
-                                            return id2 === 0 ? (
-                                              <span className="green fw-bold text-end task-status">
-                                                {info2.status}
-                                              </span>
-                                            ) : (
-                                              <></>
-                                            );
-                                          })}
-                                      </Col>
-                                    </Row>
-                                    <hr class="divider" />
-                                  </div>
-                                );
-                              })
+                            info.data.tasks.map((info1, index) => {
+                              return (
+                                <div
+                                  key={index}
+                                  className="card-tasks">
+                                  <Row>
+                                    <Col sm="8">
+                                      <span>{info1.client}</span>
+                                      <br />
+                                      <span>{info1.task}</span>
+                                    </Col>
+                                    <Col sm="4">
+                                      {info1.updates ? (
+                                        <span
+                                          style={
+                                            (info1.updates[
+                                              info1.updates.length - 1
+                                            ].status === "Done" && {
+                                              fontFamily: "rockwen",
+                                              color: "#000000",
+                                              fontWeight: "bold",
+                                            }) ||
+                                            (info1.updates[
+                                              info1.updates.length - 1
+                                            ].status === "On Going" && {
+                                              fontFamily: "rockwen",
+                                              color: "#24A43A",
+                                              fontWeight: "bold",
+                                            }) ||
+                                            (info1.updates[
+                                              info1.updates.length - 1
+                                            ].status === "Paused" && {
+                                              fontFamily: "rockwen",
+                                              color: "#2972B2",
+                                              fontWeight: "bold",
+                                            }) ||
+                                            (info1.updates[
+                                              info1.updates.length - 1
+                                            ].status === "Assigned" && {
+                                              fontFamily: "rockwen",
+                                              color: "#D1AE00",
+                                              fontWeight: "bold",
+                                            })
+                                          }
+                                          className="text-end task-status">
+                                          {
+                                            info1.updates[
+                                              info1.updates.length - 1
+                                            ].status
+                                          }
+                                        </span>
+                                      ) : (
+                                        <></>
+                                      )}
+                                    </Col>
+                                  </Row>
+                                  <hr class="divider" />
+                                </div>
+                              );
+                            })
                           )}
                         </div>
                       </div>
