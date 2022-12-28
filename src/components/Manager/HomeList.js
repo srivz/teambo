@@ -58,9 +58,9 @@ export default function HomeList(props) {
   };
   const handleNewTask = async (id, tasknumber) => {
     await props.addTask(newTask, id, tasknumber);
-    await window.location.reload();
   };
   const handleTaskCorrection = (id, index, correction) => {
+    props.setLoading(true);
     set(ref(db, `/teammate/${id}/tasks/${index}/updates/${correction}`), {
       date:
         String(today.getDate()).padStart(2, "0") +
@@ -72,8 +72,9 @@ export default function HomeList(props) {
         today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
       corrections: "" + correction,
       status: "Assigned",
-    }).catch((err) => {
+    }).then(()=>props.setLoading(false)).catch((err) => {
       console.log(err);
+      props.setLoading(false)
     });
   };
   const handleDeleteTask = (id, index) => {
@@ -90,7 +91,9 @@ export default function HomeList(props) {
   }
 
   const handleUpTask = (id, index, tasks, taskLength) => {
+    props.setLoading(true)
     if (index === 0) {
+      props.setLoading(false)
       alert("Its already on the top");
     } else {
       let newarr = tasks;
@@ -98,20 +101,23 @@ export default function HomeList(props) {
       update(ref(db, `teammate/${id}/`), {
         tasks: newarr,
       });
-      window.location.reload();
+      props.setLoading(false);
     }
   };
 
   const handleDownTask = (id, index, tasks, taskLength) => {
+    // props.setLoading(true);
     if (index === taskLength - 1) {
+      props.setLoading(false);
       alert("Its already on the bottom");
     } else {
       let newarr = tasks;
+      console.log(newarr);
       swap(newarr, index + 1, index);
       update(ref(db, `teammate/${id}/`), {
         tasks: newarr,
       });
-      window.location.reload();
+     props.setLoading(false);
     }
   };
   const addTeammate = () => {

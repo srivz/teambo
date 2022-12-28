@@ -11,7 +11,7 @@ export default function Home() {
   const [view, setView] = useState(true);
   const [manager, setManager] = useState({});
   const [once, setOnce] = useState(true);
-  const [loading,setLoading]=useState(false)
+  const [loading,setLoading]=useState(true)
   const [once1, setOnce1] = useState(true);
   const [managerId,setManagerId]=useState("");
   const [teammateList, setTeammateList] = useState([]);
@@ -66,21 +66,25 @@ export default function Home() {
     setView(newValue);
   }
   function writeUserData(newTask, teammateId, index) {
+    setLoading(true)
     set(ref(db, `/teammate/${teammateId}/tasks/${index}/`), newTask)
       .then(() => {
-        window.location.reload();
+        setLoading(false)
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false)
       });
   }
   function deleteCurrentTask(teammateId, index) {
+    setLoading(true)
     remove(ref(db, `/teammate/${teammateId}/tasks/${index}/`))
       .then(() => {
-        window.location.reload();
+        setLoading(false)
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false)
       });
   }
 
@@ -104,6 +108,7 @@ export default function Home() {
             deleteTask={deleteCurrentTask}
             managerId={managerId}
             manager={manager}
+            setLoading={setLoading}
           />
         ) : (
           <HomeBlock
