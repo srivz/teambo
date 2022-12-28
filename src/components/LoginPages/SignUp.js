@@ -24,7 +24,7 @@ export default function Signup() {
     let newInput1 = { [event.target.name]: event.target.value };
     setUserLog({ ...userLog, ...newInput1 });
   };
-  const registerUser = (currentUser) => {
+  const registerUser = async (currentUser) => {
     if (user.designation === "Manager") {
       set(ref(db, "/manager/" + currentUser.uid), {
         company: user.companyName,
@@ -34,14 +34,15 @@ export default function Signup() {
         teammates: [],
       }).then(() => (window.location.href = "/signUp/response"));
     } else {
-      let id = userLog.email.split(".");
-      let newId = id.join("_");
-      set(ref(db, "/teammate/" + newId), {
-        company: user.companyName,
-        designation: user.designation,
-        name: user.name,
-        email: userLog.email,
-      }).then(() => (window.location.href = "/signUp/response"));
+      await set(
+        ref(db, "/teammate/" + currentUser.email.split(".").join("_")),
+        {
+          company: user.companyName,
+          designation: user.designation,
+          name: user.name,
+          email: userLog.email,
+        }
+      ).then(() => (window.location.href = "/signUp/response"));
     }
   };
 
