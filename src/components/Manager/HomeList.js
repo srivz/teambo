@@ -63,9 +63,9 @@ export default function HomeList(props) {
     props.deleteTask(id, index);
   };
 
-  // onChildChanged(ref(db, `/teammate/`), () => {
-  //   window.location.reload();
-  // });
+  onChildChanged(ref(db, `/teammate/`), () => {
+    window.location.reload();
+  });
 
   function swap(arr, from, to) {
     let temp = arr[from];
