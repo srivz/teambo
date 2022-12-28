@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { onAuthStateChanged } from "firebase/auth";
-import { onValue, ref, update } from "firebase/database";
+import { onChildChanged, onValue, ref, update } from "firebase/database";
 import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { auth, db } from "../../firebase-config";
@@ -45,6 +45,11 @@ export default function Home() {
     }
   });
 
+
+  onChildChanged(ref(db, `/teammate/`), () => {
+    setLoading(true);
+    window.location.reload();
+  });
   const playTask = (e, index, length) => {
         setLoading(true);
     update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
