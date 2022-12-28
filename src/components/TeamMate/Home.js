@@ -491,7 +491,7 @@ export default function Home() {
                                   icon="fa-solid fa-circle-play"
                                   size="lg"
                                   style={{
-                                    pointerEvents:
+                                    display:
                                       info.updates[0].status === "Done"
                                         ? "none"
                                         : "",
@@ -507,7 +507,7 @@ export default function Home() {
                                   icon="fa-solid fa-circle-pause"
                                   size="lg"
                                   style={{
-                                    pointerEvents:
+                                    display:
                                       info.updates[0].status === "Done"
                                         ? "none"
                                         : "",
@@ -522,6 +522,10 @@ export default function Home() {
                                   icon="fa-solid fa-circle-check"
                                   size="lg"
                                   style={{
+                                    display:
+                                      info.updates[0].status === "Done"
+                                        ? "none"
+                                        : "",
                                     margin: ".5em",
                                     cursor: "pointer",
                                   }}
