@@ -536,8 +536,10 @@ export default function HomeList(props) {
                         return (
                           <>
                             {!info.data.tasks ? (
-                              <TableRow align="center">
-                                <TableCell>No tasks assigned</TableCell>
+                              <TableRow
+                                colSpan={7}
+                                align="center">
+                                No tasks assigned
                               </TableRow>
                             ) : (
                               info.data.tasks.map((info1, index) => {

@@ -14,6 +14,7 @@ import { auth, db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 
 export default function Home() {
+  const [taskSelected, setTaskSelected] = useState();
   const [once, setOnce] = useState(true);
   const [teammate, setTeammate] = useState({});
   const [id, setId] = useState("");
@@ -86,37 +87,58 @@ export default function Home() {
                         }}>
                         <TableCell
                           align="center"
-                          style={{ fontWeight: "bold" }}>
+                          style={{
+                            fontFamily: "rockwen",
+                            fontWeight: "bold",
+                          }}>
                           Client
                         </TableCell>
                         <TableCell
                           align="center"
-                          style={{ fontWeight: "bold" }}>
+                          style={{
+                            fontFamily: "rockwen",
+                            fontWeight: "bold",
+                          }}>
                           Task
                         </TableCell>
                         <TableCell
                           align="center"
-                          style={{ fontWeight: "bold" }}>
+                          style={{
+                            fontFamily: "rockwen",
+                            fontWeight: "bold",
+                          }}>
                           Date
                         </TableCell>
                         <TableCell
                           align="center"
-                          style={{ fontWeight: "bold" }}>
+                          style={{
+                            fontFamily: "rockwen",
+                            fontWeight: "bold",
+                          }}>
                           Time
                         </TableCell>
                         <TableCell
                           align="center"
-                          style={{ fontWeight: "bold" }}>
+                          style={{
+                            fontFamily: "rockwen",
+                            fontWeight: "bold",
+                          }}>
                           Corrections
                         </TableCell>
                         <TableCell
                           align="center"
-                          style={{ fontWeight: "bold" }}>
+                          style={{
+                            fontFamily: "rockwen",
+                            fontWeight: "bold",
+                          }}>
                           Status
                         </TableCell>
                         <TableCell
                           align="center"
-                          style={{ fontWeight: "bold" }}>
+                          style={{
+                            fontFamily: "rockwen",
+                            fontWeight: "bold",
+                          }}>
                           Action
                         </TableCell>
                       </TableRow>
@@ -130,7 +152,7 @@ export default function Home() {
                         </TableRow>
                       ) : (
                         teammate.tasks.map((info, index) => {
-                          return (
+                          return taskSelected !== index ? (
                             <>
                               <TableRow
                                 style={{
@@ -143,146 +165,374 @@ export default function Home() {
                                 }}
                                 className="box-shadow"
                                 key={index}>
-                                <TableCell align="center">
+                                <TableCell
+                                  onClick={() => {
+                                    setTaskSelected(index);
+                                  }}
+                                  style={{
+                                    fontFamily: "rockwen",
+                                  }}
+                                  align="center">
                                   {info.client}
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell
+                                  onClick={() => {
+                                    setTaskSelected(index);
+                                  }}
+                                  style={{
+                                    fontFamily: "rockwen",
+                                  }}
+                                  align="center">
                                   {info.task}
                                 </TableCell>
-                                {info?.updates ? (
-                                  <>
-                                    <TableCell align="center">
-                                      {
-                                        info.updates[info.updates.length - 1]
-                                          .date
-                                      }
-                                    </TableCell>
-                                    <TableCell align="center">
-                                      {
-                                        info.updates[info.updates.length - 1]
-                                          .time
-                                      }
-                                    </TableCell>
-                                    <TableCell align="center">
-                                      +
-                                      {
-                                        info.updates[info.updates.length - 1]
-                                          .corrections
-                                      }
-                                    </TableCell>
-                                    <TableCell
-                                      align="center"
-                                      style={
-                                        (info.updates[info.updates.length - 1]
-                                          .status === "Done" && {
-                                          color: "#000000",
-                                          fontWeight: "bold",
-                                        }) ||
-                                        (info.updates[info.updates.length - 1]
-                                          .status === "On Going" && {
-                                          color: "#24A43A",
-                                          fontWeight: "bold",
-                                        }) ||
-                                        (info.updates[info.updates.length - 1]
-                                          .status === "Paused" && {
-                                          color: "#2972B2",
-                                          fontWeight: "bold",
-                                        }) ||
-                                        (info.updates[info.updates.length - 1]
-                                          .status === "Assigned" && {
-                                          color: "#D1AE00",
-                                          fontWeight: "bold",
-                                        })
-                                      }>
-                                      {
-                                        info.updates[info.updates.length - 1]
-                                          .status
-                                      }
-                                    </TableCell>
-                                    <TableCell align="center">
-                                      <FontAwesomeIcon
-                                        icon="fa-solid fa-circle-play"
-                                        size="lg"
-                                        style={{
-                                          pointerEvents:
+                                {info.updates
+                                  .sort((a, b) =>
+                                    a.corrections > b.corrections ? 1 : -1
+                                  )
+                                  .filter((info2, index) => index === 0)
+                                  .map((info2) => {
+                                    return (
+                                      <>
+                                        <TableCell
+                                          onClick={() => {
+                                            setTaskSelected(index);
+                                          }}
+                                          style={{
+                                            fontFamily: "rockwen",
+                                          }}
+                                          align="center">
+                                          {
                                             info.updates[
                                               info.updates.length - 1
-                                            ].status === "Done"
-                                              ? "none"
-                                              : "",
-                                          margin: ".5em",
-                                          cursor: "pointer",
-                                        }}
-                                        color="green"
-                                        onClick={(e) => {
-                                          playTask(
-                                            e,
-                                            index,
-                                            info.updates?.length
-                                          );
-                                        }}
-                                      />
-                                      <FontAwesomeIcon
-                                        icon="fa-solid fa-circle-pause"
-                                        size="lg"
-                                        style={{
-                                          pointerEvents:
+                                            ].date
+                                          }
+                                        </TableCell>
+                                        <TableCell
+                                          onClick={() => {
+                                            setTaskSelected(index);
+                                          }}
+                                          style={{
+                                            fontFamily: "rockwen",
+                                          }}
+                                          align="center">
+                                          {
                                             info.updates[
                                               info.updates.length - 1
-                                            ].status === "Done"
-                                              ? "none"
-                                              : "",
-                                          margin: ".5em",
-                                          cursor: "pointer",
-                                        }}
-                                        onClick={(e) => {
-                                          pauseTask(
-                                            e,
-                                            index,
-                                            info.updates?.length
-                                          );
-                                        }}
-                                      />
-                                      <FontAwesomeIcon
-                                        icon="fa-solid fa-circle-check"
-                                        size="lg"
-                                        style={{
-                                          margin: ".5em",
-                                          cursor: "pointer",
-                                        }}
-                                        onClick={(e) => {
-                                          completeTask(
-                                            e,
-                                            index,
-                                            info.updates?.length
-                                          );
-                                        }}
-                                      />
-                                    </TableCell>
-                                  </>
-                                ) : (
-                                  <>
-                                    <TableCell align="center">
-                                      Not Available
-                                    </TableCell>
-                                    <TableCell align="center">
-                                      Not Available
-                                    </TableCell>
-                                    <TableCell align="center">
-                                      Not Available
-                                    </TableCell>
-                                    <TableCell
-                                      align="center"
-                                      style={{
-                                        color: "#24a43a",
-                                        fontWeight: "bold",
-                                      }}>
-                                      Not Available
-                                    </TableCell>
-                                  </>
-                                )}
+                                            ].time
+                                          }
+                                        </TableCell>
+                                        <TableCell
+                                          onClick={() => {
+                                            setTaskSelected(index);
+                                          }}
+                                          style={{
+                                            fontFamily: "rockwen",
+                                          }}
+                                          align="center">
+                                          +
+                                          {
+                                            info.updates[
+                                              info.updates.length - 1
+                                            ].corrections
+                                          }
+                                        </TableCell>
+                                        <TableCell
+                                          onClick={() => {
+                                            setTaskSelected(index);
+                                          }}
+                                          align="center"
+                                          style={
+                                            (info.updates[
+                                              info.updates.length - 1
+                                            ].status === "Done" && {
+                                              color: "#000000",
+                                              fontFamily: "rockwen",
+                                              fontWeight: "bold",
+                                            }) ||
+                                            (info.updates[
+                                              info.updates.length - 1
+                                            ].status === "On Going" && {
+                                              color: "#24A43A",
+                                              fontFamily: "rockwen",
+                                              fontWeight: "bold",
+                                            }) ||
+                                            (info.updates[
+                                              info.updates.length - 1
+                                            ].status === "Paused" && {
+                                              color: "#2972B2",
+                                              fontFamily: "rockwen",
+                                              fontWeight: "bold",
+                                            }) ||
+                                            (info.updates[
+                                              info.updates.length - 1
+                                            ].status === "Assigned" && {
+                                              color: "#D1AE00",
+                                              fontFamily: "rockwen",
+                                              fontWeight: "bold",
+                                            })
+                                          }>
+                                          {
+                                            info.updates[
+                                              info.updates.length - 1
+                                            ].status
+                                          }
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <FontAwesomeIcon
+                                            icon="fa-solid fa-circle-play"
+                                            size="lg"
+                                            style={{
+                                              pointerEvents:
+                                                info.updates[
+                                                  info.updates.length - 1
+                                                ].status === "Done"
+                                                  ? "none"
+                                                  : "",
+                                              margin: ".5em",
+                                              cursor: "pointer",
+                                            }}
+                                            color="green"
+                                            onClick={(e) => {
+                                              playTask(
+                                                e,
+                                                index,
+                                                info.updates[
+                                                  info.updates.length - 1
+                                                ].length
+                                              );
+                                            }}
+                                          />
+                                          <FontAwesomeIcon
+                                            icon="fa-solid fa-circle-pause"
+                                            size="lg"
+                                            style={{
+                                              pointerEvents:
+                                                info.updates[
+                                                  info.updates.length - 1
+                                                ].status === "Done"
+                                                  ? "none"
+                                                  : "",
+                                              margin: ".5em",
+                                              cursor: "pointer",
+                                            }}
+                                            onClick={(e) => {
+                                              pauseTask(
+                                                e,
+                                                index,
+                                                info.updates[
+                                                  info.updates.length - 1
+                                                ].length
+                                              );
+                                            }}
+                                          />
+                                          <FontAwesomeIcon
+                                            icon="fa-solid fa-circle-check"
+                                            size="lg"
+                                            style={{
+                                              margin: ".5em",
+                                              cursor: "pointer",
+                                            }}
+                                            onClick={(e) => {
+                                              completeTask(
+                                                e,
+                                                index,
+                                                info.updates[
+                                                  info.updates.length - 1
+                                                ].length
+                                              );
+                                            }}
+                                          />
+                                        </TableCell>
+                                      </>
+                                    );
+                                  })}
                               </TableRow>
                             </>
+                          ) : (
+                            <TableRow
+                              key={index}
+                              style={{
+                                backgroundColor:
+                                  info.updates[info.updates.length - 1]
+                                    .status !== "Done"
+                                    ? "#fff"
+                                    : "#f9fbff",
+                              }}
+                              className="box-shadow">
+                              <TableCell
+                                style={{
+                                  fontFamily: "rockwen",
+                                }}
+                                onClick={() => {
+                                  setTaskSelected(null);
+                                }}
+                                align="center">
+                                {info.client}
+                              </TableCell>
+                              <TableCell
+                                style={{
+                                  fontFamily: "rockwen",
+                                }}
+                                onClick={() => {
+                                  setTaskSelected(null);
+                                }}
+                                align="center">
+                                {info.task}
+                                <br />
+                                <br />
+                                <p>{info.description}</p>
+                              </TableCell>
+                              <TableCell
+                                onClick={() => {
+                                  setTaskSelected(null);
+                                }}
+                                style={{
+                                  fontFamily: "rockwen",
+                                }}
+                                align="center">
+                                {info.updates
+                                  .sort((a, b) =>
+                                    a.corrections > b.corrections ? -1 : 1
+                                  )
+                                  .map((info2) => {
+                                    return (
+                                      <p>
+                                        {info2.date}
+                                        <br />
+                                      </p>
+                                    );
+                                  })}
+                              </TableCell>
+                              <TableCell
+                                onClick={() => {
+                                  setTaskSelected(null);
+                                }}
+                                style={{
+                                  fontFamily: "rockwen",
+                                }}
+                                align="center">
+                                {info.updates
+                                  .sort((a, b) =>
+                                    a.corrections > b.corrections ? -1 : 1
+                                  )
+                                  .map((info2) => {
+                                    return (
+                                      <p>
+                                        {info2.time}
+                                        <br />
+                                      </p>
+                                    );
+                                  })}
+                              </TableCell>
+                              <TableCell
+                                onClick={() => {
+                                  setTaskSelected(null);
+                                }}
+                                style={{
+                                  fontFamily: "rockwen",
+                                }}
+                                align="center">
+                                {info.updates
+                                  .sort((a, b) =>
+                                    a.corrections > b.corrections ? -1 : 1
+                                  )
+                                  .map((info2) => {
+                                    return (
+                                      <p>
+                                        {info2.corrections === "0"
+                                          ? info2.corrections
+                                          : "+" + info2.corrections}
+                                        <br />
+                                      </p>
+                                    );
+                                  })}
+                              </TableCell>
+                              <TableCell
+                                onClick={() => {
+                                  setTaskSelected(null);
+                                }}
+                                style={{
+                                  fontFamily: "rockwen",
+                                }}
+                                align="center">
+                                {info.updates
+                                  .sort((a, b) =>
+                                    a.corrections > b.corrections ? -1 : 1
+                                  )
+                                  .map((info2) => {
+                                    return (
+                                      <p
+                                        style={
+                                          (info2.status === "Done" && {
+                                            color: "#000000",
+                                            fontWeight: "bold",
+                                          }) ||
+                                          (info2.status === "On Going" && {
+                                            color: "#24A43A",
+                                            fontWeight: "bold",
+                                          }) ||
+                                          (info2.status === "Paused" && {
+                                            color: "#2972B2",
+                                            fontWeight: "bold",
+                                          }) ||
+                                          (info2.status === "Assigned" && {
+                                            color: "#D1AE00",
+                                            fontWeight: "bold",
+                                          })
+                                        }>
+                                        {info2.status}
+                                        <br />
+                                      </p>
+                                    );
+                                  })}
+                              </TableCell>
+                              <TableCell align="center">
+                                <FontAwesomeIcon
+                                  icon="fa-solid fa-circle-play"
+                                  size="lg"
+                                  style={{
+                                    pointerEvents:
+                                      info.updates[info.updates.length - 1]
+                                        .status === "Done"
+                                        ? "none"
+                                        : "",
+                                    margin: ".5em",
+                                    cursor: "pointer",
+                                  }}
+                                  color="green"
+                                  onClick={(e) => {
+                                    playTask(e, index, info.updates.length);
+                                  }}
+                                />
+                                <FontAwesomeIcon
+                                  icon="fa-solid fa-circle-pause"
+                                  size="lg"
+                                  style={{
+                                    pointerEvents:
+                                      info.updates[info.updates.length - 1]
+                                        .status === "Done"
+                                        ? "none"
+                                        : "",
+                                    margin: ".5em",
+                                    cursor: "pointer",
+                                  }}
+                                  onClick={(e) => {
+                                    pauseTask(e, index, info.updates.length);
+                                  }}
+                                />
+                                <FontAwesomeIcon
+                                  icon="fa-solid fa-circle-check"
+                                  size="lg"
+                                  style={{
+                                    margin: ".5em",
+                                    cursor: "pointer",
+                                  }}
+                                  onClick={(e) => {
+                                    completeTask(e, index, info.updates.length);
+                                  }}
+                                />
+                              </TableCell>{" "}
+                            </TableRow>
                           );
                         })
                       )}
