@@ -7,6 +7,7 @@ import TeamMateHome from "./components/TeamMate/Home";
 import SignUp from "./components/LoginPages/SignUp";
 import ManagerHome from "./components/Manager/Home";
 import LoginHome from "./components/LoginHome";
+import SignUpResponse from "./components/LoginPages/SignUpResponse";
 
 export default function App() {
   return (
@@ -34,6 +35,9 @@ export default function App() {
         <Route
           path="/signUp"
           element={<SignUp />}></Route>
+        <Route
+          path="/signUp/response"
+          element={<SignUpResponse />}></Route>
         <Route
           path="/manager/home"
           element={<ManagerHome />}></Route>
