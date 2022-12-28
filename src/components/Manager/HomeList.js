@@ -6,7 +6,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { ref, update } from "firebase/database";
+import { onChildChanged, ref, update } from "firebase/database";
 import React, { useState } from "react";
 import {
   Button,
@@ -58,9 +58,14 @@ export default function HomeList(props) {
     await props.addTask(newTask, id, tasknumber);
     await window.location.reload();
   };
+
   const handleDeleteTask = (id, index) => {
     props.deleteTask(id, index);
   };
+
+  // onChildChanged(ref(db, `/teammate/`), () => {
+  //   window.location.reload();
+  // });
 
   function swap(arr, from, to) {
     let temp = arr[from];
@@ -482,10 +487,8 @@ export default function HomeList(props) {
                                     key={index}
                                     style={{
                                       backgroundColor:
-                                        (info1.updates[info1.updates.length - 1]
-                                          .status ===
-                                          "Done") ===
-                                        0
+                                        info1.updates[info1.updates.length - 1]
+                                          .status !== "Done"
                                           ? "#fff"
                                           : "#f9fbff",
                                       height: "70px",
