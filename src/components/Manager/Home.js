@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { auth, db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 import HomeBlock from "./HomeBlock";
@@ -71,48 +71,8 @@ export default function Home() {
         console.log(err);
       });
   }
-  function downCurrentTask(teammateId, priority, index) {
-    set(
-      ref(db, `/teammate/${teammateId}/tasks/${index}/priority`),
-      priority - 1
-    )
-      .then(() => {
-        set(
-          ref(db, `/teammate/${teammateId}/tasks/${index - 1}/priority`),
-          priority
-        )
-          .then(() => {
-            window.location.reload();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  function upCurrentTask(teammateId, priority, index) {
-    set(
-      ref(db, `/teammate/${teammateId}/tasks/${index}/priority`),
-      priority + 1
-    )
-      .then(() => {
-        set(
-          ref(db, `/teammate/${teammateId}/tasks/${index + 1}/priority`),
-          priority
-        )
-          .then(() => {
-            window.location.reload();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+
+
 
   return (
     <div>
@@ -129,8 +89,6 @@ export default function Home() {
           onChange={handleChange}
           addTask={writeUserData}
           deleteTask={deleteCurrentTask}
-          DownTask={downCurrentTask}
-          UpTask={upCurrentTask}
         />
       ) : (
         <HomeBlock

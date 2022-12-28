@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { NoEncryption } from "@mui/icons-material";
 import {
   Table,
   TableBody,
@@ -138,6 +137,11 @@ export default function Home() {
                             <>
                               <TableRow
                                 style={{
+                                  backgroundColor:
+                                    info.updates[info.updates.length - 1]
+                                      .status !== "Done"
+                                      ? "#fff"
+                                      : "#f9fbff",
                                   height: "70px",
                                 }}
                                 className="box-shadow"

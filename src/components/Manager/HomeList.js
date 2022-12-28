@@ -6,7 +6,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { update, ref } from "firebase/database";
+import { update,ref } from "firebase/database";
 import React, { useState } from "react";
 import {
   Button,
@@ -18,15 +18,12 @@ import {
   Row,
 } from "react-bootstrap";
 import { db } from "../../firebase-config";
-
-
 export default function HomeList(props) {
   var today = new Date();
   const [selected, setSelected] = useState(null);
   const [newTask, setNewTask] = useState({
     client: "",
     task: "",
-    priority: "",
     tasknumber: "",
     description: "",
     updates: {
@@ -56,7 +53,6 @@ export default function HomeList(props) {
     setNewTask({ ...newTask, ...newInput });
   };
   const handleNewTask = async (id, tasknumber) => {
-    newTask.priority = tasknumber;
     newTask.tasknumber = tasknumber;
     await props.addTask(newTask, id, tasknumber);
     await window.location.reload();
@@ -65,46 +61,35 @@ export default function HomeList(props) {
     props.deleteTask(id, index);
   };
 
-  //For the correct updates we need to have a separate list with priority:index separately
-  // For up temp=priority[i+1] priority[i+1]:priority[i] priority[i]:temp
-  // For down temp=priority[i-1] priority[i-1]:priority[i] priority[i]:temp
-  // OR
-  // For up we can retrive data of next index and put it in current && get values from the table put it in next index.
-  // For down we can retrive data of previous index and put it in current && get values from the table put it in previous index.
-  // Main issue if index==0 then index-1=-1. a new dataset is created in -1 and affecting map function.
   function swap(arr, from, to) {
     let temp = arr[from];
-    // console.log(temp);
     arr[from] = arr[to];
-    // console.log(arr[from]);
     arr[to] = temp;
-    // console.log(arr[to]);
-    // console.log(arr);
   }
-
-
 
   const handleUpTask = (id, index, tasks, taskLength) => {
     if (index === 0) {
-      alert("Its already on the top")
+      alert("Its already on the top");
     } else {
       let newarr = tasks;
       swap(newarr, index, index - 1);
       update(ref(db, `teammate/${id}/`), {
-        tasks: newarr
+        tasks: newarr,
       });
       window.location.reload();
     }
   };
+
+ 
   const handleDownTask = (id, index, tasks, taskLength) => {
     if (index === taskLength - 1) {
-      alert("Its already on the bottom")
+      alert("Its already on the bottom");
     } else {
       let newarr = tasks;
       swap(newarr, index + 1, index);
       update(ref(db, `teammate/${id}/`), {
-        tasks: newarr
-      })
+        tasks: newarr,
+      });
       window.location.reload();
     }
   };
@@ -313,7 +298,7 @@ export default function HomeList(props) {
             ) : (
                 props.team
                 .filter((info) => info.teammate === selected)
-                  .map((info, index) => {
+                .map((info, index) => {
                   return selected ? (
                     <Row key={index}>
                       <Col
@@ -483,177 +468,224 @@ export default function HomeList(props) {
                         return (
                           <>
                             {!info.data.tasks ? (
-                              <TableRow
-                                colSpan={7}
-                                align="center">
-                                No tasks assigned
+                              <TableRow align="center">
+                                <TableCell>No tasks assigned</TableCell>
                               </TableRow>
                             ) : (
-                                info.data.tasks
-                                .map((info1, index) => {
-                                  return (
-                                    <TableRow
-                                      key={info1}
-                                      style={{
-                                        // backgroundColor:
-                                        //   done === 0 ? "#fff" : "#f9fbff",
-                                        height: "70px",
-                                      }}
-                                      className="box-shadow">
-                                      <TableCell align="center">
-                                        {info1.tasknumber}
-                                        {info1.client}
-                                      </TableCell>
-                                      <TableCell align="center">
-                                        {info1.priority}
-                                        {info1.task}
-                                      </TableCell>
-                                      {info1.updates
-                                        .sort((a, b) =>
-                                          a.corrections > b.corrections ? -1 : 1
-                                        )
-                                        .map((info2, id2) => {
-                                          return id2 === 0 ? (
-                                            <>
-                                              <TableCell align="center">
-                                                {info2.date}
-                                              </TableCell>
-                                              <TableCell align="center">
-                                                {info2.time}
-                                              </TableCell>
-                                              <TableCell align="center">
-                                                {info2.corrections === "0"
-                                                  ? info2.corrections
-                                                  : "+" + info2.corrections}
-                                              </TableCell>
-                                              <TableCell
-                                                align="center"
-                                                className="green fw-bold">
-                                                {info2.status}
-                                              </TableCell>
-                                              <TableCell align="center">
-                                                {info2.status === "Done" ? (
-                                                  <Button
-                                                    type="Button"
-                                                    variant="light"
-                                                    style={{
-                                                      backgroundColor: "white",
-                                                    }}>
-                                                    Correction
-                                                  </Button>
-                                                ) : (
-                                                  <></>
-                                                )}
-                                              </TableCell>
-                                            </>
+                              info.data.tasks.map((info1, index) => {
+                                return (
+                                  <TableRow
+                                    key={index}
+                                    style={{
+                                      backgroundColor:
+                                        (info1.updates[info1.updates.length - 1]
+                                          .status ===
+                                          "Done") ===
+                                        0
+                                          ? "#fff"
+                                          : "#f9fbff",
+                                      height: "70px",
+                                    }}
+                                    className="box-shadow">
+                                    <TableCell align="center">
+                                      {info1.client}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {info1.task}
+                                    </TableCell>
+                                    {info1?.updates ? (
+                                      <>
+                                        <TableCell align="center">
+                                          {
+                                            info1.updates[
+                                              info1.updates.length - 1
+                                            ].date
+                                          }
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          {
+                                            info1.updates[
+                                              info1.updates.length - 1
+                                            ].time
+                                          }
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          {info1.updates[
+                                            info1.updates.length - 1
+                                          ].corrections === "0"
+                                            ? info1.updates[
+                                                info1.updates.length - 1
+                                              ].corrections
+                                            : "+" +
+                                              info1.updates[
+                                                info1.updates.length - 1
+                                              ].corrections}
+                                        </TableCell>
+                                        <TableCell
+                                          align="center"
+                                          style={
+                                            (info1.updates[
+                                              info1.updates.length - 1
+                                            ].status === "Done" && {
+                                              color: "#000000",
+                                              fontWeight: "bold",
+                                            }) ||
+                                            (info1.updates[
+                                              info1.updates.length - 1
+                                            ].status === "On Going" && {
+                                              color: "#24A43A",
+                                              fontWeight: "bold",
+                                            }) ||
+                                            (info1.updates[
+                                              info1.updates.length - 1
+                                            ].status === "Paused" && {
+                                              color: "#2972B2",
+                                              fontWeight: "bold",
+                                            }) ||
+                                            (info1.updates[
+                                              info1.updates.length - 1
+                                            ].status === "Assigned" && {
+                                              color: "#D1AE00",
+                                              fontWeight: "bold",
+                                            })
+                                          }>
+                                          {
+                                            info1.updates[
+                                              info1.updates.length - 1
+                                            ].status
+                                          }
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          {info1.updates[
+                                            info1.updates.length - 1
+                                          ].status === "Done" ? (
+                                            <Button
+                                              type="Button"
+                                              variant="light"
+                                              style={{
+                                                backgroundColor: "white",
+                                              }}>
+                                              Correction
+                                            </Button>
                                           ) : (
                                             <></>
-                                          );
-                                        })}
-                                      <TableCell
-                                        align="center"
-                                        className="text-end">
-                                        <OverlayTrigger
-                                          trigger="click"
-                                          key="bottom"
-                                          placement="auto"
-                                          rootClose
-                                          overlay={
-                                            <Popover
-                                              id={`popover-positioned-bottom`}>
-                                              <Popover.Body>
-                                                <div
-                                                  className="d-grid gap-2"
+                                          )}
+                                        </TableCell>
+                                      </>
+                                    ) : (
+                                      <></>
+                                    )}
+                                    <TableCell
+                                      align="center"
+                                      className="text-end">
+                                      <OverlayTrigger
+                                        trigger="click"
+                                        key="bottom"
+                                        placement="auto"
+                                        rootClose
+                                        overlay={
+                                          <Popover
+                                            id={`popover-positioned-bottom`}>
+                                            <Popover.Body>
+                                              <div
+                                                className="d-grid gap-2"
+                                                style={{
+                                                  marginBottom: ".5em",
+                                                }}>
+                                                <Button
+                                                  onClick={() => {
+                                                    handleDeleteTask(
+                                                      info.teammate,
+                                                      index
+                                                    );
+                                                  }}
+                                                  variant="light"
                                                   style={{
-                                                    marginBottom: ".5em",
-                                                  }}>
-                                                  <Button
-                                                    onClick={() => {
-                                                      handleDeleteTask(
-                                                        info.teammate,
-                                                        index
-                                                      );
-                                                    }}
-                                                    variant="light"
+                                                    textAlign: "left",
+                                                  }}
+                                                  block>
+                                                  <FontAwesomeIcon
+                                                    icon="fa-solid fa-trash"
                                                     style={{
-                                                      textAlign: "left",
+                                                      paddingRight: ".5em",
                                                     }}
-                                                    block>
-                                                    <FontAwesomeIcon
-                                                      icon="fa-solid fa-trash"
-                                                      style={{
-                                                        paddingRight: ".5em",
-                                                      }}
-                                                    />
-                                                    Delete Task
-                                                  </Button>
-                                                </div>
-                                                <div
-                                                  className="d-grid gap-2"
+                                                  />
+                                                  Delete Task
+                                                </Button>
+                                              </div>
+                                              <div
+                                                className="d-grid gap-2"
+                                                style={{
+                                                  marginBottom: ".5em",
+                                                }}>
+                                                <Button
+                                                  onClick={() => {
+                                                    handleUpTask(
+                                                      info.teammate,
+                                                      index,
+                                                      info.data.tasks,
+                                                      info.data.tasks.length
+                                                    );
+                                                  }}
+                                                  variant="light"
                                                   style={{
-                                                    marginBottom: ".5em",
-                                                  }}>
-                                                  <Button
-                                                    onClick={() => {
-                                                      handleUpTask(
-                                                        info.teammate, index, info.data.tasks, info.data.tasks.length
-                                                      );
-                                                    }}
-                                                    variant="light"
+                                                    textAlign: "left",
+                                                  }}
+                                                  block>
+                                                  <FontAwesomeIcon
+                                                    icon="fa-solid fa-chevron-up"
                                                     style={{
-                                                      textAlign: "left",
+                                                      paddingRight: ".5em",
                                                     }}
-                                                    block>
-                                                    <FontAwesomeIcon
-                                                      icon="fa-solid fa-chevron-up"
-                                                      style={{
-                                                        paddingRight: ".5em",
-                                                      }}
-                                                    />
-                                                    Move Up
-                                                  </Button>
-                                                </div>
-                                                <div
-                                                  className="d-grid gap-2"
+                                                  />
+                                                  Move Up
+                                                </Button>
+                                              </div>
+                                              <div
+                                                className="d-grid gap-2"
+                                                style={{
+                                                  marginBottom: ".5em",
+                                                }}>
+                                                <Button
+                                                  onClick={() => {
+                                                    handleDownTask(
+                                                      info.teammate,
+                                                      index,
+                                                      info.data.tasks,
+                                                      info.data.tasks.length
+                                                    );
+                                                  }}
+                                                  variant="light"
                                                   style={{
-                                                    marginBottom: ".5em",
-                                                  }}>
-                                                  <Button
-                                                    onClick={() => {
-                                                      handleDownTask(
-                                                        info.teammate, index, info.data.tasks, info.data.tasks.length
-                                                      );
-                                                    }}
-                                                    variant="light"
+
+                                                    textAlign: "left",
+                                                  }}
+                                                  block>
+                                                  <FontAwesomeIcon
+                                                    icon="fa-solid fa-chevron-down"
                                                     style={{
-                                                      textAlign: "left",
+                                                      paddingRight: ".5em",
                                                     }}
-                                                    block>
-                                                    <FontAwesomeIcon
-                                                      icon="fa-solid fa-chevron-down"
-                                                      style={{
-                                                        paddingRight: ".5em",
-                                                      }}
-                                                    />
-                                                    Move Down
-                                                  </Button>
-                                                </div>
-                                              </Popover.Body>
-                                            </Popover>
-                                          }>
-                                          <FontAwesomeIcon
-                                            className="pointer"
-                                            icon="fa-solid fa-ellipsis-vertical"
-                                            style={{
-                                              color: "blue",
-                                              paddingRight: ".25em",
-                                            }}
-                                          />
-                                        </OverlayTrigger>
-                                      </TableCell>
-                                    </TableRow>
-                                  );
-                                })
+                                                  />
+                                                  Move Down
+                                                </Button>
+                                              </div>
+                                            </Popover.Body>
+                                          </Popover>
+                                        }>
+                                        <FontAwesomeIcon
+                                          className="pointer"
+                                          icon="fa-solid fa-ellipsis-vertical"
+                                          style={{
+                                            color: "blue",
+                                            paddingRight: ".25em",
+                                          }}
+                                        />
+                                      </OverlayTrigger>
+                                    </TableCell>
+                                  </TableRow>
+                                );
+                              })
                             )}
                           </>
                         );
