@@ -3,7 +3,7 @@ import { auth, db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 import HomeBlock from "./HomeBlock";
 import HomeList from "./HomeList";
-import { onValue, ref, remove, set } from "firebase/database";
+import { onValue, ref, remove, set, update } from "firebase/database";
 import { onAuthStateChanged } from "firebase/auth";
 
 export default function Home() {
@@ -12,6 +12,8 @@ export default function Home() {
   const [once, setOnce] = useState(true);
   const [once1, setOnce1] = useState(true);
   const [teammateList, setTeammateList] = useState([]);
+  const [teammateSet, setTeammateSet] = useState(null);
+  const [managerId, setManagerId] = useState("");
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -20,11 +22,15 @@ export default function Home() {
           if (snapshot.exists()) {
             let data = snapshot.val();
             setManager(data);
+            setManagerId(user.uid);
+            setTeammateSet(data.teammates);
           } else {
             console.log("No data available");
           }
         });
-        if (userSet) getTeammates(manager.teammates);
+        if (userSet && teammateSet !== undefined) {
+          getTeammates(teammateSet);
+        }
 
         setOnce(false);
       }
@@ -32,7 +38,6 @@ export default function Home() {
       window.location.href = "/";
     }
   });
-
   const getTeammates = (teamList) => {
     if (once1)
       teamList.forEach((teammate) => {
@@ -49,6 +54,27 @@ export default function Home() {
         });
       });
     setOnce1(false);
+  };
+
+  const addNewTeammate = (teammateEmail) => {
+    if (teammateEmail === "") {
+      alert("Enter email first");
+      return;
+    }
+    let id = teammateEmail.split(".");
+    let newId = id.join("_");
+    if (teammateSet === undefined) {
+      let newArr = [newId];
+      update(ref(db, `manager/${managerId}/`), { teammates: newArr });
+    } else {
+      let newArr = [];
+      teammateSet.forEach((element) => {
+        newArr.push(element);
+      });
+      let newArr2 = [...newArr, newId];
+      update(ref(db, `manager/${managerId}/`), { teammates: newArr2 });
+    }
+    window.location.reload();
   };
   function handleChange(newValue) {
     setView(newValue);
@@ -86,6 +112,7 @@ export default function Home() {
           onChange={handleChange}
           addTask={writeUserData}
           deleteTask={deleteCurrentTask}
+          addTeammate={addNewTeammate}
         />
       ) : (
         <HomeBlock

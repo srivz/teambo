@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import logo from "../../assets/images/Group 3.svg";
 import "./Login.css";
-import { auth, db } from '../../firebase-config'
-import {
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
+import { auth, db } from "../../firebase-config";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ref, set } from "firebase/database";
 
 export default function Signup() {
@@ -37,7 +34,9 @@ export default function Signup() {
         teammates: [],
       }).then(() => (window.location.href = "/signUp/response"));
     } else {
-      set(ref(db, "/teammate/" + userLog.email), {
+      let id = userLog.email.split(".");
+      let newId = id.join("_");
+      set(ref(db, "/teammate/" + newId), {
         company: user.companyName,
         designation: user.designation,
         name: user.name,
@@ -50,7 +49,7 @@ export default function Signup() {
     createUserWithEmailAndPassword(auth, userLog.email, userLog.password)
       .then((cred) => {
         updateProfile(auth.currentUser, {
-          displayName: user.designation === "Manager" ? "manager" : "teammate",
+          displayName: user.designation === "Manager" ? "Manager" : "Teammate",
         });
         registerUser(auth.currentUser);
       })

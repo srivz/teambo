@@ -22,14 +22,16 @@ export default function Home() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       if (once) {
-        onValue(ref(db, `teammate/${user.uid}`), (snapshot) => {
-          if (snapshot.exists()) {
-            setTeammate(snapshot.val());
-            setId(user.uid);
-          } else {
-            console.log("No data available");
-          }
-        });
+      let id = user.email.split(".");
+      let newId = id.join("_");
+      onValue(ref(db, `teammate/${newId}`), (snapshot) => {
+        if (snapshot.exists()) {
+          setTeammate(snapshot.val());
+          setId(newId);
+        } else {
+          console.log("No data available");
+        }
+      });
         setOnce(false);
       }
     } else {
