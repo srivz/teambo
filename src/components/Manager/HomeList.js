@@ -17,13 +17,13 @@ import {
   Popover,
   Row,
 } from "react-bootstrap";
-import { db } from "../../firebase-config";
-
+import { db,auth } from "../../firebase-config";
 export default function HomeList(props) {
   var today = new Date();
   const [selected, setSelected] = useState(
     JSON.parse(localStorage.getItem("teammateSelected"))
   );
+
   const [teammateEmail, setTeammateEmail] = useState("");
   const [taskSelected, setTaskSelected] = useState();
   const [newTask, setNewTask] = useState({
@@ -118,14 +118,12 @@ export default function HomeList(props) {
     props.addTeammate(teammateEmail);
   };
 
+
   return (
     <div id="main">
       <Container>
         <Row>
-          <Col
-            sm={3}
-            md={3}
-            style={{ marginTop: "1em" }}>
+          <Col sm={3} md={3} style={{ marginTop: "1em" }}>
             <div className="task-box">
               <h4 className="blue">Teammate Tasks</h4>
               <OverlayTrigger
@@ -214,9 +212,7 @@ export default function HomeList(props) {
                 </TableHead>
                 <TableBody>
                   {!props.team ? (
-                    <TableRow
-                      colSpan={7}
-                      align="center">
+                    <TableRow colSpan={7} align="center">
                       No teammate right now
                     </TableRow>
                   ) : (
@@ -232,7 +228,8 @@ export default function HomeList(props) {
                             );
                             setTaskSelected(null);
                             setSelected(info.teammate);
-                          }}>
+                          }}
+                        >
                           <TableCell
                             style={{
                               backgroundColor:
@@ -243,7 +240,8 @@ export default function HomeList(props) {
                               borderRadius: "5px",
                               paddingTop: ".5em",
                               paddingBottom: "0em",
-                            }}>
+                            }}
+                          >
                             <h5>{info.data.name}</h5>
                             <p className="grey">{info.data.designation}</p>
                           </TableCell>
@@ -255,16 +253,10 @@ export default function HomeList(props) {
               </Table>
             </div>
           </Col>
-          <Col
-            sm={9}
-            md={9}
-            style={{ marginTop: "1em" }}>
+          <Col sm={9} md={9} style={{ marginTop: "1em" }}>
             {!selected ? (
               <Row>
-                <Col
-                  sm={6}
-                  md={6}
-                  style={{ marginTop: "1em" }}>
+                <Col sm={6} md={6} style={{ marginTop: "1em" }}>
                   <h5 className="blue">No Teammate</h5>
                   <h6>Selected</h6>
                 </Col>
@@ -272,7 +264,8 @@ export default function HomeList(props) {
                   sm={6}
                   md={6}
                   style={{ marginTop: "1em" }}
-                  className="text-end">
+                  className="text-end"
+                >
                   <div>
                     <FontAwesomeIcon
                       icon="fa-solid fa-list"
@@ -301,80 +294,70 @@ export default function HomeList(props) {
                             marginLeft: "-50px",
                             width: "400px",
                             boxShadow: "rgba(0, 0, 0, 0.15) 1px 3px 5px",
-                          }}>
+                          }}
+                        >
                           <h5 className="blue">No Teammate</h5>
                           <h6>Selected</h6>
                           <Form.Group
                             as={Row}
                             className="mb-3"
-                            controlId="formPlaintext1">
-                            <Form.Label
-                              column
-                              sm="4"
-                              md="4">
+                            controlId="formPlaintext1"
+                          >
+                            <Form.Label column sm="4" md="4">
                               Client
                             </Form.Label>
                             <Col sm="7">
-                              <Form.Control
-                                type="text"
-                                name="client"
-                              />
+                              <Form.Control type="text" name="client" />
                             </Col>
                           </Form.Group>
                           <Form.Group
                             as={Row}
                             className="mb-3"
-                            controlId="formPlaintext2">
-                            <Form.Label
-                              column
-                              md="4"
-                              sm="4">
+                            controlId="formPlaintext2"
+                          >
+                            <Form.Label column md="4" sm="4">
                               Task
                             </Form.Label>
                             <Col sm="7">
-                              <Form.Control
-                                type="text"
-                                name="task"
-                              />
+                              <Form.Control type="text" name="task" />
                             </Col>
                           </Form.Group>
                           <Form.Group
                             as={Row}
                             className="mb-3"
-                            controlId="formPlaintext3">
-                            <Form.Label
-                              column
-                              md="4"
-                              sm="4">
+                            controlId="formPlaintext3"
+                          >
+                            <Form.Label column md="4" sm="4">
                               Description
                             </Form.Label>
                             <Col sm="7">
-                              <Form.Control
-                                as="textarea"
-                                name="description"
-                              />
+                              <Form.Control as="textarea" name="description" />
                             </Col>
                           </Form.Group>
                           <div
                             className="d-grid gap-2"
                             style={{
                               marginBottom: ".5em",
-                            }}>
+                            }}
+                          >
                             <Button
                               variant="primary"
                               style={{
                                 textAlign: "center",
                               }}
-                              block>
+                              block
+                            >
                               Assign
                             </Button>
                           </div>
                         </div>
-                      }>
+                      }
+                    >
                       <Button
                         type="Button"
                         variant="light"
-                        className="bg-white box-shadow rounded-4">
+                        className="bg-white box-shadow rounded-4"
+                      >
                         <FontAwesomeIcon
                           icon="fa-regular fa-square-plus"
                           style={{ paddingRight: ".5em" }}
@@ -391,10 +374,7 @@ export default function HomeList(props) {
                 .map((info, index) => {
                   return selected ? (
                     <Row key={index}>
-                      <Col
-                        sm={6}
-                        md={6}
-                        style={{ marginTop: "1em" }}>
+                      <Col sm={6} md={6} style={{ marginTop: "1em" }}>
                         <h5 className="blue">{info.data.name}</h5>
                         <h6>{info.data.designation}</h6>
                       </Col>
@@ -402,7 +382,8 @@ export default function HomeList(props) {
                         sm={6}
                         md={6}
                         style={{ marginTop: "1em" }}
-                        className="text-end">
+                        className="text-end"
+                      >
                         <div>
                           <FontAwesomeIcon
                             icon="fa-solid fa-list"
@@ -431,17 +412,16 @@ export default function HomeList(props) {
                                   marginLeft: "-50px",
                                   width: "400px",
                                   boxShadow: "rgba(0, 0, 0, 0.15) 1px 3px 5px",
-                                }}>
+                                }}
+                              >
                                 <h5 className="blue">{info.data.name}</h5>
                                 <h6>{info.data.designation}</h6>
                                 <Form.Group
                                   as={Row}
                                   className="mb-3"
-                                  controlId="formPlaintext1">
-                                  <Form.Label
-                                    column
-                                    sm="4"
-                                    md="4">
+                                  controlId="formPlaintext1"
+                                >
+                                  <Form.Label column sm="4" md="4">
                                     Client
                                   </Form.Label>
                                   <Col sm="7">
@@ -455,11 +435,9 @@ export default function HomeList(props) {
                                 <Form.Group
                                   as={Row}
                                   className="mb-3"
-                                  controlId="formPlaintext2">
-                                  <Form.Label
-                                    column
-                                    md="4"
-                                    sm="4">
+                                  controlId="formPlaintext2"
+                                >
+                                  <Form.Label column md="4" sm="4">
                                     Task
                                   </Form.Label>
                                   <Col sm="7">
@@ -473,11 +451,9 @@ export default function HomeList(props) {
                                 <Form.Group
                                   as={Row}
                                   className="mb-3"
-                                  controlId="formPlaintext3">
-                                  <Form.Label
-                                    column
-                                    md="4"
-                                    sm="4">
+                                  controlId="formPlaintext3"
+                                >
+                                  <Form.Label column md="4" sm="4">
                                     Description
                                   </Form.Label>
                                   <Col sm="7">
@@ -492,7 +468,8 @@ export default function HomeList(props) {
                                   className="d-grid gap-2"
                                   style={{
                                     marginBottom: ".5em",
-                                  }}>
+                                  }}
+                                >
                                   <Button
                                     variant="primary"
                                     onClick={() => {
@@ -506,16 +483,19 @@ export default function HomeList(props) {
                                     style={{
                                       textAlign: "center",
                                     }}
-                                    block>
+                                    block
+                                  >
                                     Assign
                                   </Button>
                                 </div>
                               </div>
-                            }>
+                            }
+                          >
                             <Button
                               type="Button"
                               variant="light"
-                              className="bg-white box-shadow rounded-4">
+                              className="bg-white box-shadow rounded-4"
+                            >
                               <FontAwesomeIcon
                                 icon="fa-regular fa-square-plus"
                                 style={{ paddingRight: ".5em" }}
@@ -538,56 +518,64 @@ export default function HomeList(props) {
                   style={{
                     borderCollapse: "separate",
                     borderSpacing: "0 10px",
-                  }}>
+                  }}
+                >
                   <TableHead>
                     <TableRow>
                       <TableCell
                         style={{
                           fontFamily: "rockwen",
                         }}
-                        align="center">
+                        align="center"
+                      >
                         Client
                       </TableCell>
                       <TableCell
                         style={{
                           fontFamily: "rockwen",
                         }}
-                        align="center">
+                        align="center"
+                      >
                         Task
                       </TableCell>
                       <TableCell
                         style={{
                           fontFamily: "rockwen",
                         }}
-                        align="center">
+                        align="center"
+                      >
                         Date
                       </TableCell>
                       <TableCell
                         style={{
                           fontFamily: "rockwen",
                         }}
-                        align="center">
+                        align="center"
+                      >
                         Time
                       </TableCell>
                       <TableCell
                         style={{
                           fontFamily: "rockwen",
                         }}
-                        align="center">
+                        align="center"
+                      >
                         Corrections
                       </TableCell>
                       <TableCell
                         style={{
                           fontFamily: "rockwen",
                         }}
-                        align="center">
+                        align="center"
+                      >
                         Status
                       </TableCell>
                       <TableCell
                         style={{
                           fontFamily: "rockwen",
                         }}
-                        align="center">
+                        align="center"
+                      >
                         Action
                       </TableCell>
                       <TableCell></TableCell>
@@ -596,7 +584,7 @@ export default function HomeList(props) {
                   <TableBody className="curve-box-homelist">
                     {props.team
                       .filter((info) => info.teammate === selected)
-                      .map((info) => {
+                      .map((info, index) => {
                         return (
                           <>
                             {!info.data.tasks ? (
@@ -618,7 +606,8 @@ export default function HomeList(props) {
                                           : "#f9fbff",
                                       height: "70px",
                                     }}
-                                    className="box-shadow">
+                                    className="box-shadow"
+                                  >
                                     <TableCell
                                       onClick={() => {
                                         setTaskSelected(index);
@@ -626,7 +615,8 @@ export default function HomeList(props) {
                                       style={{
                                         fontFamily: "rockwen",
                                       }}
-                                      align="center">
+                                      align="center"
+                                    >
                                       {info1.client}
                                     </TableCell>
                                     <TableCell
@@ -636,7 +626,8 @@ export default function HomeList(props) {
                                       onClick={() => {
                                         setTaskSelected(index);
                                       }}
-                                      align="center">
+                                      align="center"
+                                    >
                                       {info1.task}
                                     </TableCell>
                                     {info1.updates
@@ -654,7 +645,8 @@ export default function HomeList(props) {
                                               onClick={() => {
                                                 setTaskSelected(index);
                                               }}
-                                              align="center">
+                                              align="center"
+                                            >
                                               {
                                                 info1.updates[
                                                   info1.updates.length - 1
@@ -668,7 +660,8 @@ export default function HomeList(props) {
                                               onClick={() => {
                                                 setTaskSelected(index);
                                               }}
-                                              align="center">
+                                              align="center"
+                                            >
                                               {
                                                 info1.updates[
                                                   info1.updates.length - 1
@@ -682,7 +675,8 @@ export default function HomeList(props) {
                                               onClick={() => {
                                                 setTaskSelected(index);
                                               }}
-                                              align="center">
+                                              align="center"
+                                            >
                                               {info1.updates[
                                                 info1.updates.length - 1
                                               ].corrections === "0"
@@ -728,7 +722,8 @@ export default function HomeList(props) {
                                                   color: "#D1AE00",
                                                   fontWeight: "bold",
                                                 })
-                                              }>
+                                              }
+                                            >
                                               {
                                                 info1.updates[
                                                   info1.updates.length - 1
@@ -757,7 +752,8 @@ export default function HomeList(props) {
                                                   style={{
                                                     fontFamily: "rockwen",
                                                     backgroundColor: "white",
-                                                  }}>
+                                                  }}
+                                                >
                                                   Correction
                                                 </Button>
                                               ) : (
@@ -769,7 +765,8 @@ export default function HomeList(props) {
                                       })}
                                     <TableCell
                                       align="center"
-                                      className="text-end">
+                                      className="text-end"
+                                    >
                                       <OverlayTrigger
                                         trigger="click"
                                         key="bottom"
@@ -777,13 +774,15 @@ export default function HomeList(props) {
                                         rootClose
                                         overlay={
                                           <Popover
-                                            id={`popover-positioned-bottom`}>
+                                            id={`popover-positioned-bottom`}
+                                          >
                                             <Popover.Body>
                                               <div
                                                 className="d-grid gap-2"
                                                 style={{
                                                   marginBottom: ".5em",
-                                                }}>
+                                                }}
+                                              >
                                                 <Button
                                                   onClick={() => {
                                                     handleDeleteTask(
@@ -795,7 +794,8 @@ export default function HomeList(props) {
                                                   style={{
                                                     textAlign: "left",
                                                   }}
-                                                  block>
+                                                  block
+                                                >
                                                   <FontAwesomeIcon
                                                     icon="fa-solid fa-trash"
                                                     style={{
@@ -809,7 +809,8 @@ export default function HomeList(props) {
                                                 className="d-grid gap-2"
                                                 style={{
                                                   marginBottom: ".5em",
-                                                }}>
+                                                }}
+                                              >
                                                 <Button
                                                   onClick={() => {
                                                     handleUpTask(
@@ -823,7 +824,8 @@ export default function HomeList(props) {
                                                   style={{
                                                     textAlign: "left",
                                                   }}
-                                                  block>
+                                                  block
+                                                >
                                                   <FontAwesomeIcon
                                                     icon="fa-solid fa-chevron-up"
                                                     style={{
@@ -837,7 +839,8 @@ export default function HomeList(props) {
                                                 className="d-grid gap-2"
                                                 style={{
                                                   marginBottom: ".5em",
-                                                }}>
+                                                }}
+                                              >
                                                 <Button
                                                   onClick={() => {
                                                     handleDownTask(
@@ -851,7 +854,8 @@ export default function HomeList(props) {
                                                   style={{
                                                     textAlign: "left",
                                                   }}
-                                                  block>
+                                                  block
+                                                >
                                                   <FontAwesomeIcon
                                                     icon="fa-solid fa-chevron-down"
                                                     style={{
@@ -863,7 +867,8 @@ export default function HomeList(props) {
                                               </div>
                                             </Popover.Body>
                                           </Popover>
-                                        }>
+                                        }
+                                      >
                                         <FontAwesomeIcon
                                           className="pointer"
                                           icon="fa-solid fa-ellipsis-vertical"
@@ -885,7 +890,8 @@ export default function HomeList(props) {
                                           ? "#fff"
                                           : "#f9fbff",
                                     }}
-                                    className="box-shadow">
+                                    className="box-shadow"
+                                  >
                                     <TableCell
                                       style={{
                                         fontFamily: "rockwen",
@@ -893,7 +899,8 @@ export default function HomeList(props) {
                                       onClick={() => {
                                         setTaskSelected(null);
                                       }}
-                                      align="center">
+                                      align="center"
+                                    >
                                       {info1.client}
                                     </TableCell>
                                     <TableCell
@@ -904,7 +911,8 @@ export default function HomeList(props) {
                                       onClick={() => {
                                         setTaskSelected(null);
                                       }}
-                                      align="center">
+                                      align="center"
+                                    >
                                       {info1.task}
                                       <br />
                                       <br />
@@ -923,7 +931,8 @@ export default function HomeList(props) {
                                       style={{
                                         fontFamily: "rockwen",
                                       }}
-                                      align="center">
+                                      align="center"
+                                    >
                                       {info1.updates
                                         .sort((a, b) =>
                                           a.corrections > b.corrections ? -1 : 1
@@ -944,7 +953,8 @@ export default function HomeList(props) {
                                       style={{
                                         fontFamily: "rockwen",
                                       }}
-                                      align="center">
+                                      align="center"
+                                    >
                                       {info1.updates
                                         .sort((a, b) =>
                                           a.corrections > b.corrections ? -1 : 1
@@ -965,7 +975,8 @@ export default function HomeList(props) {
                                       style={{
                                         fontFamily: "rockwen",
                                       }}
-                                      align="center">
+                                      align="center"
+                                    >
                                       {info1.updates
                                         .sort((a, b) =>
                                           a.corrections > b.corrections ? -1 : 1
@@ -988,7 +999,8 @@ export default function HomeList(props) {
                                       style={{
                                         fontFamily: "rockwen",
                                       }}
-                                      align="center">
+                                      align="center"
+                                    >
                                       {info1.updates
                                         .sort((a, b) =>
                                           a.corrections > b.corrections ? -1 : 1
@@ -1015,7 +1027,8 @@ export default function HomeList(props) {
                                                   color: "#D1AE00",
                                                   fontWeight: "bold",
                                                 })
-                                              }>
+                                              }
+                                            >
                                               {info2.status}
                                               <br />
                                             </p>
@@ -1043,7 +1056,8 @@ export default function HomeList(props) {
                                           style={{
                                             backgroundColor: "white",
                                             fontFamily: "rockwen",
-                                          }}>
+                                          }}
+                                        >
                                           Correction
                                         </Button>
                                       ) : (
@@ -1052,7 +1066,8 @@ export default function HomeList(props) {
                                     </TableCell>
                                     <TableCell
                                       align="center"
-                                      className="text-end">
+                                      className="text-end"
+                                    >
                                       <OverlayTrigger
                                         trigger="click"
                                         key="bottom"
@@ -1060,13 +1075,15 @@ export default function HomeList(props) {
                                         rootClose
                                         overlay={
                                           <Popover
-                                            id={`popover-positioned-bottom`}>
+                                            id={`popover-positioned-bottom`}
+                                          >
                                             <Popover.Body>
                                               <div
                                                 className="d-grid gap-2"
                                                 style={{
                                                   marginBottom: ".5em",
-                                                }}>
+                                                }}
+                                              >
                                                 <Button
                                                   onClick={() => {
                                                     handleDeleteTask(
@@ -1078,7 +1095,8 @@ export default function HomeList(props) {
                                                   style={{
                                                     textAlign: "left",
                                                   }}
-                                                  block>
+                                                  block
+                                                >
                                                   <FontAwesomeIcon
                                                     icon="fa-solid fa-trash"
                                                     style={{
@@ -1092,7 +1110,8 @@ export default function HomeList(props) {
                                                 className="d-grid gap-2"
                                                 style={{
                                                   marginBottom: ".5em",
-                                                }}>
+                                                }}
+                                              >
                                                 <Button
                                                   onClick={() => {
                                                     handleUpTask(
@@ -1106,7 +1125,8 @@ export default function HomeList(props) {
                                                   style={{
                                                     textAlign: "left",
                                                   }}
-                                                  block>
+                                                  block
+                                                >
                                                   <FontAwesomeIcon
                                                     icon="fa-solid fa-chevron-up"
                                                     style={{
@@ -1120,7 +1140,8 @@ export default function HomeList(props) {
                                                 className="d-grid gap-2"
                                                 style={{
                                                   marginBottom: ".5em",
-                                                }}>
+                                                }}
+                                              >
                                                 <Button
                                                   onClick={() => {
                                                     handleDownTask(
@@ -1134,7 +1155,8 @@ export default function HomeList(props) {
                                                   style={{
                                                     textAlign: "left",
                                                   }}
-                                                  block>
+                                                  block
+                                                >
                                                   <FontAwesomeIcon
                                                     icon="fa-solid fa-chevron-down"
                                                     style={{
@@ -1146,7 +1168,8 @@ export default function HomeList(props) {
                                               </div>
                                             </Popover.Body>
                                           </Popover>
-                                        }>
+                                        }
+                                      >
                                         <FontAwesomeIcon
                                           className="pointer"
                                           icon="fa-solid fa-ellipsis-vertical"
