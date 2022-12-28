@@ -316,9 +316,7 @@ export default function Home() {
                                                   playTask(
                                                     e,
                                                     index,
-                                                    info.updates[
-                                                      info.updates.length - 1
-                                                    ].length
+                                                    info.updates.length
                                                   );
                                                 }}
                                               />
@@ -339,9 +337,7 @@ export default function Home() {
                                                   pauseTask(
                                                     e,
                                                     index,
-                                                    info.updates[
-                                                      info.updates.length - 1
-                                                    ].length
+                                                    info.updates.length
                                                   );
                                                 }}
                                               />
@@ -356,9 +352,7 @@ export default function Home() {
                                                   completeTask(
                                                     e,
                                                     index,
-                                                    info.updates[
-                                                      info.updates.length - 1
-                                                    ].length
+                                                    info.updates.length
                                                   );
                                                 }}
                                               />
