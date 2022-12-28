@@ -462,13 +462,55 @@ export default function HomeList(props) {
                   }}>
                   <TableHead>
                     <TableRow>
-                      <TableCell align="center">Client</TableCell>
-                      <TableCell align="center">Task</TableCell>
-                      <TableCell align="center">Date</TableCell>
-                      <TableCell align="center">Time</TableCell>
-                      <TableCell align="center">Corrections</TableCell>
-                      <TableCell align="center">Status</TableCell>
-                      <TableCell align="center">Action</TableCell>
+                      <TableCell
+                        style={{
+                          fontFamily: "rockwen",
+                        }}
+                        align="center">
+                        Client
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontFamily: "rockwen",
+                        }}
+                        align="center">
+                        Task
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontFamily: "rockwen",
+                        }}
+                        align="center">
+                        Date
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontFamily: "rockwen",
+                        }}
+                        align="center">
+                        Time
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontFamily: "rockwen",
+                        }}
+                        align="center">
+                        Corrections
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontFamily: "rockwen",
+                        }}
+                        align="center">
+                        Status
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontFamily: "rockwen",
+                        }}
+                        align="center">
+                        Action
+                      </TableCell>
                       <TableCell></TableCell>
                     </TableRow>
                   </TableHead>
@@ -500,10 +542,16 @@ export default function HomeList(props) {
                                       onClick={() => {
                                         setTaskSelected(index);
                                       }}
+                                      style={{
+                                        fontFamily: "rockwen",
+                                      }}
                                       align="center">
                                       {info1.client}
                                     </TableCell>
                                     <TableCell
+                                      style={{
+                                        fontFamily: "rockwen",
+                                      }}
                                       onClick={() => {
                                         setTaskSelected(index);
                                       }}
@@ -513,6 +561,9 @@ export default function HomeList(props) {
                                     {info1.updates ? (
                                       <>
                                         <TableCell
+                                          style={{
+                                            fontFamily: "rockwen",
+                                          }}
                                           onClick={() => {
                                             setTaskSelected(index);
                                           }}
@@ -524,6 +575,9 @@ export default function HomeList(props) {
                                           }
                                         </TableCell>
                                         <TableCell
+                                          style={{
+                                            fontFamily: "rockwen",
+                                          }}
                                           onClick={() => {
                                             setTaskSelected(index);
                                           }}
@@ -535,6 +589,9 @@ export default function HomeList(props) {
                                           }
                                         </TableCell>
                                         <TableCell
+                                          style={{
+                                            fontFamily: "rockwen",
+                                          }}
                                           onClick={() => {
                                             setTaskSelected(index);
                                           }}
@@ -559,24 +616,28 @@ export default function HomeList(props) {
                                             (info1.updates[
                                               info1.updates.length - 1
                                             ].status === "Done" && {
+                                              fontFamily: "rockwen",
                                               color: "#000000",
                                               fontWeight: "bold",
                                             }) ||
                                             (info1.updates[
                                               info1.updates.length - 1
                                             ].status === "On Going" && {
+                                              fontFamily: "rockwen",
                                               color: "#24A43A",
                                               fontWeight: "bold",
                                             }) ||
                                             (info1.updates[
                                               info1.updates.length - 1
                                             ].status === "Paused" && {
+                                              fontFamily: "rockwen",
                                               color: "#2972B2",
                                               fontWeight: "bold",
                                             }) ||
                                             (info1.updates[
                                               info1.updates.length - 1
                                             ].status === "Assigned" && {
+                                              fontFamily: "rockwen",
                                               color: "#D1AE00",
                                               fontWeight: "bold",
                                             })
@@ -595,6 +656,7 @@ export default function HomeList(props) {
                                               type="Button"
                                               variant="light"
                                               style={{
+                                                fontFamily: "rockwen",
                                                 backgroundColor: "white",
                                               }}>
                                               Correction
@@ -727,6 +789,9 @@ export default function HomeList(props) {
                                     }}
                                     className="box-shadow">
                                     <TableCell
+                                      style={{
+                                        fontFamily: "rockwen",
+                                      }}
                                       onClick={() => {
                                         setTaskSelected(null);
                                       }}
@@ -734,6 +799,9 @@ export default function HomeList(props) {
                                       {info1.client}
                                     </TableCell>
                                     <TableCell
+                                      style={{
+                                        fontFamily: "rockwen",
+                                      }}
                                       onClick={() => {
                                         setTaskSelected(null);
                                       }}
@@ -746,6 +814,9 @@ export default function HomeList(props) {
                                     <TableCell
                                       onClick={() => {
                                         setTaskSelected(null);
+                                      }}
+                                      style={{
+                                        fontFamily: "rockwen",
                                       }}
                                       align="center">
                                       {info1.updates
@@ -765,6 +836,9 @@ export default function HomeList(props) {
                                       onClick={() => {
                                         setTaskSelected(null);
                                       }}
+                                      style={{
+                                        fontFamily: "rockwen",
+                                      }}
                                       align="center">
                                       {info1.updates
                                         .sort((a, b) =>
@@ -782,6 +856,9 @@ export default function HomeList(props) {
                                     <TableCell
                                       onClick={() => {
                                         setTaskSelected(null);
+                                      }}
+                                      style={{
+                                        fontFamily: "rockwen",
                                       }}
                                       align="center">
                                       {info1.updates
@@ -803,6 +880,9 @@ export default function HomeList(props) {
                                       onClick={() => {
                                         setTaskSelected(null);
                                       }}
+                                      style={{
+                                        fontFamily: "rockwen",
+                                      }}
                                       align="center">
                                       {info1.updates
                                         .sort((a, b) =>
@@ -814,17 +894,21 @@ export default function HomeList(props) {
                                               style={
                                                 (info2.status === "Done" && {
                                                   color: "#000000",
+                                                  fontWeight: "bold",
                                                 }) ||
                                                 (info2.status ===
                                                   "On Going" && {
                                                   color: "#24A43A",
+                                                  fontWeight: "bold",
                                                 }) ||
                                                 (info2.status === "Paused" && {
                                                   color: "#2972B2",
+                                                  fontWeight: "bold",
                                                 }) ||
                                                 (info2.status ===
                                                   "Assigned" && {
                                                   color: "#D1AE00",
+                                                  fontWeight: "bold",
                                                 })
                                               }>
                                               {info2.status}
@@ -842,6 +926,7 @@ export default function HomeList(props) {
                                           variant="light"
                                           style={{
                                             backgroundColor: "white",
+                                            fontFamily: "rockwen",
                                           }}>
                                           Correction
                                         </Button>
