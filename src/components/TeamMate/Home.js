@@ -19,7 +19,7 @@ export default function Home() {
   const [once, setOnce] = useState(true);
   const [teammate, setTeammate] = useState({});
   const [id, setId] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
