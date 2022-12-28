@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import logo from "../../assets/images/Group 3.svg";
 import "./Login.css";
-import { auth, db } from '../../firebase-config'
-import {
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
+import { auth, db } from "../../firebase-config";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ref, set } from "firebase/database";
 
 export default function Signup() {
@@ -27,7 +24,7 @@ export default function Signup() {
     let newInput1 = { [event.target.name]: event.target.value };
     setUserLog({ ...userLog, ...newInput1 });
   };
-  const registerUser = (currentUser) => {
+  const registerUser = async (currentUser) => {
     if (user.designation === "Manager") {
       set(ref(db, "/manager/" + currentUser.uid), {
         company: user.companyName,
@@ -35,18 +32,17 @@ export default function Signup() {
         name: user.name,
         email: userLog.email,
         teammates: [],
-      }).then((res) => {
-        window.location.href = "/";
-      });
+      }).then(() => (window.location.href = "/signUp/response"));
     } else {
-      set(ref(db, "/teammate/" + currentUser.uid), {
-        company: user.companyName,
-        designation: user.designation,
-        name: user.name,
-        email: userLog.email,
-      }).then((res) => {
-        window.location.href = "/";
-      });
+      await set(
+        ref(db, "/teammate/" + currentUser.email.split(".").join("_")),
+        {
+          company: user.companyName,
+          designation: user.designation,
+          name: user.name,
+          email: userLog.email,
+        }
+      ).then(() => (window.location.href = "/signUp/response"));
     }
   };
 
@@ -54,7 +50,7 @@ export default function Signup() {
     createUserWithEmailAndPassword(auth, userLog.email, userLog.password)
       .then((cred) => {
         updateProfile(auth.currentUser, {
-          displayName: user.designation === "Manager" ? "manager" : "teammate",
+          displayName: user.designation === "Manager" ? "Manager" : "Teammate",
         });
         registerUser(auth.currentUser);
       })
@@ -63,31 +59,23 @@ export default function Signup() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (user.name === "" || user.companyName === "" || user.designation === "") {
+    if (
+      user.name === "" ||
+      user.companyName === "" ||
+      user.designation === ""
+    ) {
       alert("Fill the fields");
-    }
-    else if (userLog.password.length < 6) {
+    } else if (userLog.password.length < 6) {
       alert("Password should be atleast 6 characters!!!");
     } else {
       if (userLog.password === userLog.confirmPassword) {
+        localStorage.setItem("currentUser", JSON.stringify(user.name));
         registerLogin();
       } else {
         alert("Passwords does not match!!");
       }
     }
   };
-
-
-
-
-
-
-
-
-
-
-
-
   return (
     <div className="container mt-5 login-container">
       <div className="form-box1">
@@ -134,16 +122,17 @@ export default function Signup() {
                   className="form-select"
                   aria-label="Default select example"
                   name="companyName"
-                  onChange={handleChange}
-                >
+                  onChange={handleChange}>
                   <option
                     selected
                     hidden>
                     Select Company
                   </option>
-                  <option value="The Madras branding Company">The Madras branding Company</option>
-                  <option value='Brand Moustache'>Brand Moustache</option>
-                  <option value='Little Show'>Little Show</option>
+                  <option value="The Madras branding Company">
+                    The Madras branding Company
+                  </option>
+                  <option value="Brand Moustache">Brand Moustache</option>
+                  <option value="Little Show">Little Show</option>
                   <option value="Facebook">Facebook</option>
                 </select>
               </div>
@@ -166,7 +155,9 @@ export default function Signup() {
                 <label htmlFor="pwd">Designation</label>
                 <select
                   className="form-select"
-                  aria-label="Default select example" name="designation" onChange={handleChange}>
+                  aria-label="Default select example"
+                  name="designation"
+                  onChange={handleChange}>
                   <option
                     selected
                     hidden>

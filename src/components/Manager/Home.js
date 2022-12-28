@@ -3,78 +3,99 @@ import { auth, db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 import HomeBlock from "./HomeBlock";
 import HomeList from "./HomeList";
-import { child, get, onValue, ref } from "firebase/database";
+import { onValue, ref, remove, set, update } from "firebase/database";
 import { onAuthStateChanged } from "firebase/auth";
 
 export default function Home() {
   const [view, setView] = useState(true);
-  const [once, setOnce] = useState(true);
   const [manager, setManager] = useState({});
-  const [teammateList, setTeammateList] = useState([{}]);
+  const [once, setOnce] = useState(true);
+  const [once1, setOnce1] = useState(true);
+  const [teammateList, setTeammateList] = useState([]);
+  const [teammateSet, setTeammateSet] = useState(null);
+  const [managerId, setManagerId] = useState("");
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      if (user.uid && once) {
-        onValue(ref(db, `manager/${user.uid}`), (snapshot) => {
+      if (once) {
+        let userSet = onValue(ref(db, `manager/${user.uid}`), (snapshot) => {
           if (snapshot.exists()) {
-            const data = snapshot.val();
+            let data = snapshot.val();
             setManager(data);
-            console.log(manager);
-            getTeammates(data.teammates);
+            setManagerId(user.uid);
+            setTeammateSet(data.teammates);
           } else {
             console.log("No data available");
           }
         });
+        if (userSet && teammateSet !== undefined) {
+          getTeammates(teammateSet);
+        }
+
         setOnce(false);
       }
     } else {
       window.location.href = "/";
     }
   });
-
-  function getTeammates(teamList) {
-    teamList.forEach((teammate) => {
-      onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
-        if (snapshot.exists()) {
-          setTeammateList(
-            (teammateList) => [...teammateList, snapshot.val()],
-            teammate
-          );
-        } else {
-          console.log("No data available");
-        }
+  const getTeammates = (teamList) => {
+    if (once1)
+      teamList.forEach((teammate) => {
+        onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
+          if (snapshot.exists()) {
+            const data = snapshot.val();
+            setTeammateList((teammateList) => [
+              ...teammateList,
+              { data, teammate },
+            ]);
+          } else {
+            console.log("No data available");
+          }
+        });
       });
-    });
-  }
+    setOnce1(false);
+  };
 
+  const addNewTeammate = (teammateEmail) => {
+    if (teammateEmail === "") {
+      alert("Enter email first");
+      return;
+    }
+    let id = teammateEmail.split(".");
+    let newId = id.join("_");
+    if (teammateSet === undefined) {
+      let newArr = [newId];
+      update(ref(db, `manager/${managerId}/`), { teammates: newArr });
+    } else {
+      let newArr = [];
+      teammateSet.forEach((element) => {
+        newArr.push(element);
+      });
+      let newArr2 = [...newArr, newId];
+      update(ref(db, `manager/${managerId}/`), { teammates: newArr2 });
+    }
+    window.location.reload();
+  };
   function handleChange(newValue) {
     setView(newValue);
   }
-  function writeUserData(client, taskTitle, description) {
-    //   var today = new Date();
-    //   set(ref(db, "/teammate/id/tasks/1/"), {
-    //     client: client,
-    //     taskTitle: taskTitle,
-    //     description: description,
-    //     updates: {
-    //       0: {
-    //         date:
-    //           String(today.getDate()).padStart(2, "0") +
-    //           "/" +
-    //           String(today.getMonth() + 1).padStart(2, "0") +
-    //           "/" +
-    //           today.getFullYear(),
-    //         time:
-    //           today.getHours() +
-    //           ":" +
-    //           today.getMinutes() +
-    //           ":" +
-    //           today.getSeconds(),
-    //         corrections: "0",
-    //         status: "Assigned",
-    //       },
-    //     },
-    //   });
+  function writeUserData(newTask, teammateId, index) {
+    set(ref(db, `/teammate/${teammateId}/tasks/${index}/`), newTask)
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  function deleteCurrentTask(teammateId, index) {
+    remove(ref(db, `/teammate/${teammateId}/tasks/${index}/`))
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   return (
     <div>
@@ -83,13 +104,15 @@ export default function Home() {
         name={manager.name}
         role={manager.designation}
       />
-      {/* {console.log(teammateList)} */}
+
       {view ? (
         <HomeList
           viewType={view}
           team={teammateList}
           onChange={handleChange}
           addTask={writeUserData}
+          deleteTask={deleteCurrentTask}
+          addTeammate={addNewTeammate}
         />
       ) : (
         <HomeBlock
