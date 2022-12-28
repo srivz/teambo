@@ -40,7 +40,7 @@ export default function Home() {
         setLoading(false);
       }
     } else {
-      setLoading(false);
+      setLoading(true);
       window.location.href = "/";
     }
   });
