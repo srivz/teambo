@@ -49,7 +49,7 @@ export default function HomeBlock(props) {
   };
   const handleNewTask = async (id, tasknumber) => {
     await props.addTask(newTask, id, tasknumber);
-    await window.location.reload();
+    window.location.reload();
   };
   return (
     <div id="main">

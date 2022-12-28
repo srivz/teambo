@@ -11,11 +11,11 @@ export default function Home() {
   const [view, setView] = useState(true);
   const [manager, setManager] = useState({});
   const [once, setOnce] = useState(true);
-  const [once1, setOnce1] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [teammateList, setTeammateList] = useState([]);
-  const [teammateSet, setTeammateSet] = useState(null);
+  const [once1, setOnce1] = useState(true);
   const [managerId, setManagerId] = useState("");
+  const [teammateList, setTeammateList] = useState([]);
+  const [teammateSet, setTeammateSet] = useState([]);
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -32,16 +32,16 @@ export default function Home() {
             console.log("No data available");
           }
         });
-        if (userSet && teammateSet !== undefined) {
-          getTeammates(teammateSet);
-        }
+        if (userSet) getTeammates(manager.teammates);
 
+        setLoading(false);
         setOnce(false);
       }
     } else {
       window.location.href = "/";
     }
   });
+
   const getTeammates = (teamList) => {
     if (once1)
       teamList.forEach((teammate) => {

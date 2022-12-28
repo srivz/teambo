@@ -11,8 +11,8 @@ import { onValue, ref, update } from "firebase/database";
 import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { auth, db } from "../../firebase-config";
-import NavBar from "../Navs/NavBar";
 import Loader from "../Loader/Loader";
+import NavBar from "../Navs/NavBar";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -40,6 +40,7 @@ export default function Home() {
         setLoading(false);
       }
     } else {
+      setLoading(false);
       window.location.href = "/";
     }
   });
