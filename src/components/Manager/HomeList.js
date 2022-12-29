@@ -1050,8 +1050,7 @@ export default function HomeList(props) {
                                         </TableCell>
 
                                         <TableCell align="center">
-                                          {info1.updates[
-                                            info1.updates.length - 1
+                                          {info1.updates[0
                                           ].status === "Done" ? (
                                             <Button
                                               onClick={() => {
@@ -1059,8 +1058,7 @@ export default function HomeList(props) {
                                                   info.teammate,
                                                   index,
                                                   parseInt(
-                                                    info1.updates[
-                                                      info1.updates.length - 1
+                                                    info1.updates[0
                                                     ].corrections
                                                   ) + 1
                                                 );
