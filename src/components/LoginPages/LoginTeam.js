@@ -22,7 +22,7 @@ export default function LoginTeam({ text, user, name, role }) {
     signInWithEmailAndPassword(auth, userLog.email, userLog.password)
       .then((userCredential) => {
         const user = userCredential.user;
-        if (user.displayName === "Manager") {
+        if (user.photoURL === "Manager") {
           window.location.href = "/manager/home";
         } else {
           window.location.href = "/teammate/home";

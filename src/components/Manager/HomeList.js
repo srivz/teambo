@@ -85,7 +85,6 @@ export default function HomeList(props) {
     setLoading(true);
     props.deleteTask(id, index);
   };
-
   onChildChanged(ref(db, `/teammate/`), () => {
     setLoading(true);
     window.location.reload();
