@@ -77,7 +77,7 @@ export default function Signup() {
     }
   };
   return (
-    <div className="container mt-5 login-container">
+    <div className="login-container">
       <div className="form-box1">
         <div className="img text-center">
           <img
@@ -86,7 +86,7 @@ export default function Signup() {
             alt=""
           />
         </div>
-        <h4 className="mt-3 text-center mb-3">Sign up a new Teambo account!</h4>
+        <h4 className="mt-4 text-center mb-4 signup-para">Sign up a new Teambo account!</h4>
         <form onSubmit={handleSubmit}>
           <div className="form-group mb-4 ">
             <div className="row">

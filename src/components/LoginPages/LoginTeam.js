@@ -6,13 +6,13 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase-config";
 import Loader from "../Loader/Loader";
 
-
 export default function LoginTeam({ text, user, name, role }) {
   const [userLog, setUserLog] = useState({
     email: "",
     password: "",
   });
-  const [loading,setLoading]=useState(false);
+
+  const [loading, setLoading] = useState(false);
   const handleChangeLog = (event) => {
     let newInput1 = { [event.target.name]: event.target.value };
     setUserLog({ ...userLog, ...newInput1 });
@@ -22,7 +22,6 @@ export default function LoginTeam({ text, user, name, role }) {
     signInWithEmailAndPassword(auth, userLog.email, userLog.password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
         if (user.displayName === "Manager") {
           window.location.href = "/manager/home";
         } else {
@@ -30,17 +29,16 @@ export default function LoginTeam({ text, user, name, role }) {
         }
       })
       .catch((error) => {
-        alert(error.message)
         setLoading(false)
-        
+        alert(error.message)
       });
   };
 
   const handleSubmit = (event) => {
-    setLoading(true)
+    setLoading(true);
     event.preventDefault();
     if (userLog.email === "" || userLog.password === "") {
-      setLoading(false)
+      setLoading(false);
       alert("Fill the fields");
     } else {
       registerLogin();
@@ -49,7 +47,7 @@ export default function LoginTeam({ text, user, name, role }) {
   return (
     <>
     {
-      loading?<Loader/>: <div className="container mt-5 login-container">
+      loading?<Loader/>: <div className="login-container">
         <div className="form-box">
           <div className="img text-center">
             <img
@@ -85,7 +83,7 @@ export default function LoginTeam({ text, user, name, role }) {
             </div>
             <button
               type="Submit"
-              className="btn btn-primary bg-blue w-100 rounded-4"
+              className="btn btn-primary bg-blue w-100 rounded-4 login-button2"
               style={{ background: "#3975EA" }}>
               Log in
             </button>
