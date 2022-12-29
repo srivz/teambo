@@ -24,10 +24,10 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [taskSelected, setTaskSelected] = useState();
   const [once, setOnce] = useState(true);
+  const [once2, setOnce2] = useState(true);
   const [teammate, setTeammate] = useState({});
   const [id, setId] = useState("");
   const [show, setShow] = useState(false);
-  const [managerTeam, setManagerTeam] = useState();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -55,43 +55,44 @@ export default function Home() {
     }
   });
 
-  const getManager = async (idManager) => {
-    onValue(ref(db, `manager/${idManager}`), (snapshot) => {
-      if (snapshot.exists()) {
-        let data = snapshot.val();
-        setManagerTeam(data.teammates);
-        alert("manager found");
-        return true;
-      } else {
-        alert("No manager found");
-        setLoading(false);
-        return false;
-      }
-    });
-  };
-  const acceptChange = async(managerId) => {
-    if (managerTeam === null) {
-      alert(" manager ");
+  const acceptChange = (managerId, managerTeam) => {
+    if (managerTeam === undefined) {
       update(ref(db, `manager/${managerId}/`), { teammates: [id] });
       remove(ref(db, `teammate/${id}/requests/`));
       setLoading(false);
     } else {
-      alert("found");
       let newArr = [];
+      let exists = false;
       managerTeam.forEach((element) => {
+        if (element === id) {
+          exists = true;
+        }
         newArr.push(element);
       });
-      let newArr2 = [...newArr, id];
-      alert(newArr2);
-      update(ref(db, `manager/${managerId}/`), { teammates: newArr2 });
-      remove(ref(db, `teammate/${id}/requests/`));
-      setLoading(false);
+      if (exists) {
+        alert("Already requested !");
+        setLoading(false);
+      } else {
+        let newArr2 = [...newArr, id];
+        update(ref(db, `manager/${managerId}/`), { teammates: newArr2 });
+        remove(ref(db, `teammate/${id}/requests/`));
+        setLoading(false);
+      }
     }
   };
-  const accept = async (managerId) => {
-    setLoading(true);
-    await getManager(managerId);
-    await acceptChange(managerId);
+  const accept = (managerId) => {
+    setLoading(true); if (once2) {
+      onValue(ref(db, `manager/${managerId}`), (snapshot) => {
+        if (snapshot.exists()) {
+          let data = snapshot.val();
+          acceptChange(managerId, data.teammates);
+        } else {
+          alert("No manager found");
+          setLoading(false);
+        }
+      });
+      setOnce2(false)
+    }
     setLoading(false);
   };
 
