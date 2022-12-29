@@ -14,7 +14,7 @@ import {
   remove,
   update,
 } from "firebase/database";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Badge, Col, Container, Offcanvas, Row } from "react-bootstrap";
 import { auth, db } from "../../firebase-config";
 import Loader from "../Loader/Loader";
@@ -54,12 +54,12 @@ export default function Home() {
       window.location.href = "/";
     }
   });
-  
-  const getManager=async (idManager)=> {
+
+  const getManager = async (idManager) => {
     onValue(ref(db, `manager/${idManager}`), (snapshot) => {
       if (snapshot.exists()) {
         let data = snapshot.val();
-        setManagerTeam(data);
+        setManagerTeam(data.teammates);
         alert("manager found");
         return true;
       } else {
@@ -68,30 +68,31 @@ export default function Home() {
         return false;
       }
     });
-  }
-  const accept = (managerId) => {
-    setLoading(true);
-    
-    if(getManager(managerId)){
-        alert("No ");
-      if (managerTeam === null) {
-        alert(" manager ");
-        update(ref(db, `manager/${managerId}/`), { teammates: [id] });
-        remove(ref(db, `teammate/${id}/requests/`));
-        setLoading(false);
-      } else {
-        alert(" found");
-        let newArr = [];
-        managerTeam.forEach((element) => {
-          newArr.push(element);
-        });
-        let newArr2 = [...newArr, id];
-        alert(newArr2);
-        update(ref(db, `manager/${managerId}/`), { teammates: newArr2 });
-        remove(ref(db, `teammate/${id}/requests/`));
-        setLoading(false);
-      }
+  };
+  const acceptChange = async(managerId) => {
+    if (managerTeam === null) {
+      alert(" manager ");
+      update(ref(db, `manager/${managerId}/`), { teammates: [id] });
+      remove(ref(db, `teammate/${id}/requests/`));
+      setLoading(false);
+    } else {
+      alert("found");
+      let newArr = [];
+      managerTeam.forEach((element) => {
+        newArr.push(element);
+      });
+      let newArr2 = [...newArr, id];
+      alert(newArr2);
+      update(ref(db, `manager/${managerId}/`), { teammates: newArr2 });
+      remove(ref(db, `teammate/${id}/requests/`));
+      setLoading(false);
     }
+  };
+  const accept = async (managerId) => {
+    setLoading(true);
+    await getManager(managerId);
+    await acceptChange(managerId);
+    setLoading(false);
   };
 
   const reject = (index) => {
