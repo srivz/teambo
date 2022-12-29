@@ -6,13 +6,13 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase-config";
 import Loader from "../Loader/Loader";
 
-
 export default function LoginTeam({ text, user, name, role }) {
   const [userLog, setUserLog] = useState({
     email: "",
     password: "",
   });
-  const [loading,setLoading]=useState(false);
+
+  const [loading, setLoading] = useState(false);
   const handleChangeLog = (event) => {
     let newInput1 = { [event.target.name]: event.target.value };
     setUserLog({ ...userLog, ...newInput1 });
@@ -22,25 +22,23 @@ export default function LoginTeam({ text, user, name, role }) {
     signInWithEmailAndPassword(auth, userLog.email, userLog.password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
-        if (user.displayName === "Manager") {
+        if (user.photoURL === "Manager") {
           window.location.href = "/manager/home";
         } else {
           window.location.href = "/teammate/home";
         }
       })
       .catch((error) => {
-        alert(error.message)
         setLoading(false)
-        
+        alert(error.message)
       });
   };
 
   const handleSubmit = (event) => {
-    setLoading(true)
+    setLoading(true);
     event.preventDefault();
     if (userLog.email === "" || userLog.password === "") {
-      setLoading(false)
+      setLoading(false);
       alert("Fill the fields");
     } else {
       registerLogin();

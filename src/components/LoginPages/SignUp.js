@@ -50,7 +50,8 @@ export default function Signup() {
     createUserWithEmailAndPassword(auth, userLog.email, userLog.password)
       .then((cred) => {
         updateProfile(auth.currentUser, {
-          displayName: user.designation === "Manager" ? "Manager" : "Teammate",
+          photoURL: user.designation === "Manager" ? "Manager" : "Teammate",
+          displayName: user.name,
         });
         registerUser(auth.currentUser);
       })
