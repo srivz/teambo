@@ -69,9 +69,11 @@ export default function Home() {
     let id = teammateEmail.split(".");
     let newId = id.join("_");
     if (teammateList.data.requests === undefined) {
+      console.log(teammateList.data.requests);
       let newArr = [managerId];
       update(ref(db, `teammate/${newId}/requests`), newArr);
     } else {
+      console.log(teammateList.data.requests);
       let newArr = [];
       teammateList.data.requests.forEach((element) => {
         newArr.push(element);
