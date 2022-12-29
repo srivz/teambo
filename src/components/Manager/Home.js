@@ -15,7 +15,6 @@ export default function Home() {
   const [once1, setOnce1] = useState(true);
   const [managerId, setManagerId] = useState("");
   const [teammateList, setTeammateList] = useState([]);
-  const [teammateSet, setTeammateSet] = useState([]);
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -26,7 +25,6 @@ export default function Home() {
             let data = snapshot.val();
             setManager(data);
             setManagerId(user.uid);
-            setTeammateSet(data.teammates);
           } else {
             setLoading(false);
             console.log("No data available");
@@ -70,16 +68,16 @@ export default function Home() {
     }
     let id = teammateEmail.split(".");
     let newId = id.join("_");
-    if (teammateSet === undefined) {
-      let newArr = [newId];
-      update(ref(db, `manager/${managerId}/`), { teammates: newArr });
+    if (teammateList.data.requests === undefined) {
+      let newArr = [managerId];
+      update(ref(db, `teammate/${newId}/requests`), newArr);
     } else {
       let newArr = [];
-      teammateSet.forEach((element) => {
+      teammateList.data.requests.forEach((element) => {
         newArr.push(element);
       });
       let newArr2 = [...newArr, newId];
-      update(ref(db, `manager/${managerId}/`), { teammates: newArr2 });
+      update(ref(db, `teammate/${newId}/requests`), newArr2);
     }
     window.location.reload();
   };

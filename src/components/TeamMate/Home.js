@@ -9,7 +9,7 @@ import {
 import { onAuthStateChanged } from "firebase/auth";
 import { onChildChanged, onValue, ref, update } from "firebase/database";
 import React, { useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Badge,  Col, Container, Offcanvas, Row } from "react-bootstrap";
 import { auth, db } from "../../firebase-config";
 import Loader from "../Loader/Loader";
 import NavBar from "../Navs/NavBar";
@@ -20,6 +20,11 @@ export default function Home() {
   const [once, setOnce] = useState(true);
   const [teammate, setTeammate] = useState({});
   const [id, setId] = useState("");
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -45,6 +50,27 @@ export default function Home() {
     }
   });
 
+  // const addNewTeammate = (teammateEmail) => {
+  //   setLoading(true);
+  //   if (teammateEmail === "") {
+  //     alert("Enter email first");
+  //     return;
+  //   }
+  //   let id = teammateEmail.split(".");
+  //   let newId = id.join("_");
+  //   if (teammateSet === undefined) {
+  //     let newArr = [newId];
+  //     update(ref(db, `manager/${managerId}/`), { teammates: newArr });
+  //   } else {
+  //     let newArr = [];
+  //     teammateSet.forEach((element) => {
+  //       newArr.push(element);
+  //     });
+  //     let newArr2 = [...newArr, newId];
+  //     update(ref(db, `manager/${managerId}/`), { teammates: newArr2 });
+  //   }
+  //   window.location.reload();
+  // };
 
   onChildChanged(ref(db, `/teammate/`), () => {
     setLoading(true);
@@ -80,6 +106,17 @@ export default function Home() {
             role={teammate.designation}
           />
           <Container>
+            <Offcanvas
+              show={show}
+              onHide={handleClose}>
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                Some text as placeholder. In real life you can have the elements
+                you have chosen. Like, text, images, lists, etc.
+              </Offcanvas.Body>
+            </Offcanvas>
             <Container>
               <Row>
                 <Col style={{ marginTop: "1em" }}>
@@ -88,7 +125,21 @@ export default function Home() {
                       sm="6"
                       md="6"
                       style={{ marginTop: "1em" }}>
-                      <h5 className="blue">{teammate.name}</h5>
+                      <h5 className="blue">
+                        {teammate.name}{" "}
+                        <Badge
+                          as="button"
+                          onClick={handleShow}
+                            style={{
+                            color:"black",
+                            fontFamily: "rockwen",
+                            fontWeight: "bold",
+                            borderRadius:"25px"
+                            }}
+                          bg="light">
+                          9
+                        </Badge>
+                      </h5>
                       <h6>{teammate.designation}</h6>
                     </Col>
                   </Row>
