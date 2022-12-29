@@ -79,6 +79,7 @@ export default function Home() {
       let newArr2 = [...newArr, managerId];
       update(ref(db, `teammate/${newId}/requests`), newArr2);
     }
+        setLoading(false);
     window.location.reload();
   };
 
