@@ -38,6 +38,7 @@ export default function Home() {
             setLoading(false);
           }
         });
+            setLoading(false);
         setOnce(false);
       }
     } else {
@@ -72,6 +73,7 @@ export default function Home() {
         return true;
       } else {
         alert("User not available");
+            setLoading(false);
       }
     });
   };
@@ -104,8 +106,8 @@ export default function Home() {
         } else {
           let newArr2 = [...newArr, { managerId, managerName }];
           update(ref(db, `teammate/${newId}/`), { requests: newArr2 });
+            setLoading(false);
         }
-        setLoading(false);
       }
     } else {
       let newArr = [];
@@ -141,6 +143,7 @@ export default function Home() {
         }
       }
     }
+            setLoading(false);
 
     window.location.reload();
   };

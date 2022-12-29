@@ -7,8 +7,14 @@ import {
   TableRow,
 } from "@mui/material";
 import { onAuthStateChanged } from "firebase/auth";
-import { onChildChanged, onValue, ref, remove, update } from "firebase/database";
-import React, { useState } from "react";
+import {
+  onChildChanged,
+  onValue,
+  ref,
+  remove,
+  update,
+} from "firebase/database";
+import React, {  useState } from "react";
 import { Badge, Col, Container, Offcanvas, Row } from "react-bootstrap";
 import { auth, db } from "../../firebase-config";
 import Loader from "../Loader/Loader";
@@ -21,11 +27,10 @@ export default function Home() {
   const [teammate, setTeammate] = useState({});
   const [id, setId] = useState("");
   const [show, setShow] = useState(false);
-  const [managerTeam, setManagerTeam] = useState(false);
-;
+  const [managerTeam, setManagerTeam] = useState();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
       if (once) {
@@ -49,35 +54,45 @@ export default function Home() {
       window.location.href = "/";
     }
   });
-  const getManager = (idManager) => {
+  
+  const getManager=async (idManager)=> {
     onValue(ref(db, `manager/${idManager}`), (snapshot) => {
       if (snapshot.exists()) {
         let data = snapshot.val();
-        setManagerTeam(data.teammates);
+        setManagerTeam(data);
+        alert("manager found");
+        return true;
       } else {
         alert("No manager found");
+        setLoading(false);
+        return false;
       }
     });
   }
   const accept = (managerId) => {
-  setLoading(true);
-  getManager(managerId);
-  if (managerTeam.teammates === undefined) {
-    update(ref(db, `manager/${managerId}/`), { teammates: [id] });
-    remove(ref(db, `teammate/${id}/requests/`));
-    setLoading(false);
-  } else {
-    let newArr = [];
-    managerTeam.teammates.forEach((element) => {
-      alert("ele" + element);
-      newArr.push(element);
-    });
-    let newArr2 = [...newArr, id];
-    update(ref(db, `manager/${managerId}/`), { teammates: newArr2 });
-    remove(ref(db, `teammate/${id}/requests/`));
-    setLoading(false);
-  }
-};
+    setLoading(true);
+    
+    if(getManager(managerId)){
+        alert("No ");
+      if (managerTeam === null) {
+        alert(" manager ");
+        update(ref(db, `manager/${managerId}/`), { teammates: [id] });
+        remove(ref(db, `teammate/${id}/requests/`));
+        setLoading(false);
+      } else {
+        alert(" found");
+        let newArr = [];
+        managerTeam.forEach((element) => {
+          newArr.push(element);
+        });
+        let newArr2 = [...newArr, id];
+        alert(newArr2);
+        update(ref(db, `manager/${managerId}/`), { teammates: newArr2 });
+        remove(ref(db, `teammate/${id}/requests/`));
+        setLoading(false);
+      }
+    }
+  };
 
   const reject = (index) => {
     remove(ref(db, `teammate/${id}/requests/${index}`));
@@ -150,7 +165,9 @@ export default function Home() {
                             sm={1}>
                             <Badge
                               as="button"
-                              onClick={() => { reject(index); }}
+                              onClick={() => {
+                                reject(index);
+                              }}
                               style={{
                                 padding: ".25em",
                                 color: "black",
@@ -167,7 +184,9 @@ export default function Home() {
                             sm={1}>
                             <Badge
                               as="button"
-                              onClick={() => { accept(info.managerId); }}
+                              onClick={() => {
+                                accept(info.managerId);
+                              }}
                               style={{
                                 padding: ".25em",
                                 color: "black",
