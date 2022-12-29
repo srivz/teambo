@@ -446,8 +446,9 @@ export default function Home() {
                                                 size="lg"
                                                 style={{
                                                   display:
-                                                    info.updates[0].status ===
-                                                    "Done"
+                                                    info.updates[
+                                                      info.updates.length - 1
+                                                    ].status === "Done"
                                                       ? "none"
                                                       : "",
                                                   margin: ".5em",
@@ -467,8 +468,9 @@ export default function Home() {
                                                 size="lg"
                                                 style={{
                                                   display:
-                                                    info.updates[0].status ===
-                                                    "Done"
+                                                    info.updates[
+                                                      info.updates.length - 1
+                                                    ].status === "Done"
                                                       ? "none"
                                                       : "",
                                                   margin: ".5em",
@@ -487,8 +489,9 @@ export default function Home() {
                                                 size="lg"
                                                 style={{
                                                   display:
-                                                    info.updates[0].status ===
-                                                    "Done"
+                                                    info.updates[
+                                                      info.updates.length - 1
+                                                    ].status === "Done"
                                                       ? "none"
                                                       : "",
                                                   margin: ".5em",
@@ -531,6 +534,7 @@ export default function Home() {
                                   </TableCell>
                                   <TableCell
                                     style={{
+                                      width: "100px",
                                       fontFamily: "rockwen",
                                     }}
                                     onClick={() => {
@@ -540,7 +544,13 @@ export default function Home() {
                                     {info.task}
                                     <br />
                                     <br />
-                                    <p>{info.description}</p>
+                                    <p
+                                      style={{
+                                        width: "100px",
+                                        fontSize: "smaller",
+                                      }}>
+                                      {info.description}
+                                    </p>
                                   </TableCell>
                                   <TableCell
                                     onClick={() => {
