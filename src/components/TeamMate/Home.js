@@ -143,7 +143,18 @@ export default function Home() {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 {!teammate.requests ? (
-                  <Row align="center">No Requests Available</Row>
+                  <Row
+                    style={{
+                      boxShadow: "rgba(0, 0, 0, 0.55) 0px 1px 3px",
+                      margin: ".5em",
+                      color: "black",
+                      padding: "1em",
+                      fontFamily: "rockwen",
+                      border: "2px black",
+                    }}
+                    align="center">
+                    No Requests Available
+                  </Row>
                 ) : (
                   teammate.requests.map((info, index) => {
                     return (
@@ -217,22 +228,26 @@ export default function Home() {
                       sm="6"
                       md="6"
                       style={{ marginTop: "1em" }}>
-                      <h5 className="blue">
-                        {teammate.name}{" "}
-                        <Badge
-                          as="button"
-                          onClick={handleShow}
-                          style={{
-                            color: "black",
-                            fontFamily: "rockwen",
-                            fontWeight: "bold",
-                            borderRadius: "25px",
-                          }}
-                          bg="light">
-                          {!teammate.requests ? 0 : teammate.requests.length}
-                        </Badge>
-                      </h5>
+                      <h5 className="blue">{teammate.name}</h5>
                       <h6>{teammate.designation}</h6>
+                    </Col>
+                    <Col
+                      sm="6"
+                      md="6"
+                      style={{ marginTop: "1em" }}
+                      className="text-end">
+                      <Badge
+                        as="button"
+                        onClick={handleShow}
+                        style={{
+                          color: "black",
+                          fontFamily: "rockwen",
+                          fontWeight: "bold",
+                          borderRadius: "25px",
+                        }}
+                        bg="light">
+                        {!teammate.requests ? 0 : teammate.requests.length}
+                      </Badge>
                     </Col>
                   </Row>
                   <Row>
