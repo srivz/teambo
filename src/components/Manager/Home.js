@@ -76,7 +76,7 @@ export default function Home() {
       teammateList.data.requests.forEach((element) => {
         newArr.push(element);
       });
-      let newArr2 = [...newArr, newId];
+      let newArr2 = [...newArr, managerId];
       update(ref(db, `teammate/${newId}/requests`), newArr2);
     }
     window.location.reload();
