@@ -71,6 +71,7 @@ export default function Home() {
         setLoading(true);
     if (teammateEmail === "") {
       alert("Enter email first");
+      setLoading(false)
       return;
     }
     let id = teammateEmail.split(".");
