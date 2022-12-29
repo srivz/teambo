@@ -13,8 +13,8 @@ export default function LoginHome() {
   }, []);
 
   return (
-    <div id="main">
-      <Container style={{ padding: "3em" }}>
+    <div id="main" className="home-container">
+      <Container style={{ padding: "3em",marginTop:"100px" }}>
         <Row style={{ padding: "3em" }}>
           <Col
             sm="6"
@@ -31,12 +31,13 @@ export default function LoginHome() {
             md="6"
             className="text-center">
             <img
-              className="w-75 "
+              className="w-30"
               src={logo}
               alt=""
+              width={285}
             />
-            <h6 style={{ marginTop: "1em" }}>Welcome to Teambo,</h6>
-            <h6 style={{ marginBottom: "3em" }}>
+            <h6 style={{ marginTop: "1.2em" }}>Welcome to Teambo,</h6>
+            <h6 style={{ marginBottom: "2em" }}>
               let's get the works done right.
             </h6>
             <Row style={{ marginBottom: "1.5em" }}>
@@ -44,10 +45,12 @@ export default function LoginHome() {
                 <Button
                   variant="light"
                   type="button"
-                  className="w-75">
+                  className="w-75 home-buttons">
                   <img
                     src={rect}
                     alt=""
+                    width={30}
+                    style={{marginRight:"20px"}}
                   />{" "}
                   Manager Login
                 </Button>
@@ -58,21 +61,23 @@ export default function LoginHome() {
                 <Button
                   variant="light"
                   type="button"
-                  className="w-75">
+                  className="w-75 home-buttons">
                   <img
                     src={Icon_feather_check}
                     alt=""
+                    width={30}
+                    style={{ marginRight: "20px" }}
                   />{" "}
                   Teammate Login
                 </Button>
               </Link>
             </Row>
-            <h6 style={{ marginTop: "1.5em" }}>
+            <h6 style={{ marginTop: "2em" }} className="signup-h6">
               Don't have an account?{" "}
               <Link
                 to="/signUp"
                 className="signuplink">
-                <span className="blue">Signup</span>
+                <span className="blue" style={{marginLeft:'5px'}}>Signup</span>
               </Link>
             </h6>
           </Col>

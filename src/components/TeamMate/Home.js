@@ -21,7 +21,7 @@ import Loader from "../Loader/Loader";
 import NavBar from "../Navs/NavBar";
 
 export default function Home() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [taskSelected, setTaskSelected] = useState();
   const [once, setOnce] = useState(true);
   const [once2, setOnce2] = useState(true);

@@ -37,12 +37,14 @@ export default function Home() {
             if (data.teammates !== undefined) {
               getTeammates(data.teammates);
             }
+
           } else {
 
             console.log("No data available");
             setLoading(false);
           }
         });
+
             setLoading(false);
 
         setOnce(false);
@@ -87,6 +89,7 @@ export default function Home() {
     setLoading(true);
     if (teammateEmail === "") {
       alert("Enter email first");
+      setLoading(false)
       return;
     }
     let id = teammateEmail.split(".");
