@@ -7,9 +7,9 @@ import {
   TableRow,
 } from "@mui/material";
 import { onAuthStateChanged } from "firebase/auth";
-import { onChildChanged, onValue, ref, update } from "firebase/database";
+import { onChildChanged, onValue, ref, remove, update } from "firebase/database";
 import React, { useState } from "react";
-import { Badge,  Col, Container, Offcanvas, Row } from "react-bootstrap";
+import { Badge, Col, Container, Offcanvas, Row } from "react-bootstrap";
 import { auth, db } from "../../firebase-config";
 import Loader from "../Loader/Loader";
 import NavBar from "../Navs/NavBar";
@@ -21,11 +21,11 @@ export default function Home() {
   const [teammate, setTeammate] = useState({});
   const [id, setId] = useState("");
   const [show, setShow] = useState(false);
-
+  const [managerTeam, setManagerTeam] = useState(false);
+;
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-
+  
   onAuthStateChanged(auth, (user) => {
     if (user) {
       if (once) {
@@ -49,28 +49,39 @@ export default function Home() {
       window.location.href = "/";
     }
   });
+  const getManager = (idManager) => {
+    onValue(ref(db, `manager/${idManager}`), (snapshot) => {
+      if (snapshot.exists()) {
+        let data = snapshot.val();
+        setManagerTeam(data.teammates);
+      } else {
+        alert("No manager found");
+      }
+    });
+  }
+  const accept = (managerId) => {
+  setLoading(true);
+  getManager(managerId);
+  if (managerTeam.teammates === undefined) {
+    update(ref(db, `manager/${managerId}/`), { teammates: [id] });
+    remove(ref(db, `teammate/${id}/requests/`));
+    setLoading(false);
+  } else {
+    let newArr = [];
+    managerTeam.teammates.forEach((element) => {
+      alert("ele" + element);
+      newArr.push(element);
+    });
+    let newArr2 = [...newArr, id];
+    update(ref(db, `manager/${managerId}/`), { teammates: newArr2 });
+    remove(ref(db, `teammate/${id}/requests/`));
+    setLoading(false);
+  }
+};
 
-  // const addNewTeammate = (teammateEmail) => {
-  //   setLoading(true);
-  //   if (teammateEmail === "") {
-  //     alert("Enter email first");
-  //     return;
-  //   }
-  //   let id = teammateEmail.split(".");
-  //   let newId = id.join("_");
-  //   if (teammateSet === undefined) {
-  //     let newArr = [newId];
-  //     update(ref(db, `manager/${managerId}/`), { teammates: newArr });
-  //   } else {
-  //     let newArr = [];
-  //     teammateSet.forEach((element) => {
-  //       newArr.push(element);
-  //     });
-  //     let newArr2 = [...newArr, newId];
-  //     update(ref(db, `manager/${managerId}/`), { teammates: newArr2 });
-  //   }
-  //   window.location.reload();
-  // };
+  const reject = (index) => {
+    remove(ref(db, `teammate/${id}/requests/${index}`));
+  };
 
   onChildChanged(ref(db, `/teammate/`), () => {
     setLoading(true);
@@ -110,11 +121,70 @@ export default function Home() {
               show={show}
               onHide={handleClose}>
               <Offcanvas.Header closeButton>
-                <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+                <Offcanvas.Title>Requests</Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
-                Some text as placeholder. In real life you can have the elements
-                you have chosen. Like, text, images, lists, etc.
+                {!teammate.requests ? (
+                  <Row align="center">No Requests Available</Row>
+                ) : (
+                  teammate.requests.map((info, index) => {
+                    return (
+                      <>
+                        <Row
+                          style={{
+                            boxShadow: "rgba(0, 0, 0, 0.55) 0px 1px 3px",
+                            margin: ".5em",
+                            color: "black",
+                            padding: "1em",
+                            fontFamily: "rockwen",
+                            border: "2px black",
+                          }}
+                          key={index}>
+                          <Col
+                            md={8}
+                            sm={8}>
+                            {info.managerName}
+                          </Col>
+                          <Col
+                            md={1}
+                            sm={1}>
+                            <Badge
+                              as="button"
+                              onClick={() => { reject(index); }}
+                              style={{
+                                padding: ".25em",
+                                color: "black",
+                                fontFamily: "rockwen",
+                                fontWeight: "bold",
+                                borderRadius: "25px",
+                              }}
+                              bg="light">
+                              R
+                            </Badge>
+                          </Col>
+                          <Col
+                            md={1}
+                            sm={1}>
+                            <Badge
+                              as="button"
+                              onClick={() => { accept(info.managerId); }}
+                              style={{
+                                padding: ".25em",
+                                color: "black",
+                                fontFamily: "rockwen",
+                                fontWeight: "bold",
+                                borderRadius: "25px",
+                              }}
+                              bg="light">
+                              A
+                            </Badge>
+                          </Col>
+                        </Row>
+                        <br />
+                      </>
+                    );
+                  })
+                )}
               </Offcanvas.Body>
             </Offcanvas>
             <Container>
@@ -130,14 +200,14 @@ export default function Home() {
                         <Badge
                           as="button"
                           onClick={handleShow}
-                            style={{
-                            color:"black",
+                          style={{
+                            color: "black",
                             fontFamily: "rockwen",
                             fontWeight: "bold",
-                            borderRadius:"25px"
-                            }}
+                            borderRadius: "25px",
+                          }}
                           bg="light">
-                          9
+                          {!teammate.requests ? 0 : teammate.requests.length}
                         </Badge>
                       </h5>
                       <h6>{teammate.designation}</h6>

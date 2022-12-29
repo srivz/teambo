@@ -14,25 +14,30 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [once1, setOnce1] = useState(true);
   const [managerId, setManagerId] = useState("");
+  const [managerName, setManagerName] = useState("");
+  const [teamRequest, setTeamRequest] = useState([]);
   const [teammateList, setTeammateList] = useState([]);
+  const [teammateSet, setTeammateSet] = useState([]);
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
       if (once) {
         setLoading(true);
-        let userSet = onValue(ref(db, `manager/${user.uid}`), (snapshot) => {
+        onValue(ref(db, `manager/${user.uid}`), (snapshot) => {
           if (snapshot.exists()) {
             let data = snapshot.val();
             setManager(data);
             setManagerId(user.uid);
+            setManagerName(user.displayName);
+            setTeammateSet(data.teammates);
+            if (data.teammates !== undefined) {
+              getTeammates(data.teammates);
+            }
           } else {
-            setLoading(false);
             console.log("No data available");
+            setLoading(false);
           }
         });
-        if (userSet) getTeammates(manager.teammates);
-
-        setLoading(false);
         setOnce(false);
       }
     } else {
@@ -51,37 +56,92 @@ export default function Home() {
               { data, teammate },
             ]);
           } else {
-            setLoading(false);
             console.log("No data available");
+            setLoading(false);
           }
         });
       });
     setLoading(false);
     setOnce1(false);
   };
-
+  const getTeammatesWithMail = (teammate) => {
+    onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        setTeamRequest(data.requests);
+        return true;
+      } else {
+        alert("User not available");
+      }
+    });
+  };
   const addNewTeammate = (teammateEmail) => {
-        setLoading(true);
+    setLoading(true);
     if (teammateEmail === "") {
       alert("Enter email first");
       return;
     }
     let id = teammateEmail.split(".");
     let newId = id.join("_");
-    if (teammateList.data.requests === undefined) {
-      console.log(teammateList.data.requests);
-      let newArr = [managerId];
-      update(ref(db, `teammate/${newId}/requests`), newArr);
+    getTeammatesWithMail(newId);
+    if (teammateSet === undefined) {
+      if (teamRequest === undefined) {
+        let newArr = [{ managerId, managerName }];
+        update(ref(db, `teammate/${newId}/`), { requests: newArr });
+        setLoading(false);
+      } else {
+        let newArr = [];
+        let exists = false;
+        teamRequest.forEach((element) => {
+          if (element.managerId === managerId) {
+            exists = true;
+          }
+          newArr.push(element);
+        });
+        if (exists) {
+          alert("Already requested !");
+          setLoading(false);
+        } else {
+          let newArr2 = [...newArr, { managerId, managerName }];
+          update(ref(db, `teammate/${newId}/`), { requests: newArr2 });
+        }
+        setLoading(false);
+      }
     } else {
-      console.log(teammateList.data.requests);
       let newArr = [];
-      teammateList.data.requests.forEach((element) => {
+      teammateSet.forEach((element) => {
         newArr.push(element);
       });
-      let newArr2 = [...newArr, managerId];
-      update(ref(db, `teammate/${newId}/requests`), newArr2);
-    }
+      let exist = newArr.includes(newId);
+      if (exist) {
+        alert("Already a Teammate !");
         setLoading(false);
+      } else {
+        if (teamRequest === undefined) {
+          let newArr = [{ managerId, managerName }];
+          update(ref(db, `teammate/${newId}/`), { requests: newArr });
+          setLoading(false);
+        } else {
+          let newArr = [];
+          let exists = false;
+          teamRequest.forEach((element) => {
+            if (element.managerId === managerId) {
+              exists = true;
+            }
+            newArr.push(element);
+          });
+          if (exists) {
+            alert("Already requested !");
+            setLoading(false);
+          } else {
+            let newArr2 = [...newArr, { managerId, managerName }];
+            update(ref(db, `teammate/${newId}/`), { requests: newArr2 });
+            setLoading(false);
+          }
+        }
+      }
+    }
+
     window.location.reload();
   };
 
@@ -90,7 +150,7 @@ export default function Home() {
   }
 
   function writeUserData(newTask, teammateId, index) {
-        setLoading(true);
+    setLoading(true);
     set(ref(db, `/teammate/${teammateId}/tasks/${index}/`), newTask)
       .then(() => {
         window.location.reload();
@@ -101,7 +161,7 @@ export default function Home() {
   }
 
   function deleteCurrentTask(teammateId, index) {
-        setLoading(true);
+    setLoading(true);
     remove(ref(db, `/teammate/${teammateId}/tasks/${index}/`))
       .then(() => {
         window.location.reload();
