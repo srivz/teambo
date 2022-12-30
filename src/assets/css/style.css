@@ -120,13 +120,13 @@ border-radius: 6px !important;
   background-color: rgb(84, 128, 239);
 }
 .table-height {
-  max-height: 400px;
+  max-height: 40vh;
 }
 .table-height1 {
-  max-height: 500px;
+  max-height: 50vh;
 }
 .table-height2 {
-  max-height: 650px;
+  max-height: 70vh;
 }
 .overflow-set-auto ::-webkit-scrollbar-thumb {
   height: 50px !important;
