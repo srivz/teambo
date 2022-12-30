@@ -101,7 +101,7 @@ export default function Home() {
     remove(ref(db, `teammate/${id}/requests/${index}`));
   };
 
-  onChildChanged(ref(db, `/teammate/`), () => {
+  onChildChanged(ref(db, `/teammate/${id}`), () => {
     setLoading(true);
     window.location.reload();
   });
