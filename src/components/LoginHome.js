@@ -61,6 +61,14 @@ export default function LoginHome() {
                   Teammate Signup
                 </Button>
               </Link>
+          <h6 style={{ marginTop: "2em" }} className="signup-h6">
+            Already have an account?{" "}
+            <Link to="/" className="signuplink">
+              <span className="blue" style={{ marginLeft: "5px" }}>
+                Login
+              </span>
+            </Link>
+          </h6>
             </Row>
           </Col>
     </div>
