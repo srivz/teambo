@@ -54,7 +54,7 @@ export default function HomeBlock(props) {
   return (
     <div id="main">
       <Container>
-        <Row>
+        <Row className="curve-box-homelist">
           <Col style={{ marginTop: "1em" }}>
             {!selected ? (
               <Row>
@@ -327,7 +327,7 @@ export default function HomeBlock(props) {
                 })
             )}
           </Col>
-          <Container>
+          <Container className="overflow-set-auto table-height1">
             <ResponsiveMasonry
               columnsCountBreakPoints={{ 300: 1, 600: 2, 750: 3, 900: 4 }}>
               <Masonry>
