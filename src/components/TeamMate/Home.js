@@ -250,17 +250,17 @@ export default function Home() {
                       </Badge>
                     </Col>
                   </Row>
-                  <Row>
-                    <Col>
+                  <Row className="curve-box-homelist">
+                    <Col className="overflow-set-auto table-height2">
                       <Table
                         style={{
                           borderCollapse: "separate",
                           borderSpacing: "0 20px",
                         }}
-                        className="table table-sm">
+                        className="table table-sm table-height2 ">
                         <TableHead>
                           <TableRow
-                            style={{
+                              style={{
                               height: "70px",
                             }}>
                             <TableCell
@@ -321,6 +321,7 @@ export default function Home() {
                             </TableCell>
                           </TableRow>
                         </TableHead>
+
                         <TableBody>
                           {!teammate.tasks ? (
                             <TableRow

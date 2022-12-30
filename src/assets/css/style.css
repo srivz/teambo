@@ -117,6 +117,9 @@ body {
 .table-height1 {
   max-height: 500px;
 }
+.table-height2 {
+  max-height: 400px;
+}
 .overflow-set-auto ::-webkit-scrollbar-thumb {
   height: 50px !important;
   background: #fff;
