@@ -23,8 +23,10 @@ export default function Home() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       if (once) {
+
         setLoading(true);
         onValue(ref(db, `manager/${user.uid}`), (snapshot) => {
+
           if (snapshot.exists()) {
             let data = snapshot.val();
             setManager(data);
@@ -37,6 +39,7 @@ export default function Home() {
             }
 
           } else {
+
             console.log("No data available");
             setLoading(false);
           }
@@ -91,6 +94,7 @@ export default function Home() {
     }
     let id = teammateEmail.split(".");
     let newId = id.join("_");
+
     getTeammatesWithMail(newId);
     if (teammateSet === undefined) {
       if (teamRequest === undefined) {
@@ -115,11 +119,13 @@ export default function Home() {
             setLoading(false);
         }
       }
+
     } else {
       let newArr = [];
       teammateSet.forEach((element) => {
         newArr.push(element);
       });
+
       let exist = newArr.includes(newId);
       if (exist) {
         alert("Already a Teammate !");
@@ -155,7 +161,6 @@ export default function Home() {
   };
 
 
-  
   function handleChange(newValue) {
     setView(newValue);
   }
@@ -181,7 +186,6 @@ export default function Home() {
         console.log(err);
       });
   }
-
 
 
   return (

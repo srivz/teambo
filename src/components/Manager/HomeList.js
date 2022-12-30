@@ -148,7 +148,7 @@ export default function HomeList(props) {
                     rootClose
                     overlay={
                       <div
-                        className="bg-white"
+                        className="bg-white "
                         style={{
                           padding: "1em",
                           marginTop: "10px",
@@ -217,58 +217,64 @@ export default function HomeList(props) {
                     id="search"
                     placeholder="Search"
                   />
-                  <Table
-                    style={{
-                      borderCollapse: "separate",
-                      borderSpacing: "0 20px",
-                    }}>
-                    <TableHead>
-                      <TableRow></TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {!props.team ? (
-                        <TableRow
-                          colSpan={7}
-                          align="center">
-                          No teammate right now
-                        </TableRow>
-                      ) : (
-                        props.team.map((info) => {
-                          return (
-                            <TableRow
-                              key={info.teammate}
-                              className="box-shadow"
-                              onClick={() => {
-                                localStorage.setItem(
-                                  "teammateSelected",
-                                  JSON.stringify(info.teammate)
-                                );
-                                setTaskSelected(null);
-                                setSelected(info.teammate);
-                              }}>
-                              <TableCell
-                                style={{
-                                  backgroundColor:
-                                    selected === info.teammate
-                                      ? "#e2ecff"
-                                      : "#f9fbff",
-                                  height: "fit-content",
-                                  borderRadius: "5px",
-                                  paddingTop: ".5em",
-                                  paddingBottom: "0em",
+                  <div className="overflow-set-auto table-height">
+                    <Table
+                      className="table-height"
+                      style={{
+                        borderCollapse: "separate",
+                        borderSpacing: "0 20px",
+                      }}>
+                      <TableHead>
+                        <TableRow></TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {!props.team ? (
+                          <TableRow
+                            colSpan={7}
+                            align="center">
+                            No teammate right now
+                          </TableRow>
+                        ) : (
+                          props.team.map((info) => {
+                            return (
+                              <TableRow
+                                key={info.teammate}
+                                className="box-shadow"
+                                onClick={() => {
+                                  localStorage.setItem(
+                                    "teammateSelected",
+                                    JSON.stringify(info.teammate)
+                                  );
+                                  setTaskSelected(null);
+                                  setSelected(info.teammate);
                                 }}>
-                                <h5>{info.data.name}</h5>
-                                <p className="grey">{info.data.designation}</p>
-                              </TableCell>
-                            </TableRow>
-                          );
-                        })
-                      )}
-                    </TableBody>
-                  </Table>
+                                <TableCell
+                                  style={{
+                                    backgroundColor:
+                                      selected === info.teammate
+                                        ? "#e2ecff"
+                                        : "#f9fbff",
+                                    height: "fit-content",
+                                    borderRadius: "5px",
+                                    paddingTop: ".5em",
+                                    paddingBottom: "0em",
+                                  }}>
+                                  <h5>{info.data.name}</h5>
+                                  <p className="grey">
+                                    {info.data.designation}
+                                  </p>
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })
+                        )}
+                      </TableBody>
+                    </Table>
+                  </div>
                 </div>
               </Col>
               <Col
+                className="curve-box-homelist"
                 sm={9}
                 md={9}
                 style={{ marginTop: "1em" }}>
@@ -545,659 +551,674 @@ export default function HomeList(props) {
                       );
                     })
                 )}
-
-                <Row>
-                  <Col>
-                    <Table
-                      style={{
-                        borderCollapse: "separate",
-                        borderSpacing: "0 10px",
-                      }}>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell
-                            style={{
-                              fontFamily: "rockwen",
-                            }}
-                            align="center">
-                            Client
-                          </TableCell>
-                          <TableCell
-                            style={{
-                              fontFamily: "rockwen",
-                            }}
-                            align="center">
-                            Task
-                          </TableCell>
-                          <TableCell
-                            style={{
-                              fontFamily: "rockwen",
-                            }}
-                            align="center">
-                            Date
-                          </TableCell>
-                          <TableCell
-                            style={{
-                              fontFamily: "rockwen",
-                            }}
-                            align="center">
-                            Time
-                          </TableCell>
-                          <TableCell
-                            style={{
-                              fontFamily: "rockwen",
-                            }}
-                            align="center">
-                            Corrections
-                          </TableCell>
-                          <TableCell
-                            style={{
-                              fontFamily: "rockwen",
-                            }}
-                            align="center">
-                            Status
-                          </TableCell>
-                          <TableCell
-                            style={{
-                              fontFamily: "rockwen",
-                            }}
-                            align="center">
-                            Action
-                          </TableCell>
-                          <TableCell></TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody className="curve-box-homelist">
-                        {props.team
-                          .filter((info) => info.teammate === selected)
-                          .map((info, index) => {
-                            return (
-                              <>
-                                {!info.data.tasks ? (
-                                  <TableRow
-                                    colSpan={7}
-                                    align="center">
-                                    No tasks assigned
-                                  </TableRow>
-                                ) : (
-                                  info.data.tasks.map((info1, index) => {
-                                    return taskSelected !== index ? (
-                                      <TableRow
-                                        key={index}
-                                        style={{
-                                          backgroundColor:
-                                            info1.updates[
-                                              info1.updates.length - 1
-                                            ].status !== "Done"
-                                              ? "#fff"
-                                              : "#f9fbff",
-                                          height: "70px",
-                                        }}
-                                        className="box-shadow">
-                                        <TableCell
-                                          onClick={() => {
-                                            setTaskSelected(index);
-                                          }}
+                <div className="overflow-set-auto table-height1">
+                  <Row className="table-height1">
+                    <Col>
+                      <Table
+                        style={{
+                          borderCollapse: "separate",
+                          borderSpacing: "0 10px",
+                        }}>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell
+                              style={{
+                                fontFamily: "rockwen",
+                              }}
+                              align="center">
+                              Client
+                            </TableCell>
+                            <TableCell
+                              style={{
+                                fontFamily: "rockwen",
+                              }}
+                              align="center">
+                              Task
+                            </TableCell>
+                            <TableCell
+                              style={{
+                                fontFamily: "rockwen",
+                              }}
+                              align="center">
+                              Date
+                            </TableCell>
+                            <TableCell
+                              style={{
+                                fontFamily: "rockwen",
+                              }}
+                              align="center">
+                              Time
+                            </TableCell>
+                            <TableCell
+                              style={{
+                                fontFamily: "rockwen",
+                              }}
+                              align="center">
+                              Corrections
+                            </TableCell>
+                            <TableCell
+                              style={{
+                                fontFamily: "rockwen",
+                              }}
+                              align="center">
+                              Status
+                            </TableCell>
+                            <TableCell
+                              style={{
+                                fontFamily: "rockwen",
+                              }}
+                              align="center">
+                              Action
+                            </TableCell>
+                            <TableCell></TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody className="curve-box-homelist">
+                          {props.team
+                            .filter((info) => info.teammate === selected)
+                            .map((info, index) => {
+                              return (
+                                <>
+                                  {!info.data.tasks ? (
+                                    <TableRow
+                                      colSpan={7}
+                                      align="center">
+                                      No tasks assigned
+                                    </TableRow>
+                                  ) : (
+                                    info.data.tasks.map((info1, index) => {
+                                      return taskSelected !== index ? (
+                                        <TableRow
+                                          key={index}
                                           style={{
-                                            fontFamily: "rockwen",
+                                            backgroundColor:
+                                              info1.updates[
+                                                info1.updates.length - 1
+                                              ].status !== "Done"
+                                                ? "#fff"
+                                                : "#f9fbff",
+                                            height: "70px",
                                           }}
-                                          align="center">
-                                          {info1.client}
-                                        </TableCell>
-                                        <TableCell
-                                          style={{
-                                            fontFamily: "rockwen",
-                                          }}
-                                          onClick={() => {
-                                            setTaskSelected(index);
-                                          }}
-                                          align="center">
-                                          {info1.task}
-                                        </TableCell>
-                                        {info1.updates
-                                          .sort((a, b) =>
-                                            a.corrections > b.corrections
-                                              ? 1
-                                              : -1
-                                          )
-                                          .filter((info2, index) => index === 0)
-                                          .map((info2) => {
-                                            return (
-                                              <>
-                                                <TableCell
-                                                  style={{
-                                                    fontFamily: "rockwen",
-                                                  }}
-                                                  onClick={() => {
-                                                    setTaskSelected(index);
-                                                  }}
-                                                  align="center">
-                                                  {
-                                                    info1.updates[
-                                                      info1.updates.length - 1
-                                                    ].date
-                                                  }
-                                                </TableCell>
-                                                <TableCell
-                                                  style={{
-                                                    fontFamily: "rockwen",
-                                                  }}
-                                                  onClick={() => {
-                                                    setTaskSelected(index);
-                                                  }}
-                                                  align="center">
-                                                  {
-                                                    info1.updates[
-                                                      info1.updates.length - 1
-                                                    ].time
-                                                  }
-                                                </TableCell>
-                                                <TableCell
-                                                  style={{
-                                                    fontFamily: "rockwen",
-                                                  }}
-                                                  onClick={() => {
-                                                    setTaskSelected(index);
-                                                  }}
-                                                  align="center">
-                                                  {info1.updates[
-                                                    info1.updates.length - 1
-                                                  ].corrections === "0"
-                                                    ? info1.updates[
-                                                        info1.updates.length - 1
-                                                      ].corrections
-                                                    : "+" +
+                                          className="box-shadow">
+                                          <TableCell
+                                            onClick={() => {
+                                              setTaskSelected(index);
+                                            }}
+                                            style={{
+                                              fontFamily: "rockwen",
+                                            }}
+                                            align="center">
+                                            {info1.client}
+                                          </TableCell>
+                                          <TableCell
+                                            style={{
+                                              fontFamily: "rockwen",
+                                            }}
+                                            onClick={() => {
+                                              setTaskSelected(index);
+                                            }}
+                                            align="center">
+                                            {info1.task}
+                                          </TableCell>
+                                          {info1.updates
+                                            .sort((a, b) =>
+                                              a.corrections > b.corrections
+                                                ? 1
+                                                : -1
+                                            )
+                                            .filter(
+                                              (info2, index) => index === 0
+                                            )
+                                            .map((info2) => {
+                                              return (
+                                                <>
+                                                  <TableCell
+                                                    style={{
+                                                      fontFamily: "rockwen",
+                                                    }}
+                                                    onClick={() => {
+                                                      setTaskSelected(index);
+                                                    }}
+                                                    align="center">
+                                                    {
                                                       info1.updates[
                                                         info1.updates.length - 1
-                                                      ].corrections}
-                                                </TableCell>
-                                                <TableCell
-                                                  onClick={() => {
-                                                    setTaskSelected(index);
-                                                  }}
-                                                  align="center"
-                                                  style={
-                                                    (info1.updates[
-                                                      info1.updates.length - 1
-                                                    ].status === "Done" && {
+                                                      ].date
+                                                    }
+                                                  </TableCell>
+                                                  <TableCell
+                                                    style={{
                                                       fontFamily: "rockwen",
-                                                      color: "#000000",
-                                                      fontWeight: "bold",
-                                                    }) ||
-                                                    (info1.updates[
-                                                      info1.updates.length - 1
-                                                    ].status === "On Going" && {
+                                                    }}
+                                                    onClick={() => {
+                                                      setTaskSelected(index);
+                                                    }}
+                                                    align="center">
+                                                    {
+                                                      info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].time
+                                                    }
+                                                  </TableCell>
+                                                  <TableCell
+                                                    style={{
                                                       fontFamily: "rockwen",
-                                                      color: "#24A43A",
-                                                      fontWeight: "bold",
-                                                    }) ||
-                                                    (info1.updates[
+                                                    }}
+                                                    onClick={() => {
+                                                      setTaskSelected(index);
+                                                    }}
+                                                    align="center">
+                                                    {info1.updates[
                                                       info1.updates.length - 1
-                                                    ].status === "Paused" && {
-                                                      fontFamily: "rockwen",
-                                                      color: "#2972B2",
-                                                      fontWeight: "bold",
-                                                    }) ||
-                                                    (info1.updates[
-                                                      info1.updates.length - 1
-                                                    ].status === "Assigned" && {
-                                                      fontFamily: "rockwen",
-                                                      color: "#D1AE00",
-                                                      fontWeight: "bold",
-                                                    })
-                                                  }>
-                                                  {
-                                                    info1.updates[
-                                                      info1.updates.length - 1
-                                                    ].status
-                                                  }
-                                                </TableCell>
-                                                <TableCell align="center">
-                                                  {info1.updates[
-                                                    info1.updates.length - 1
-                                                  ].status === "Done" ? (
-                                                    <Button
-                                                      onClick={() => {
-                                                        handleTaskCorrection(
-                                                          info.teammate,
-                                                          index,
-                                                          parseInt(
-                                                            info1.updates[
-                                                              info1.updates
-                                                                .length - 1
-                                                            ].corrections
-                                                          ) + 1
-                                                        );
-                                                      }}
-                                                      type="Button"
-                                                      variant="light"
-                                                      style={{
+                                                    ].corrections === "0"
+                                                      ? info1.updates[
+                                                          info1.updates.length -
+                                                            1
+                                                        ].corrections
+                                                      : "+" +
+                                                        info1.updates[
+                                                          info1.updates.length -
+                                                            1
+                                                        ].corrections}
+                                                  </TableCell>
+                                                  <TableCell
+                                                    onClick={() => {
+                                                      setTaskSelected(index);
+                                                    }}
+                                                    align="center"
+                                                    style={
+                                                      (info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].status === "Done" && {
                                                         fontFamily: "rockwen",
-                                                        backgroundColor:
-                                                          "white",
+                                                        color: "#000000",
+                                                        fontWeight: "bold",
+                                                      }) ||
+                                                      (info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].status ===
+                                                        "On Going" && {
+                                                        fontFamily: "rockwen",
+                                                        color: "#24A43A",
+                                                        fontWeight: "bold",
+                                                      }) ||
+                                                      (info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].status === "Paused" && {
+                                                        fontFamily: "rockwen",
+                                                        color: "#2972B2",
+                                                        fontWeight: "bold",
+                                                      }) ||
+                                                      (info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].status ===
+                                                        "Assigned" && {
+                                                        fontFamily: "rockwen",
+                                                        color: "#D1AE00",
+                                                        fontWeight: "bold",
+                                                      })
+                                                    }>
+                                                    {
+                                                      info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].status
+                                                    }
+                                                  </TableCell>
+                                                  <TableCell align="center">
+                                                    {info1.updates[
+                                                      info1.updates.length - 1
+                                                    ].status === "Done" ? (
+                                                      <Button
+                                                        onClick={() => {
+                                                          handleTaskCorrection(
+                                                            info.teammate,
+                                                            index,
+                                                            parseInt(
+                                                              info1.updates[
+                                                                info1.updates
+                                                                  .length - 1
+                                                              ].corrections
+                                                            ) + 1
+                                                          );
+                                                        }}
+                                                        type="Button"
+                                                        variant="light"
+                                                        style={{
+                                                          fontFamily: "rockwen",
+                                                          backgroundColor:
+                                                            "white",
+                                                        }}>
+                                                        Correction
+                                                      </Button>
+                                                    ) : (
+                                                      <></>
+                                                    )}
+                                                  </TableCell>
+                                                </>
+                                              );
+                                            })}
+                                          <TableCell
+                                            align="center"
+                                            className="text-end">
+                                            <OverlayTrigger
+                                              trigger="click"
+                                              key="bottom"
+                                              placement="auto"
+                                              rootClose
+                                              overlay={
+                                                <Popover
+                                                  id={`popover-positioned-bottom`}>
+                                                  <Popover.Body>
+                                                    <div
+                                                      className="d-grid gap-2"
+                                                      style={{
+                                                        marginBottom: ".5em",
                                                       }}>
-                                                      Correction
-                                                    </Button>
-                                                  ) : (
-                                                    <></>
-                                                  )}
-                                                </TableCell>
-                                              </>
-                                            );
-                                          })}
-                                        <TableCell
-                                          align="center"
-                                          className="text-end">
-                                          <OverlayTrigger
-                                            trigger="click"
-                                            key="bottom"
-                                            placement="auto"
-                                            rootClose
-                                            overlay={
-                                              <Popover
-                                                id={`popover-positioned-bottom`}>
-                                                <Popover.Body>
-                                                  <div
-                                                    className="d-grid gap-2"
-                                                    style={{
-                                                      marginBottom: ".5em",
-                                                    }}>
-                                                    <Button
-                                                      onClick={() => {
-                                                        handleDeleteTask(
-                                                          info.teammate,
-                                                          index
-                                                        );
-                                                      }}
-                                                      variant="light"
-                                                      style={{
-                                                        textAlign: "left",
-                                                      }}
-                                                      block>
-                                                      <FontAwesomeIcon
-                                                        icon="fa-solid fa-trash"
-                                                        style={{
-                                                          paddingRight: ".5em",
+                                                      <Button
+                                                        onClick={() => {
+                                                          handleDeleteTask(
+                                                            info.teammate,
+                                                            index
+                                                          );
                                                         }}
-                                                      />
-                                                      Delete Task
-                                                    </Button>
-                                                  </div>
-                                                  <div
-                                                    className="d-grid gap-2"
-                                                    style={{
-                                                      marginBottom: ".5em",
-                                                    }}>
-                                                    <Button
-                                                      onClick={() => {
-                                                        handleUpTask(
-                                                          info.teammate,
-                                                          index,
-                                                          info.data.tasks,
-                                                          info.data.tasks.length
-                                                        );
-                                                      }}
-                                                      variant="light"
-                                                      style={{
-                                                        textAlign: "left",
-                                                      }}
-                                                      block>
-                                                      <FontAwesomeIcon
-                                                        icon="fa-solid fa-chevron-up"
+                                                        variant="light"
                                                         style={{
-                                                          paddingRight: ".5em",
+                                                          textAlign: "left",
                                                         }}
-                                                      />
-                                                      Move Up
-                                                    </Button>
-                                                  </div>
-                                                  <div
-                                                    className="d-grid gap-2"
-                                                    style={{
-                                                      marginBottom: ".5em",
-                                                    }}>
-                                                    <Button
-                                                      onClick={() => {
-                                                        handleDownTask(
-                                                          info.teammate,
-                                                          index,
-                                                          info.data.tasks,
-                                                          info.data.tasks.length
-                                                        );
-                                                      }}
-                                                      variant="light"
+                                                        block>
+                                                        <FontAwesomeIcon
+                                                          icon="fa-solid fa-trash"
+                                                          style={{
+                                                            paddingRight:
+                                                              ".5em",
+                                                          }}
+                                                        />
+                                                        Delete Task
+                                                      </Button>
+                                                    </div>
+                                                    <div
+                                                      className="d-grid gap-2"
                                                       style={{
-                                                        textAlign: "left",
-                                                      }}
-                                                      block>
-                                                      <FontAwesomeIcon
-                                                        icon="fa-solid fa-chevron-down"
-                                                        style={{
-                                                          paddingRight: ".5em",
+                                                        marginBottom: ".5em",
+                                                      }}>
+                                                      <Button
+                                                        onClick={() => {
+                                                          handleUpTask(
+                                                            info.teammate,
+                                                            index,
+                                                            info.data.tasks,
+                                                            info.data.tasks
+                                                              .length
+                                                          );
                                                         }}
-                                                      />
-                                                      Move Down
-                                                    </Button>
-                                                  </div>
-                                                </Popover.Body>
-                                              </Popover>
-                                            }>
-                                            <FontAwesomeIcon
-                                              className="pointer"
-                                              icon="fa-solid fa-ellipsis-vertical"
-                                              style={{
-                                                color: "blue",
-                                                paddingRight: ".25em",
-                                              }}
-                                            />
-                                          </OverlayTrigger>
-                                        </TableCell>
-                                      </TableRow>
-                                    ) : (
-                                      <TableRow
-                                        key={index}
-                                        style={{
-                                          backgroundColor:
-                                            info1.updates[
-                                              info1.updates.length - 1
-                                            ].status !== "Done"
-                                              ? "#fff"
-                                              : "#f9fbff",
-                                        }}
-                                        className="box-shadow">
-                                        <TableCell
+                                                        variant="light"
+                                                        style={{
+                                                          textAlign: "left",
+                                                        }}
+                                                        block>
+                                                        <FontAwesomeIcon
+                                                          icon="fa-solid fa-chevron-up"
+                                                          style={{
+                                                            paddingRight:
+                                                              ".5em",
+                                                          }}
+                                                        />
+                                                        Move Up
+                                                      </Button>
+                                                    </div>
+                                                    <div
+                                                      className="d-grid gap-2"
+                                                      style={{
+                                                        marginBottom: ".5em",
+                                                      }}>
+                                                      <Button
+                                                        onClick={() => {
+                                                          handleDownTask(
+                                                            info.teammate,
+                                                            index,
+                                                            info.data.tasks,
+                                                            info.data.tasks
+                                                              .length
+                                                          );
+                                                        }}
+                                                        variant="light"
+                                                        style={{
+                                                          textAlign: "left",
+                                                        }}
+                                                        block>
+                                                        <FontAwesomeIcon
+                                                          icon="fa-solid fa-chevron-down"
+                                                          style={{
+                                                            paddingRight:
+                                                              ".5em",
+                                                          }}
+                                                        />
+                                                        Move Down
+                                                      </Button>
+                                                    </div>
+                                                  </Popover.Body>
+                                                </Popover>
+                                              }>
+                                              <FontAwesomeIcon
+                                                className="pointer"
+                                                icon="fa-solid fa-ellipsis-vertical"
+                                                style={{
+                                                  color: "blue",
+                                                  paddingRight: ".25em",
+                                                }}
+                                              />
+                                            </OverlayTrigger>
+                                          </TableCell>
+                                        </TableRow>
+                                      ) : (
+                                        <TableRow
+                                          key={index}
                                           style={{
-                                            fontFamily: "rockwen",
+                                            backgroundColor:
+                                              info1.updates[
+                                                info1.updates.length - 1
+                                              ].status !== "Done"
+                                                ? "#fff"
+                                                : "#f9fbff",
                                           }}
-                                          onClick={() => {
-                                            setTaskSelected(null);
-                                          }}
-                                          align="center">
-                                          {info1.client}
-                                        </TableCell>
-                                        <TableCell
-                                          style={{
-                                            width: "100px",
-                                            fontFamily: "rockwen",
-                                          }}
-                                          onClick={() => {
-                                            setTaskSelected(null);
-                                          }}
-                                          align="center">
-                                          {info1.task}
-                                          <br />
-                                          <br />
-                                          <p
+                                          className="box-shadow">
+                                          <TableCell
+                                            style={{
+                                              fontFamily: "rockwen",
+                                            }}
+                                            onClick={() => {
+                                              setTaskSelected(null);
+                                            }}
+                                            align="center">
+                                            {info1.client}
+                                          </TableCell>
+                                          <TableCell
                                             style={{
                                               width: "100px",
-                                              fontSize: "smaller",
-                                            }}>
-                                            {info1.description}
-                                          </p>
-                                        </TableCell>
-                                        <TableCell
-                                          onClick={() => {
-                                            setTaskSelected(null);
-                                          }}
-                                          style={{
-                                            fontFamily: "rockwen",
-                                          }}
-                                          align="center">
-                                          {info1.updates
-                                            .sort((a, b) =>
-                                              a.corrections > b.corrections
-                                                ? -1
-                                                : 1
-                                            )
-                                            .map((info2) => {
-                                              return (
-                                                <p>
-                                                  {info2.date}
-                                                  <br />
-                                                </p>
-                                              );
-                                            })}
-                                        </TableCell>
-                                        <TableCell
-                                          onClick={() => {
-                                            setTaskSelected(null);
-                                          }}
-                                          style={{
-                                            fontFamily: "rockwen",
-                                          }}
-                                          align="center">
-                                          {info1.updates
-                                            .sort((a, b) =>
-                                              a.corrections > b.corrections
-                                                ? -1
-                                                : 1
-                                            )
-                                            .map((info2) => {
-                                              return (
-                                                <p>
-                                                  {info2.time}
-                                                  <br />
-                                                </p>
-                                              );
-                                            })}
-                                        </TableCell>
-                                        <TableCell
-                                          onClick={() => {
-                                            setTaskSelected(null);
-                                          }}
-                                          style={{
-                                            fontFamily: "rockwen",
-                                          }}
-                                          align="center">
-                                          {info1.updates
-                                            .sort((a, b) =>
-                                              a.corrections > b.corrections
-                                                ? -1
-                                                : 1
-                                            )
-                                            .map((info2) => {
-                                              return (
-                                                <p>
-                                                  {info2.corrections === "0"
-                                                    ? info2.corrections
-                                                    : "+" + info2.corrections}
-                                                  <br />
-                                                </p>
-                                              );
-                                            })}
-                                        </TableCell>
-                                        <TableCell
-                                          onClick={() => {
-                                            setTaskSelected(null);
-                                          }}
-                                          style={{
-                                            fontFamily: "rockwen",
-                                          }}
-                                          align="center">
-                                          {info1.updates
-                                            .sort((a, b) =>
-                                              a.corrections > b.corrections
-                                                ? -1
-                                                : 1
-                                            )
-                                            .map((info2) => {
-                                              return (
-                                                <p
-                                                  style={
-                                                    (info2.status ===
-                                                      "Done" && {
-                                                      color: "#000000",
-                                                      fontWeight: "bold",
-                                                    }) ||
-                                                    (info2.status ===
-                                                      "On Going" && {
-                                                      color: "#24A43A",
-                                                      fontWeight: "bold",
-                                                    }) ||
-                                                    (info2.status ===
-                                                      "Paused" && {
-                                                      color: "#2972B2",
-                                                      fontWeight: "bold",
-                                                    }) ||
-                                                    (info2.status ===
-                                                      "Assigned" && {
-                                                      color: "#D1AE00",
-                                                      fontWeight: "bold",
-                                                    })
-                                                  }>
-                                                  {info2.status}
-                                                  <br />
-                                                </p>
-                                              );
-                                            })}
-                                        </TableCell>
-
-                                        <TableCell align="center">
-                                          {info1.updates[
-                                            info1.updates.length - 1
-                                          ].status === "Done" ? (
-                                            <Button
-                                              onClick={() => {
-                                                handleTaskCorrection(
-                                                  info.teammate,
-                                                  index,
-                                                  parseInt(
-                                                    info1.updates[
-                                                      info1.updates.length - 1
-                                                    ].corrections
-                                                  ) + 1
-                                                );
-                                              }}
-                                              type="Button"
-                                              variant="light"
+                                              fontFamily: "rockwen",
+                                            }}
+                                            onClick={() => {
+                                              setTaskSelected(null);
+                                            }}
+                                            align="center">
+                                            {info1.task}
+                                            <br />
+                                            <br />
+                                            <p
                                               style={{
-                                                backgroundColor: "white",
-                                                fontFamily: "rockwen",
+                                                width: "100px",
+                                                fontSize: "smaller",
                                               }}>
-                                              Correction
-                                            </Button>
-                                          ) : (
-                                            <></>
-                                          )}
-                                        </TableCell>
-                                        <TableCell
-                                          align="center"
-                                          className="text-end">
-                                          <OverlayTrigger
-                                            trigger="click"
-                                            key="bottom"
-                                            placement="auto"
-                                            rootClose
-                                            overlay={
-                                              <Popover
-                                                id={`popover-positioned-bottom`}>
-                                                <Popover.Body>
-                                                  <div
-                                                    className="d-grid gap-2"
-                                                    style={{
-                                                      marginBottom: ".5em",
-                                                    }}>
-                                                    <Button
-                                                      onClick={() => {
-                                                        handleDeleteTask(
-                                                          info.teammate,
-                                                          index
-                                                        );
-                                                      }}
-                                                      variant="light"
+                                              {info1.description}
+                                            </p>
+                                          </TableCell>
+                                          <TableCell
+                                            onClick={() => {
+                                              setTaskSelected(null);
+                                            }}
+                                            style={{
+                                              fontFamily: "rockwen",
+                                            }}
+                                            align="center">
+                                            {info1.updates
+                                              .sort((a, b) =>
+                                                a.corrections > b.corrections
+                                                  ? -1
+                                                  : 1
+                                              )
+                                              .map((info2) => {
+                                                return (
+                                                  <p>
+                                                    {info2.date}
+                                                    <br />
+                                                  </p>
+                                                );
+                                              })}
+                                          </TableCell>
+                                          <TableCell
+                                            onClick={() => {
+                                              setTaskSelected(null);
+                                            }}
+                                            style={{
+                                              fontFamily: "rockwen",
+                                            }}
+                                            align="center">
+                                            {info1.updates
+                                              .sort((a, b) =>
+                                                a.corrections > b.corrections
+                                                  ? -1
+                                                  : 1
+                                              )
+                                              .map((info2) => {
+                                                return (
+                                                  <p>
+                                                    {info2.time}
+                                                    <br />
+                                                  </p>
+                                                );
+                                              })}
+                                          </TableCell>
+                                          <TableCell
+                                            onClick={() => {
+                                              setTaskSelected(null);
+                                            }}
+                                            style={{
+                                              fontFamily: "rockwen",
+                                            }}
+                                            align="center">
+                                            {info1.updates
+                                              .sort((a, b) =>
+                                                a.corrections > b.corrections
+                                                  ? -1
+                                                  : 1
+                                              )
+                                              .map((info2) => {
+                                                return (
+                                                  <p>
+                                                    {info2.corrections === "0"
+                                                      ? info2.corrections
+                                                      : "+" + info2.corrections}
+                                                    <br />
+                                                  </p>
+                                                );
+                                              })}
+                                          </TableCell>
+                                          <TableCell
+                                            onClick={() => {
+                                              setTaskSelected(null);
+                                            }}
+                                            style={{
+                                              fontFamily: "rockwen",
+                                            }}
+                                            align="center">
+                                            {info1.updates
+                                              .sort((a, b) =>
+                                                a.corrections > b.corrections
+                                                  ? -1
+                                                  : 1
+                                              )
+                                              .map((info2) => {
+                                                return (
+                                                  <p
+                                                    style={
+                                                      (info2.status ===
+                                                        "Done" && {
+                                                        color: "#000000",
+                                                        fontWeight: "bold",
+                                                      }) ||
+                                                      (info2.status ===
+                                                        "On Going" && {
+                                                        color: "#24A43A",
+                                                        fontWeight: "bold",
+                                                      }) ||
+                                                      (info2.status ===
+                                                        "Paused" && {
+                                                        color: "#2972B2",
+                                                        fontWeight: "bold",
+                                                      }) ||
+                                                      (info2.status ===
+                                                        "Assigned" && {
+                                                        color: "#D1AE00",
+                                                        fontWeight: "bold",
+                                                      })
+                                                    }>
+                                                    {info2.status}
+                                                    <br />
+                                                  </p>
+                                                );
+                                              })}
+                                          </TableCell>
+
+                                          <TableCell align="center">
+                                            {info1.updates[0].status ===
+                                            "Done" ? (
+                                              <Button
+                                                onClick={() => {
+                                                  handleTaskCorrection(
+                                                    info.teammate,
+                                                    index,
+                                                    parseInt(
+                                                      info1.updates[0]
+                                                        .corrections
+                                                    ) + 1
+                                                  );
+                                                }}
+                                                type="Button"
+                                                variant="light"
+                                                style={{
+                                                  backgroundColor: "white",
+                                                  fontFamily: "rockwen",
+                                                }}>
+                                                Correction
+                                              </Button>
+                                            ) : (
+                                              <></>
+                                            )}
+                                          </TableCell>
+                                          <TableCell
+                                            align="center"
+                                            className="text-end">
+                                            <OverlayTrigger
+                                              trigger="click"
+                                              key="bottom"
+                                              placement="auto"
+                                              rootClose
+                                              overlay={
+                                                <Popover
+                                                  id={`popover-positioned-bottom`}>
+                                                  <Popover.Body>
+                                                    <div
+                                                      className="d-grid gap-2"
                                                       style={{
-                                                        textAlign: "left",
-                                                      }}
-                                                      block>
-                                                      <FontAwesomeIcon
-                                                        icon="fa-solid fa-trash"
-                                                        style={{
-                                                          paddingRight: ".5em",
+                                                        marginBottom: ".5em",
+                                                      }}>
+                                                      <Button
+                                                        onClick={() => {
+                                                          handleDeleteTask(
+                                                            info.teammate,
+                                                            index
+                                                          );
                                                         }}
-                                                      />
-                                                      Delete Task
-                                                    </Button>
-                                                  </div>
-                                                  <div
-                                                    className="d-grid gap-2"
-                                                    style={{
-                                                      marginBottom: ".5em",
-                                                    }}>
-                                                    <Button
-                                                      onClick={() => {
-                                                        handleUpTask(
-                                                          info.teammate,
-                                                          index,
-                                                          info.data.tasks,
-                                                          info.data.tasks.length
-                                                        );
-                                                      }}
-                                                      variant="light"
+                                                        variant="light"
+                                                        style={{
+                                                          textAlign: "left",
+                                                        }}
+                                                        block>
+                                                        <FontAwesomeIcon
+                                                          icon="fa-solid fa-trash"
+                                                          style={{
+                                                            paddingRight:
+                                                              ".5em",
+                                                          }}
+                                                        />
+                                                        Delete Task
+                                                      </Button>
+                                                    </div>
+                                                    <div
+                                                      className="d-grid gap-2"
                                                       style={{
-                                                        textAlign: "left",
-                                                      }}
-                                                      block>
-                                                      <FontAwesomeIcon
-                                                        icon="fa-solid fa-chevron-up"
-                                                        style={{
-                                                          paddingRight: ".5em",
+                                                        marginBottom: ".5em",
+                                                      }}>
+                                                      <Button
+                                                        onClick={() => {
+                                                          handleUpTask(
+                                                            info.teammate,
+                                                            index,
+                                                            info.data.tasks,
+                                                            info.data.tasks
+                                                              .length
+                                                          );
                                                         }}
-                                                      />
-                                                      Move Up
-                                                    </Button>
-                                                  </div>
-                                                  <div
-                                                    className="d-grid gap-2"
-                                                    style={{
-                                                      marginBottom: ".5em",
-                                                    }}>
-                                                    <Button
-                                                      onClick={() => {
-                                                        handleDownTask(
-                                                          info.teammate,
-                                                          index,
-                                                          info.data.tasks,
-                                                          info.data.tasks.length
-                                                        );
-                                                      }}
-                                                      variant="light"
+                                                        variant="light"
+                                                        style={{
+                                                          textAlign: "left",
+                                                        }}
+                                                        block>
+                                                        <FontAwesomeIcon
+                                                          icon="fa-solid fa-chevron-up"
+                                                          style={{
+                                                            paddingRight:
+                                                              ".5em",
+                                                          }}
+                                                        />
+                                                        Move Up
+                                                      </Button>
+                                                    </div>
+                                                    <div
+                                                      className="d-grid gap-2"
                                                       style={{
-                                                        textAlign: "left",
-                                                      }}
-                                                      block>
-                                                      <FontAwesomeIcon
-                                                        icon="fa-solid fa-chevron-down"
-                                                        style={{
-                                                          paddingRight: ".5em",
+                                                        marginBottom: ".5em",
+                                                      }}>
+                                                      <Button
+                                                        onClick={() => {
+                                                          handleDownTask(
+                                                            info.teammate,
+                                                            index,
+                                                            info.data.tasks,
+                                                            info.data.tasks
+                                                              .length
+                                                          );
                                                         }}
-                                                      />
-                                                      Move Down
-                                                    </Button>
-                                                  </div>
-                                                </Popover.Body>
-                                              </Popover>
-                                            }>
-                                            <FontAwesomeIcon
-                                              className="pointer"
-                                              icon="fa-solid fa-ellipsis-vertical"
-                                              style={{
-                                                color: "blue",
-                                                paddingRight: ".25em",
-                                              }}
-                                            />
-                                          </OverlayTrigger>
-                                        </TableCell>
-                                      </TableRow>
-                                    );
-                                  })
-                                )}
-                              </>
-                            );
-                          })}
-                      </TableBody>
-                    </Table>
-                  </Col>
-                </Row>
+                                                        variant="light"
+                                                        style={{
+                                                          textAlign: "left",
+                                                        }}
+                                                        block>
+                                                        <FontAwesomeIcon
+                                                          icon="fa-solid fa-chevron-down"
+                                                          style={{
+                                                            paddingRight:
+                                                              ".5em",
+                                                          }}
+                                                        />
+                                                        Move Down
+                                                      </Button>
+                                                    </div>
+                                                  </Popover.Body>
+                                                </Popover>
+                                              }>
+                                              <FontAwesomeIcon
+                                                className="pointer"
+                                                icon="fa-solid fa-ellipsis-vertical"
+                                                style={{
+                                                  color: "blue",
+                                                  paddingRight: ".25em",
+                                                }}
+                                              />
+                                            </OverlayTrigger>
+                                          </TableCell>
+                                        </TableRow>
+                                      );
+                                    })
+                                  )}
+                                </>
+                              );
+                            })}
+                        </TableBody>
+                      </Table>
+                    </Col>
+                  </Row>
+                </div>
               </Col>
             </Row>
           </Container>
