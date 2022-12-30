@@ -52,14 +52,25 @@ export default function LoginTeam({ text, user, name, role }) {
         <Loader />
       ) : (
         <div className="login-container">
-          <div className="logo-container">
-            <img className="w-100" src={image1} alt="logo" />
+          <div
+            className="logo-container">
+            <img
+              className="w-100"
+              src={image1}
+              alt="logo"
+            />
           </div>
           <div className="form-box">
             <div className="img text-center">
-              <img className="w-75" src={logo} alt="" />
+              <img
+                className="w-75"
+                src={logo}
+                alt=""
+              />
             </div>
-            <form onSubmit={handleSubmit} className="mt-5">
+            <form
+              onSubmit={handleSubmit}
+              className="mt-5">
               <div className="form-group mb-2 ">
                 <label htmlFor="email">Email</label>
                 <input
@@ -86,8 +97,7 @@ export default function LoginTeam({ text, user, name, role }) {
               <button
                 type="Submit"
                 className="btn btn-primary bg-blue w-100 rounded-4 login-button2"
-                style={{ background: "#3975EA" }}
-              >
+                style={{ background: "#3975EA" }}>
                 Log in
               </button>
               <h6 className="text-center mt-1">or</h6>
@@ -97,8 +107,7 @@ export default function LoginTeam({ text, user, name, role }) {
                     "https://mail.google.com/mail/?tab=rm&ogbl";
                 }}
                 type="button"
-                className="btn btn-light w-100 rounded-4 login-button"
-              >
+                className="btn btn-light w-100 rounded-4 login-button">
                 <FontAwesomeIcon
                   icon="fa-brands fa-google"
                   style={{ paddingRight: ".4em", fontSize: "20px" }}
@@ -106,10 +115,16 @@ export default function LoginTeam({ text, user, name, role }) {
                 Continue with google
               </button>
             </form>
-            <h6 style={{ marginTop: "2em" }} className="signup-h6">
+            <h6
+              style={{ marginTop: "2em" }}
+              className="signup-h6">
               Don't have an account?{" "}
-              <Link to="/signUp/select" className="signuplink">
-                <span className="blue" style={{ marginLeft: "5px" }}>
+              <Link
+                to="/signUp/select"
+                className="signuplink">
+                <span
+                  className="blue"
+                  style={{ marginLeft: "5px" }}>
                   Signup
                 </span>
               </Link>
