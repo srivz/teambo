@@ -107,9 +107,20 @@ export default function Home() {
   });
   const playTask = (e, index, length) => {
     setLoading(true);
-    update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
+    teammate.tasks.forEach((task,i)=>{
+      // console.log(task.updates[task.updates.length-1].status);
+     if(i===index){
+      update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
       status: "On Going",
     });
+     }
+     else if(task.updates[task.updates.length-1].status==='On Going'){
+     update(ref(db, `teammate/${id}/tasks/${i}/updates/${task.updates.length - 1}`), {
+     status: "Paused",
+     });
+     }
+    })
+    
   };
   const pauseTask = (e, index, length) => {
     setLoading(true);

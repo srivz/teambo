@@ -1,8 +1,17 @@
 .login-container {
   width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+}
+.login-container2 {
+  width: 100vw;
   height: 90vh;
   display: flex;
   justify-content: center;
+  align-items: center;
   background-color: #fff;
 }
 .login-button {
@@ -17,6 +26,11 @@
 border-radius: 20px;
   width: 415px;
   height: 44px;
+}
+
+.logo-container{
+  margin: 160px;
+  width: 650px;
 }
 select {
   background: #ffffff 0% 0% no-repeat padding-box;
@@ -35,19 +49,19 @@ select {
 }
 .form-box {
   width: 423px;
-  margin: auto;
+  /* margin: auto; */
   padding: 50px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
 box-shadow: 0px 3px 18px #0000001A;
 border-radius: 20px;
 }
 .form-box1 {
-  width: 750px;
+  width: 790px;
   margin: auto;
   padding: 60px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
-box-shadow: 0px 3px 18px #0000001A;
-border-radius: 20px;
+  box-shadow: 0px 3px 18px #0000001A;
+  border-radius: 20px;
 }
 .form-box1 input,.form-box input{
   padding:10px;

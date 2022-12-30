@@ -327,7 +327,7 @@ export default function HomeBlock(props) {
                 })
             )}
           </Col>
-          <Container className="overflow-set-auto table-height1">
+          <Container>
             <ResponsiveMasonry
               columnsCountBreakPoints={{ 300: 1, 600: 2, 750: 3, 900: 4 }}>
               <Masonry>

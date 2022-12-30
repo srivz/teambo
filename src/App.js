@@ -15,6 +15,9 @@ export default function App() {
       <Routes>
         <Route
           path="/"
+          element={<LoginTeam />}></Route>
+          <Route
+          path="/signup/select"
           element={<LoginHome />}></Route>
         <Route
           path="/teamMate/login"
@@ -33,8 +36,11 @@ export default function App() {
             />
           }></Route>
         <Route
-          path="/signUp"
-          element={<SignUp />}></Route>
+          path="/signUp/manager"
+          element={<SignUp userid="manager"/>}></Route>
+        <Route
+          path="/signUp/teammate"
+          element={<SignUp userid="teammate"/>}></Route>
         <Route
           path="/signUp/response"
           element={<SignUpResponse />}></Route>

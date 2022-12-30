@@ -11,7 +11,7 @@ export default function Home() {
   const [view, setView] = useState(true);
   const [manager, setManager] = useState({});
   const [once, setOnce] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [once1, setOnce1] = useState(true);
   const [managerId, setManagerId] = useState("");
   const [managerName, setManagerName] = useState("");

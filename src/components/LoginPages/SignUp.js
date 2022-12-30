@@ -6,7 +6,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ref, set } from "firebase/database";
 import Loader from "../Loader/Loader";
 
-export default function Signup() {
+export default function Signup({userid}) {
   const [user, setUser] = useState({
     name: "",
     companyName: "",
@@ -86,7 +86,8 @@ export default function Signup() {
   return (
     <>
     {
-        loading ? <Loader /> : <div className="login-container">
+        loading ? <Loader /> : 
+        <div className="login-container2">
           <div className="form-box1">
             <div className="img text-center">
               <img
@@ -172,15 +173,23 @@ export default function Signup() {
                         hidden>
                         Select Designation
                       </option>
-                      <option value="Manager">Manager</option>
-                      <option value="Developer">Developer</option>
-                      <option value="Digital Artist">Digital Artist</option>
-                      <option value="Designer">Designer</option>
-                      <option value="Editor">Editor</option>
-                      <option value="Content writter">Content writter</option>
-                      <option value="Client Manager">Client Manager</option>
-                      <option value="Photographer">Photographer</option>
-                      <option value="Animator">Animator</option>
+                      {
+                          userid === "teammate" ?
+                           <>
+                           <option value="Developer">Developer</option>
+                            <option value="Digital Artist">Digital Artist</option>
+                            <option value="Designer">Designer</option>
+                            <option value="Editor">Editor</option>
+                            <option value="Content writter">Content writter</option>
+                            <option value="Client Manager">Client Manager</option>
+                            <option value="Photographer">Photographer</option>
+                            <option value="Animator">Animator</option>
+                            </> 
+                            :
+                             <option value="Manager">Manager</option>
+                      }
+                      
+                      
                     </select>
                   </div>
                   <div className="col-sm-6 col-md-6">
