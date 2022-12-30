@@ -54,7 +54,7 @@ export default function HomeBlock(props) {
   return (
     <div id="main">
       <Container>
-        <Row className="curve-box-homelist">
+        <Row>
           <Col style={{ marginTop: "1em" }}>
             {!selected ? (
               <Row>
