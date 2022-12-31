@@ -3,7 +3,7 @@ import { auth, db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 import HomeBlock from "./HomeBlock";
 import HomeList from "./HomeList";
-import { onValue, ref, remove, set, update } from "firebase/database";
+import { onValue, ref, remove,  update } from "firebase/database";
 import { onAuthStateChanged } from "firebase/auth";
 import Loader from "../Loader/Loader";
 
@@ -165,17 +165,6 @@ export default function Home() {
     setView(newValue);
   }
 
-  function writeUserData(newTask, teammateId, index) {
-    setLoading(true);
-    set(ref(db, `/teammate/${teammateId}/tasks/${index}/`), newTask)
-      .then(() => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
   function deleteCurrentTask(teammateId, index) {
     setLoading(true);
     remove(ref(db, `/teammate/${teammateId}/tasks/${index}/`))
@@ -205,7 +194,6 @@ export default function Home() {
               viewType={view}
               team={teammateList}
               onChange={handleChange}
-              addTask={writeUserData}
               deleteTask={deleteCurrentTask}
               addTeammate={addNewTeammate}
             />
@@ -214,7 +202,6 @@ export default function Home() {
               viewType={view}
               team={teammateList}
               onChange={handleChange}
-              addTask={writeUserData}
             />
           )}
         </div>

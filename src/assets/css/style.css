@@ -209,3 +209,12 @@ border-radius: 6px !important;
   color: #000000;
   height: 60px;
 }
+
+.deadline input[type="date"]::before {
+  content: attr(placeHolder);
+  width: 100%;
+}
+.deadline input[type="time"]::before {
+  content: attr(placeHolder);
+  width: 100%;
+}

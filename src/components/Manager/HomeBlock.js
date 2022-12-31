@@ -1,56 +1,20 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import {
-  Button,
   Col,
   Container,
-  Form,
-  OverlayTrigger,
   Row,
 } from "react-bootstrap";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import NewTask from "./NewTask";
 
 export default function HomeBlock(props) {
-  var today = new Date();
   const [selected, setSelected] = useState(
     JSON.parse(localStorage.getItem("teammateSelected"))
   );
-  const [newTask, setNewTask] = useState({
-    client: "",
-    task: "",
-    priority: "",
-    tasknumber: "",
-    description: "",
-    updates: {
-      0: {
-        date:
-          String(today.getDate()).padStart(2, "0") +
-          "/" +
-          String(today.getMonth() + 1).padStart(2, "0") +
-          "/" +
-          today.getFullYear(),
-        time:
-          today.getHours() +
-          ":" +
-          today.getMinutes() +
-          ":" +
-          today.getSeconds(),
-        corrections: "0",
-        status: "Assigned",
-      },
-    },
-  });
   function handleViewChange() {
     props.onChange(true);
   }
-  const handleChange = (event) => {
-    let newInput = { [event.target.name]: event.target.value };
-    setNewTask({ ...newTask, ...newInput });
-  };
-  const handleNewTask = async (id, tasknumber) => {
-    await props.addTask(newTask, id, tasknumber);
-    window.location.reload();
-  };
   return (
     <div id="main">
       <Container>
@@ -83,101 +47,10 @@ export default function HomeBlock(props) {
                       color="#5f8fee"
                       style={{ paddingRight: "1em" }}
                     />
-                    <OverlayTrigger
-                      trigger="click"
-                      key="bottom"
-                      placement="bottom"
-                      rootClose
-                      overlay={
-                        <div
-                          className="bg-white"
-                          style={{
-                            padding: "1em",
-                            marginTop: "10px",
-                            marginLeft: "-50px",
-                            width: "400px",
-                            boxShadow: "rgba(0, 0, 0, 0.15) 1px 3px 5px",
-                          }}>
-                          <h5 className="blue">No User</h5>
-                          <h6>selected</h6>
-                          <Form.Group
-                            as={Row}
-                            className="mb-3"
-                            controlId="formPlaintext1">
-                            <Form.Label
-                              column
-                              sm="4"
-                              md="4">
-                              Client
-                            </Form.Label>
-                            <Col sm="7">
-                              <Form.Control
-                                type="text"
-                                name="client"
-                              />
-                            </Col>
-                          </Form.Group>
-                          <Form.Group
-                            as={Row}
-                            className="mb-3"
-                            controlId="formPlaintext2">
-                            <Form.Label
-                              column
-                              md="4"
-                              sm="4">
-                              Task
-                            </Form.Label>
-                            <Col sm="7">
-                              <Form.Control
-                                type="text"
-                                name="task"
-                              />
-                            </Col>
-                          </Form.Group>
-                          <Form.Group
-                            as={Row}
-                            className="mb-3"
-                            controlId="formPlaintext3">
-                            <Form.Label
-                              column
-                              md="4"
-                              sm="4">
-                              Description
-                            </Form.Label>
-                            <Col sm="7">
-                              <Form.Control
-                                as="textarea"
-                                name="description"
-                              />
-                            </Col>
-                          </Form.Group>
-                          <div
-                            className="d-grid gap-2"
-                            style={{
-                              marginBottom: ".5em",
-                            }}>
-                            <Button
-                              variant="primary"
-                              style={{
-                                textAlign: "center",
-                              }}
-                              block>
-                              Assign
-                            </Button>
-                          </div>
-                        </div>
-                      }>
-                      <Button
-                        type="Button"
-                        variant="light"
-                        className="bg-white box-shadow rounded-4">
-                        <FontAwesomeIcon
-                          icon="fa-regular fa-square-plus"
-                          style={{ paddingRight: ".5em" }}
-                        />
-                        New Task
-                      </Button>
-                    </OverlayTrigger>
+                    <NewTask
+                      name={"No Teammate"}
+                      description={"Selected"}
+                    />
                   </div>
                 </Col>
               </Row>
@@ -212,112 +85,12 @@ export default function HomeBlock(props) {
                             color="#5f8fee"
                             style={{ paddingRight: "1em" }}
                           />
-                          <OverlayTrigger
-                            trigger="click"
-                            key="bottom"
-                            placement="bottom"
-                            rootClose
-                            overlay={
-                              <div
-                                className="bg-white"
-                                style={{
-                                  padding: "1em",
-                                  marginTop: "10px",
-                                  marginLeft: "-50px",
-                                  width: "400px",
-                                  boxShadow: "rgba(0, 0, 0, 0.15) 1px 3px 5px",
-                                }}>
-                                <h5 className="blue">{info.data.name}</h5>
-                                <h6>{info.data.designation}</h6>
-                                <Form.Group
-                                  as={Row}
-                                  className="mb-3"
-                                  controlId="formPlaintext1">
-                                  <Form.Label
-                                    column
-                                    sm="4"
-                                    md="4">
-                                    Client
-                                  </Form.Label>
-                                  <Col sm="7">
-                                    <Form.Control
-                                      type="text"
-                                      name="client"
-                                      onChange={handleChange}
-                                    />
-                                  </Col>
-                                </Form.Group>
-                                <Form.Group
-                                  as={Row}
-                                  className="mb-3"
-                                  controlId="formPlaintext2">
-                                  <Form.Label
-                                    column
-                                    md="4"
-                                    sm="4">
-                                    Task
-                                  </Form.Label>
-                                  <Col sm="7">
-                                    <Form.Control
-                                      type="text"
-                                      name="task"
-                                      onChange={handleChange}
-                                    />
-                                  </Col>
-                                </Form.Group>
-                                <Form.Group
-                                  as={Row}
-                                  className="mb-3"
-                                  controlId="formPlaintext3">
-                                  <Form.Label
-                                    column
-                                    md="4"
-                                    sm="4">
-                                    Description
-                                  </Form.Label>
-                                  <Col sm="7">
-                                    <Form.Control
-                                      as="textarea"
-                                      name="description"
-                                      onChange={handleChange}
-                                    />
-                                  </Col>
-                                </Form.Group>
-                                <div
-                                  className="d-grid gap-2"
-                                  style={{
-                                    marginBottom: ".5em",
-                                  }}>
-                                  <Button
-                                    variant="primary"
-                                    onClick={() => {
-                                      handleNewTask(
-                                        info.teammate,
-                                        info.data.tasks !== undefined
-                                          ? info.data.tasks.length
-                                          : 0
-                                      );
-                                    }}
-                                    style={{
-                                      textAlign: "center",
-                                    }}
-                                    block>
-                                    Assign
-                                  </Button>
-                                </div>
-                              </div>
-                            }>
-                            <Button
-                              type="Button"
-                              variant="light"
-                              className="bg-white box-shadow rounded-4">
-                              <FontAwesomeIcon
-                                icon="fa-regular fa-square-plus"
-                                style={{ paddingRight: ".5em" }}
-                              />
-                              New Task
-                            </Button>
-                          </OverlayTrigger>
+                          <NewTask
+                            name={info.data.name}
+                            description={info.data.designation}
+                            teammate={info.teammate}
+                            tasks={info.data.tasks}
+                          />
                         </div>
                       </Col>
                     </Row>
