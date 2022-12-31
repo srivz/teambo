@@ -19,6 +19,12 @@ import { Badge, Col, Container, Offcanvas, Row } from "react-bootstrap";
 import { auth, db } from "../../firebase-config";
 import Loader from "../Loader/Loader";
 import NavBar from "../Navs/NavBar";
+import pause from '../../assets/images/pause.svg'
+import paused from '../../assets/images/paused.svg'
+import play from '../../assets/images/play.svg'
+import played from '../../assets/images/played.svg'
+import tick from '../../assets/images/tick.svg'
+
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -106,7 +112,7 @@ export default function Home() {
     window.location.reload();
   });
   const playTask = (e, index, length) => {
-    setLoading(true);
+
     teammate.tasks.forEach((task,i)=>{
       // console.log(task.updates[task.updates.length-1].status);
      if(i===index){
@@ -120,20 +126,31 @@ export default function Home() {
      });
      }
     })
+
     
   };
   const pauseTask = (e, index, length) => {
-    setLoading(true);
+
     update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
       status: "Paused",
     });
+
   };
   const completeTask = (e, index, length) => {
-    setLoading(true);
+
     update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
       status: "Done",
     });
+
   };
+  
+
+
+
+
+
+
+
   return (
     <>
       {loading ? (
@@ -341,7 +358,8 @@ export default function Home() {
                               No tasks right now
                             </TableRow>
                           ) : (
-                            teammate.tasks.map((info, index) => {
+                            teammate.tasks
+                            .map((info, index) => {
                               return taskSelected !== index ? (
                                 <>
                                   <TableRow
@@ -353,7 +371,7 @@ export default function Home() {
                                           : "#f9fbff",
                                       height: "70px",
                                     }}
-                                    className="box-shadow"
+                                    className="box-shadow teammate-tasks"
                                     key={index}>
                                     <TableCell
                                       onClick={() => {
@@ -390,7 +408,8 @@ export default function Home() {
                                               style={{
                                                 fontFamily: "rockwen",
                                               }}
-                                              align="center">
+                                              align="center"
+                                            >
                                               {
                                                 info.updates[
                                                   info.updates.length - 1
@@ -404,7 +423,8 @@ export default function Home() {
                                               style={{
                                                 fontFamily: "rockwen",
                                               }}
-                                              align="center">
+                                              align="center"
+                                            >
                                               {
                                                 info.updates[
                                                   info.updates.length - 1
@@ -418,7 +438,8 @@ export default function Home() {
                                               style={{
                                                 fontFamily: "rockwen",
                                               }}
-                                              align="center">
+                                              align="center"
+                                            >
                                               +
                                               {
                                                 info.updates[
@@ -460,7 +481,8 @@ export default function Home() {
                                                   fontFamily: "rockwen",
                                                   fontWeight: "bold",
                                                 })
-                                              }>
+                                              }
+                                            >
                                               {
                                                 info.updates[
                                                   info.updates.length - 1
@@ -468,20 +490,16 @@ export default function Home() {
                                               }
                                             </TableCell>
                                             <TableCell align="center">
-                                              <FontAwesomeIcon
-                                                icon="fa-solid fa-circle-play"
-                                                size="lg"
-                                                style={{
-                                                  display:
-                                                    info.updates[
-                                                      info.updates.length - 1
-                                                    ].status === "Done"
-                                                      ? "none"
-                                                      : "",
-                                                  margin: ".5em",
-                                                  cursor: "pointer",
-                                                }}
-                                                color="green"
+                                              <img
+                                                src={
+                                                  info.updates[
+                                                    info.updates.length - 1
+                                                  ].status === "On Going"
+                                                    ? paused
+                                                    : pause
+                                                }
+                                                alt="pause"
+                                                width={30}
                                                 onClick={(e) => {
                                                   playTask(
                                                     e,
@@ -489,10 +507,6 @@ export default function Home() {
                                                     info.updates.length
                                                   );
                                                 }}
-                                              />
-                                              <FontAwesomeIcon
-                                                icon="fa-solid fa-circle-pause"
-                                                size="lg"
                                                 style={{
                                                   display:
                                                     info.updates[
@@ -503,6 +517,41 @@ export default function Home() {
                                                   margin: ".5em",
                                                   cursor: "pointer",
                                                 }}
+                                              />
+                                              {
+                                                // <FontAwesomeIcon
+                                                //   icon="fa-solid fa-circle-play"
+                                                //   size="lg"
+                                                //   style={{
+                                                //     display:
+                                                //       info.updates[
+                                                //         info.updates.length - 1
+                                                //       ].status === "Done"
+                                                //         ? "none"
+                                                //         : "",
+                                                //     margin: ".5em",
+                                                //     cursor: "pointer",
+                                                //   }}
+                                                //   color="green"
+                                                //   onClick={(e) => {
+                                                //     playTask(
+                                                //       e,
+                                                //       index,
+                                                //       info.updates.length
+                                                //     );
+                                                //   }}
+                                                // />
+                                              }
+                                              <img
+                                                src={
+                                                  info.updates[
+                                                    info.updates.length - 1
+                                                  ].status === "Paused"
+                                                    ? played
+                                                    : play
+                                                }
+                                                alt="pause"
+                                                width={30}
                                                 onClick={(e) => {
                                                   pauseTask(
                                                     e,
@@ -510,10 +559,6 @@ export default function Home() {
                                                     info.updates.length
                                                   );
                                                 }}
-                                              />
-                                              <FontAwesomeIcon
-                                                icon="fa-solid fa-circle-check"
-                                                size="lg"
                                                 style={{
                                                   display:
                                                     info.updates[
@@ -524,6 +569,36 @@ export default function Home() {
                                                   margin: ".5em",
                                                   cursor: "pointer",
                                                 }}
+                                              />
+                                              {
+                                                // <FontAwesomeIcon
+                                                //   icon="fa-solid fa-circle-pause"
+                                                //   size="lg"
+                                                //   style={{
+                                                //     display:
+                                                //       info.updates[
+                                                //         info.updates.length - 1
+                                                //       ].status === "Done"
+                                                //         ? "none"
+                                                //         : "",
+                                                //     margin: ".5em",
+                                                //     cursor: "pointer",
+                                                //   }}
+                                                //   onClick={(e) => {
+                                                //     pauseTask(
+                                                //       e,
+                                                //       index,
+                                                //       info.updates.length
+                                                //     );
+                                                //   }}
+                                                // />
+                                              }
+                                              <img
+                                                src={
+                                                  tick
+                                                }
+                                                alt="pause"
+                                                width={30}
                                                 onClick={(e) => {
                                                   completeTask(
                                                     e,
@@ -531,7 +606,40 @@ export default function Home() {
                                                     info.updates.length
                                                   );
                                                 }}
+                                                  style={{
+                                                    display:
+                                                      info.updates[
+                                                        info.updates.length - 1
+                                                      ].status === "Done"
+                                                        ? "none"
+                                                        : "",
+                                                    margin: ".5em",
+                                                    cursor: "pointer",
+                                                  }}
                                               />
+                                              {
+                                                // <FontAwesomeIcon
+                                                //   icon="fa-solid fa-circle-check"
+                                                //   size="lg"
+                                                //   style={{
+                                                //     display:
+                                                //       info.updates[
+                                                //         info.updates.length - 1
+                                                //       ].status === "Done"
+                                                //         ? "none"
+                                                //         : "",
+                                                //     margin: ".5em",
+                                                //     cursor: "pointer",
+                                                //   }}
+                                                //   onClick={(e) => {
+                                                //     completeTask(
+                                                //       e,
+                                                //       index,
+                                                //       info.updates.length
+                                                //     );
+                                                //   }}
+                                                // />
+                                              }
                                             </TableCell>
                                           </>
                                         );
@@ -546,7 +654,7 @@ export default function Home() {
                                       info.updates[info.updates.length - 1]
                                         .status !== "Done"
                                         ? "#fff"
-                                        : "#f9fbff",
+                                        : "#F1F4FB",
                                   }}
                                   className="box-shadow">
                                   <TableCell

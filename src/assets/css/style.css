@@ -76,7 +76,11 @@ body {
   margin-left: 15px;
 }
 .box-shadow {
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 3px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+
+box-shadow: 0px 3px 20px #0000000D !important;
+border-radius: 6px !important;
+
 }
 .curve-box-homelist tr {
   background-color: #fff;
@@ -122,7 +126,7 @@ body {
   max-height: 500px;
 }
 .table-height2 {
-  max-height: 450px;
+  max-height: 650px;
 }
 .overflow-set-auto ::-webkit-scrollbar-thumb {
   height: 50px !important;
