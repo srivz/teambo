@@ -27,6 +27,7 @@ import tick from '../../assets/images/tick.svg'
 
 
 export default function Home() {
+   var today = new Date();
   const [loading, setLoading] = useState(true);
   const [taskSelected, setTaskSelected] = useState();
   const [once, setOnce] = useState(true);
@@ -112,12 +113,15 @@ export default function Home() {
     window.location.reload();
   });
   const playTask = (e, index, length) => {
-
+   var timeInMs=today.getTime();
+   var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     teammate.tasks.forEach((task,i)=>{
       // console.log(task.updates[task.updates.length-1].status);
      if(i===index){
       update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
       status: "On Going",
+      startTime:time,
+      startTimeInMs:timeInMs,
     });
      }
      else if(task.updates[task.updates.length-1].status==='On Going'){
@@ -129,17 +133,66 @@ export default function Home() {
 
     
   };
-  const pauseTask = (e, index, length) => {
 
+  function getHourFormatFromMilliSeconds(millisec) {
+    var seconds = (millisec / 1000).toFixed(0);
+    var minutes = Math.floor(Number(seconds) / 60).toString();
+    let hours;
+    if (Number(minutes) > 59) {
+      hours = Math.floor(Number(minutes) / 60);
+      hours = (hours >= 10) ? hours : "0" + hours;
+      minutes = (Number(minutes) - (hours * 60)).toString();
+      minutes = (Number(minutes) >= 10) ? minutes : "0" + minutes;
+    }
+
+    seconds = Math.floor(Number(seconds) % 60).toString();
+    seconds = (Number(seconds) >= 10) ? seconds : "0" + seconds;
+    if (!hours) {
+      hours = "00";
+    }
+    if (!minutes) {
+      minutes = "00";
+    }
+    if (!seconds) {
+      seconds = "00";
+    }
+    
+      return hours + ":" + minutes + ":" + seconds;
+   
+  }
+
+
+
+
+
+
+
+
+
+
+
+  const pauseTask = (e, index, length) => {
+    var timeInMs = today.getTime();
+    var stTime =
+      teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].startTimeInMs;
+    var totTime=(timeInMs-stTime);
+    if(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].totalTimeInMs){
+      totTime = totTime+teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].totalTimeInMs;
+      console.log(totTime);
+    }
+    var timeGapInMs=totTime;
+    var timeGap = getHourFormatFromMilliSeconds(totTime)
     update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
       status: "Paused",
+      totalTime:timeGap,
+      totalTimeInMs:timeGapInMs
     });
 
   };
   const completeTask = (e, index, length) => {
-
     update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
       status: "Done",
+      totalTimeInMs: 0,
     });
 
   };
