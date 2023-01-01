@@ -352,7 +352,7 @@ export default function Home() {
                           borderCollapse: "separate",
                           borderSpacing: "0 20px",
                         }}
-                        className="table table-sm table-height2 ">
+                        className="table table-sm table-height2">
                         <TableHead>
                           <TableRow
                               style={{
@@ -438,7 +438,7 @@ export default function Home() {
                                           : "#f1f4fb",
                                       height: "70px",
                                     }}
-                                    className="box-shadow teammate-tasks"
+                                    className="box-shadow"
                                     key={index}>
                                     <TableCell
                                       onClick={() => {
