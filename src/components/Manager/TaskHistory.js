@@ -8,14 +8,14 @@ import moment from 'moment'
 
 export default function TaskHistory(props) {
   var today = new Date()
-  const [updateTaskForm, setUpdateTaskForm] = useState(false);
+  const [updateTaskForm, setUpdateTaskForm] = useState(false)
   const [taskUpdate, setTaskUpdate] = useState({
-    corrections: "",
+    corrections: '',
     status: 'Assigned',
     assignedDate: props?.teamtasks[props.indexselected]?.updates.assignedDate,
     assignedTime: props?.teamtasks[props.indexselected]?.updates.assignedTime,
     deadlineDate: '--',
-    description: "",
+    description: '',
     deadlineTime: '--',
   })
 
@@ -98,21 +98,22 @@ export default function TaskHistory(props) {
   }
   const handleTaskCorrectionClear = () => {
     setTaskUpdate({
-      corrections: "",
+      corrections: '',
       deadlineDate: '--',
-      description: "",
+      description: '',
       deadlineTime: '--',
-    }); setUpdateTaskForm(false);
+    })
+    setUpdateTaskForm(false)
   }
 
   const handleDateChange = (event) => {
-    let date = (event.target.value).split("-")
-    taskUpdate.deadlineDate = date[2] + "/" + date[1] + "/" + date[0]
-  };
+    let date = event.target.value.split('-')
+    taskUpdate.deadlineDate = date[2] + '/' + date[1] + '/' + date[0]
+  }
   const handleChange = (event) => {
-    let newInput = { [event.target.name]: event.target.value };
-    setTaskUpdate({ ...taskUpdate, ...newInput });
-  };
+    let newInput = { [event.target.name]: event.target.value }
+    setTaskUpdate({ ...taskUpdate, ...newInput })
+  }
 
   return (
     <div>
@@ -124,7 +125,10 @@ export default function TaskHistory(props) {
       >
         <Modal.Header>
           <Modal.Title>
-            <Button onClick={props.onHide}>Close</Button>
+            <Button variant="light" onClick={props.onHide}>
+              <FontAwesomeIcon icon="fa-solid fa-chevron-left" />{" "}
+              Close
+            </Button>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -155,7 +159,7 @@ export default function TaskHistory(props) {
                     }
                     name="clientEmail"
                     disabled
-                  // onChange={handleclientEmailChange}
+                    // onChange={handleclientEmailChange}
                   />
                 </Col>
               </Form.Group>
@@ -185,7 +189,8 @@ export default function TaskHistory(props) {
                   ].status === 'Done' && {
                     fontFamily: 'rockwen',
                     color: '#000000',
-                  }) || (props?.teamtasks[props.indexselected]?.updates[
+                  }) ||
+                  (props?.teamtasks[props.indexselected]?.updates[
                     props?.teamtasks[props.indexselected]?.updates.length - 1
                   ].status === 'Completed' && {
                     fontFamily: 'rockwen',
@@ -272,110 +277,136 @@ export default function TaskHistory(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow style={(props?.teamtasks[props?.indexselected]?.updates[
-                props?.teamtasks[props?.indexselected]?.updates.length - 1
-              ].status === 'Completed') ? { display: "none" } : {}}>
+              <TableRow
+                style={
+                  props?.teamtasks[props?.indexselected]?.updates[
+                    props?.teamtasks[props?.indexselected]?.updates.length - 1
+                  ].status === 'Completed'
+                    ? { display: 'none' }
+                    : {}
+                }
+              >
                 <TableCell colSpan={7}>
                   <Row className="d-grid gap-2">
-                    <Button disabled={props?.teamtasks[props?.indexselected]?.updates[
-                      props?.teamtasks[props?.indexselected]?.updates.length - 1
-                    ].status !== 'Done' || updateTaskForm} onClick={() => setUpdateTaskForm(true)} variant="outline-primary" block>
+                    <Button
+                      disabled={
+                        props?.teamtasks[props?.indexselected]?.updates[
+                          props?.teamtasks[props?.indexselected]?.updates
+                            .length - 1
+                        ].status !== 'Done' || updateTaskForm
+                      }
+                      onClick={() => setUpdateTaskForm(true)}
+                      variant="outline-primary"
+                      block
+                    >
                       + Add Correction
                     </Button>
                   </Row>
                 </TableCell>
               </TableRow>
-              {updateTaskForm ? <TableRow>
-                <TableCell
-                  style={{
-                    width: '100px',
-                    fontFamily: 'rockwen',
-                  }}
-                  align="center"
-                >
-                  +{props?.teamtasks[props.indexselected]?.updates.length}
-                </TableCell>
-                <TableCell
-                  style={{
-                    width: '200px',
-                    fontFamily: 'rockwen',
-                  }}
-                  align="center"
-                >
-                  <Form.Control
-                    as="textarea"
-                    name="description"
-                    onChange={handleChange}
-                  />
-                </TableCell>
-                <TableCell
-                  style={{
-                    fontFamily: 'rockwen',
-                  }}
-                  align="center"
-                ></TableCell>
-                <TableCell
-                  style={{
-                    fontFamily: 'rockwen',
-                  }}
-                  align="center"
-                ><Row className="justify-content-md-center">
-                    <Col sm={10}>
-                      <Form.Control
-                        type="date"
-                        min={moment().format('YYYY-MM-DD')}
-                        name="deadlineDate"
-                        style={{ fontSize: '12px' }}
-                        onChange={handleDateChange}
-                      />
-                    </Col>
-                  </Row>
-                  <br />
-                  <Row className="justify-content-md-center">
-                    <Col sm={10}>
-                      <Form.Control
-                        type="time"
-                        name="deadlineTime"
-                        style={{ fontSize: '12px' }}
-                        onChange={handleChange}
-                      />
-                    </Col>
-                  </Row>
-                </TableCell>
-                <TableCell
-                  style={{
-                    fontFamily: 'rockwen',
-                  }}
-                  align="center"
-                >
-                  <FontAwesomeIcon
-                    className="pointer"
-                    onClick={() => handleTaskCorrection(props?.id, props?.indexselected, props?.teamtasks[props?.indexselected]?.updates.length)}
-                    size="2xl"
+              {updateTaskForm ? (
+                <TableRow>
+                  <TableCell
                     style={{
-                      color: 'blue',
-                      paddingRight: '.25em',
+                      width: '100px',
+                      fontFamily: 'rockwen',
                     }}
-                    icon="fa-solid fa-square-check"
-                  />
-                  <FontAwesomeIcon
-                    className="pointer"
-                    onClick={handleTaskCorrectionClear}
-                    icon="fa-solid fa-square-xmark"
-                    size="2xl"
+                    align="center"
+                  >
+                    +{props?.teamtasks[props.indexselected]?.updates.length}
+                  </TableCell>
+                  <TableCell
                     style={{
-                      color: 'red',
-                      paddingRight: '.25em',
+                      width: '200px',
+                      fontFamily: 'rockwen',
                     }}
-                  />
-                </TableCell>
-              </TableRow> : <></>}
+                    align="center"
+                  >
+                    <Form.Control
+                      as="textarea"
+                      name="description"
+                      onChange={handleChange}
+                    />
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      fontFamily: 'rockwen',
+                    }}
+                    align="center"
+                  ></TableCell>
+                  <TableCell
+                    style={{
+                      fontFamily: 'rockwen',
+                    }}
+                    align="center"
+                  >
+                    <Row className="justify-content-md-center">
+                      <Col sm={10}>
+                        <Form.Control
+                          type="date"
+                          min={moment().format('YYYY-MM-DD')}
+                          name="deadlineDate"
+                          style={{ fontSize: '12px' }}
+                          onChange={handleDateChange}
+                        />
+                      </Col>
+                    </Row>
+                    <br />
+                    <Row className="justify-content-md-center">
+                      <Col sm={10}>
+                        <Form.Control
+                          type="time"
+                          name="deadlineTime"
+                          style={{ fontSize: '12px' }}
+                          onChange={handleChange}
+                        />
+                      </Col>
+                    </Row>
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      fontFamily: 'rockwen',
+                    }}
+                    align="center"
+                  >
+                    <FontAwesomeIcon
+                      className="pointer"
+                      onClick={() =>
+                        handleTaskCorrection(
+                          props?.id,
+                          props?.indexselected,
+                          props?.teamtasks[props?.indexselected]?.updates
+                            .length,
+                        )
+                      }
+                      size="2xl"
+                      style={{
+                        color: 'blue',
+                        paddingRight: '.25em',
+                      }}
+                      icon="fa-solid fa-square-check"
+                    />
+                    <FontAwesomeIcon
+                      className="pointer"
+                      onClick={handleTaskCorrectionClear}
+                      icon="fa-solid fa-square-xmark"
+                      size="2xl"
+                      style={{
+                        color: 'red',
+                        paddingRight: '.25em',
+                      }}
+                    />
+                  </TableCell>
+                </TableRow>
+              ) : (
+                <></>
+              )}
 
               {props?.teamtasks[props.indexselected]?.updates
                 .sort((a, b) => (a.corrections > b.corrections ? -1 : 1))
                 .map((info, index) => {
                   return (
-                    <TableRow style={index !== 0 ? { opacity: "50%" } : {}}>
+                    <TableRow style={index !== 0 ? { opacity: '50%' } : {}}>
                       <TableCell
                         style={{
                           width: '100px',
@@ -422,13 +453,15 @@ export default function TaskHistory(props) {
                         }}
                         align="center"
                       >
-                        {info.status === 'Done' || info.status === 'Completed' ? (
+                        {info.status === 'Done' ||
+                          info.status === 'Completed' ? (
                           dateFormatChange(info.endDate)
                         ) : (
                           <br />
                         )}
                         <br />
-                        {info.status === 'Done' || info.status === 'Completed' ? (
+                        {info.status === 'Done' ||
+                          info.status === 'Completed' ? (
                           timeFormatChange(info.endTime)
                         ) : (
                           <br />
