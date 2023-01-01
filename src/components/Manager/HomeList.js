@@ -882,35 +882,6 @@ export default function HomeList(props) {
                                                     >
                                                       <Button
                                                         onClick={() => {
-                                                          handleDeleteTask(
-                                                            info.teammate,
-                                                            index,
-                                                          )
-                                                        }}
-                                                        variant="light"
-                                                        style={{
-                                                          textAlign: 'left',
-                                                        }}
-                                                        block
-                                                      >
-                                                        <FontAwesomeIcon
-                                                          icon="fa-solid fa-trash"
-                                                          style={{
-                                                            paddingRight:
-                                                              '.5em',
-                                                          }}
-                                                        />
-                                                        Delete Task
-                                                      </Button>
-                                                    </Row>
-                                                    <Row
-                                                      className="d-grid gap-2"
-                                                      style={{
-                                                        marginBottom: '.5em',
-                                                      }}
-                                                    >
-                                                      <Button
-                                                        onClick={() => {
                                                           handleUpTask(
                                                             info.teammate,
                                                             index,
@@ -965,6 +936,63 @@ export default function HomeList(props) {
                                                           }}
                                                         />
                                                         Move Down
+                                                      </Button>
+                                                    </Row><Row
+                                                      className="d-grid gap-2"
+                                                      style={{
+                                                        marginBottom: '.5em',
+                                                      }}
+                                                    >
+                                                      <Button
+                                                        // onClick={() => {
+                                                        //   handleSwitchTask(
+                                                        //     info.teammate,
+                                                        //     index, info1.updates.length - 1
+                                                        //   )
+                                                        // }}
+                                                        variant="light"
+                                                        style={{
+                                                          textAlign: 'left',
+                                                        }}
+                                                        block
+                                                      >
+                                                        <FontAwesomeIcon
+                                                          icon="fa-solid fa-shuffle"
+                                                          style={{
+                                                            paddingRight:
+                                                              '.5em',
+                                                          }}
+                                                        />
+                                                        Switch Task To..
+                                                      </Button>
+                                                    </Row>
+                                                    <Row
+                                                      className="d-grid gap-2"
+                                                      style={{
+                                                        marginBottom: '.5em',
+                                                      }}
+                                                    >
+                                                      <Button
+                                                        onClick={() => {
+                                                          handleDeleteTask(
+                                                            info.teammate,
+                                                            index,
+                                                          )
+                                                        }}
+                                                        variant="light"
+                                                        style={{
+                                                          textAlign: 'left',
+                                                        }}
+                                                        block
+                                                      >
+                                                        <FontAwesomeIcon
+                                                          icon="fa-solid fa-trash"
+                                                          style={{
+                                                            paddingRight:
+                                                              '.5em',
+                                                          }}
+                                                        />
+                                                        Delete Task
                                                       </Button>
                                                     </Row>
                                                   </Popover.Body>
