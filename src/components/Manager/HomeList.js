@@ -1018,7 +1018,7 @@ export default function HomeList(props) {
                                       )
                                     })
                                   )}
-                                  {taskSelected !== null ? (
+                                  {info.data.tasks && taskSelected !== null ? (
                                     <TaskHistory
                                       show={modalShow}
                                       id={info.teammate}
