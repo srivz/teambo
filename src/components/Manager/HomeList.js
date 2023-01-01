@@ -444,16 +444,19 @@ export default function HomeList(props) {
                                       return taskSelected !== index ? (
                                         <TableRow
                                           key={index}
-                                          style={{
-                                            backgroundColor: 
-                                                  info1.updates[
-                                                    info1.updates.length - 1
-                                                  ].status !== "Done"
-                                                    ? "#fff"
-                                                    : "#f1f4fb"
-                                                ,
+                                          style={
+                                            (info1.updates[
+                                              info1.updates.length - 1
+                                          ].status === "Done" && {
+                                            backgroundColor: "#f1f4fb",
                                             height: "70px",
-                                          }}
+                                          }) || (info1.updates[
+                                              info1.updates.length - 1
+                                          ].status !== "Done" && {
+                                            backgroundColor: "#fff",
+                                            height: "70px",
+                                            })
+                                          }
                                           className="box-shadow">
                                           <TableCell
                                             onClick={() => {
@@ -481,7 +484,7 @@ export default function HomeList(props) {
                                                 ? 1
                                                 : -1
                                             )
-                                            .filter((info2, index) => index === 0)
+                                            .filter((info2, index2) => index2 === 0)
                                             .map((info2) => {
                                               return (
                                                 <>
@@ -774,7 +777,7 @@ export default function HomeList(props) {
                                                 info1.updates.length - 1
                                               ].status !== "Done"
                                                 ? "#fff"
-                                                : "#f1f4fb",
+                                                : "#cccc",
                                           }}
                                           className="box-shadow">
                                           <TableCell
