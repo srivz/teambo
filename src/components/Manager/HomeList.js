@@ -1025,13 +1025,13 @@ export default function HomeList(props) {
                                               .map((info2) => {
                                                 return (
                                                   <p>
-                                                    {dateFormatChange(
+                                                    {info2.status === "Done" ?dateFormatChange(
                                                       info2.assignedDate
-                                                    )}
+                                                    ):""}
                                                     <br />
-                                                    {timeFormatChange(
+                                                    {info2.status === "Done" ?timeFormatChange(
                                                       info2.assignedTime
-                                                    )}
+                                                    ):""}
                                                   </p>
                                                 );
                                               })}
