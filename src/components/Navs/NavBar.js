@@ -14,14 +14,14 @@ export default function NavBar({ user, name, role }) {
           style={{ marginTop: "1em" }}>
           <h5>
             <img
-              class="w-25 m-lg-2"
+              className="w-25 m-lg-2"
               style={{ margin: ".5em" }}
               src={logo}
               alt=""
             />
-            <span class="border-left"></span>
+            <span className="border-left"></span>
             <span
-              class="blue letter-spacing"
+              className="blue letter-spacing"
               style={{ marginTop: ".5em" }}>
               {user}
             </span>
@@ -31,14 +31,14 @@ export default function NavBar({ user, name, role }) {
           sm={6}
           md={6}
           style={{ marginTop: "1em" }}>
-          <h5 class="text-end">
-            {name} <span class="grey h6">{role}</span>
-            <span class="border-left"></span>
+          <h5 className="text-end">
+            {name} <span className="grey h6">{role}</span>
+            <span className="border-left"></span>
             <span
               onClick={() => {
                 signOut(auth);
               }}
-              class="blue pointer"
+              className="blue pointer"
               style={{ marginTop: ".5em" }}>
               Log Out
             </span>

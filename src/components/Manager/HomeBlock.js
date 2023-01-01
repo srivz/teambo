@@ -192,7 +192,7 @@ export default function HomeBlock(props) {
                                       )}
                                     </Col>
                                   </Row>
-                                  <hr class="divider" />
+                                  <hr className="divider" />
                                 </div>
                               );
                             })

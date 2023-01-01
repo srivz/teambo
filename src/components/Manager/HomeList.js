@@ -815,7 +815,7 @@ export default function HomeList(props) {
                                                   id={`popover-positioned-bottom`}
                                                 >
                                                   <Popover.Body>
-                                                    <div
+                                                    <Row
                                                       className="d-grid gap-2"
                                                       style={{
                                                         marginBottom: '.5em',
@@ -843,8 +843,8 @@ export default function HomeList(props) {
                                                         />
                                                         Delete Task
                                                       </Button>
-                                                    </div>
-                                                    <div
+                                                    </Row>
+                                                    <Row
                                                       className="d-grid gap-2"
                                                       style={{
                                                         marginBottom: '.5em',
@@ -875,8 +875,8 @@ export default function HomeList(props) {
                                                         />
                                                         Move Up
                                                       </Button>
-                                                    </div>
-                                                    <div
+                                                    </Row>
+                                                    <Row
                                                       className="d-grid gap-2"
                                                       style={{
                                                         marginBottom: '.5em',
@@ -907,7 +907,7 @@ export default function HomeList(props) {
                                                         />
                                                         Move Down
                                                       </Button>
-                                                    </div>
+                                                    </Row>
                                                   </Popover.Body>
                                                 </Popover>
                                               }
@@ -929,9 +929,10 @@ export default function HomeList(props) {
                                   {taskSelected !== null ? (
                                     <TaskHistory
                                       show={modalShow}
+                                      id={info.teammate}
                                       onHide={() => { setModalShow(false); setTaskSelected(null); }}
-                                      indexSelected={taskSelected}
-                                      teamTasks={info.data.tasks}
+                                      indexselected={taskSelected}
+                                      teamtasks={info.data.tasks}
                                       name={info.data.name}
                                       designation={info.data.designation}
                                     />
