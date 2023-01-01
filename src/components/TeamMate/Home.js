@@ -192,7 +192,29 @@ export default function Home() {
     });
 
   };
-  
+
+  const dateFormatChange = (date) => {
+    let givenDate = date.split("/");
+    let months = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    let dateMonth = months[parseInt(givenDate[1])];
+    return dateMonth + "," + givenDate[0] + " " + givenDate[2];
+  }
+  const timeFormatChange = (time) => {
+    let givenTime = time.split(":");
+    if (parseInt(givenTime[0]) === 0) {
+      return "12:" + givenTime[1] + " am";
+    } else if (parseInt(givenTime[0]) > 12) {
+      let hour = (parseInt(givenTime[0]) % 12) > 9 ? (parseInt(givenTime[0]) % 12) : "0" + String(parseInt(givenTime[0]) % 12);
+      let minute = (parseInt(givenTime[1])) > 9 ? (parseInt(givenTime[1])) : "0" + String(givenTime[1]);
+
+      return hour + ":" + minute + " pm";
+    } else if (parseInt(givenTime[0]) < 13) {
+      let hour = (parseInt(givenTime[0])) > 9 ? (parseInt(givenTime[0])) : "0" + String(givenTime[0]);
+      let minute = (parseInt(givenTime[1])) > 9 ? (parseInt(givenTime[1])) : "0" + String(givenTime[1]);
+
+      return hour + ":" + minute + " am";
+    }
+  }
 
   return (
     <>
@@ -453,9 +475,9 @@ export default function Home() {
                                               }}
                                               align="center">
                                               {
-                                                info.updates[
+                                                dateFormatChange(info.updates[
                                                   info.updates.length - 1
-                                                ].date
+                                                ].deadlineDate)
                                               }
                                             </TableCell>
                                             <TableCell
@@ -467,9 +489,9 @@ export default function Home() {
                                               }}
                                               align="center">
                                               {
-                                                info.updates[
+                                                timeFormatChange(info.updates[
                                                   info.updates.length - 1
-                                                ].time
+                                                ].deadlineTime)
                                               }
                                             </TableCell>
                                             <TableCell
@@ -572,30 +594,6 @@ export default function Home() {
                                                   cursor: "pointer",
                                                 }}
                                               />
-                                              {
-                                                // <FontAwesomeIcon
-                                                //   icon="fa-solid fa-circle-play"
-                                                //   size="lg"
-                                                //   style={{
-                                                //     display:
-                                                //       info.updates[
-                                                //         info.updates.length - 1
-                                                //       ].status === "Done"
-                                                //         ? "none"
-                                                //         : "",
-                                                //     margin: ".5em",
-                                                //     cursor: "pointer",
-                                                //   }}
-                                                //   color="green"
-                                                //   onClick={(e) => {
-                                                //     playTask(
-                                                //       e,
-                                                //       index,
-                                                //       info.updates.length
-                                                //     );
-                                                //   }}
-                                                // />
-                                              }
                                               <img
                                                 src={
                                                   info.updates[
@@ -624,29 +622,6 @@ export default function Home() {
                                                   cursor: "pointer",
                                                 }}
                                               />
-                                              {
-                                                // <FontAwesomeIcon
-                                                //   icon="fa-solid fa-circle-pause"
-                                                //   size="lg"
-                                                //   style={{
-                                                //     display:
-                                                //       info.updates[
-                                                //         info.updates.length - 1
-                                                //       ].status === "Done"
-                                                //         ? "none"
-                                                //         : "",
-                                                //     margin: ".5em",
-                                                //     cursor: "pointer",
-                                                //   }}
-                                                //   onClick={(e) => {
-                                                //     pauseTask(
-                                                //       e,
-                                                //       index,
-                                                //       info.updates.length
-                                                //     );
-                                                //   }}
-                                                // />
-                                              }
                                               <img
                                                 src={tick}
                                                 alt="done"
@@ -669,29 +644,7 @@ export default function Home() {
                                                   cursor: "pointer",
                                                 }}
                                               />
-                                              {
-                                                // <FontAwesomeIcon
-                                                //   icon="fa-solid fa-circle-check"
-                                                //   size="lg"
-                                                //   style={{
-                                                //     display:
-                                                //       info.updates[
-                                                //         info.updates.length - 1
-                                                //       ].status === "Done"
-                                                //         ? "none"
-                                                //         : "",
-                                                //     margin: ".5em",
-                                                //     cursor: "pointer",
-                                                //   }}
-                                                //   onClick={(e) => {
-                                                //     completeTask(
-                                                //       e,
-                                                //       index,
-                                                //       info.updates.length
-                                                //     );
-                                                //   }}
-                                                // />
-                                              }
+                                              
                                             </TableCell>
                                           </>
                                         );
@@ -721,7 +674,7 @@ export default function Home() {
                                   </TableCell>
                                   <TableCell
                                     style={{
-                                      width: "100px",
+                                      width: "150px",
                                       fontFamily: "rockwen",
                                     }}
                                     onClick={() => {
@@ -733,7 +686,7 @@ export default function Home() {
                                     <br />
                                     <p
                                       style={{
-                                        width: "100px",
+                                        width: "150px",
                                         fontSize: "smaller",
                                       }}>
                                       {info.description}
@@ -754,7 +707,7 @@ export default function Home() {
                                       .map((info2) => {
                                         return (
                                           <p>
-                                            {info2.date}
+                                            {dateFormatChange(info2.deadlineDate)}
                                             <br />
                                           </p>
                                         );
@@ -775,7 +728,7 @@ export default function Home() {
                                       .map((info2) => {
                                         return (
                                           <p>
-                                            {info2.time}
+                                            {timeFormatChange(info2.deadlineTime)}
                                             <br />
                                           </p>
                                         );

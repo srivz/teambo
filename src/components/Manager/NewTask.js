@@ -11,6 +11,7 @@ export default function NewTask(props) {
   const [newTask, setNewTask] = useState({
     client: "",
     task: "",
+    clientEmail: "",
     description: "",
     updates: {
       0: {
@@ -26,9 +27,9 @@ export default function NewTask(props) {
           today.getMinutes() +
           ":" +
           today.getSeconds(),
+        corrections: "0",
         deadlineDate: "--",
         deadlineTime: "--",
-        corrections: "0",
         status: "Assigned",
       },
     },
@@ -55,6 +56,7 @@ export default function NewTask(props) {
         console.log(err);
       });
   };
+
   return (
     <>
       <OverlayTrigger
@@ -145,11 +147,9 @@ export default function NewTask(props) {
                 <Form.Control
                   type="date"
                   min={moment().format("YYYY-MM-DD")}
-                  name="update[0].deadlineDate"
+                  name="deadlineDate"
                   style={{ fontSize: "10px" }}
-                  onChange={
-                    handleDateChange
-                  }
+                  onChange={handleDateChange}
                 />
               </Col>
             </Form.Group>
@@ -167,10 +167,27 @@ export default function NewTask(props) {
                 <Form.Control
                   type="time"
                   style={{ fontSize: "10px" }}
-                  name="update[0].deadlineTime"
-                  onChange={
-                    handleTimeChange
-                  }
+                  name="deadlineTime"
+                  onChange={handleTimeChange}
+                />
+              </Col>
+            </Form.Group>
+
+            <Form.Group
+              as={Row}
+              className="mb-3"
+              controlId="formPlaintext2">
+              <Form.Label
+                column
+                md="4"
+                sm="4">
+                Client Email*
+              </Form.Label>
+              <Col sm="8">
+                <Form.Control
+                  type="text"
+                  name="clientEmail"
+                  onChange={handleChange}
                 />
               </Col>
             </Form.Group>
