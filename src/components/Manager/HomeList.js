@@ -1027,11 +1027,11 @@ export default function HomeList(props) {
                                                   <p>
                                                     {info2.status === "Done" ?dateFormatChange(
                                                       info2.assignedDate
-                                                    ):""}
+                                                    ):<br/>}
                                                     <br />
                                                     {info2.status === "Done" ?timeFormatChange(
                                                       info2.assignedTime
-                                                    ):""}
+                                                    ):<br/>}
                                                   </p>
                                                 );
                                               })}
