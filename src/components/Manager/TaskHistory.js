@@ -265,6 +265,96 @@ export default function TaskHistory(props) {
             <Button onClick={props.onHide} variant="outline-primary" block>
               + Add Correction
             </Button>
+            <TableRow>
+              <TableCell
+                style={{
+                  width: "100px",
+                  fontFamily: 'rockwen',
+                }}
+                align="center"
+              >
+                {/* {info.corrections === "0" ? "0" : "+" + info.corrections} */}
+              </TableCell>
+              <TableCell
+                style={{
+                  width: "200px",
+                  fontFamily: 'rockwen',
+                }}
+                align="center"
+              >
+                {/* {info.description} */}
+              </TableCell>
+              <TableCell
+                style={{
+                  fontFamily: 'rockwen',
+                }}
+                align="center"
+              >
+                {/* {dateFormatChange(
+                  info.assignedDate,
+                )}
+                <br />
+                {timeFormatChange(
+                  info.assignedTime,
+                )} */}
+              </TableCell>
+              <TableCell
+                style={{
+                  fontFamily: 'rockwen',
+                }}
+                align="center"
+              >
+
+                {/* {dateFormatChange(
+                  info.deadlineDate,
+                )}
+                <br />
+                {timeFormatChange(
+                  info.deadlineTime,
+                )} */}
+              </TableCell>
+              <TableCell
+                style={{
+                  fontFamily: 'rockwen',
+                }}
+                align="center"
+              >
+                {/* {info.status === 'Done'
+                  ? dateFormatChange(
+                    info.assignedDate,
+                  )
+                  : <br />}
+                <br />
+                {info.status === 'Done'
+                  ? timeFormatChange(
+                    info.assignedTime,
+                  )
+                  : <br />} */}
+              </TableCell>
+              <TableCell
+                style={{
+                  fontFamily: 'rockwen',
+                }}
+                align="center"
+              ><FontAwesomeIcon
+                  className="pointer"
+                  onClick={handleTaskCorrection}
+                  size="2xl"
+                  style={{
+                    color: 'blue',
+                    paddingRight: '.25em',
+                  }} icon="fa-solid fa-square-check" />
+                <FontAwesomeIcon
+                  className="pointer"
+                  onClick={handleTaskCorrectionClear}
+                  icon="fa-solid fa-square-xmark"
+                  size="2xl"
+                  style={{
+                    color: 'red',
+                    paddingRight: '.25em',
+                  }} />
+              </TableCell>
+            </TableRow>
           </Row>
 
           <Table>
