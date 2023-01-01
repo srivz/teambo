@@ -12,9 +12,9 @@ export default function NewTask(props) {
     client: "",
     task: "",
     clientEmail: "",
-    description: "",
     updates: {
       0: {
+        description: "",
         assignedDate:
           String(today.getDate()).padStart(2, "0") +
           "/" +
@@ -38,7 +38,9 @@ export default function NewTask(props) {
     let newInput = { [event.target.name]: event.target.value };
     setNewTask({ ...newTask, ...newInput });
   };
-
+  const handleDescriptionChange = (event) => {
+    newTask.updates[0].description = event.target.value;
+  };
   const handleDateChange = (event) => {
     let date = (event.target.value).split("-")
     newTask.updates[0].deadlineDate = date[2]+"/"+date[1]+"/"+date[0]
@@ -128,7 +130,7 @@ export default function NewTask(props) {
                 <Form.Control
                   as="textarea"
                   name="description"
-                  onChange={handleChange}
+                  onChange={handleDescriptionChange}
                 />
               </Col>
             </Form.Group>

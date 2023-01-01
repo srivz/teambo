@@ -1,11 +1,12 @@
 {
   "files.autoSave": "onFocusChange",
   "editor.formatOnSaveMode": "modifications",
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "SimonSiefke.prettier-vscode",
   "[javascript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
-  "git.ignoreLimitWarning": true
+  "git.ignoreLimitWarning": true,
+  "editor.formatOnType": true
 }
