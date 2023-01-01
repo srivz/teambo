@@ -36,16 +36,18 @@ export default function HomeList(props) {
   const handleTaskCorrection = (id, index, correction) => {
     setLoading(true);
     set(ref(db, `/teammate/${id}/tasks/${index}/updates/${correction}`), {
-      date:
+      assignedDate:
         String(today.getDate()).padStart(2, "0") +
         "/" +
         String(today.getMonth() + 1).padStart(2, "0") +
         "/" +
         today.getFullYear(),
-      time:
+      assignedTime:
         today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
       corrections: "" + correction,
       status: "Assigned",
+      deadlineDate: "",
+      deadlineTime: ""
     })
       .then(() => props.setLoading(false))
       .catch((err) => {
@@ -57,7 +59,7 @@ export default function HomeList(props) {
     setLoading(true);
     props.deleteTask(id, index);
   };
-  onChildChanged(ref(db, `/teammate/`), () => {
+  onChildChanged(ref(db, `/teammate/${selected}`), () => {
     setLoading(true);
     window.location.reload();
   });
@@ -472,170 +474,183 @@ export default function HomeList(props) {
                                             align="center">
                                             {info1.task}
                                           </TableCell>
-                                          <TableCell
-                                            style={{
-                                              fontFamily: "rockwen",
-                                            }}
-                                            onClick={() => {
-                                              setTaskSelected(index);
-                                            }}
-                                            align="center">
-                                            {dateFormatChange(
-                                              info1.updates[
-                                                info1.updates.length - 1
-                                              ].assignedDate
-                                            )}
-                                            <br />
-                                            {timeFormatChange(
-                                              info1.updates[
-                                                info1.updates.length - 1
-                                              ].assignedTime
-                                            )}
-                                          </TableCell>
-                                          <TableCell
-                                            style={{
-                                              fontFamily: "rockwen",
-                                            }}
-                                            onClick={() => {
-                                              setTaskSelected(index);
-                                            }}
-                                            align="center">
-                                            {dateFormatChange(
-                                              info1.updates[
-                                                info1.updates.length - 1
-                                              ].deadlineDate
-                                            )}
-                                            <br />
-                                            {timeFormatChange(
-                                              info1.updates[
-                                                info1.updates.length - 1
-                                              ].deadlineTime
-                                            )}
-                                          </TableCell>
-                                          <TableCell
-                                            style={{
-                                              fontFamily: "rockwen",
-                                            }}
-                                            onClick={() => {
-                                              setTaskSelected(index);
-                                            }}
-                                            align="center">
-                                            {info1.updates[
-                                              info1.updates.length - 1
-                                            ].status === "Done"?dateFormatChange(
-                                              info1.updates[
-                                                info1.updates.length - 1
-                                              ].assignedDate
-                                            ):""}
-                                            <br />
-                                            {info1.updates[
-                                              info1.updates.length - 1
-                                            ].status === "Done"?timeFormatChange(
-                                              info1.updates[
-                                                info1.updates.length - 1
-                                              ].assignedTime
-                                            ):""}
-                                          </TableCell>
-                                          <TableCell
-                                            style={{
-                                              fontFamily: "rockwen",
-                                            }}
-                                            onClick={() => {
-                                              setTaskSelected(index);
-                                            }}
-                                            align="center">
-                                            {info1.updates[
-                                              info1.updates.length - 1
-                                            ].corrections === "0"
-                                              ? info1.updates[
-                                                info1.updates.length -
-                                                1
-                                              ].corrections
-                                              : "+" +
-                                              info1.updates[
-                                                info1.updates.length -
-                                                1
-                                              ].corrections}
-                                          </TableCell>
-                                          <TableCell
-                                            align="center"
-                                            style={
-                                              (info1.updates[
-                                                info1.updates.length - 1
-                                              ].status === "Done" && {
-                                                fontFamily: "rockwen",
-                                                color: "#000000",
-                                                fontWeight: "bold",
-                                              }) ||
-                                              (info1.updates[
-                                                info1.updates.length - 1
-                                              ].status ===
-                                                "On Going" && {
-                                                fontFamily: "rockwen",
-                                                color: "#24A43A",
-                                                fontWeight: "bold",
-                                              }) ||
-                                              (info1.updates[
-                                                info1.updates.length - 1
-                                              ].status === "Paused" && {
-                                                fontFamily: "rockwen",
-                                                color: "#2972B2",
-                                                fontWeight: "bold",
-                                              }) ||
-                                              (info1.updates[
-                                                info1.updates.length - 1
-                                              ].status ===
-                                                "Assigned" && {
-                                                fontFamily: "rockwen",
-                                                color: "#D1AE00",
-                                                fontWeight: "bold",
-                                              })
-                                            }>
-                                            {info1.updates[
-                                              info1.updates.length - 1
-                                            ].status === "Done" ? (
-                                              <FontAwesomeIcon
-                                                // onClick={() => {  }}
-                                                className="pointer"
-                                                size="xl"
-                                                icon="fa-solid fa-circle-check"
-                                              />
-                                            ) : (
-                                              info1.updates[
-                                                info1.updates.length - 1
-                                              ].status
-                                            )}
-                                          </TableCell>
-                                          <TableCell align="center">
-                                            {info1.updates[
-                                              info1.updates.length - 1
-                                            ].status === "Done" ? (
-                                              <Button
-                                                onClick={() => {
-                                                  handleTaskCorrection(
-                                                    info.teammate,
-                                                    index,
-                                                    parseInt(
+                                          {info1.updates
+                                            .sort((a, b) =>
+                                              a.corrections > b.corrections
+                                                ? 1
+                                                : -1
+                                            )
+                                            .filter((info2, index) => index === 0)
+                                            .map((info2) => {
+                                              return (
+                                                <>
+                                                  <TableCell
+                                                    style={{
+                                                      fontFamily: "rockwen",
+                                                    }}
+                                                    onClick={() => {
+                                                      setTaskSelected(index);
+                                                    }}
+                                                    align="center">
+                                                    {dateFormatChange(
                                                       info1.updates[
-                                                        info1.updates
-                                                          .length - 1
+                                                        info1.updates.length - 1
+                                                      ].assignedDate
+                                                    )}
+                                                    <br />
+                                                    {timeFormatChange(
+                                                      info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].assignedTime
+                                                    )}
+                                                  </TableCell>
+                                                  <TableCell
+                                                    style={{
+                                                      fontFamily: "rockwen",
+                                                    }}
+                                                    onClick={() => {
+                                                      setTaskSelected(index);
+                                                    }}
+                                                    align="center">
+                                                    {dateFormatChange(
+                                                      info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].deadlineDate
+                                                    )}
+                                                    <br />
+                                                    {timeFormatChange(
+                                                      info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].deadlineTime
+                                                    )}
+                                                  </TableCell>
+                                                  <TableCell
+                                                    style={{
+                                                      fontFamily: "rockwen",
+                                                    }}
+                                                    onClick={() => {
+                                                      setTaskSelected(index);
+                                                    }}
+                                                    align="center">
+                                                    {info1.updates[
+                                                      info1.updates.length - 1
+                                                    ].status === "Done" ? dateFormatChange(
+                                                      info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].assignedDate
+                                                    ) : ""}
+                                                    <br />
+                                                    {info1.updates[
+                                                      info1.updates.length - 1
+                                                    ].status === "Done" ? timeFormatChange(
+                                                      info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].assignedTime
+                                                    ) : ""}
+                                                  </TableCell>
+                                                  <TableCell
+                                                    style={{
+                                                      fontFamily: "rockwen",
+                                                    }}
+                                                    onClick={() => {
+                                                      setTaskSelected(index);
+                                                    }}
+                                                    align="center">
+                                                    {info1.updates[
+                                                      info1.updates.length - 1
+                                                    ].corrections === "0"
+                                                      ? info1.updates[
+                                                        info1.updates.length -
+                                                        1
                                                       ].corrections
-                                                    ) + 1
-                                                  );
-                                                }}
-                                                type="Button"
-                                                variant="light"
-                                                style={{
-                                                  fontFamily: "rockwen",
-                                                  backgroundColor:
-                                                    "white",
-                                                }}>
-                                                Correction
-                                              </Button>
-                                            ) : (
-                                              <></>
-                                            )}
-                                          </TableCell>
+                                                      : "+" +
+                                                      info1.updates[
+                                                        info1.updates.length -
+                                                        1
+                                                      ].corrections}
+                                                  </TableCell>
+                                                  <TableCell
+                                                    align="center"
+                                                    style={
+                                                      (info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].status === "Done" && {
+                                                        fontFamily: "rockwen",
+                                                        color: "#000000",
+                                                        fontWeight: "bold",
+                                                      }) ||
+                                                      (info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].status ===
+                                                        "On Going" && {
+                                                        fontFamily: "rockwen",
+                                                        color: "#24A43A",
+                                                        fontWeight: "bold",
+                                                      }) ||
+                                                      (info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].status === "Paused" && {
+                                                        fontFamily: "rockwen",
+                                                        color: "#2972B2",
+                                                        fontWeight: "bold",
+                                                      }) ||
+                                                      (info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].status ===
+                                                        "Assigned" && {
+                                                        fontFamily: "rockwen",
+                                                        color: "#D1AE00",
+                                                        fontWeight: "bold",
+                                                      })
+                                                    }>
+                                                    {info1.updates[
+                                                      info1.updates.length - 1
+                                                    ].status === "Done" ? (
+                                                      <FontAwesomeIcon
+                                                        // onClick={() => {  }}
+                                                        className="pointer"
+                                                        size="xl"
+                                                        icon="fa-solid fa-circle-check"
+                                                      />
+                                                    ) : (
+                                                      info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].status
+                                                    )}
+                                                  </TableCell>
+                                                  <TableCell align="center">
+                                                    {info1.updates[
+                                                      info1.updates.length - 1
+                                                    ].status === "Done" ? (
+                                                      <Button
+                                                        onClick={() => {
+                                                          handleTaskCorrection(
+                                                            info.teammate,
+                                                            index,
+                                                            parseInt(
+                                                              info1.updates[
+                                                                info1.updates
+                                                                  .length - 1
+                                                              ].corrections
+                                                            ) + 1
+                                                          );
+                                                        }}
+                                                        type="Button"
+                                                        variant="light"
+                                                        style={{
+                                                          fontFamily: "rockwen",
+                                                          backgroundColor:
+                                                            "white",
+                                                        }}>
+                                                        Correction
+                                                      </Button>
+                                                    ) : (
+                                                      <></>
+                                                    )}
+                                                  </TableCell>
+                                                </>
+                                              );
+                                            })}
                                           <TableCell
                                             align="center"
                                             className="text-end">
@@ -864,13 +879,15 @@ export default function HomeList(props) {
                                               .map((info2) => {
                                                 return (
                                                   <p>
-                                                    {dateFormatChange(
-                                                      info2.assignedDate
-                                                    )}
+                                                    {info1.updates[0].status ===
+                                                      "Done" ? dateFormatChange(
+                                                        info2.assignedDate
+                                                      ) : ""}
                                                     <br />
-                                                    {timeFormatChange(
-                                                      info2.assignedTime
-                                                    )}
+                                                    {info1.updates[0].status ===
+                                                      "Done" ? timeFormatChange(
+                                                        info2.assignedTime
+                                                      ) : ""}
                                                   </p>
                                                 );
                                               })}

@@ -40,8 +40,8 @@ export default function NewTask(props) {
   };
 
   const handleDateChange = (event) => {
-    newTask.updates[0].deadlineDate = (event.target.value).split("-").join("/")
-    alert(newTask.updates[0].deadlineDate)
+    let date = (event.target.value).split("-")
+    newTask.updates[0].deadlineDate = date[2]+"/"+date[1]+"/"+date[0]
   };
 
   const handleTimeChange = (event) => {
@@ -147,7 +147,7 @@ export default function NewTask(props) {
                 md="8">
                 <Form.Control
                   type="date"
-                  min={moment().format("MM-DD-YYYY")}
+                  min={moment().format("YYYY-MM-DD")}
                   name="deadlineDate"
                   style={{ fontSize: "10px" }}
                   onChange={handleDateChange}
