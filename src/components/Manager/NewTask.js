@@ -117,7 +117,6 @@ export default function NewTask(props) {
                 Client*
               </Form.Label>
               <Col sm="8">
-                {/* Dropdown */}
                 <Dropdown>
                   <Dropdown.Toggle
                     id="dropdown-basic"
@@ -128,10 +127,10 @@ export default function NewTask(props) {
 
                   <Dropdown.Menu className="client-dropdown-menu">
                     <div className="add-new-input">
-                      <input
-                        as="text"
+                      <input className="add-new-input-textbox"
+                        type="text"
                         name="newClient"
-                        placeholder="Search"
+                        placeholder="&#xf002;    Search"
                         value={newClient}
                         onChange={searchClient}
                       />
