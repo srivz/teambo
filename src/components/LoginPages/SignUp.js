@@ -5,6 +5,7 @@ import { auth, db } from "../../firebase-config";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ref, set } from "firebase/database";
 import Loader from "../Loader/Loader";
+import Dropdown from 'react-bootstrap/Dropdown';
 
 export default function Signup({userid}) {
   const [user, setUser] = useState({
@@ -34,6 +35,7 @@ export default function Signup({userid}) {
         name: user.name,
         email: userLog.email,
         teammates: [],
+        clients:[]
       }).then(() => (window.location.href = "/signUp/response"));
     } else {
       await set(
@@ -128,23 +130,29 @@ export default function Signup({userid}) {
                 <div className="row">
                   <div className="col-sm-6 col-md-6">
                     <label htmlFor="pwd">Company Name</label>
-                    <select
-                      className="form-select"
-                      aria-label="Default select example"
-                      name="companyName"
-                      onChange={handleChange}>
-                      <option
-                        selected
-                        hidden>
-                        Select Company
-                      </option>
-                      <option value="The Madras branding Company">
-                        The Madras branding Company
-                      </option>
-                      <option value="Brand Moustache">Brand Moustache</option>
-                      <option value="Little Show">Little Show</option>
-                      <option value="Facebook">Facebook</option>
-                    </select>
+                      <Dropdown>
+                        <Dropdown.Toggle
+                          id="dropdown-basic"
+                          className="w-100 client-dropdown company-dropdown"
+                        >
+                          {
+                            user.companyName===""?"Select Company ":user.companyName
+                          }
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu className="client-dropdown-menu company-dropdown-menu">
+                                   <Dropdown.Item onClick={(e)=>{
+                                    setUser((old)=>{
+                                      return{...old,companyName:"The Madras Branding Company"}
+                                    })
+                                   }}>
+                                  The Madras Branding Company
+                                  </Dropdown.Item> 
+                          <div className="add-new-input">
+                              <button type="button" className="w-100">Add Company</button>
+                          </div>          
+                        </Dropdown.Menu>
+                      </Dropdown>
                   </div>
                   <div className="col-sm-6 col-md-6">
                     <label htmlFor="pwd">Password:</label>

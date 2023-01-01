@@ -182,6 +182,8 @@ export default function Home() {
               team={teammateList}
                 onChange={handleChange}
               addTeammate={addNewTeammate}
+              manager={manager}
+              managerId={managerId}
             />
           ) : (
             <HomeBlock

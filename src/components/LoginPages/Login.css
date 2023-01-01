@@ -43,10 +43,10 @@ select {
   padding-left: 30px !important;
   -webkit-appearance: none !important;
   background: transparent !important;
-  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='28' viewBox='0 0 24 24' width='28' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") !important;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='22' viewBox='0 0 24 24' width='28' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") !important;
   background-repeat: no-repeat !important;
-  background-position-x: 95% !important;
-  background-position-y: 6px !important;
+  background-position-x: 97% !important;
+  background-position-y: 14px !important;
 }
 .form-box {
   width: 423px;
