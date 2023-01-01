@@ -123,7 +123,7 @@ border-radius: 6px !important;
   max-height: 40vh;
 }
 .table-height1 {
-  max-height: 50vh;
+  max-height: 70vh;
 }
 .table-height2 {
   max-height: 70vh;
@@ -211,10 +211,8 @@ border-radius: 6px !important;
 }
 
 .deadline input[type="date"]::before {
-  content: attr(placeHolder);
   width: 100%;
 }
 .deadline input[type="time"]::before {
-  content: attr(placeHolder);
   width: 100%;
 }
