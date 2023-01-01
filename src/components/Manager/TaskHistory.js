@@ -185,6 +185,11 @@ export default function TaskHistory(props) {
                   ].status === 'Done' && {
                     fontFamily: 'rockwen',
                     color: '#000000',
+                  }) || (props?.teamtasks[props.indexselected]?.updates[
+                    props?.teamtasks[props.indexselected]?.updates.length - 1
+                  ].status === 'Completed' && {
+                    fontFamily: 'rockwen',
+                    color: '#000000',
                   }) ||
                   (props?.teamtasks[props.indexselected]?.updates[
                     props?.teamtasks[props.indexselected]?.updates.length - 1
@@ -267,10 +272,12 @@ export default function TaskHistory(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow>
+              <TableRow style={(props?.teamtasks[props?.indexselected]?.updates[
+                props?.teamtasks[props?.indexselected]?.updates.length - 1
+              ].status === 'Completed') ? { display: "none" } : {}}>
                 <TableCell colSpan={7}>
                   <Row className="d-grid gap-2">
-                    <Button disabled={props?.teamtasks[props.indexselected]?.updates[
+                    <Button disabled={props?.teamtasks[props?.indexselected]?.updates[
                       props?.teamtasks[props?.indexselected]?.updates.length - 1
                     ].status !== 'Done' || updateTaskForm} onClick={() => setUpdateTaskForm(true)} variant="outline-primary" block>
                       + Add Correction
@@ -415,14 +422,14 @@ export default function TaskHistory(props) {
                         }}
                         align="center"
                       >
-                        {info.status === 'Done' ? (
-                          dateFormatChange(info.assignedDate)
+                        {info.status === 'Done' || info.status === 'Completed' ? (
+                          dateFormatChange(info.endDate)
                         ) : (
                           <br />
                         )}
                         <br />
-                        {info.status === 'Done' ? (
-                          timeFormatChange(info.assignedTime)
+                        {info.status === 'Done' || info.status === 'Completed' ? (
+                          timeFormatChange(info.endTime)
                         ) : (
                           <br />
                         )}

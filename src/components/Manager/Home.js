@@ -3,7 +3,7 @@ import { auth, db } from "../../firebase-config";
 import NavBar from "../Navs/NavBar";
 import HomeBlock from "./HomeBlock";
 import HomeList from "./HomeList";
-import { onValue, ref, remove,  update } from "firebase/database";
+import { onValue, ref, update } from "firebase/database";
 import { onAuthStateChanged } from "firebase/auth";
 import Loader from "../Loader/Loader";
 
@@ -125,7 +125,6 @@ export default function Home() {
       teammateSet.forEach((element) => {
         newArr.push(element);
       });
-
       let exist = newArr.includes(newId);
       if (exist) {
         alert("Already a Teammate !");
@@ -155,25 +154,13 @@ export default function Home() {
         }
       }
     }
-            setLoading(false);
-
+    setLoading(false);
     window.location.reload();
   };
 
 
   function handleChange(newValue) {
     setView(newValue);
-  }
-
-  function deleteCurrentTask(teammateId, index) {
-    setLoading(true);
-    remove(ref(db, `/teammate/${teammateId}/tasks/${index}/`))
-      .then(() => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
 
@@ -193,8 +180,7 @@ export default function Home() {
             <HomeList
               viewType={view}
               team={teammateList}
-              onChange={handleChange}
-              deleteTask={deleteCurrentTask}
+                onChange={handleChange}
               addTeammate={addNewTeammate}
             />
           ) : (
