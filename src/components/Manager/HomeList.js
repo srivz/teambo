@@ -445,12 +445,13 @@ export default function HomeList(props) {
                                         <TableRow
                                           key={index}
                                           style={{
-                                            backgroundColor:
-                                              info1.updates[
-                                                info1.updates.length - 1
-                                              ].status !== "Done"
-                                                ? "#fff"
-                                                : "#f1f4fb",
+                                            backgroundColor: 
+                                                  info1.updates[
+                                                    info1.updates.length - 1
+                                                  ].status !== "Done"
+                                                    ? "#fff"
+                                                    : "#f1f4fb"
+                                                ,
                                             height: "70px",
                                           }}
                                           className="box-shadow">
