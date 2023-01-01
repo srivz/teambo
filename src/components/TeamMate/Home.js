@@ -349,8 +349,8 @@ export default function Home() {
                     <Col className="overflow-set-auto table-height2">
                       <Table
                         style={{
-                          borderCollapse: "separate",
-                          borderSpacing: "0 20px",
+                            borderCollapse: "separate",
+                            borderSpacing: "0 20px",
                         }}
                         className="table table-sm table-height2">
                         <TableHead>
@@ -517,34 +517,32 @@ export default function Home() {
                                               }}
                                               align="center"
                                               style={
-                                                (info.updates[
+                                                info.updates[
                                                   info.updates.length - 1
-                                                ].status === "Done" && {
+                                                ].status === "Done" ? {
                                                   color: "#000000",
                                                   fontFamily: "rockwen",
                                                   fontWeight: "bold",
-                                                }) ||
-                                                (info.updates[
+                                                } :
+                                                  info.updates[
                                                   info.updates.length - 1
-                                                ].status === "On Going" && {
+                                                  ].status === "On Going" ? {
                                                   color: "#24A43A",
                                                   fontFamily: "rockwen",
                                                   fontWeight: "bold",
-                                                }) ||
-                                                (info.updates[
+                                                  } :
+                                                    info.updates[
                                                   info.updates.length - 1
-                                                ].status === "Paused" && {
+                                                    ].status === "Paused" ? {
                                                   color: "#2972B2",
                                                   fontFamily: "rockwen",
                                                   fontWeight: "bold",
-                                                }) ||
-                                                (info.updates[
-                                                  info.updates.length - 1
-                                                ].status === "Assigned" && {
+                                                    } :
+                                                      {
                                                   color: "#D1AE00",
                                                   fontFamily: "rockwen",
                                                   fontWeight: "bold",
-                                                })
+                                                      }
                                               }>
                                               {info.updates[
                                                 info.updates.length - 1
@@ -775,22 +773,32 @@ export default function Home() {
                                         return (
                                           <p
                                             style={
-                                              (info2.status === "Done" && {
+                                              info.updates[
+                                                info.updates.length - 1
+                                              ].status === "Done" ? {
                                                 color: "#000000",
+                                                  fontFamily: "rockwen",
                                                 fontWeight: "bold",
-                                              }) ||
-                                              (info2.status === "On Going" && {
-                                                color: "#24A43A",
-                                                fontWeight: "bold",
-                                              }) ||
-                                              (info2.status === "Paused" && {
-                                                color: "#2972B2",
-                                                fontWeight: "bold",
-                                              }) ||
-                                              (info2.status === "Assigned" && {
-                                                color: "#D1AE00",
-                                                fontWeight: "bold",
-                                              })
+                                              } :
+                                                info.updates[
+                                                  info.updates.length - 1
+                                                ].status === "On Going" ? {
+                                                  color: "#24A43A",
+                                                    fontFamily: "rockwen",
+                                                    fontWeight: "bold",
+                                                } :
+                                                  info.updates[
+                                                    info.updates.length - 1
+                                                  ].status === "Paused" ? {
+                                                    color: "#2972B2",
+                                                      fontFamily: "rockwen",
+                                                      fontWeight: "bold",
+                                                  } :
+                                                    {
+                                                      color: "#D1AE00",
+                                                      fontFamily: "rockwen",
+                                                      fontWeight: "bold",
+                                                    }
                                             }>
                                             {info2.status}
                                             <br />

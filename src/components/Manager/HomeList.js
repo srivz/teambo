@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { onChildChanged, ref, remove, set, update } from 'firebase/database'
+import emailjs from '@emailjs/browser';
 import React, { useState } from 'react'
 import {
   Button,
@@ -9,12 +10,12 @@ import {
   OverlayTrigger,
   Popover,
   Row,
-} from 'react-bootstrap'
-import Tab from 'react-bootstrap/Tab'
-import Tabs from 'react-bootstrap/Tabs'
-import { db } from '../../firebase-config'
-import Loader from '../Loader/Loader'
-import NewTask from './NewTask'
+} from "react-bootstrap";
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+import { db } from "../../firebase-config";
+import Loader from "../Loader/Loader";
+import NewTask from "./NewTask";
 import TaskHistory from './TaskHistory'
 
 export default function HomeList(props) {
@@ -42,8 +43,18 @@ export default function HomeList(props) {
       });
   }
 
-  const handleCompleteTask = (id, index, latest) => {
+  const handleCompleteTask = (teammate, id, index, latest) => {
     setLoading(true)
+    const info = {
+      to_name: teammate.name,
+      from_name: props.manager.name,
+      message: `Your task ${teammate.tasks[index].task} from client ${teammate.tasks[index].client} has been approved by your manager ${props.manager.name}`,
+      from_email: props.manager.email,
+      to_email: teammate.email
+    }
+    emailjs.send("service_8babtb3", "template_3e3kpdk", info, "E1o2OcJneKcoyHqxA").then((res) => {
+
+    }).catch((err) => console.log(err));
     set(ref(db, `/teammate/${id}/tasks/${index}/updates/${latest}/status`), "Completed")
       .then(() => {
         window.location.reload();
@@ -148,6 +159,7 @@ export default function HomeList(props) {
   const addTeammate = () => {
     props.addTeammate(teammateEmail);
   };
+
   return (
     <>
       {loading ? (
@@ -317,6 +329,7 @@ export default function HomeList(props) {
                             <TableRow></TableRow>
                           </TableHead>
                           <TableBody>
+
                             {!props.manager?.clients ? (
                               <TableRow
                                 colSpan={7}
@@ -324,10 +337,11 @@ export default function HomeList(props) {
                                 No Companies right now
                               </TableRow>
                             ) : (
-                              props.manager?.clients.map((info,index) => {
+                                  props.manager?.clients?.map((info, index) => {
                                 return (
                                   <TableRow
                                     key={index}
+
                                     className="box-shadow">
                                     <TableCell>
                                       <h5>{info}</h5>
@@ -744,7 +758,7 @@ export default function HomeList(props) {
                                                   id={`popover-positioned-bottom`}
                                                 >
                                                   <Popover.Body>
-                                                    <Row
+                                                    <div
                                                       className="d-grid gap-2"
                                                       style={{
                                                         marginBottom: '.5em',
@@ -756,6 +770,7 @@ export default function HomeList(props) {
                                                         ].status !== 'Done' ? true : false}
                                                         onClick={() => {
                                                           handleCompleteTask(
+                                                            info.data,
                                                             info.teammate,
                                                             index, info1.updates.length - 1
                                                           )
@@ -764,18 +779,17 @@ export default function HomeList(props) {
                                                         style={{
                                                           textAlign: 'left',
                                                         }}
-                                                        block
                                                       >
                                                         <FontAwesomeIcon
                                                           icon="fa-solid fa-circle-check"
                                                           style={{
                                                             paddingRight:
-                                                              '.5em',
+                                                              ".5em",
                                                           }}
                                                         />
                                                         Mark Completed
                                                       </Button>
-                                                    </Row>
+                                                    </div>
                                                     <Row
                                                       className="d-grid gap-2"
                                                       style={{
@@ -796,13 +810,12 @@ export default function HomeList(props) {
                                                         style={{
                                                           textAlign: 'left',
                                                         }}
-                                                        block
                                                       >
                                                         <FontAwesomeIcon
                                                           icon="fa-solid fa-chevron-up"
                                                           style={{
                                                             paddingRight:
-                                                              '.5em',
+                                                              ".5em",
                                                           }}
                                                         />
                                                         Move Up
@@ -828,13 +841,12 @@ export default function HomeList(props) {
                                                         style={{
                                                           textAlign: 'left',
                                                         }}
-                                                        block
                                                       >
                                                         <FontAwesomeIcon
                                                           icon="fa-solid fa-chevron-down"
                                                           style={{
                                                             paddingRight:
-                                                              '.5em',
+                                                              ".5em",
                                                           }}
                                                         />
                                                         Move Down
@@ -917,13 +929,14 @@ export default function HomeList(props) {
                                       )
                                     })
                                   )}
+
                                   {info.data.tasks && taskSelected !== null ? (
                                     <TaskHistory
                                       show={modalShow}
                                       id={info.teammate}
                                       onHide={() => { setModalShow(false); setTaskSelected(null); }}
                                       indexselected={taskSelected}
-                                      teamtasks={info.data.tasks}
+                                        teamtasks={info.data.tasks}
                                       name={info.data.name}
                                       designation={info.data.designation}
                                     />

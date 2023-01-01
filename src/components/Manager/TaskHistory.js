@@ -9,6 +9,7 @@ import moment from 'moment'
 export default function TaskHistory(props) {
   var today = new Date()
   const [updateTaskForm, setUpdateTaskForm] = useState(false)
+  console.log(props);
   const [taskUpdate, setTaskUpdate] = useState({
     corrections: '',
     status: 'Assigned',
