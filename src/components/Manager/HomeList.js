@@ -67,12 +67,14 @@ export default function HomeList(props) {
     arr[to] = temp;
   }
   const dateFormatChange = (date) => {
+    if (date === "--") { return "--"; }
     let givenDate = date.split("/");
     let months = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     let dateMonth = months[parseInt(givenDate[1])];
     return dateMonth + "," + givenDate[0] + " " + givenDate[2];
   }
   const timeFormatChange = (time) => {
+    if (time === "--") { return "--"; }
     let givenTime = time.split(":");
     if (parseInt(givenTime[0]) === 0) {
       return "12:" + givenTime[1] + " am";
