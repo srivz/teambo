@@ -946,8 +946,7 @@ export default function HomeList(props) {
                                                       <Button
                                                         // onClick={() => {
                                                         //   handleSwitchTask(
-                                                        //     info.teammate,
-                                                        //     index, info1.updates.length - 1
+                                                        //     info.teammate
                                                         //   )
                                                         // }}
                                                         variant="light"
