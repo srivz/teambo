@@ -162,7 +162,7 @@ export default function HomeList(props) {
                   defaultActiveKey="profile"
                   id="uncontrolled-tab-example"
                   className="mt-3"
-                    style={{ width: '500px' }}
+                    style={{ width: 'fit-content' }}
                 >
                   <Tab eventKey="home" title="Teammate">
                     <div className="task-box">
