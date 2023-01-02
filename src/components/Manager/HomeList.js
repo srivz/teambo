@@ -22,6 +22,7 @@ import { db } from "../../firebase-config";
 import Loader from "../Loader/Loader";
 import NewTask from "./NewTask";
 
+
 export default function HomeList(props) {
   var today = new Date();
   const [selected, setSelected] = useState(
@@ -127,6 +128,11 @@ export default function HomeList(props) {
   const addTeammate = () => {
     props.addTeammate(teammateEmail);
   };
+ const handleComplete=(teammate)=>{
+  
+ }
+
+
   return (
     <>
       {loading ? (
@@ -721,6 +727,33 @@ export default function HomeList(props) {
                                                       }}>
                                                       <Button
                                                         onClick={() => {
+                                                          handleComplete(
+                                                            info.data
+                                                          );
+                                                        }}
+                                                        variant="light"
+                                                        style={{
+                                                          textAlign: "left",
+                                                        }}
+                                                        block>
+                                                        <FontAwesomeIcon
+                                                          icon="fa-solid fa-check"
+                                                          style={{
+                                                            paddingRight:
+                                                              ".5em",
+                                                              color:"green"
+                                                          }}
+                                                        />
+                                                        Mark as Completed
+                                                      </Button>
+                                                    </div>
+                                                    <div
+                                                      className="d-grid gap-2"
+                                                      style={{
+                                                        marginBottom: ".5em",
+                                                      }}>
+                                                      <Button
+                                                        onClick={() => {
                                                           handleDeleteTask(
                                                             info.teammate,
                                                             index
@@ -736,6 +769,7 @@ export default function HomeList(props) {
                                                           style={{
                                                             paddingRight:
                                                               ".5em",
+                                                              color:"red"
                                                           }}
                                                         />
                                                         Delete Task
@@ -766,6 +800,7 @@ export default function HomeList(props) {
                                                           style={{
                                                             paddingRight:
                                                               ".5em",
+                                                              color:"blue"
                                                           }}
                                                         />
                                                         Move Up
@@ -796,6 +831,7 @@ export default function HomeList(props) {
                                                           style={{
                                                             paddingRight:
                                                               ".5em",
+                                                              color:"blue"
                                                           }}
                                                         />
                                                         Move Down
