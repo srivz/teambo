@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { onChildChanged, ref, remove, set, update } from 'firebase/database'
+import emailjs from '@emailjs/browser';
 import React, { useState } from 'react'
 import {
   Button,
@@ -42,8 +43,16 @@ export default function HomeList(props) {
       });
   }
 
-  const handleCompleteTask = (id, index, latest) => {
+  const handleCompleteTask = (teammate, id, index, latest) => {
     setLoading(true)
+    const info = {
+      to_name: teammate.name,
+      from_name: props.manager.name,
+      message: `Your task ${teammate.tasks[index].task} from client ${teammate.tasks[index].client} has been approved by your manager ${props.manager.name}`,
+      from_email: props.manager.email,
+      to_email: teammate.email
+    }
+    emailjs.send("service_8babtb3", "template_3e3kpdk", info, "E1o2OcJneKcoyHqxA");
     set(ref(db, `/teammate/${id}/tasks/${index}/updates/${latest}/status`), "Completed")
       .then(() => {
         window.location.reload();
@@ -162,7 +171,7 @@ export default function HomeList(props) {
                   defaultActiveKey="profile"
                   id="uncontrolled-tab-example"
                   className="mt-3"
-                  style={{ width: "500px" }}
+                    style={{ width: "fit-content" }}
                 >
                   <Tab eventKey="home" title="Teammate">
                     <div className="task-box">
@@ -404,7 +413,7 @@ export default function HomeList(props) {
                                   props.manager?.clients?.map((info, index) => {
                                 return (
                                   <TableRow
-                                    key={info.teammate}
+                                    key={index}
                                     className="box-shadow"
                                     onClick={() => {
                                       // localStorage.setItem(
@@ -848,6 +857,7 @@ export default function HomeList(props) {
                                                         ].status !== 'Done' ? true : false}
                                                         onClick={() => {
                                                           handleCompleteTask(
+                                                            info.data,
                                                             info.teammate,
                                                             index, info1.updates.length - 1
                                                           )
@@ -1006,13 +1016,14 @@ export default function HomeList(props) {
                                       )
                                     })
                                   )}
-                                  {taskSelected !== null ? (
+                                  {
+                                    info.data.tasks && taskSelected !== null ? (
                                     <TaskHistory
                                       show={modalShow}
                                       id={info.teammate}
                                       onHide={() => { setModalShow(false); setTaskSelected(null); }}
                                       indexselected={taskSelected}
-                                      teamtasks={info.data.tasks}
+                                        teamtasks={info.data.tasks}
                                       name={info.data.name}
                                       designation={info.data.designation}
                                     />
