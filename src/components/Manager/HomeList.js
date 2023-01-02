@@ -52,7 +52,9 @@ export default function HomeList(props) {
       from_email: props.manager.email,
       to_email: teammate.email
     }
-    emailjs.send("service_8babtb3", "template_3e3kpdk", info, "E1o2OcJneKcoyHqxA");
+    emailjs.send("service_8babtb3", "template_3e3kpdk", info, "E1o2OcJneKcoyHqxA").then((res) => {
+
+    }).catch((err) => console.log(err));
     set(ref(db, `/teammate/${id}/tasks/${index}/updates/${latest}/status`), "Completed")
       .then(() => {
         window.location.reload();
