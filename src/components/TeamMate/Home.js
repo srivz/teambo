@@ -349,8 +349,8 @@ export default function Home() {
                     <Col className="overflow-set-auto table-height2">
                       <Table
                         style={{
-                          borderCollapse: "separate",
-                          borderSpacing: "0 20px",
+                            borderCollapse: "separate",
+                            borderSpacing: "0 20px",
                         }}
                         className="table table-sm table-height2">
                         <TableHead>
