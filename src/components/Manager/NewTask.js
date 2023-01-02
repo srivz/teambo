@@ -40,8 +40,8 @@ export default function NewTask(props) {
   };
 
   const handleDateChange = (event) => {
-    newTask.updates[0].deadlineDate = (event.target.value).split("-").join("/")
-    alert(newTask.updates[0].deadlineDate)
+    let date = (event.target.value).split("-")
+    newTask.updates[0].deadlineDate = date[2]+"/"+date[1]+"/"+date[0]
   };
 
   const handleTimeChange = (event) => {
@@ -143,37 +143,27 @@ export default function NewTask(props) {
                 Deadline
               </Form.Label>
               <Col
-                sm="8"
-                md="8">
+                sm="4"
+                md="4">
                 <Form.Control
                   type="date"
-                  min={moment().format("MM-DD-YYYY")}
+                  min={moment().format("YYYY-MM-DD")}
                   name="deadlineDate"
-                  style={{ fontSize: "10px" }}
+                  style={{ fontSize: "12px" }}
                   onChange={handleDateChange}
                 />
               </Col>
-            </Form.Group>
-            <Form.Group
-              as={Row}
-              className="mb-3 deadline"
-              controlId="formPlaintext3">
-              <Form.Label
-                column
-                md="4"
-                sm="4"></Form.Label>
               <Col
-                sm="8"
-                md="8">
+                sm="4"
+                md="4">
                 <Form.Control
                   type="time"
-                  style={{ fontSize: "10px" }}
+                  style={{ fontSize: "12px" }}
                   name="deadlineTime"
                   onChange={handleTimeChange}
                 />
               </Col>
             </Form.Group>
-
             <Form.Group
               as={Row}
               className="mb-3"
