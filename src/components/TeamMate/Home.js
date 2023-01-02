@@ -112,11 +112,11 @@ export default function Home() {
     setLoading(true);
     window.location.reload();
   });
+
   const playTask = (e, index, length) => {
    var timeInMs=today.getTime();
    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     teammate.tasks.forEach((task,i)=>{
-      // console.log(task.updates[task.updates.length-1].status);
      if(i===index){
       update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
       status: "On Going",
@@ -130,8 +130,6 @@ export default function Home() {
      });
      }
     })
-
-    
   };
 
   function getHourFormatFromMilliSeconds(millisec) {
@@ -144,7 +142,6 @@ export default function Home() {
       minutes = (Number(minutes) - (hours * 60)).toString();
       minutes = (Number(minutes) >= 10) ? minutes : "0" + minutes;
     }
-
     seconds = Math.floor(Number(seconds) % 60).toString();
     seconds = (Number(seconds) >= 10) ? seconds : "0" + seconds;
     if (!hours) {
@@ -156,20 +153,8 @@ export default function Home() {
     if (!seconds) {
       seconds = "00";
     }
-    
       return hours + ":" + minutes + ":" + seconds;
-   
   }
-
-
-
-
-
-
-
-
-
-
 
   const pauseTask = (e, index, length) => {
     var timeInMs = today.getTime();
@@ -189,20 +174,47 @@ export default function Home() {
     });
 
   };
+
   const completeTask = (e, index, length) => {
     update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
       status: "Done",
       totalTimeInMs: 0,
+      startTime: null,
+      startTimeInMs: null,
+      endDate:
+        String(today.getDate()).padStart(2, "0") +
+        "/" +
+        String(today.getMonth() + 1).padStart(2, "0") +
+        "/" +
+        today.getFullYear(),
+      endTime:
+        today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
     });
 
   };
-  
 
+  const dateFormatChange = (date) => {
+    let givenDate = date.split("/");
+    let months = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    let dateMonth = months[parseInt(givenDate[1])];
+    return dateMonth + "," + givenDate[0] + " " + givenDate[2];
+  }
+  const timeFormatChange = (time) => {
+    let givenTime = time.split(":");
+    if (parseInt(givenTime[0]) === 0) {
+      return "12:" + givenTime[1] + " am";
+    } else if (parseInt(givenTime[0]) > 12) {
+      let hour = (parseInt(givenTime[0]) % 12) > 9 ? (parseInt(givenTime[0]) % 12) : "0" + String(parseInt(givenTime[0]) % 12);
+      let minute = (parseInt(givenTime[1])) > 9 ? (parseInt(givenTime[1])) : "0" + String(givenTime[1]);
 
+      return hour + ":" + minute + " pm";
+    } else if (parseInt(givenTime[0]) < 13) {
+      let hour = (parseInt(givenTime[0])) > 9 ? (parseInt(givenTime[0])) : "0" + String(givenTime[0]);
+      let minute = (parseInt(givenTime[1])) > 9 ? (parseInt(givenTime[1])) : "0" + String(givenTime[1]);
 
-
-
-
+      return hour + ":" + minute + " am";
+    }
+  }
 
   return (
     <>
@@ -421,7 +433,7 @@ export default function Home() {
                                         info.updates[info.updates.length - 1]
                                           .status !== "Done"
                                           ? "#fff"
-                                          : "#f9fbff",
+                                          : "#f1f4fb",
                                       height: "70px",
                                     }}
                                     className="box-shadow teammate-tasks"
@@ -461,12 +473,11 @@ export default function Home() {
                                               style={{
                                                 fontFamily: "rockwen",
                                               }}
-                                              align="center"
-                                            >
+                                              align="center">
                                               {
-                                                info.updates[
+                                                dateFormatChange(info.updates[
                                                   info.updates.length - 1
-                                                ].date
+                                                ].deadlineDate)
                                               }
                                             </TableCell>
                                             <TableCell
@@ -476,12 +487,11 @@ export default function Home() {
                                               style={{
                                                 fontFamily: "rockwen",
                                               }}
-                                              align="center"
-                                            >
+                                              align="center">
                                               {
-                                                info.updates[
+                                                timeFormatChange(info.updates[
                                                   info.updates.length - 1
-                                                ].time
+                                                ].deadlineTime)
                                               }
                                             </TableCell>
                                             <TableCell
@@ -491,8 +501,7 @@ export default function Home() {
                                               style={{
                                                 fontFamily: "rockwen",
                                               }}
-                                              align="center"
-                                            >
+                                              align="center">
                                               +
                                               {
                                                 info.updates[
@@ -534,15 +543,29 @@ export default function Home() {
                                                   fontFamily: "rockwen",
                                                   fontWeight: "bold",
                                                 })
-                                              }
-                                            >
-                                              {
+                                              }>
+                                              {info.updates[
+                                                info.updates.length - 1
+                                              ].status === "Done" ? (
+                                                <FontAwesomeIcon
+                                                  icon="fa-solid fa-circle-check"
+                                                  size="2xl"
+                                                  style={{
+                                                    color: "blue",
+                                                    margin: ".5em",
+                                                  }}
+                                                />
+                                              ) : (
                                                 info.updates[
                                                   info.updates.length - 1
                                                 ].status
-                                              }
+                                              )}
                                             </TableCell>
-                                            <TableCell align="center">
+                                            <TableCell
+                                              onClick={() => {
+                                                setTaskSelected(index);
+                                              }}
+                                              align="center">
                                               <img
                                                 src={
                                                   info.updates[
@@ -551,7 +574,7 @@ export default function Home() {
                                                     ? paused
                                                     : pause
                                                 }
-                                                alt="pause"
+                                                alt="play"
                                                 width={30}
                                                 onClick={(e) => {
                                                   playTask(
@@ -571,30 +594,6 @@ export default function Home() {
                                                   cursor: "pointer",
                                                 }}
                                               />
-                                              {
-                                                // <FontAwesomeIcon
-                                                //   icon="fa-solid fa-circle-play"
-                                                //   size="lg"
-                                                //   style={{
-                                                //     display:
-                                                //       info.updates[
-                                                //         info.updates.length - 1
-                                                //       ].status === "Done"
-                                                //         ? "none"
-                                                //         : "",
-                                                //     margin: ".5em",
-                                                //     cursor: "pointer",
-                                                //   }}
-                                                //   color="green"
-                                                //   onClick={(e) => {
-                                                //     playTask(
-                                                //       e,
-                                                //       index,
-                                                //       info.updates.length
-                                                //     );
-                                                //   }}
-                                                // />
-                                              }
                                               <img
                                                 src={
                                                   info.updates[
@@ -623,34 +622,9 @@ export default function Home() {
                                                   cursor: "pointer",
                                                 }}
                                               />
-                                              {
-                                                // <FontAwesomeIcon
-                                                //   icon="fa-solid fa-circle-pause"
-                                                //   size="lg"
-                                                //   style={{
-                                                //     display:
-                                                //       info.updates[
-                                                //         info.updates.length - 1
-                                                //       ].status === "Done"
-                                                //         ? "none"
-                                                //         : "",
-                                                //     margin: ".5em",
-                                                //     cursor: "pointer",
-                                                //   }}
-                                                //   onClick={(e) => {
-                                                //     pauseTask(
-                                                //       e,
-                                                //       index,
-                                                //       info.updates.length
-                                                //     );
-                                                //   }}
-                                                // />
-                                              }
                                               <img
-                                                src={
-                                                  tick
-                                                }
-                                                alt="pause"
+                                                src={tick}
+                                                alt="done"
                                                 width={30}
                                                 onClick={(e) => {
                                                   completeTask(
@@ -659,40 +633,18 @@ export default function Home() {
                                                     info.updates.length
                                                   );
                                                 }}
-                                                  style={{
-                                                    display:
-                                                      info.updates[
-                                                        info.updates.length - 1
-                                                      ].status === "Done"
-                                                        ? "none"
-                                                        : "",
-                                                    margin: ".5em",
-                                                    cursor: "pointer",
-                                                  }}
+                                                style={{
+                                                  display:
+                                                    info.updates[
+                                                      info.updates.length - 1
+                                                    ].status === "Done"
+                                                      ? "none"
+                                                      : "",
+                                                  margin: ".5em",
+                                                  cursor: "pointer",
+                                                }}
                                               />
-                                              {
-                                                // <FontAwesomeIcon
-                                                //   icon="fa-solid fa-circle-check"
-                                                //   size="lg"
-                                                //   style={{
-                                                //     display:
-                                                //       info.updates[
-                                                //         info.updates.length - 1
-                                                //       ].status === "Done"
-                                                //         ? "none"
-                                                //         : "",
-                                                //     margin: ".5em",
-                                                //     cursor: "pointer",
-                                                //   }}
-                                                //   onClick={(e) => {
-                                                //     completeTask(
-                                                //       e,
-                                                //       index,
-                                                //       info.updates.length
-                                                //     );
-                                                //   }}
-                                                // />
-                                              }
+                                              
                                             </TableCell>
                                           </>
                                         );
@@ -707,7 +659,7 @@ export default function Home() {
                                       info.updates[info.updates.length - 1]
                                         .status !== "Done"
                                         ? "#fff"
-                                        : "#F1F4FB",
+                                        : "#f1f4fb",
                                   }}
                                   className="box-shadow">
                                   <TableCell
@@ -722,7 +674,7 @@ export default function Home() {
                                   </TableCell>
                                   <TableCell
                                     style={{
-                                      width: "100px",
+                                      width: "150px",
                                       fontFamily: "rockwen",
                                     }}
                                     onClick={() => {
@@ -734,7 +686,7 @@ export default function Home() {
                                     <br />
                                     <p
                                       style={{
-                                        width: "100px",
+                                        width: "150px",
                                         fontSize: "smaller",
                                       }}>
                                       {info.description}
@@ -755,7 +707,7 @@ export default function Home() {
                                       .map((info2) => {
                                         return (
                                           <p>
-                                            {info2.date}
+                                            {dateFormatChange(info2.deadlineDate)}
                                             <br />
                                           </p>
                                         );
@@ -776,7 +728,7 @@ export default function Home() {
                                       .map((info2) => {
                                         return (
                                           <p>
-                                            {info2.time}
+                                            {timeFormatChange(info2.deadlineTime)}
                                             <br />
                                           </p>
                                         );
@@ -844,26 +796,22 @@ export default function Home() {
                                         );
                                       })}
                                   </TableCell>
-                                  <TableCell align="center">
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-circle-play"
-                                      size="lg"
-                                      style={{
-                                        display:
-                                          info.updates[0].status === "Done"
-                                            ? "none"
-                                            : "",
-                                        margin: ".5em",
-                                        cursor: "pointer",
-                                      }}
-                                      color="green"
+                                  <TableCell
+                                    onClick={() => {
+                                      setTaskSelected(null);
+                                    }}
+                                    align="center">
+                                    <img
+                                      src={
+                                        info.updates[0].status === "On Going"
+                                          ? paused
+                                          : pause
+                                      }
+                                      alt="play"
+                                      width={30}
                                       onClick={(e) => {
                                         playTask(e, index, info.updates.length);
                                       }}
-                                    />
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-circle-pause"
-                                      size="lg"
                                       style={{
                                         display:
                                           info.updates[0].status === "Done"
@@ -872,6 +820,15 @@ export default function Home() {
                                         margin: ".5em",
                                         cursor: "pointer",
                                       }}
+                                    />
+                                    <img
+                                      src={
+                                        info.updates[0].status === "Paused"
+                                          ? played
+                                          : play
+                                      }
+                                      alt="pause"
+                                      width={30}
                                       onClick={(e) => {
                                         pauseTask(
                                           e,
@@ -879,10 +836,6 @@ export default function Home() {
                                           info.updates.length
                                         );
                                       }}
-                                    />
-                                    <FontAwesomeIcon
-                                      icon="fa-solid fa-circle-check"
-                                      size="lg"
                                       style={{
                                         display:
                                           info.updates[0].status === "Done"
@@ -891,12 +844,25 @@ export default function Home() {
                                         margin: ".5em",
                                         cursor: "pointer",
                                       }}
+                                    />
+                                    <img
+                                      src={tick}
+                                      alt="done"
+                                      width={30}
                                       onClick={(e) => {
                                         completeTask(
                                           e,
                                           index,
                                           info.updates.length
                                         );
+                                      }}
+                                      style={{
+                                        display:
+                                          info.updates[0].status === "Done"
+                                            ? "none"
+                                            : "",
+                                        margin: ".5em",
+                                        cursor: "pointer",
                                       }}
                                     />
                                   </TableCell>{" "}

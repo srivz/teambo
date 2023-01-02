@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { Button, Row, Col, Form, OverlayTrigger } from "react-bootstrap";
 import { db } from "../../firebase-config";
 import moment from "moment";
-import dateFormat from "dateformat";
 
 export default function NewTask(props) {
   var today = new Date();
@@ -12,6 +11,7 @@ export default function NewTask(props) {
   const [newTask, setNewTask] = useState({
     client: "",
     task: "",
+    clientEmail: "",
     description: "",
     updates: {
       0: {
@@ -27,9 +27,9 @@ export default function NewTask(props) {
           today.getMinutes() +
           ":" +
           today.getSeconds(),
+        corrections: "0",
         deadlineDate: "--",
         deadlineTime: "--",
-        corrections: "0",
         status: "Assigned",
       },
     },
@@ -40,16 +40,13 @@ export default function NewTask(props) {
   };
 
   const handleDateChange = (event) => {
-    newTask.updates[0].deadlineDate = dateFormat(
-      event.target.value,
-      "mmm,dd yyyy"
-    );
+    newTask.updates[0].deadlineDate = event.target.value
   };
 
   const handleTimeChange = (event) => {
-    newTask.updates[0].deadlineTime = dateFormat(event.target.value, "h:MM TT");
-    alert(newTask.updates[0].deadlineTime);
+    newTask.updates[0].deadlineTime = event.target.value;
   };
+
   const handleNewTask = async (id, tasknumber) => {
     set(ref(db, `/teammate/${id}/tasks/${tasknumber}/`), newTask)
       .then(() => {
@@ -59,6 +56,7 @@ export default function NewTask(props) {
         console.log(err);
       });
   };
+
   return (
     <>
       <OverlayTrigger
@@ -143,21 +141,53 @@ export default function NewTask(props) {
                 sm="4">
                 Deadline
               </Form.Label>
-              <Col sm="4">
+              <Col
+                sm="8"
+                md="8">
                 <Form.Control
                   type="date"
                   min={moment().format("YYYY-MM-DD")}
-                  placeholder={newTask.updates[0].deadlineDate}
                   name="deadlineDate"
+                  style={{ fontSize: "10px" }}
                   onChange={handleDateChange}
                 />
               </Col>
-              <Col sm="4">
+            </Form.Group>
+            <Form.Group
+              as={Row}
+              className="mb-3 deadline"
+              controlId="formPlaintext3">
+              <Form.Label
+                column
+                md="4"
+                sm="4"></Form.Label>
+              <Col
+                sm="8"
+                md="8">
                 <Form.Control
                   type="time"
-                  placeholder={newTask.updates[0].deadlineTime}
+                  style={{ fontSize: "10px" }}
                   name="deadlineTime"
                   onChange={handleTimeChange}
+                />
+              </Col>
+            </Form.Group>
+
+            <Form.Group
+              as={Row}
+              className="mb-3"
+              controlId="formPlaintext2">
+              <Form.Label
+                column
+                md="4"
+                sm="4">
+                Client Email*
+              </Form.Label>
+              <Col sm="8">
+                <Form.Control
+                  type="text"
+                  name="clientEmail"
+                  onChange={handleChange}
                 />
               </Col>
             </Form.Group>
