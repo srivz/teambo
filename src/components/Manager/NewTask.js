@@ -1,13 +1,16 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ref, set } from "firebase/database";
+import { ref, set,update } from "firebase/database";
 import React, { useState } from "react";
 import { Button, Row, Col, Form, OverlayTrigger } from "react-bootstrap";
 import { db } from "../../firebase-config";
 import moment from "moment";
+import Dropdown from 'react-bootstrap/Dropdown';
+
 
 export default function NewTask(props) {
   var today = new Date();
-
+  const [newClient,setNewClient]=useState("");
+  const [clientList,setClientList]=useState([]);
   const [newTask, setNewTask] = useState({
     client: "",
     task: "",
@@ -34,6 +37,7 @@ export default function NewTask(props) {
       },
     },
   });
+
   const handleChange = (event) => {
     let newInput = { [event.target.name]: event.target.value };
     setNewTask({ ...newTask, ...newInput });
@@ -58,6 +62,34 @@ export default function NewTask(props) {
       });
   };
 
+ const searchClient=(e)=>{
+  setNewClient(e.target.value)
+  const newFilter = props.manager?.clients.filter((val) => {
+      return val.toLowerCase().includes(e.target.value.toLowerCase());
+    });
+    if (e.target.value === "") {
+      setClientList(props.manager?.clients);
+    } else {
+      setClientList(newFilter);
+    }
+ }
+ const addClient=()=>{
+  if(props.manager.clients){
+   const clients=[...props.manager.clients,newClient];
+   update(ref(db, `manager/${props.managerId}/`), {
+     clients,
+   });
+  }else{
+    const clients = [newClient];
+     update(ref(db, `manager/${props.managerId}/`), {
+    clients
+     });
+  }
+  window.location.reload()
+ }
+
+
+
   return (
     <>
       <OverlayTrigger
@@ -74,54 +106,85 @@ export default function NewTask(props) {
               marginLeft: "-50px",
               width: "400px",
               boxShadow: "rgba(0, 0, 0, 0.15) 1px 3px 5px",
-            }}>
+            }}
+          >
             <h5 className="blue">{props.name}</h5>
             <h6>{props.designation}</h6>
-            <Form.Group
-              as={Row}
-              className="mb-3"
-              controlId="formPlaintext1">
-              <Form.Label
-                column
-                sm="4"
-                md="4">
+            <Form.Group as={Row} className="mb-3" controlId="formPlaintext1">
+              <Form.Label column sm="4" md="4">
                 Client*
               </Form.Label>
               <Col sm="8">
                 {/* Dropdown */}
-                <Form.Control
-                  type="text"
-                  name="client"
-                  onChange={handleChange}
-                />
+                <Dropdown>
+                  <Dropdown.Toggle
+                    id="dropdown-basic"
+                    className="w-100 client-dropdown"
+                  >
+                    {newTask.client === "" ? "Select" : newTask.client}
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu className="client-dropdown-menu">
+                    <div className="add-new-input">
+                      <input
+                        as="text"
+                        name="newClient"
+                        placeholder="Search"
+                        value={newClient}
+                        onChange={searchClient}
+                      />
+                      {clientList.length === 0 ? (
+                        <button onClick={addClient}>Add</button>
+                      ) : (
+                        <button disabled style={{ backgroundColor: "#707070" }}>
+                          Add
+                        </button>
+                      )}
+                    </div>
+                    {
+                      clientList.length === 0 && newClient ==="" ? 
+                      props.manager?.clients?.map((client, index) => {
+                        return (
+                          <Dropdown.Item
+                            key={index}
+                            onClick={(e) => {
+                              setNewTask((oldTask) => {
+                                return { ...oldTask, client };
+                              });
+                            }}
+                          >
+                            {client}
+                          </Dropdown.Item>
+                        );
+                      }): 
+                      clientList.map((client, index) => {
+                      return (
+                        <Dropdown.Item
+                          key={index}
+                          onClick={(e) => {
+                            setNewTask((oldTask) => {
+                              return { ...oldTask, client };
+                            });
+                          }}
+                        >
+                          {client}
+                        </Dropdown.Item>
+                      );
+                    })}
+                  </Dropdown.Menu>
+                </Dropdown>
               </Col>
             </Form.Group>
-            <Form.Group
-              as={Row}
-              className="mb-3"
-              controlId="formPlaintext2">
-              <Form.Label
-                column
-                md="4"
-                sm="4">
+            <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
+              <Form.Label column md="4" sm="4">
                 Task*
               </Form.Label>
               <Col sm="8">
-                <Form.Control
-                  type="text"
-                  name="task"
-                  onChange={handleChange}
-                />
+                <Form.Control type="text" name="task" onChange={handleChange} />
               </Col>
             </Form.Group>
-            <Form.Group
-              as={Row}
-              className="mb-3"
-              controlId="formPlaintext3">
-              <Form.Label
-                column
-                md="4"
-                sm="4">
+            <Form.Group as={Row} className="mb-3" controlId="formPlaintext3">
+              <Form.Label column md="4" sm="4">
                 Description*
               </Form.Label>
               <Col sm="8">
@@ -135,16 +198,12 @@ export default function NewTask(props) {
             <Form.Group
               as={Row}
               className="mb-3 deadline"
-              controlId="formPlaintext3">
-              <Form.Label
-                column
-                md="4"
-                sm="4">
+              controlId="formPlaintext3"
+            >
+              <Form.Label column md="4" sm="4">
                 Deadline
               </Form.Label>
-              <Col
-                sm="4"
-                md="4">
+              <Col sm="4" md="4">
                 <Form.Control
                   type="date"
                   min={moment().format("YYYY-MM-DD")}
@@ -153,9 +212,7 @@ export default function NewTask(props) {
                   onChange={handleDateChange}
                 />
               </Col>
-              <Col
-                sm="4"
-                md="4">
+              <Col sm="4" md="4">
                 <Form.Control
                   type="time"
                   style={{ fontSize: "12px" }}
@@ -164,14 +221,8 @@ export default function NewTask(props) {
                 />
               </Col>
             </Form.Group>
-            <Form.Group
-              as={Row}
-              className="mb-3"
-              controlId="formPlaintext2">
-              <Form.Label
-                column
-                md="4"
-                sm="4">
+            <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
+              <Form.Label column md="4" sm="4">
                 Client Email*
               </Form.Label>
               <Col sm="8">
@@ -186,7 +237,8 @@ export default function NewTask(props) {
               className="d-grid gap-2"
               style={{
                 marginBottom: ".5em",
-              }}>
+              }}
+            >
               <Button
                 variant="primary"
                 onClick={() => {
@@ -198,16 +250,19 @@ export default function NewTask(props) {
                 style={{
                   textAlign: "center",
                 }}
-                block>
+                block
+              >
                 Assign
               </Button>
             </div>
           </div>
-        }>
+        }
+      >
         <Button
           type="Button"
           variant="light"
-          className="bg-white box-shadow rounded-4">
+          className="bg-white box-shadow rounded-4"
+        >
           <FontAwesomeIcon
             icon="fa-regular fa-square-plus"
             style={{ paddingRight: ".5em" }}

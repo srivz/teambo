@@ -196,6 +196,8 @@ export default function Home() {
               onChange={handleChange}
               deleteTask={deleteCurrentTask}
               addTeammate={addNewTeammate}
+              manager={manager}
+              managerId={managerId}
             />
           ) : (
             <HomeBlock

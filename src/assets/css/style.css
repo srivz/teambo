@@ -216,3 +216,53 @@ border-radius: 6px !important;
 .deadline input[type="time"]::before {
   width: 100%;
 }
+.client-dropdown{
+  background: #FFFFFF 0% 0% no-repeat padding-box !important;
+box-shadow: 0px 3px 18px #0000001A !important;
+border-radius: 20px !important;
+color: #000000 !important;
+border: 0 !important;
+text-align: center !important;
+padding: 10px !important;
+}
+.client-dropdown-menu{
+  width: 300px;
+  padding: 10px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+box-shadow: 0px 3px 18px #0000001A;
+border-radius: 20px;
+border: 0;
+max-height: 400px;
+overflow-y: auto;
+}
+.add-new-input{
+padding: 10px;
+}
+.add-new-input input{
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+border: 1px solid #707070 !important;
+border-radius: 31px;
+width: 70%;
+outline: none;
+padding: 8px;
+}
+.add-new-input input::placeholder{
+  color: #B2B2B2;
+}
+.add-new-input button{
+  background: #3375E6 0% 0% no-repeat padding-box;
+border-radius: 31px;
+color: #FFf;
+width: 25%;
+padding: 6px;
+border: 0;
+margin-left: 8px;
+}
+
+.company-dropdown{
+  text-align: left !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px !important;
+}
