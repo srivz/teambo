@@ -168,10 +168,10 @@ export default function HomeList(props) {
             <Row>
                 <Col sm={3} md={3} style={{ marginTop: '1em' }}>
                 <Tabs
-                  defaultActiveKey="profile"
+                    defaultActiveKey="home"
                   id="uncontrolled-tab-example"
                   className="mt-3"
-                    style={{ width: "fit-content" }}
+                    style={{ width: 'fit-content' }}
                 >
                   <Tab eventKey="home" title="Teammate">
                     <div className="task-box">
@@ -315,82 +315,6 @@ export default function HomeList(props) {
                   </Tab>
                   <Tab eventKey="profile" title="Company">
                     <div className="task-box">
-                      <OverlayTrigger
-                        trigger="click"
-                        key="auto"
-                        placement="auto"
-                        rootClose
-                        overlay={
-                          <div
-                            className="bg-white "
-                            style={{
-                              padding: "1em",
-                              marginTop: "10px",
-                              marginLeft: "-50px",
-                              width: "400px",
-                              boxShadow: "rgba(0, 0, 0, 0.15) 1px 3px 5px",
-                            }}>
-                            <Row>
-                              <Col md={"10"}>
-                                <input
-                                  className="rounded-2 w-100"
-                                  style={{
-                                    marginTop: ".5em",
-                                    padding: ".25em",
-                                    borderRadius: "25px",
-                                    border: "2px solid #e8e7e7",
-                                    paddingLeft: "20px",
-                                  }}
-                                  type="email"
-                                  name="email"
-                                  id="search"
-                                  placeholder="Teammate's Email"
-                                  onChange={(e) => setTeammateEmail(e.target.value)}
-                                />
-                              </Col>
-                              <Col md={"2"}>
-                                <Button
-                                  style={{
-                                    marginTop: ".5em",
-                                    borderRadius: "25px",
-                                    border: "2px solid #e8e7e7",
-                                  }}
-                                  type="Button"
-                                  variant="light"
-                                  onClick={() => addTeammate()}
-                                  className="bg-white box-shadow rounded-4">
-                                  <FontAwesomeIcon icon="fa-regular fa-square-plus" />
-                                </Button>
-                              </Col>
-                            </Row>
-                          </div>
-                        }>
-                        <Button
-                          type="Button"
-                          variant="light"
-                          className="bg-white box-shadow rounded-4">
-                          <FontAwesomeIcon
-                            icon="fa-regular fa-square-plus"
-                            style={{ paddingRight: ".5em" }}
-                          />
-                          Add Teammate
-                        </Button>
-                      </OverlayTrigger>
-
-                      <input
-                        className="rounded-2 w-100"
-                        style={{
-                          marginTop: "1em",
-                          padding: ".25em",
-                          borderRadius: "25px",
-                          border: "2px solid #e8e7e7",
-                          paddingLeft: "20px",
-                        }}
-                        type="search"
-                        name="search"
-                        id="search"
-                        placeholder="Search"
-                      />
                       <div className="overflow-set-auto table-height">
                         <Table
                           className="table-height"
@@ -403,34 +327,21 @@ export default function HomeList(props) {
                             <TableRow></TableRow>
                           </TableHead>
                           <TableBody>
-                            {!props.team ? (
+
+                            {!props.manager?.clients ? (
                               <TableRow
                                 colSpan={7}
                                 align="center">
-                                No teammate right now
+                                No Companies right now
                               </TableRow>
                             ) : (
                                   props.manager?.clients?.map((info, index) => {
                                 return (
                                   <TableRow
                                     key={index}
-                                    className="box-shadow"
-                                    onClick={() => {
-                                      // localStorage.setItem(
-                                      //   "teammateSelected",
-                                      //   JSON.stringify(info.teammate)
-                                      // );
-                                      // setTaskSelected(null);
-                                      // setSelected(info.teammate);
-                                    }}>
-                                    <TableCell
-                                      style={{
-                                        backgroundColor: "#f9fbff",
-                                        height: "fit-content",
-                                        borderRadius: "5px",
-                                        paddingTop: ".5em",
-                                        paddingBottom: "0em",
-                                      }}>
+
+                                    className="box-shadow">
+                                    <TableCell>
                                       <h5>{info}</h5>
                                     </TableCell>
                                   </TableRow>
@@ -1016,8 +927,8 @@ export default function HomeList(props) {
                                       )
                                     })
                                   )}
-                                  {
-                                    info.data.tasks && taskSelected !== null ? (
+
+                                  {info.data.tasks && taskSelected !== null ? (
                                     <TaskHistory
                                       show={modalShow}
                                       id={info.teammate}

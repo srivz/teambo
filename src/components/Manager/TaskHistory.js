@@ -86,7 +86,7 @@ export default function TaskHistory(props) {
         today.getFullYear(),
       assignedTime:
         today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds(),
-      corrections: props?.teamtasks[props.indexselected]?.updates.length,
+      corrections: props?.teamtasks[props?.indexselected]?.updates.length,
       status: 'Assigned',
       deadlineDate: taskUpdate.deadlineDate,
       description: taskUpdate.description,
@@ -126,7 +126,7 @@ export default function TaskHistory(props) {
       >
         <Modal.Header>
           <Modal.Title>
-            <Button variant="light" onClick={props.onHide}>
+            <Button variant="light" onClick={props?.onHide}>
               <FontAwesomeIcon icon="fa-solid fa-chevron-left" />{" "}
               Close
             </Button>
@@ -156,7 +156,7 @@ export default function TaskHistory(props) {
                   <Form.Control
                     type="text"
                     defaultValue={
-                      props?.teamtasks[props.indexselected]?.clientEmail
+                      props?.teamtasks[props?.indexselected]?.clientEmail
                     }
                     name="clientEmail"
                     disabled
@@ -171,13 +171,13 @@ export default function TaskHistory(props) {
               <h6>Client</h6>
             </Col>
             <Col sm={3} md={3} style={{ marginTop: '1em' }}>
-              <h4>{props?.teamtasks[props.indexselected]?.client}</h4>
+              <h4>{props?.teamtasks[props?.indexselected]?.client}</h4>
             </Col>
             <Col sm={1} md={1} style={{ marginTop: '1.5em' }}>
               <h6>Task</h6>
             </Col>
             <Col sm={3} md={3} style={{ marginTop: '1em' }}>
-              <h4>{props?.teamtasks[props.indexselected]?.task}</h4>
+              <h4>{props?.teamtasks[props?.indexselected]?.task}</h4>
             </Col>
             <Col sm={1} md={1} style={{ marginTop: '1.5em' }}>
               <h6>Status</h6>
@@ -185,32 +185,32 @@ export default function TaskHistory(props) {
             <Col sm={3} md={3} style={{ marginTop: '1em' }}>
               <h4
                 style={
-                  (props?.teamtasks[props.indexselected]?.updates[
-                    props?.teamtasks[props.indexselected]?.updates.length - 1
+                  (props?.teamtasks[props?.indexselected]?.updates[
+                    props?.teamtasks[props?.indexselected]?.updates.length - 1
                   ].status === 'Done' && {
                     fontFamily: 'rockwen',
                     color: '#000000',
                   }) ||
-                  (props?.teamtasks[props.indexselected]?.updates[
-                    props?.teamtasks[props.indexselected]?.updates.length - 1
+                  (props?.teamtasks[props?.indexselected]?.updates[
+                    props?.teamtasks[props?.indexselected]?.updates.length - 1
                   ].status === 'Completed' && {
                     fontFamily: 'rockwen',
                     color: '#000000',
                   }) ||
-                  (props?.teamtasks[props.indexselected]?.updates[
-                    props?.teamtasks[props.indexselected]?.updates.length - 1
+                  (props?.teamtasks[props?.indexselected]?.updates[
+                    props?.teamtasks[props?.indexselected]?.updates.length - 1
                   ].status === 'On Going' && {
                     fontFamily: 'rockwen',
                     color: '#24A43A',
                   }) ||
-                  (props?.teamtasks[props.indexselected]?.updates[
-                    props?.teamtasks[props.indexselected]?.updates.length - 1
+                  (props?.teamtasks[props?.indexselected]?.updates[
+                    props?.teamtasks[props?.indexselected]?.updates.length - 1
                   ].status === 'Paused' && {
                     fontFamily: 'rockwen',
                     color: '#2972B2',
                   }) ||
-                  (props?.teamtasks[props.indexselected]?.updates[
-                    props?.teamtasks[props.indexselected]?.updates.length - 1
+                  (props?.teamtasks[props?.indexselected]?.updates[
+                    props?.teamtasks[props?.indexselected]?.updates.length - 1
                   ].status === 'Assigned' && {
                     fontFamily: 'rockwen',
                     color: '#D1AE00',
@@ -218,8 +218,8 @@ export default function TaskHistory(props) {
                 }
               >
                 {
-                  props?.teamtasks[props.indexselected]?.updates[
-                    props?.teamtasks[props.indexselected]?.updates.length - 1
+                  props?.teamtasks[props?.indexselected]?.updates[
+                    props?.teamtasks[props?.indexselected]?.updates.length - 1
                   ].status
                 }
               </h4>
@@ -314,7 +314,7 @@ export default function TaskHistory(props) {
                     }}
                     align="center"
                   >
-                    +{props?.teamtasks[props.indexselected]?.updates.length}
+                    +{props?.teamtasks[props?.indexselected]?.updates.length}
                   </TableCell>
                   <TableCell
                     style={{
@@ -403,7 +403,7 @@ export default function TaskHistory(props) {
                 <></>
               )}
 
-              {props?.teamtasks[props.indexselected]?.updates
+              {props?.teamtasks[props?.indexselected]?.updates
                 .sort((a, b) => (a.corrections > b.corrections ? -1 : 1))
                 .map((info, index) => {
                   return (
