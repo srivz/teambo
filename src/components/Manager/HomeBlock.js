@@ -157,6 +157,12 @@ export default function HomeBlock(props) {
                                               fontFamily: "rockwen",
                                               color: "#000000",
                                               fontWeight: "bold",
+                                            }) || (info1.updates[
+                                              info1.updates.length - 1
+                                            ].status === "Completed" && {
+                                              fontFamily: "rockwen",
+                                              color: "#000000",
+                                              fontWeight: "bold",
                                             }) ||
                                             (info1.updates[
                                               info1.updates.length - 1

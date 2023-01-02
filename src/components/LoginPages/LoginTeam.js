@@ -92,7 +92,8 @@ export default function LoginTeam({ text, user, name, role }) {
                   name="password"
                   onChange={handleChangeLog}
                 />
-                <p className="mt-3 blue">Forgot your password?</p>
+                  <Link to={"/forgotPassword"}
+                    className="signuplink"><p className="mt-3 blue pointer">Forgot your password?</p></Link>
               </div>
               <button
                 type="Submit"

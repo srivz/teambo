@@ -8,6 +8,7 @@ import SignUp from "./components/LoginPages/SignUp";
 import ManagerHome from "./components/Manager/Home";
 import LoginHome from "./components/LoginHome";
 import SignUpResponse from "./components/LoginPages/SignUpResponse";
+import ForgotPassword from "./components/LoginPages/ForgotPassword";
 
 export default function App() {
   return (
@@ -19,6 +20,10 @@ export default function App() {
           <Route
           path="/signup/select"
           element={<LoginHome />}></Route>
+
+        <Route
+          path="/forgotPassword"
+          element={<ForgotPassword />}></Route>
         <Route
           path="/teamMate/login"
           element={

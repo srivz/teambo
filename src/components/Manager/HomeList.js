@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import { onChildChanged, ref, update } from 'firebase/database'
+import { onChildChanged, ref, remove, set, update } from 'firebase/database'
 import React, { useState } from 'react'
 import {
   Button,
@@ -32,10 +32,26 @@ export default function HomeList(props) {
   }
 
   const handleDeleteTask = (id, index) => {
-    setLoading(true)
-    props.deleteTask(id, index)
+    setLoading(true);
+    remove(ref(db, `/teammate/${id}/tasks/${index}/`))
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
+  const handleCompleteTask = (id, index, latest) => {
+    setLoading(true)
+    set(ref(db, `/teammate/${id}/tasks/${index}/updates/${latest}/status`), "Completed")
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   onChildChanged(ref(db, `/teammate/`), () => {
     setLoading(true)
     window.location.reload()
@@ -593,7 +609,9 @@ export default function HomeList(props) {
                                             backgroundColor:
                                               info1.updates[
                                                 info1.updates.length - 1
-                                              ].status !== 'Done'
+                                              ].status !== 'Done' || info1.updates[
+                                                info1.updates.length - 1
+                                              ].status !== 'Completed'
                                                 ? '#fff'
                                                 : '#f1f4fb',
                                             height: '70px',
@@ -692,23 +710,27 @@ export default function HomeList(props) {
                                                   >
                                                     {info1.updates[
                                                       info1.updates.length - 1
-                                                    ].status === 'Done'
+                                                    ].status === 'Done' || info1.updates[
+                                                      info1.updates.length - 1
+                                                    ].status === 'Completed'
                                                       ? dateFormatChange(
                                                         info1.updates[
                                                           info1.updates
                                                             .length - 1
-                                                        ].assignedDate,
+                                                        ].endDate,
                                                       )
                                                       : ''}
                                                     <br />
                                                     {info1.updates[
                                                       info1.updates.length - 1
-                                                    ].status === 'Done'
+                                                    ].status === 'Done' || info1.updates[
+                                                      info1.updates.length - 1
+                                                    ].status === 'Completed'
                                                       ? timeFormatChange(
                                                         info1.updates[
                                                           info1.updates
                                                             .length - 1
-                                                        ].assignedTime,
+                                                        ].endTime,
                                                       )
                                                       : ''}
                                                   </TableCell>
@@ -745,6 +767,14 @@ export default function HomeList(props) {
                                                       (info1.updates[
                                                         info1.updates.length - 1
                                                       ].status === 'Done' && {
+                                                        fontFamily: 'rockwen',
+                                                        color: '#000000',
+                                                        fontWeight: 'bold',
+                                                      }) ||
+                                                      (info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].status ===
+                                                        'Completed' && {
                                                         fontFamily: 'rockwen',
                                                         color: '#000000',
                                                         fontWeight: 'bold',
@@ -814,9 +844,9 @@ export default function HomeList(props) {
                                                     >
                                                       <Button
                                                         onClick={() => {
-                                                          handleDeleteTask(
+                                                          handleCompleteTask(
                                                             info.teammate,
-                                                            index,
+                                                            index, info1.updates.length - 1
                                                           )
                                                         }}
                                                         variant="light"
@@ -825,13 +855,13 @@ export default function HomeList(props) {
                                                         }}
                                                       >
                                                         <FontAwesomeIcon
-                                                          icon="fa-solid fa-trash"
+                                                          icon="fa-solid fa-circle-check"
                                                           style={{
                                                             paddingRight:
                                                               ".5em",
                                                           }}
                                                         />
-                                                        Delete Task
+                                                        Mark Completed
                                                       </Button>
                                                     </div>
                                                     <Row
@@ -894,6 +924,62 @@ export default function HomeList(props) {
                                                           }}
                                                         />
                                                         Move Down
+                                                      </Button>
+                                                    </Row><Row
+                                                      className="d-grid gap-2"
+                                                      style={{
+                                                        marginBottom: '.5em',
+                                                      }}
+                                                    >
+                                                      <Button
+                                                        // onClick={() => {
+                                                        //   handleSwitchTask(
+                                                        //     info.teammate
+                                                        //   )
+                                                        // }}
+                                                        variant="light"
+                                                        style={{
+                                                          textAlign: 'left',
+                                                        }}
+                                                        block
+                                                      >
+                                                        <FontAwesomeIcon
+                                                          icon="fa-solid fa-shuffle"
+                                                          style={{
+                                                            paddingRight:
+                                                              '.5em',
+                                                          }}
+                                                        />
+                                                        Switch Task To..
+                                                      </Button>
+                                                    </Row>
+                                                    <Row
+                                                      className="d-grid gap-2"
+                                                      style={{
+                                                        marginBottom: '.5em',
+                                                      }}
+                                                    >
+                                                      <Button
+                                                        onClick={() => {
+                                                          handleDeleteTask(
+                                                            info.teammate,
+                                                            index,
+                                                          )
+                                                        }}
+                                                        variant="light"
+                                                        style={{
+                                                          textAlign: 'left',
+                                                        }}
+                                                        block
+                                                      >
+                                                        <FontAwesomeIcon
+                                                          icon="fa-solid fa-trash"
+                                                          style={{
+                                                            paddingRight:
+                                                              '.5em',
+                                                          }}
+                                                        />
+                                                        Delete Task
                                                       </Button>
                                                     </Row>
                                                   </Popover.Body>
