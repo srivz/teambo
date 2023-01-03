@@ -6,7 +6,7 @@ import LoginTeam from "./components/LoginPages/LoginTeam";
 import TeamMateHome from "./components/TeamMate/Home";
 import SignUp from "./components/LoginPages/SignUp";
 import ManagerHome from "./components/Manager/Home";
-import LoginHome from "./components/LoginHome";
+import LoginHome from "./components/LoginPages/LoginHome";
 import SignUpResponse from "./components/LoginPages/SignUpResponse";
 import ForgotPassword from "./components/LoginPages/ForgotPassword";
 

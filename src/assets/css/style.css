@@ -155,10 +155,10 @@ border-radius: 6px !important;
   background: #fff;
   border: 2px solid var(--blue);
 }
-
 .curve-box-homelist ::-webkit-scrollbar {
   width: 8px;
 }
+
 .task-box {
   background-color: white;
   max-width: 450px;
@@ -222,8 +222,14 @@ box-shadow: 0px 3px 18px #0000001A !important;
 border-radius: 20px !important;
 color: #000000 !important;
 border: 0 !important;
-text-align: center !important;
+text-align: left !important;
 padding: 10px !important;
+padding-left: 20px !important;
+}
+.client-dropdown::after{
+float: right !important;
+font-size: 20px;
+margin: 10px;
 }
 .client-dropdown-menu{
   width: 300px;
@@ -234,6 +240,79 @@ border-radius: 20px;
 border: 0;
 max-height: 400px;
 overflow-y: auto;
+}
+.company-dropdown{
+  background: #FFFFFF 0% 0% no-repeat padding-box !important;
+box-shadow: 0px 3px 18px #0000001A !important;
+border-radius: 20px !important;
+color: #000000 !important;
+border: 0 !important;
+text-align: left !important;
+padding: 10px !important;
+padding-left: 20px !important;
+}
+.company-dropdown::after{
+float: right !important;
+font-size: 20px;
+margin: 10px;
+}
+.company-dropdown-menu{
+  width: 300px;
+  padding: 10px;
+max-height: 250px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+box-shadow: 0px 3px 18px #0000001A;
+border-radius: 20px;
+border: 0;
+overflow-y: none;
+}
+.company-dropdown-menu-list{
+overflow-y: auto;
+overflow-x: hidden;
+}
+.company-dropdown-menu ::-webkit-scrollbar-thumb {
+  height: 50px !important;
+  background: #fff;
+  border: 2px solid var(--blue);
+}
+
+.company-dropdown-menu ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.company-dropdown-menu-height {
+max-height: 100px;
+}
+
+.add-new-input-textbox::-webkit-input-placeholder { 
+font-family: FontAwesome;
+padding-left: 5px;
+font-size: 12px;
+padding-top: 2px;
+}
+
+.add-new-input-textbox::-moz-placeholder  { 
+font-family: FontAwesome;
+padding-left: 5px;
+font-size: 12px;
+padding-top: 2px;
+}
+
+.add-new-input-textbox:-ms-input-placeholder  { 
+font-family: FontAwesome;
+padding-left: 5px;
+font-size: 12px;
+padding-top: 2px;
+}
+.add-new-company-input{
+padding: 10px;}
+.add-new-company-input input{
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+border: 1px solid #707070 !important;
+border-radius: 31px;
+width: 100%;
+outline: none;
+padding: 8px;
 }
 .add-new-input{
 padding: 10px;
