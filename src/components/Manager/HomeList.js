@@ -19,8 +19,9 @@ import Loader from "../Loader/Loader";
 import NewTask from "./NewTask";
 import TaskHistory from './TaskHistory'
 import SwitchTask from './SwitchTask';
-import TeammateTable from './TeammateTable';
 import ClientTable from './ClientTable';
+import TeammateTable from './TeammateTable';
+
 
 export default function HomeList(props) {
   const [selected, setSelected] = useState(
@@ -562,7 +563,12 @@ export default function HomeList(props) {
                               managerId={props?.managerId}
                               allTasks={props?.allTasks} />
                             :
-                            <ClientTable filter={filter} allTasks={props.allTasks} clientSelected={clientSelected} dateFormatChange={dateFormatChange} timeFormatChange={timeFormatChange} />
+                            <ClientTable
+                              filter={filter}
+                              allTasks={props.allTasks}
+                              clientSelected={clientSelected}
+                              dateFormatChange={dateFormatChange}
+                              timeFormatChange={timeFormatChange} />
                         }
 
                     </Col>
