@@ -361,7 +361,7 @@ export default function Home() {
                       }}
                         className="text- end"
                       >
-                        <Dropdown style={{ width: '200px', marginRight: "1em" }}>
+                        <Dropdown style={{ width: '200px', marginRight: '1em' }}>
                           <Dropdown.Toggle
                             style={{ height: '45px' }}
                             id="dropdown-basic"
@@ -543,29 +543,27 @@ export default function Home() {
                                       className="box-shadow"
                                       key={index}
                                     >
-                                          <TableCell
-                                            onClick={() => {
-                                              setModalShow(true);
-                                              setTaskSelected(index)
-                                            }}
+                                      <TableCell
+                                        onClick={() => {
+                                          setModalShow(true)
+                                          setTaskSelected(index)
+                                        }}
                                         style={{
                                           fontFamily: 'rockwen',
                                         }}
                                         align="center"
-
                                       >
                                         {info.client}
                                       </TableCell>
-                                          <TableCell
-                                            onClick={() => {
-                                              setModalShow(true);
-                                              setTaskSelected(index)
-                                            }}
+                                      <TableCell
+                                        onClick={() => {
+                                          setModalShow(true)
+                                          setTaskSelected(index)
+                                        }}
                                         style={{
                                           fontFamily: 'rockwen',
                                         }}
                                         align="center"
-
                                       >
                                         {info.task}
                                       </TableCell>
@@ -581,14 +579,13 @@ export default function Home() {
                                             <>
                                               <TableCell
                                                 onClick={() => {
-                                                  setModalShow(true);
+                                                  setModalShow(true)
                                                   setTaskSelected(index)
                                                 }}
                                                 style={{
                                                   fontFamily: 'rockwen',
                                                 }}
                                                 align="center"
-
                                               >
                                                 {dateFormatChange(
                                                   info.updates[
@@ -598,14 +595,13 @@ export default function Home() {
                                               </TableCell>
                                               <TableCell
                                                 onClick={() => {
-                                                  setModalShow(true);
+                                                  setModalShow(true)
                                                   setTaskSelected(index)
                                                 }}
                                                 style={{
                                                   fontFamily: 'rockwen',
                                                 }}
                                                 align="center"
-
                                               >
                                                 {timeFormatChange(
                                                   info.updates[
@@ -615,14 +611,13 @@ export default function Home() {
                                               </TableCell>
                                               <TableCell
                                                 onClick={() => {
-                                                  setModalShow(true);
+                                                  setModalShow(true)
                                                   setTaskSelected(index)
                                                 }}
                                                 style={{
                                                   fontFamily: 'rockwen',
                                                 }}
                                                 align="center"
-
                                               >
                                                 +
                                                 {
@@ -633,11 +628,10 @@ export default function Home() {
                                               </TableCell>
                                               <TableCell
                                                 onClick={() => {
-                                                  setModalShow(true);
+                                                  setModalShow(true)
                                                   setTaskSelected(index)
                                                 }}
                                                 align="center"
-
                                                 style={
                                                   info.updates[
                                                     info.updates.length - 1
@@ -695,10 +689,7 @@ export default function Home() {
                                                   ].status
                                                 )}
                                               </TableCell>
-                                              <TableCell
-
-                                                align="center"
-                                              >
+                                              <TableCell align="center">
                                                 <img
                                                   src={
                                                     info.updates[
@@ -791,19 +782,23 @@ export default function Home() {
                                           )
                                         })}
                                     </TableRow>
-                                        {teammate?.tasks && taskSelected !== null ? (
-                                          <TeammateTaskHistory
-                                            show={modalShow}
-                                            onHide={() => { setModalShow(false); setTaskSelected(null); }}
-                                            indexselected={taskSelected}
-                                            teamtasks={teammate.tasks}
-                                            name={teammate.name}
-                                            designation={teammate.designation}
-                                          />
-                                        ) : (
-                                          <></>
-                                        )}
-                                      </>
+                                    {teammate?.tasks &&
+                                      taskSelected !== null ? (
+                                      <TeammateTaskHistory
+                                        show={modalShow}
+                                        onHide={() => {
+                                          setModalShow(false)
+                                          setTaskSelected(null)
+                                        }}
+                                        indexselected={taskSelected}
+                                        teamtasks={teammate.tasks}
+                                        name={teammate.name}
+                                        designation={teammate.designation}
+                                      />
+                                    ) : (
+                                      <></>
+                                    )}
+                                  </>
                                 )
                               })
                           )}
