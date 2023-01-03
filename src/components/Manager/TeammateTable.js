@@ -16,10 +16,10 @@ import { db } from '../../firebase-config';
 export default function TeammateTable(props) {
     const selected = props?.teammateselected
     const filter = props?.filterTeammate;
-    const [teammateEmail, setTeammateEmail] = useState('');
-    const [loading, setLoading] = useState(false);
     const [taskSelected, setTaskSelected] = useState();
     const [modalShow, setModalShow] = useState(false);
+    const [teammateEmail, setTeammateEmail] = useState('');
+    const [loading, setLoading] = useState(false);
     const [clientSelected, setClientSelected] = useState("");
 
 

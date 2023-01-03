@@ -343,8 +343,8 @@ export default function HomeList(props) {
                                         height: 'fit-content',
                                         borderRadius: '6px',
                                         borderBottom: "1px solid #fff",
-                                        paddingTop: '.5em',
-                                        paddingBottom: '0em',
+                                        paddingTop: '1em',
+                                        paddingBottom: '0.5em',
                                         cursor: "pointer"
                                       }}>
                                       <h5>{info}</h5>
@@ -450,6 +450,11 @@ export default function HomeList(props) {
                                   >Paused
                                   </Dropdown.Item><Dropdown.Item
                                     onClick={(e) => {
+                                      setFilter("Done")
+                                    }}
+                                  >Done
+                                  </Dropdown.Item><Dropdown.Item
+                                    onClick={(e) => {
                                       setFilter("Completed")
                                     }}
                                   >Completed
@@ -528,6 +533,11 @@ export default function HomeList(props) {
                                         setFilter("Paused")
                                       }}
                                     >Paused
+                                    </Dropdown.Item><Dropdown.Item
+                                      onClick={(e) => {
+                                        setFilter("Done")
+                                      }}
+                                    >Done
                                     </Dropdown.Item><Dropdown.Item
                                       onClick={(e) => {
                                         setFilter("Completed")
