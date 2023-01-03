@@ -29,7 +29,7 @@ export default function HomeList(props) {
   const [modalShow, setModalShow] = React.useState(false)
 
   function handleViewChange() {
-    props.onChange(false)
+    props?.onChange(false)
   }
 
   const handleDeleteTask = (id, index) => {
@@ -47,9 +47,9 @@ export default function HomeList(props) {
     setLoading(true)
     const info = {
       to_name: teammate.name,
-      from_name: props.manager.name,
-      message: `Your task ${teammate.tasks[index].task} from client ${teammate.tasks[index].client} has been approved by your manager ${props.manager.name}`,
-      from_email: props.manager.email,
+      from_name: props?.manager.name,
+      message: `Your task ${teammate.tasks[index].task} from client ${teammate.tasks[index].client} has been approved by your manager ${props?.manager.name}`,
+      from_email: props?.manager.email,
       to_email: teammate.email
     }
     // fetch('https://example.com/profile', {
@@ -149,7 +149,7 @@ export default function HomeList(props) {
   const handleUpTask = (id, index, tasks, taskLength) => {
     setLoading(true)
     if (index === 0) {
-      props.setLoading(false)
+      props?.setLoading(false)
       alert('Its already on the top')
     } else {
       let newarr = tasks
@@ -163,7 +163,7 @@ export default function HomeList(props) {
   const handleDownTask = (id, index, tasks, taskLength) => {
     setLoading(true)
     if (index === taskLength - 1) {
-      props.setLoading(false)
+      props?.setLoading(false)
       alert('Its already on the bottom')
     } else {
       let newarr = tasks
@@ -174,7 +174,7 @@ export default function HomeList(props) {
     }
   }
   const addTeammate = () => {
-    props.addTeammate(teammateEmail);
+    props?.addTeammate(teammateEmail);
   };
 
   return (
@@ -288,12 +288,12 @@ export default function HomeList(props) {
                             <TableRow></TableRow>
                           </TableHead>
                           <TableBody>
-                            {!props.team ? (
+                              {!props?.team ? (
                                 <TableRow colSpan={7} align="center">
                                 No teammate right now
                               </TableRow>
                             ) : (
-                              props.team.map((info) => {
+                                  props?.team.map((info) => {
                                 return (
                                   <TableRow
                                     key={info.teammate}
@@ -347,14 +347,14 @@ export default function HomeList(props) {
                           </TableHead>
                           <TableBody>
 
-                            {!props.manager?.clients ? (
+                              {!props?.manager?.clients ? (
                               <TableRow
                                 colSpan={7}
                                 align="center">
                                 No Companies right now
                               </TableRow>
                             ) : (
-                                  props.manager?.clients?.map((info, index) => {
+                                  props?.manager?.clients?.map((info, index) => {
                                 return (
                                   <TableRow
                                     key={index}
@@ -414,7 +414,7 @@ export default function HomeList(props) {
                     </Col>
                   </Row>
                 ) : (
-                  props.team
+                      props?.team
                     .filter((info) => info.teammate === selected)
                     .map((info, index) => {
                       return selected ? (
@@ -448,8 +448,8 @@ export default function HomeList(props) {
                                 designation={info.data.designation}
                                 teammate={info.teammate}
                                 tasks={info.data.tasks}
-                                manager={props.manager}
-                                managerId={props.managerId}
+                                manager={props?.manager}
+                                managerId={props?.managerId}
                               />
                             </div>
                           </Col>
@@ -530,7 +530,7 @@ export default function HomeList(props) {
                           </TableRow>
                         </TableHead>
                         <TableBody className="curve-box-homelist">
-                          {props.team
+                            {props?.team
                             .filter((info) => info.teammate === selected)
                             .map((info, index) => {
                               return (

@@ -110,8 +110,8 @@ export default function NewTask(props) {
               boxShadow: "rgba(0, 0, 0, 0.15) 1px 3px 5px",
             }}
           >
-            <h5 className="blue">{props.name}</h5>
-            <h6>{props.designation}</h6>
+            <h5 className="blue">{props?.name}</h5>
+            <h6>{props?.designation}</h6>
             <Form.Group as={Row} className="mb-3" controlId="formPlaintext1">
               <Form.Label column sm="4" md="4">
                 Client*
@@ -140,7 +140,7 @@ export default function NewTask(props) {
                       <Row className="client-dropdown-menu-height">
                     {
                       clientList.length === 0 && newClient ==="" ? 
-                      props.manager?.clients?.map((client, index) => {
+                            props?.manager?.clients?.map((client, index) => {
                         return (
                           <Dropdown.Item
                             key={index}
@@ -240,8 +240,8 @@ export default function NewTask(props) {
                 variant="primary"
                 onClick={() => {
                   handleNewTask(
-                    props.teammate,
-                    props.tasks !== undefined ? props.tasks.length : 0
+                    props?.teammate,
+                    props?.tasks !== undefined ? props?.tasks?.length : 0
                   );
                 }}
                 style={{
