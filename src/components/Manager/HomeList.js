@@ -9,7 +9,6 @@ import {
   Container,
   Dropdown,
   OverlayTrigger,
-  Popover,
   Row,
 } from "react-bootstrap";
 import Tab from 'react-bootstrap/Tab';
@@ -17,8 +16,6 @@ import Tabs from 'react-bootstrap/Tabs';
 import { db } from "../../firebase-config";
 import Loader from "../Loader/Loader";
 import NewTask from "./NewTask";
-import TaskHistory from './TaskHistory'
-import SwitchTask from './SwitchTask';
 import ClientTable from './ClientTable';
 import TeammateTable from './TeammateTable';
 
@@ -30,73 +27,19 @@ export default function HomeList(props) {
   const [filter, setFilter] = useState("All");
   const [teammateEmail, setTeammateEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [taskSelected, setTaskSelected] = useState();
-  const [modalShow, setModalShow] = useState(false);
-  const [clientSelected, setClientSelected] = useState("");
+  const [tab, setTab] = useState("Teammate");
+  const [clientSelected, setClientSelected] = useState(
+    JSON.parse(localStorage.getItem('clientSelected')),);
 
 
   function handleViewChange() {
     props.onChange(false)
   }
 
-  const handleDeleteTask = (id, index) => {
-    setLoading(true);
-    remove(ref(db, `/teammate/${id}/tasks/${index}/`))
-      .then(() => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  const handleCompleteTask = (teammate, id, index, latest) => {
-    setLoading(true)
-    const info = {
-      to_name: teammate.name,
-      from_name: props.manager.name,
-      message: `Your task ${teammate.tasks[index].task} from client ${teammate.tasks[index].client} has been approved by your manager ${props.manager.name}`,
-      from_email: props.manager.email,
-      to_email: teammate.email
-    }
-    // fetch('https://example.com/profile', {
-    //   method: 'POST', // or 'PUT'
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(info),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log('Success:');
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error:', error);
-    //   });
-
-
-
-    emailjs.send("service_8babtb3", "template_3e3kpdk", info, "E1o2OcJneKcoyHqxA").then((res) => {
-
-    }).catch((err) => console.log(err));
-    set(ref(db, `/teammate/${id}/tasks/${index}/updates/${latest}/status`), "Completed")
-      .then(() => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
   onChildChanged(ref(db, `/teammate/`), () => {
     setLoading(true)
     window.location.reload()
   })
-
-  function swap(arr, from, to) {
-    let temp = arr[from]
-    arr[from] = arr[to]
-    arr[to] = temp
-  }
-
   const dateFormatChange = (date) => {
     if (date === '--') {
       return '--'
@@ -152,33 +95,6 @@ export default function HomeList(props) {
       return hour + ':' + minute + ' am'
     }
   }
-  const handleUpTask = (id, index, tasks, taskLength) => {
-    setLoading(true)
-    if (index === 0) {
-      setLoading(false)
-      alert('Its already on the top')
-    } else {
-      let newarr = tasks
-      swap(newarr, index, index - 1)
-      update(ref(db, `teammate/${id}/`), {
-        tasks: newarr,
-      })
-    }
-  }
-
-  const handleDownTask = (id, index, tasks, taskLength) => {
-    setLoading(true)
-    if (index === taskLength - 1) {
-      setLoading(false)
-      alert('Its already on the bottom')
-    } else {
-      let newarr = tasks
-      swap(newarr, index + 1, index)
-      update(ref(db, `teammate/${id}/`), {
-        tasks: newarr,
-      })
-    }
-  }
   const addTeammate = () => {
     props.addTeammate(teammateEmail);
   };
@@ -193,12 +109,13 @@ export default function HomeList(props) {
             <Row>
                 <Col sm={3} md={3} style={{ marginTop: '1em' }}>
                 <Tabs
-                    defaultActiveKey="home"
+                    defaultActiveKey="Teammate"
                   id="uncontrolled-tab-example"
-                  className="mt-3"
+                    className="mt-3"
+                    onSelect={(e) => { setTab(e) }}
                     style={{ width: 'fit-content' }}
                 >
-                  <Tab eventKey="home" title="Teammate">
+                    <Tab eventKey="Teammate" title="Teammate">
                     <div className="task-box">
                       <OverlayTrigger
                         trigger="click"
@@ -311,6 +228,10 @@ export default function HomeList(props) {
                                       );
                                       setSelected(info.teammate);
                                       setClientSelected("");
+                                      localStorage.setItem(
+                                        'clientSelected',
+                                        JSON.stringify("")
+                                      );
                                     }}
                                     style={{ backgroundColor: "#fff !important" }}
                                   >
@@ -341,7 +262,7 @@ export default function HomeList(props) {
                       </div>
                     </div>
                   </Tab>
-                    <Tab eventKey="profile" title="Company">
+                    <Tab eventKey="Company" title="Company">
                       <div className="task-box">
                         <input
                           className="rounded-2 w-100"
@@ -369,14 +290,14 @@ export default function HomeList(props) {
                             <TableRow></TableRow>
                           </TableHead>
                           <TableBody>
-                              {!props.manager?.clients ? (
+                              {!props?.manager?.clients ? (
                               <TableRow
                                 colSpan={7}
                                 align="center">
                                   No Clients right now
                               </TableRow>
                             ) : (
-                                  props.manager?.clients?.map((info) => {
+                                  props?.manager?.clients?.map((info) => {
                                 return (
                                   <TableRow
                                     key={info}
@@ -385,6 +306,10 @@ export default function HomeList(props) {
                                       localStorage.setItem(
                                         'teammateSelected',
                                         JSON.stringify("")
+                                      );
+                                      localStorage.setItem(
+                                        'clientSelected',
+                                        JSON.stringify(info)
                                       );
                                       setSelected("");
                                     }} style={{ backgroundColor: "#fff !important" }}
@@ -422,11 +347,14 @@ export default function HomeList(props) {
                 md={9}
                   style={{ marginTop: '1em' }}
                 >
-                {!selected ? (
+                  {!selected || !clientSelected ? (
                   <Row>
                       <Col sm={6} md={6} style={{ marginTop: '1em' }}>
-                      <h5 className="blue">No Teammate</h5>
-                      <h6>Selected</h6>
+                        {
+                          tab === "Teammate" ? <><h5 className="blue">No Teammate</h5>
+                            <h6>Selected</h6></> : <><h5 className="blue">No Client</h5>
+                            <h6>Selected</h6></>
+                        }
                     </Col>
                     <Col
                       sm={6}
@@ -459,14 +387,13 @@ export default function HomeList(props) {
                       props.team
                     .filter((info) => info.teammate === selected)
                     .map((info, index) => {
-                      return selected ? (
+                      return selected || clientSelected ? (
                         <Row key={index}>
                           <Col sm={6} md={6} style={{ marginTop: '1em' }}>
                             {
-                              clientSelected === "" ? <><h5 className="blue">{info.data.name}</h5>
-                                <h6>{info.data.designation}</h6></> : <h5 className="blue">{clientSelected}</h5>
+                              tab === "Teammate" ? <><h5 className="blue">{info.data.name}</h5>
+                                <h6>{info.data.designation}</h6></> : <><h5 className="blue">{clientSelected}</h5></>
                             }
-
                           </Col>
                           <Col
                             sm={6}
@@ -535,9 +462,6 @@ export default function HomeList(props) {
                                 manager={props.manager}
                                 managerId={props.managerId}
                               />
-
-
-
                             </div>
                           </Col>
                         </Row>
@@ -550,7 +474,7 @@ export default function HomeList(props) {
                   <Row className="table-height1">
                       <Col>
                         {
-                          clientSelected === "" ?
+                          tab === "Teammate" ?
                             <TeammateTable
                               filterTeammate={filter}
                               teammateselected={selected}
