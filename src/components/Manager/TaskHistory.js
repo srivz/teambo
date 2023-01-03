@@ -88,7 +88,7 @@ export default function TaskHistory(props) {
       corrections: props?.teamtasks[props?.indexselected]?.updates?.length,
       status: 'Assigned',
       deadlineDate: taskUpdate.deadlineDate,
-      description: taskUpdate.description,
+      description: { 0: taskUpdate.description },
       deadlineTime: taskUpdate.deadlineTime,
     })
       .then(() => { setUpdateTaskForm(false); setUpdateAdditionalTaskForm(false); })
