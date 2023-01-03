@@ -877,7 +877,7 @@ export default function HomeList(props) {
                                                       <Button
                                                         disabled={info1.updates[
                                                           info1.updates.length - 1
-                                                        ].status !== 'Done' ? true : false}
+                                                        ].status !== 'Done' ? false : true}
                                                         // onClick={() => {
                                                         //   handleSwitchTask(
                                                         //     info.teammate
