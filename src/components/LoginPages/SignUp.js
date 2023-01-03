@@ -172,13 +172,13 @@ export default function Signup({ userid }) {
                       <Dropdown>
                         <Dropdown.Toggle
                           id="dropdown-basic"
-                          className="w-100 client-dropdown company-dropdown"
+                          className="w-100  company-dropdown"
                         >{
                             user.companyName === "" ? "Select Company " : user.companyName
                           }
                         </Dropdown.Toggle>
 
-                        <Dropdown.Menu className="client-dropdown-menu company-dropdown-menu">
+                        <Dropdown.Menu className="company-dropdown-menu">
                           <div className="add-new-company-input">
                             <input
                               type="text"
