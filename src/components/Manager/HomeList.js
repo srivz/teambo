@@ -25,12 +25,12 @@ export default function HomeList(props) {
   const [selected, setSelected] = useState(
     JSON.parse(localStorage.getItem('teammateSelected')),
   );
+  const [clientSelected, setClientSelected] = useState(
+    JSON.parse(localStorage.getItem('clientSelected')),);
   const [filter, setFilter] = useState("All");
   const [teammateEmail, setTeammateEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState("Teammate");
-  const [clientSelected, setClientSelected] = useState(
-    JSON.parse(localStorage.getItem('clientSelected')),);
 
 
   function handleViewChange() {

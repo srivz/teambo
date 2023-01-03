@@ -12,15 +12,15 @@ import {
 import TaskHistory from './TaskHistory'
 import SwitchTask from './SwitchTask';
 import { db } from '../../firebase-config';
+import Loader from '../Loader/Loader';
 
 export default function TeammateTable(props) {
     const selected = props?.teammateselected
     const filter = props?.filterTeammate;
     const [taskSelected, setTaskSelected] = useState();
     const [modalShow, setModalShow] = useState(false);
-    const [teammateEmail, setTeammateEmail] = useState('');
+    // const [teammateEmail, setTeammateEmail] = useState('');
     const [loading, setLoading] = useState(false);
-    const [clientSelected, setClientSelected] = useState("");
 
 
     function handleViewChange() {
@@ -39,13 +39,13 @@ export default function TeammateTable(props) {
     }
     const handleCompleteTask = (teammate, id, index, latest) => {
         setLoading(true)
-        const info = {
-            to_name: teammate.name,
-            from_name: props?.manager.name,
-            message: `Your task ${teammate.tasks[index].task} from client ${teammate.tasks[index].client} has been approved by your manager ${props?.manager.name}`,
-            from_email: props?.manager.email,
-            to_email: teammate.email
-        }
+        // const info = {
+        //     to_name: teammate.name,
+        //     from_name: props?.manager.name,
+        //     message: `Your task ${teammate.tasks[index].task} from client ${teammate.tasks[index].client} has been approved by your manager ${props?.manager.name}`,
+        //     from_email: props?.manager.email,
+        //     to_email: teammate.email
+        // }
         // fetch('https://example.com/profile', {
         //   method: 'POST', // or 'PUT'
         //   headers: {
@@ -60,12 +60,8 @@ export default function TeammateTable(props) {
         //   .catch((error) => {
         //     console.error('Error:', error);
         //   });
-
-
-
-        emailjs.send("service_8babtb3", "template_3e3kpdk", info, "E1o2OcJneKcoyHqxA").then((res) => {
-
-        }).catch((err) => console.log(err));
+        // emailjs.send("service_8babtb3", "template_3e3kpdk", info, "E1o2OcJneKcoyHqxA").then((res) => {
+        // }).catch((err) => console.log(err));
         set(ref(db, `/teammate/${id}/tasks/${index}/updates/${latest}/status`), "Completed")
             .then(() => {
                 window.location.reload();
@@ -167,11 +163,13 @@ export default function TeammateTable(props) {
             })
         }
     }
-    const addTeammate = () => {
-        props?.addTeammate(teammateEmail);
-    };
+    // const addTeammate = () => {
+    //     props?.addTeammate(teammateEmail);
+    // };
 
-    return (
+    return (<>{loading ? (
+        <Loader />
+    ) : (
         <Table
             style={{
                 borderCollapse: 'separate',
@@ -675,6 +673,7 @@ export default function TeammateTable(props) {
                         )
                     })}
             </TableBody>
-        </Table>
+        </Table>)
+    }</>
     )
 }
