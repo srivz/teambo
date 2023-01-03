@@ -49,16 +49,16 @@ export default function Home() {
           if (snapshot.exists()) {
             setTeammate(snapshot.val());
             setId(newId);
+            setLoading(false);
           } else {
             setLoading(false);
             console.log("No data available");
           }
         });
         setOnce(false);
-        setLoading(false);
+
       }
     } else {
-      setLoading(true);
       window.location.href = "/";
     }
   });
@@ -89,7 +89,8 @@ export default function Home() {
     }
   };
   const accept = (managerId) => {
-    setLoading(true); if (once2) {
+    setLoading(true);
+    if (once2) {
       onValue(ref(db, `manager/${managerId}`), (snapshot) => {
         if (snapshot.exists()) {
           let data = snapshot.val();
@@ -109,7 +110,6 @@ export default function Home() {
   };
 
   onChildChanged(ref(db, `/teammate/${id}`), () => {
-    setLoading(true);
     window.location.reload();
   });
 

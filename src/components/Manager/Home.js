@@ -23,29 +23,23 @@ export default function Home() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       if (once) {
-
         setLoading(true);
         onValue(ref(db, `manager/${user.uid}`), (snapshot) => {
-
           if (snapshot.exists()) {
             let data = snapshot.val();
             setManager(data);
             setManagerId(user.uid);
-
             setManagerName(user.displayName);
             setTeammateSet(data.teammates);
             if (data.teammates !== undefined) {
               getTeammates(data.teammates);
+              setLoading(false);
             }
-
           } else {
-
             console.log("No data available");
             setLoading(false);
           }
         });
-
-            setLoading(false);
 
         setOnce(false);
       }
@@ -55,7 +49,8 @@ export default function Home() {
   });
 
   const getTeammates = (teamList) => {
-    if (once1)
+    if (once1) {
+      setLoading(true);
       teamList.forEach((teammate) => {
         onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
           if (snapshot.exists()) {
@@ -64,13 +59,15 @@ export default function Home() {
               ...teammateList,
               { data, teammate },
             ]);
+            setLoading(false);
           } else {
             console.log("No data available");
             setLoading(false);
           }
         });
       });
-    setLoading(false);
+    }
+
     setOnce1(false);
   };
   const getTeammatesWithMail = (teammate) => {
@@ -81,7 +78,7 @@ export default function Home() {
         return true;
       } else {
         alert("User not available");
-            setLoading(false);
+        setLoading(false);
       }
     });
   };

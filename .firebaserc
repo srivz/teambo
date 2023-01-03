@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "teambo-c231b",
+    "staging": "teambo-c231b"
+  },
+  "targets": {},
+  "etags": {}
+}
