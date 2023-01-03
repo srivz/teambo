@@ -1453,14 +1453,9 @@ export default function HomeList(props) {
                                                             </Button>
                                                           </Row>
 
-                                                          <Row
-                                                            className="d-grid gap-2"
-                                                            style={{
-                                                              marginBottom: '.5em',
-                                                            }}
-                                                          >
+
                                                             <SwitchTask />
-                                                          </Row>
+
                                                           <Row
                                                             className="d-grid gap-2"
                                                             style={{
