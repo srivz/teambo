@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ref, set, update } from "firebase/database";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Row, Col, Form, OverlayTrigger } from "react-bootstrap";
 import { db } from "../../firebase-config";
 import moment from "moment";
@@ -11,6 +11,9 @@ import Popover from 'react-bootstrap/Popover';
 export default function SwitchTask(props) {
     var today = new Date();
     const [newClient, setNewClient] = useState("");
+    const [teammateId, setTeammateId] = useState("");
+    const [teammateName, setTeammateName] = useState("");
+    const [taskNumber, setTaskNumber] = useState(0);
     const [teammateList, setTeammateList] = useState([]);
     const [newTask, setNewTask] = useState({
         client: "",
@@ -18,7 +21,7 @@ export default function SwitchTask(props) {
         clientEmail: "",
         updates: {
             0: {
-                description: "",
+                description: { 0: "" },
                 assignedDate:
                     String(today.getDate()).padStart(2, "0") +
                     "/" +
@@ -40,7 +43,7 @@ export default function SwitchTask(props) {
     });
 
     const handleDescriptionChange = (event) => {
-        newTask.updates[0].description = event.target.value;
+        newTask.updates[0].description[0] = event.target.value;
     };
     const handleDateChange = (event) => {
         let date = (event.target.value).split("-")
@@ -51,72 +54,80 @@ export default function SwitchTask(props) {
         newTask.updates[0].deadlineTime = event.target.value;
     };
 
-    const handleNewTask = async (id, tasknumber) => {
-        // set(ref(db, `/teammate/${id}/tasks/${tasknumber}/`), newTask)
-        //     .then(() => {
-        //         window.location.reload();
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
+    const handleNewTask = async () => {
+
+        if (teammateId === "") {
+            alert("First Select a teammate")
+        }
+        else {
+            props?.handleDeleteTask(props?.prevTeammateId, props?.prevTaskIndex);
+            set(ref(db, `/teammate/${teammateId}/tasks/${taskNumber}/`), newTask)
+                .then(() => {
+                    window.location.reload();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+
     };
 
     const searchClient = (e) => {
         setNewClient(e.target.value)
-        const newFilter = props.manager?.teammates.filter((val) => {
-            return val.toLowerCase().includes(e.target.value.toLowerCase());
+        const newFilter = props?.props?.team.filter((client) => {
+            return client.teammate !== props.prevTeammateId
+        }).filter((val) => {
+            return val.data.name.toLowerCase().includes(e.target.value.toLowerCase());
         });
         if (e.target.value === "") {
-            setTeammateList(props.manager?.teammates);
+            setTeammateList(props?.props?.team.filter((client) => {
+                return client.teammate !== props.prevTeammateId
+            }));
         } else {
             setTeammateList(newFilter);
         }
     }
 
 
+    useEffect(() => {
+        setNewTask((task) => {
+            return { ...task, task: props?.switchTask?.task, client: props?.switchTask?.client, clientEmail: props?.switchTask?.clientEmail, }
+        })
+    }, [props]);
+
+    console.log(props);
+    console.log(newTask);
+
     return (
-        <Row
-            className="d-grid gap-2"
+        <div
+            className="bg-white switch-task-box"
             style={{
-                marginBottom: '.5em',
+
             }}
         >
-        <OverlayTrigger
-            trigger="click"
-                key="auto"
-                placement="top"
-                overlay={
-                    <Popover>
-                        <div
-                            className="bg-white"
-                            style={{
-                                padding: "1em",
-                                marginBottom: "40px",
-                                marginLeft: "-50px",
-                                width: "400px",
-                                boxShadow: "rgba(0, 0, 0, 0.15) 1px 3px 5px",
-                                cursor: "pointer",
-                                position: "relative",
-                                zIndex: "11111"
-                            }}
-                        >
-                            <h5 className="blue">Move Task To.. </h5>
-                            {/* <Form.Group as={Row} className="mb-3" controlId="formPlaintext1">
-                        <Form.Label column sm="4" md="4">
-                            Client*
-                        </Form.Label>
+            <Button variant="light" onClick={(e) => {
+                props.setSwitchTask("");
+            }} className="mb-3">
+                <FontAwesomeIcon icon="fa-solid fa-chevron-left" />{" "}
+                Close
+            </Button>
+            <h5 className="blue">Move Task To.. </h5>
+            <Form.Group as={Row} className="mb-3" controlId="formPlaintext1">
+                <Form.Label column sm="4" md="4">
+                    Teammate-
+                </Form.Label>
                         <Col sm="8">
                             <Dropdown>
                                 <Dropdown.Toggle
                                     id="dropdown-basic"
                                     className="w-100 client-dropdown"
                                 >
-                                    Select Teammate
+                            {teammateName ? teammateName : "Select Teammate"}
                                 </Dropdown.Toggle>
 
-                                <Dropdown.Menu className="client-dropdown-menu">
+                        <Dropdown.Menu className="client-dropdown-menu w-100">
                                     <div className="add-new-input">
-                                        <input className="add-new-input-textbox"
+                                <input className="add-new-input-textbox w-100"
                                             type="text"
                                             name="newClient"
                                             placeholder="&#xf002;    Search"
@@ -124,55 +135,61 @@ export default function SwitchTask(props) {
                                             onChange={searchClient}
                                         />
                                     </div>
-                                    <div className=" client-dropdown-menu-list client-dropdown-menu-height">
-                                        <Row className="client-dropdown-menu-height">
-                                            {
-                                                teammateList.length === 0 && newClient === "" ?
-                                                    props?.manager?.clients?.map((client, index) => {
-                                                        return (
-                                                            <Dropdown.Item
-                                                                key={index}
-                                                                onClick={(e) => {
-                                                                    setNewTask((oldTask) => {
-                                                                        return { ...oldTask, client };
-                                                                    });
-                                                                }}
-                                                            >
-                                                                {client}
-                                                            </Dropdown.Item>
-                                                        );
-                                                    }) :
-                                                    teammateList.map((client, index) => {
-                                                        return (
-                                                            <Dropdown.Item
-                                                                key={index}
-                                                                onClick={(e) => {
-                                                                    setNewTask((oldTask) => {
-                                                                        return { ...oldTask, client };
-                                                                    });
-                                                                }}
-                                                            >
-                                                                {client}
-                                                            </Dropdown.Item>
-                                                        );
-                                                    })}</Row></div>
+                            <div className="client-dropdown-menu-list client-dropdown-menu-height">
+                                {teammateList.length === 0 && newClient === "" ?
+                                    props?.props?.team.filter((client) => {
+                                        return client.teammate !== props.prevTeammateId
+                                    })
+                                        .map((client, index) => {
+                                            return (
+                                                <Dropdown.Item
+                                                    key={index}
+                                                    onClick={(e) => {
+                                                        setTeammateName(client.data.name)
+                                                        setTeammateId(client.teammate)
+                                                        setTaskNumber(client.data.tasks.length)
+                                                    }}
+                                                >
+                                                    {client.data.name}
+                                                </Dropdown.Item>
+                                            );
+                                        })
+                                    :
+                                    teammateList.map((client, index) => {
+                                        return (
+                                            <Dropdown.Item
+                                                key={index}
+                                                onClick={(e) => {
+                                                    setTeammateName(client.data.name)
+                                                    setTeammateId(client.teammate)
+                                                    setTaskNumber(client.data.tasks.length)
+                                                }}
+                                            >
+                                                {client.data.name}
+                                            </Dropdown.Item>
+                                        );
+                                    })}
+
+                            </div>
                                 </Dropdown.Menu>
                             </Dropdown>
-                        </Col>
-                    </Form.Group> */}
-                            <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
-                                <Form.Label column md="4" sm="4">
-                                    Client
-                                </Form.Label>
-                                <Col sm="8">
-                                    <Form.Control
-                                        type="text"
-                                        name="client"
-                                        disabled
-                                    // value={ }
-                                    />
-                                </Col>
-                            </Form.Group>
+                </Col>
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
+                <Form.Label column md="4" sm="4">
+                    Client
+                </Form.Label>
+                <Col sm="8">
+                    <Form.Control
+                        type="text"
+                        name="client"
+                        disabled
+                        value={newTask.client}
+                    />
+                </Col>
+            </Form.Group>
+
                             <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
                                 <Form.Label column md="4" sm="4">
                                     Task
@@ -182,7 +199,7 @@ export default function SwitchTask(props) {
                                         type="text"
                                         name="task"
                                         disabled
-                                    // value={ }
+                        value={newTask.task}
                                     />
                                 </Col>
                             </Form.Group>
@@ -194,8 +211,8 @@ export default function SwitchTask(props) {
                                     <Form.Control
                                         as="textarea"
                                         name="description"
-                                    // value={}
-                                    // onChange={handleDescriptionChange}
+
+                        onChange={handleDescriptionChange}
                                     />
                                 </Col>
                             </Form.Group>
@@ -210,10 +227,10 @@ export default function SwitchTask(props) {
                                 <Col sm="4" md="4">
                                     <Form.Control
                                         type="date"
-                                        // min={moment().format("YYYY-MM-DD")}
+                        min={moment().format("YYYY-MM-DD")}
                                         name="deadlineDate"
                                         style={{ fontSize: "12px" }}
-                                    // onChange={handleDateChange}
+                        onChange={handleDateChange}
                                     />
                                 </Col>
                                 <Col sm="4" md="4">
@@ -221,7 +238,7 @@ export default function SwitchTask(props) {
                                         type="time"
                                         style={{ fontSize: "12px" }}
                                         name="deadlineTime"
-                                    // onChange={handleTimeChange}
+                        onChange={handleTimeChange}
                                     />
                                 </Col>
                             </Form.Group>
@@ -231,47 +248,18 @@ export default function SwitchTask(props) {
                                     marginBottom: ".5em",
                                 }}
                             >
-                                {/* <Button
+                <Button
                             variant="primary"
-                            onClick={() => {
-                                handleNewTask(
-                                    props?.teammate,
-                                    props?.tasks !== undefined ? props?.tasks?.length : 0
-                                );
-                            }}
+                    onClick={handleNewTask}
                             style={{
                                 textAlign: "center",
                             }}
                             block
                         >
-                            Assign
-                        </Button> */}
+                    Switch
+                </Button> 
                             </div>
-                        </div>
-                    </Popover>
-
-            }
-        >
-
-
-            <Button
-                variant="light"
-                style={{
-                    textAlign: 'left',
-                }}
-            >
-                <FontAwesomeIcon
-                    icon="fa-solid fa-shuffle"
-                    style={{
-                        paddingRight:
-                            '.5em',
-                        color: "blue",
-                    }}
-                />
-                Switch Task To..
-                </Button>
-            </OverlayTrigger>
-        </Row>
+        </div>
 
     );
 }

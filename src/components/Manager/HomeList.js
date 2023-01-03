@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { onChildChanged, ref, remove, set, update } from 'firebase/database'
-import emailjs from '@emailjs/browser';
 import React, { useEffect, useState } from 'react'
 import {
   Button,
@@ -18,9 +17,6 @@ import Loader from "../Loader/Loader";
 import NewTask from "./NewTask";
 import ClientTable from './ClientTable';
 import TeammateTable from './TeammateTable';
-import { height } from '@mui/system';
-
-
 export default function HomeList(props) {
   const [selected, setSelected] = useState(
     JSON.parse(localStorage.getItem('teammateSelected')),
