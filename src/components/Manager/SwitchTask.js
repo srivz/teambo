@@ -115,25 +115,25 @@ export default function SwitchTask(props) {
                 <Form.Label column sm="4" md="4">
                     Teammate-
                 </Form.Label>
-                        <Col sm="8">
-                            <Dropdown>
-                                <Dropdown.Toggle
-                                    id="dropdown-basic"
-                                    className="w-100 client-dropdown"
-                                >
+                <Col sm="8">
+                    <Dropdown>
+                        <Dropdown.Toggle
+                            id="dropdown-basic"
+                            className="w-100 client-dropdown"
+                        >
                             {teammateName ? teammateName : "Select Teammate"}
-                                </Dropdown.Toggle>
+                        </Dropdown.Toggle>
 
                         <Dropdown.Menu className="client-dropdown-menu w-100">
-                                    <div className="add-new-input">
+                            <div className="add-new-input">
                                 <input className="add-new-input-textbox w-100"
-                                            type="text"
-                                            name="newClient"
-                                            placeholder="&#xf002;    Search"
-                                            value={newClient}
-                                            onChange={searchClient}
-                                        />
-                                    </div>
+                                    type="text"
+                                    name="newClient"
+                                    placeholder="&#xf002;    Search"
+                                    value={newClient}
+                                    onChange={searchClient}
+                                />
+                            </div>
                             <div className="client-dropdown-menu-list client-dropdown-menu-height">
                                 {teammateList.length === 0 && newClient === "" ?
                                     props?.props?.team.filter((client) => {
@@ -170,8 +170,8 @@ export default function SwitchTask(props) {
                                     })}
 
                             </div>
-                                </Dropdown.Menu>
-                            </Dropdown>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </Col>
             </Form.Group>
 
@@ -189,75 +189,75 @@ export default function SwitchTask(props) {
                 </Col>
             </Form.Group>
 
-                            <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
-                                <Form.Label column md="4" sm="4">
-                                    Task
-                                </Form.Label>
-                                <Col sm="8">
-                                    <Form.Control
-                                        type="text"
-                                        name="task"
-                                        disabled
+            <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
+                <Form.Label column md="4" sm="4">
+                    Task
+                </Form.Label>
+                <Col sm="8">
+                    <Form.Control
+                        type="text"
+                        name="task"
+                        disabled
                         value={newTask.task}
-                                    />
-                                </Col>
-                            </Form.Group>
-                            <Form.Group as={Row} className="mb-3" controlId="formPlaintext3">
-                                <Form.Label column md="4" sm="4">
-                                    Description*
-                                </Form.Label>
-                                <Col sm="8">
-                                    <Form.Control
-                                        as="textarea"
-                                        name="description"
+                    />
+                </Col>
+            </Form.Group>
+            <Form.Group as={Row} className="mb-3" controlId="formPlaintext3">
+                <Form.Label column md="4" sm="4">
+                    Description*
+                </Form.Label>
+                <Col sm="8">
+                    <Form.Control
+                        as="textarea"
+                        name="description"
 
                         onChange={handleDescriptionChange}
-                                    />
-                                </Col>
-                            </Form.Group>
-                            <Form.Group
-                                as={Row}
-                                className="mb-3 deadline"
-                                controlId="formPlaintext3"
-                            >
-                                <Form.Label column md="4" sm="4">
-                                    Deadline
-                                </Form.Label>
-                                <Col sm="4" md="4">
-                                    <Form.Control
-                                        type="date"
+                    />
+                </Col>
+            </Form.Group>
+            <Form.Group
+                as={Row}
+                className="mb-3 deadline"
+                controlId="formPlaintext3"
+            >
+                <Form.Label column md="4" sm="4">
+                    Deadline
+                </Form.Label>
+                <Col sm="4" md="4">
+                    <Form.Control
+                        type="date"
                         min={moment().format("YYYY-MM-DD")}
-                                        name="deadlineDate"
-                                        style={{ fontSize: "12px" }}
+                        name="deadlineDate"
+                        style={{ fontSize: "12px" }}
                         onChange={handleDateChange}
-                                    />
-                                </Col>
-                                <Col sm="4" md="4">
-                                    <Form.Control
-                                        type="time"
-                                        style={{ fontSize: "12px" }}
-                                        name="deadlineTime"
+                    />
+                </Col>
+                <Col sm="4" md="4">
+                    <Form.Control
+                        type="time"
+                        style={{ fontSize: "12px" }}
+                        name="deadlineTime"
                         onChange={handleTimeChange}
-                                    />
-                                </Col>
-                            </Form.Group>
-                            <div
-                                className="d-grid gap-2"
-                                style={{
-                                    marginBottom: ".5em",
-                                }}
-                            >
+                    />
+                </Col>
+            </Form.Group>
+            <div
+                className="d-grid gap-2"
+                style={{
+                    marginBottom: ".5em",
+                }}
+            >
                 <Button
-                            variant="primary"
+                    variant="primary"
                     onClick={handleNewTask}
-                            style={{
-                                textAlign: "center",
-                            }}
-                            block
-                        >
+                    style={{
+                        textAlign: "center",
+                    }}
+                    block
+                >
                     Switch
-                </Button> 
-                            </div>
+                </Button>
+            </div>
         </div>
 
     );

@@ -486,7 +486,7 @@ export default function TeammateTable(props) {
                                                                 id={`popover-positioned-bottom`}
                                                             >
                                                                 <Popover.Body>
-                                                                    <div
+                                                                    <Row
                                                                         className="d-grid gap-2"
                                                                         style={{
                                                                             marginBottom: '.5em',
@@ -518,7 +518,7 @@ export default function TeammateTable(props) {
                                                                             />
                                                                             Mark Completed
                                                                         </Button>
-                                                                    </div>
+                                                                    </Row>
                                                                     <Row
                                                                         className="d-grid gap-2"
                                                                         style={{
@@ -591,7 +591,12 @@ export default function TeammateTable(props) {
                                                                             marginBottom: '.5em',
                                                                         }}
                                                                     >  <Button
-                                                                        variant="light"
+                                                                            variant="light"
+                                                                            disabled={info1.updates[
+                                                                                info1.updates.length - 1
+                                                                            ].status === 'Done' || info1.updates[
+                                                                                info1.updates.length - 1
+                                                                            ].status === 'Completed' ? true : false}
                                                                         style={{
                                                                             textAlign: 'left',
                                                                         }}
