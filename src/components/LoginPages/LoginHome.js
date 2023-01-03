@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import logo from "../assets/images/Group 3.svg";
-import rect from "../assets/images/Rectangle 4.svg";
-import Icon_feather_check from "../assets/images/Icon feather-check.svg";
+import logo from "../../assets/images/Group 3.svg";
+import rect from "../../assets/images/Rectangle 4.svg";
+import Icon_feather_check from "../../assets/images/Icon feather-check.svg";
 import { Link } from "react-router-dom";
 
 export default function LoginHome() {
