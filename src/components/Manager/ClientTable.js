@@ -77,11 +77,7 @@ const ClientTable = ({ filter, allTasks, clientSelected, dateFormatChange, timeF
                     .map((info) => {
                         return (
                             <>
-                                {!info?.tasks ? (
-                                    <TableRow colSpan={7} align="center">
-                                        No tasks assigned
-                                    </TableRow>
-                                ) : (
+                                {
                                     info?.tasks?.filter((info1) => {
                                         return filter !== "All" ?
                                             info1.updates[
@@ -92,7 +88,8 @@ const ClientTable = ({ filter, allTasks, clientSelected, dateFormatChange, timeF
                                             ].status !== filter
                                     }).filter((info1) => {
                                         return info1.client === clientSelected
-                                    })?.map((info1, index) => {
+                                    })
+                                        ?.map((info1, index) => {
                                         return (
                                             <TableRow
                                                 key={index}
@@ -295,7 +292,7 @@ const ClientTable = ({ filter, allTasks, clientSelected, dateFormatChange, timeF
                                             </TableRow>
                                         )
                                     })
-                                )}
+                                }
 
                             </>
                         )
