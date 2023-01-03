@@ -417,10 +417,11 @@ export default function HomeList(props) {
                             className="text-end"
                           >
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
-                              <Dropdown
+                              <Dropdown 
                                 style={{ width: "150px", marginRight: '1em' }}>
                                 <Dropdown.Toggle
                                   id="dropdown-basic"
+                                  style={{ height: "45px" }}
                                   className="w-100  company-dropdown"
                                 >{filter}
                                 </Dropdown.Toggle>
@@ -496,9 +497,10 @@ export default function HomeList(props) {
                               className="text-end"
                             >
                               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
-                                <Dropdown
+                                <Dropdown 
                                   style={{ width: "200px" }}>
                                   <Dropdown.Toggle
+                                    style={{ height: "45px" }}
                                     id="dropdown-basic"
                                     className="w-100  company-dropdown"
                                   >{filter}
