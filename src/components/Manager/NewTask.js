@@ -134,13 +134,7 @@ export default function NewTask(props) {
                         value={newClient}
                         onChange={searchClient}
                       />
-                      {clientList.length === 0 ? (
-                        <button onClick={addClient}>Add</button>
-                      ) : (
-                        <button disabled style={{ backgroundColor: "#707070" }}>
-                          Add
-                        </button>
-                      )}
+                      <button onClick={addClient}>Add</button>
                     </div>
                     <div className=" client-dropdown-menu-list client-dropdown-menu-height">
                       <Row className="client-dropdown-menu-height">
