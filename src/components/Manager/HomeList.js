@@ -276,9 +276,9 @@ export default function HomeList(props) {
                         id="search"
                         placeholder="Search"
                       />
-                      <div className="overflow-set-auto table-height">
+                        <div className="overflow-set-auto table-height1">
                         <Table
-                          className="table-height"
+                            className="table-height1"
                           style={{
                               borderCollapse: 'separate',
                               borderSpacing: '0 20px',
@@ -334,9 +334,9 @@ export default function HomeList(props) {
                   </Tab>
                   <Tab eventKey="profile" title="Company">
                     <div className="task-box">
-                      <div className="overflow-set-auto table-height">
+                        <div className="overflow-set-auto table-height1">
                         <Table
-                          className="table-height"
+                            className="table-height1"
                           style={{
                               borderCollapse: 'separate',
                               borderSpacing: '0 20px',
