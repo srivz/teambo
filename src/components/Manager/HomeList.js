@@ -112,7 +112,7 @@ export default function HomeList(props) {
                     defaultActiveKey="Teammate"
                   id="uncontrolled-tab-example"
                     className="mt-3"
-                    onSelect={(e) => { setTab(e) }}
+                    onSelect={(e) => { setTab(e); }}
                     style={{ width: 'fit-content' }}
                 >
                     <Tab eventKey="Teammate" title="Teammate">
