@@ -113,12 +113,11 @@ export default function Signup({ userid }) {
   const handleSubmit = (event) => {
     event.preventDefault()
     if (
-      user.name === '' ||
-      user.companyName === '' ||
-      user.designation === ''
+      user.name==="" || user.companyName==="" || user.designation===""
     ) {
       alert('Fill the fields')
-    } else if (userLog.password.length < 6) {
+    }
+    else if (userLog.password.length < 6) {
       alert('Password should be atleast 6 characters!!!')
     } else {
       if (userLog.password === userLog.confirmPassword) {
@@ -319,7 +318,6 @@ export default function Signup({ userid }) {
                         ) : (
                           <option
                             value="Manager"
-                            selected={userid === 'teammate' ? false : true}
                           >
                             Manager
                           </option>
