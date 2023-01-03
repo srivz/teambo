@@ -13,6 +13,7 @@ import paused from '../../assets/images/paused.svg'
 import play from '../../assets/images/play.svg'
 import played from '../../assets/images/played.svg'
 import tick from '../../assets/images/tick.svg'
+import TeammateTaskHistory from './TeammateTaskHistory'
 
 export default function Home() {
   var today = new Date()
@@ -27,8 +28,7 @@ export default function Home() {
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
   const [filter, setFilter] = useState('All')
-  // const [taskSelected, setTaskSelected] = useState();
-  // const [modalShow, setModalShow] = useState(false);
+  const [modalShow, setModalShow] = useState(false)
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -361,7 +361,7 @@ export default function Home() {
                       }}
                         className="text- end"
                       >
-                        <Dropdown style={{ width: '200px' }}>
+                        <Dropdown style={{ width: '200px', marginRight: "1em" }}>
                           <Dropdown.Toggle
                             style={{ height: '45px' }}
                             id="dropdown-basic"
@@ -529,7 +529,7 @@ export default function Home() {
                                         .status !== filter
                                   })
                                   .map((info, index) => {
-                                    return taskSelected !== index ? (
+                                    return (
                                       <>
                                         <TableRow
                                           style={{
@@ -543,27 +543,29 @@ export default function Home() {
                                       className="box-shadow"
                                       key={index}
                                     >
-                                      <TableCell
-                                        onClick={() => {
-                                          setTaskSelected(index)
-                                        }}
+                                          <TableCell
+                                            onClick={() => {
+                                              setModalShow(true);
+                                              setTaskSelected(index)
+                                            }}
                                         style={{
                                           fontFamily: 'rockwen',
                                         }}
                                         align="center"
-                                        className="tablecell"
+
                                       >
                                         {info.client}
                                       </TableCell>
-                                      <TableCell
-                                        onClick={() => {
-                                          setTaskSelected(index)
-                                        }}
+                                          <TableCell
+                                            onClick={() => {
+                                              setModalShow(true);
+                                              setTaskSelected(index)
+                                            }}
                                         style={{
                                           fontFamily: 'rockwen',
                                         }}
                                         align="center"
-                                        className="tablecell"
+
                                       >
                                         {info.task}
                                       </TableCell>
@@ -579,13 +581,14 @@ export default function Home() {
                                             <>
                                               <TableCell
                                                 onClick={() => {
+                                                  setModalShow(true);
                                                   setTaskSelected(index)
                                                 }}
                                                 style={{
                                                   fontFamily: 'rockwen',
                                                 }}
                                                 align="center"
-                                                className="tablecell"
+
                                               >
                                                 {dateFormatChange(
                                                   info.updates[
@@ -595,13 +598,14 @@ export default function Home() {
                                               </TableCell>
                                               <TableCell
                                                 onClick={() => {
+                                                  setModalShow(true);
                                                   setTaskSelected(index)
                                                 }}
                                                 style={{
                                                   fontFamily: 'rockwen',
                                                 }}
                                                 align="center"
-                                                className="tablecell"
+
                                               >
                                                 {timeFormatChange(
                                                   info.updates[
@@ -611,13 +615,14 @@ export default function Home() {
                                               </TableCell>
                                               <TableCell
                                                 onClick={() => {
+                                                  setModalShow(true);
                                                   setTaskSelected(index)
                                                 }}
                                                 style={{
                                                   fontFamily: 'rockwen',
                                                 }}
                                                 align="center"
-                                                className="tablecell"
+
                                               >
                                                 +
                                                 {
@@ -628,10 +633,11 @@ export default function Home() {
                                               </TableCell>
                                               <TableCell
                                                 onClick={() => {
+                                                  setModalShow(true);
                                                   setTaskSelected(index)
                                                 }}
                                                 align="center"
-                                                className="tablecell"
+
                                                 style={
                                                   info.updates[
                                                     info.updates.length - 1
@@ -690,10 +696,7 @@ export default function Home() {
                                                 )}
                                               </TableCell>
                                               <TableCell
-                                                onClick={() => {
-                                                  setTaskSelected(index)
-                                                }}
-                                                className="tablecell"
+
                                                 align="center"
                                               >
                                                 <img
@@ -788,277 +791,19 @@ export default function Home() {
                                           )
                                         })}
                                     </TableRow>
-                                  </>
-                                ) : (
-                                  <TableRow
-                                    key={index}
-                                    style={{
-                                      backgroundColor:
-                                        info.updates[info.updates.length - 1]
-                                          .status !== 'Done'
-                                          ? '#fff'
-                                          : '#f1f4fb',
-                                    }}
-                                      className="box-shadow"
-                                    >
-                                      <TableCell
-                                        style={{
-                                          fontFamily: 'rockwen',
-                                        }}
-                                        onClick={() => {
-                                        setTaskSelected(null)
-                                      }}
-                                        align="center"
-                                      >
-                                        {info.client}
-                                      </TableCell>
-                                      <TableCell
-                                        style={{
-                                          width: '150px',
-                                          fontFamily: 'rockwen',
-                                        }}
-                                        onClick={() => {
-                                        setTaskSelected(null)
-                                      }}
-                                        align="center"
-                                      >
-                                        {info.task}
-                                        <br />
-                                        <br />
-                                        <p
-                                        style={{
-                                            fontSize: 'smaller',
-                                          }}
-                                        >
-                                          {
-                                            info.updates[info.updates.length - 1]
-                                              .description
-                                          }
-                                        </p>
-                                      </TableCell>
-                                      <TableCell
-                                        onClick={() => {
-                                          setTaskSelected(null)
-                                        }}
-                                        style={{
-                                        fontFamily: 'rockwen',
-                                      }}
-                                        align="center"
-                                      >
-                                        {info.updates
-                                          .sort((a, b) =>
-                                          a.corrections > b.corrections
-                                            ? -1
-                                            : 1,
-                                        )
-                                          .map((info2) => {
-                                            return (
-                                              <p>
-                                              {dateFormatChange(
-                                                info2.deadlineDate,
-                                              )}
-                                              <br />
-                                            </p>
-                                          )
-                                        })}
-                                      </TableCell>
-                                      <TableCell
-                                        onClick={() => {
-                                          setTaskSelected(null)
-                                        }}
-                                        style={{
-                                        fontFamily: 'rockwen',
-                                      }}
-                                        align="center"
-                                      >
-                                        {info.updates
-                                          .sort((a, b) =>
-                                          a.corrections > b.corrections
-                                            ? -1
-                                            : 1,
-                                        )
-                                          .map((info2) => {
-                                            return (
-                                              <p>
-                                              {timeFormatChange(
-                                                info2.deadlineTime,
-                                              )}
-                                              <br />
-                                            </p>
-                                          )
-                                        })}
-                                      </TableCell>
-                                      <TableCell
-                                        onClick={() => {
-                                          setTaskSelected(null)
-                                        }}
-                                        style={{
-                                        fontFamily: 'rockwen',
-                                      }}
-                                        align="center"
-                                      >
-                                        {info.updates
-                                          .sort((a, b) =>
-                                          a.corrections > b.corrections
-                                            ? -1
-                                            : 1,
-                                        )
-                                          .map((info2) => {
-                                            return (
-                                              <p>
-                                              {info2.corrections === '0'
-                                                ? info2.corrections
-                                                : '+' + info2.corrections}
-                                              <br />
-                                            </p>
-                                          )
-                                        })}
-                                      </TableCell>
-                                      <TableCell
-                                        onClick={() => {
-                                          setTaskSelected(null)
-                                        }}
-                                        style={{
-                                        fontFamily: 'rockwen',
-                                      }}
-                                        align="center"
-                                      >
-                                        {info.updates
-                                          .sort((a, b) =>
-                                          a.corrections > b.corrections
-                                            ? -1
-                                            : 1,
-                                        )
-                                          .map((info2) => {
-                                            return (
-                                              <p
-                                                style={
-                                                info2.status === 'Done'
-                                                  ? {
-                                                    color: '#000000',
-                                                    fontFamily: 'rockwen',
-                                                    fontWeight: 'bold',
-                                                  }
-                                                  : info2.status === 'Completed'
-                                                    ? {
-                                                      color: '#000000',
-                                                      fontFamily: 'rockwen',
-                                                      fontWeight: 'bold',
-                                                    }
-                                                    : info2.status === 'On Going'
-                                                      ? {
-                                                        color: '#24A43A',
-                                                        fontFamily: 'rockwen',
-                                                        fontWeight: 'bold',
-                                                      }
-                                                      : info2.status === 'Paused'
-                                                        ? {
-                                                          color: '#2972B2',
-                                                          fontFamily: 'rockwen',
-                                                          fontWeight: 'bold',
-                                                        }
-                                                        : {
-                                                          color: '#D1AE00',
-                                                          fontFamily: 'rockwen',
-                                                          fontWeight: 'bold',
-                                                        }
-                                              }
-                                            >
-                                              {info2.status}
-                                              <br />
-                                            </p>
-                                          )
-                                        })}
-                                      </TableCell>
-                                      <TableCell
-                                        onClick={() => {
-                                          setTaskSelected(null)
-                                        }}
-                                        align="center"
-                                      >
-                                        <img
-                                          src={
-                                            info.updates[0].status === 'On Going'
-                                              ? paused
-                                              : pause
-                                          }
-                                          alt="play"
-                                          width={30}
-                                          onClick={(e) => {
-                                            playTask(
-                                              e,
-                                              index,
-                                              info.updates.length,
-                                            )
-                                          }}
-                                          style={{
-                                            display:
-                                              info.updates[0].status === 'Done'
-                                                ? 'none'
-                                                : '',
-                                            margin: '.5em',
-                                            cursor: 'pointer',
-                                          }}
-                                        />
-                                        <img
-                                          src={
-                                            info.updates[0].status === 'Paused'
-                                              ? played
-                                              : play
-                                          }
-                                          alt="pause"
-                                          width={30}
-                                          onClick={(e) => {
-                                            pauseTask(
-                                              e,
-                                              index,
-                                            info.updates.length,
-                                          )
-                                          }}
-                                          style={{
-                                            display:
-                                              info.updates[0].status === 'Done'
-                                                ? 'none'
-                                                : '',
-                                            margin: '.5em',
-                                            cursor: 'pointer',
-                                          }}
-                                        />
-                                        <img
-                                          src={tick}
-                                          alt="done"
-                                          width={30}
-                                          onClick={(e) => {
-                                            completeTask(
-                                              e,
-                                              index,
-                                            info.updates.length,
-                                          )
-                                          }}
-                                          style={{
-                                            display:
-                                              info.updates[0].status === 'Done'
-                                                ? 'none'
-                                                : '',
-                                            margin: '.5em',
-                                            cursor: 'pointer',
-                                          }}
-                                        />
-                                      </TableCell>{' '}
-                                      {/* {info.data.tasks && taskSelected !== null ? (
-                                      <TaskHistory
-                                        show={modalShow}
-                                        id={info.teammate}
-                                        onHide={() => { setModalShow(false); setTaskSelected(null); }}
-                                        indexselected={taskSelected}
-                                        teamtasks={info.data.tasks}
-                                        name={info.data.name}
-                                        designation={info.data.designation}
-                                      />
-                                    ) : (
-                                      <></>
-                                    )} */}
-                                    </TableRow>
+                                        {teammate?.tasks && taskSelected !== null ? (
+                                          <TeammateTaskHistory
+                                            show={modalShow}
+                                            onHide={() => { setModalShow(false); setTaskSelected(null); }}
+                                            indexselected={taskSelected}
+                                            teamtasks={teammate.tasks}
+                                            name={teammate.name}
+                                            designation={teammate.designation}
+                                          />
+                                        ) : (
+                                          <></>
+                                        )}
+                                      </>
                                 )
                               })
                           )}
