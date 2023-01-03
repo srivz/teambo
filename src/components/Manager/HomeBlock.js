@@ -33,19 +33,19 @@ export default function HomeBlock(props) {
                   md={6}
                   style={{ marginTop: "1em" }}
                   className="text-end">
-                  <div>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
                     <FontAwesomeIcon
                       onClick={() => {
                         handleViewChange();
                       }}
                       icon="fa-solid fa-list"
-                      style={{ paddingRight: "1em" }}
+                      style={{ paddingRight: "1em", fontSize: "20px" }}
                     />
 
                     <FontAwesomeIcon
                       icon="fa-solid fa-grip "
                       color="#5f8fee"
-                      style={{ paddingRight: "1em" }}
+                      style={{ paddingRight: "1em", fontSize: "20px" }}
                     />
                     <NewTask
                       name={"No Teammate"}
@@ -77,13 +77,13 @@ export default function HomeBlock(props) {
                               handleViewChange();
                             }}
                             icon="fa-solid fa-list"
-                            style={{ paddingRight: "1em" }}
+                            style={{ paddingRight: "1em", fontSize: "20px" }}
                           />
 
                           <FontAwesomeIcon
                             icon="fa-solid fa-grip "
                             color="#5f8fee"
-                            style={{ paddingRight: "1em" }}
+                            style={{ paddingRight: "1em", fontSize: "20px" }}
                           />
                           <NewTask
                             name={info.data.name}

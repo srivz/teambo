@@ -7,10 +7,10 @@ import moment from "moment";
 import Dropdown from 'react-bootstrap/Dropdown';
 
 
-export default function NewTask(props) {
+export default function SwitchTask(props) {
     var today = new Date();
     const [newClient, setNewClient] = useState("");
-    const [clientList, setClientList] = useState([]);
+    const [teammateList, setTeammateList] = useState([]);
     const [newTask, setNewTask] = useState({
         client: "",
         task: "",
@@ -38,10 +38,6 @@ export default function NewTask(props) {
         },
     });
 
-    const handleChange = (event) => {
-        let newInput = { [event.target.name]: event.target.value };
-        setNewTask({ ...newTask, ...newInput });
-    };
     const handleDescriptionChange = (event) => {
         newTask.updates[0].description = event.target.value;
     };
@@ -55,190 +51,215 @@ export default function NewTask(props) {
     };
 
     const handleNewTask = async (id, tasknumber) => {
-        set(ref(db, `/teammate/${id}/tasks/${tasknumber}/`), newTask)
-            .then(() => {
-                window.location.reload();
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        // set(ref(db, `/teammate/${id}/tasks/${tasknumber}/`), newTask)
+        //     .then(() => {
+        //         window.location.reload();
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     });
     };
 
     const searchClient = (e) => {
         setNewClient(e.target.value)
-        const newFilter = props.manager?.clients.filter((val) => {
+        const newFilter = props.manager?.teammates.filter((val) => {
             return val.toLowerCase().includes(e.target.value.toLowerCase());
         });
         if (e.target.value === "") {
-            setClientList(props.manager?.clients);
+            setTeammateList(props.manager?.teammates);
         } else {
-            setClientList(newFilter);
+            setTeammateList(newFilter);
         }
-    }
-    const addClient = () => {
-        if (props.manager.clients) {
-            const clients = [...props.manager.clients, newClient];
-            update(ref(db, `manager/${props.managerId}/`), {
-                clients,
-            });
-        } else {
-            const clients = [newClient];
-            update(ref(db, `manager/${props.managerId}/`), {
-                clients
-            });
-        }
-        window.location.reload()
     }
 
 
 
     return (
-        <div
-            className="switch-task-box"
-        >
-            <Button variant="light" onClick={props.setSwitchMode(false)}>
-                <FontAwesomeIcon icon="fa-solid fa-circle-xmark" />{" "}
-                Close
-            </Button>
-            <h5 className="blue">Move Task to..</h5>
-            <Form.Group as={Row} className="mb-3" controlId="formPlaintext1">
-                <Form.Label column sm="2" md="2">
-                    Teammate
-                </Form.Label>
-                <Col sm="10">
-                    <Dropdown>
-                        <Dropdown.Toggle
-                            id="dropdown-basic"
-                            className="w-100 client-dropdown"
-                        >
-                            {newTask.client === "" ? "Select" : newTask.client}
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu className="client-dropdown-menu">
-                            <div className="add-new-input">
-                                <input className="add-new-input-textbox"
-                                    type="text"
-                                    name="newClient"
-                                    placeholder="&#xf002;    Search"
-                                    value={newClient}
-                                    onChange={searchClient}
-                                />
-                                <button onClick={addClient}>Add</button>
-                            </div>
-                            <div className=" client-dropdown-menu-list client-dropdown-menu-height">
-                                <Row className="client-dropdown-menu-height">
-                                    {
-                                        clientList.length === 0 && newClient === "" ?
-                                            props?.manager?.clients?.map((client, index) => {
-                                                return (
-                                                    <Dropdown.Item
-                                                        key={index}
-                                                        onClick={(e) => {
-                                                            setNewTask((oldTask) => {
-                                                                return { ...oldTask, client };
-                                                            });
-                                                        }}
-                                                    >
-                                                        {client}
-                                                    </Dropdown.Item>
-                                                );
-                                            }) :
-                                            clientList.map((client, index) => {
-                                                return (
-                                                    <Dropdown.Item
-                                                        key={index}
-                                                        onClick={(e) => {
-                                                            setNewTask((oldTask) => {
-                                                                return { ...oldTask, client };
-                                                            });
-                                                        }}
-                                                    >
-                                                        {client}
-                                                    </Dropdown.Item>
-                                                );
-                                            })}</Row></div>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
-                <Form.Label column md="2" sm="2">
-                    Client
-                </Form.Label>
-                <Col sm="2">
-                    Chaicup
-                </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
-                <Form.Label column md="2" sm="2">
-                    Task
-                </Form.Label>
-                <Col sm="2">
-                    Chaicup
-                </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3" controlId="formPlaintext3">
-                <Form.Label column md="2" sm="2">
-                    Description
-                </Form.Label>
-                <Col sm="10">
-                    <Form.Control
-                        as="textarea"
-                        name="description"
-                        rows={4}
-                        onChange={handleDescriptionChange}
-                    />
-                </Col>
-            </Form.Group>
-            <Form.Group
-                as={Row}
-                className="mb-3 deadline"
-                controlId="formPlaintext3"
-            >
-                <Form.Label column md="2" sm="2">
-                    Deadline
-                </Form.Label>
-                <Col sm="5" md="5">
-                    <Form.Control
-                        type="date"
-                        min={moment().format("YYYY-MM-DD")}
-                        name="deadlineDate"
-                        style={{ fontSize: "12px" }}
-                        onChange={handleDateChange}
-                    />
-                </Col>
-                <Col sm="5" md="5">
-                    <Form.Control
-                        type="time"
-                        style={{ fontSize: "12px" }}
-                        name="deadlineTime"
-                        onChange={handleTimeChange}
-                    />
-                </Col>
-            </Form.Group>
-            <div
-                className="d-grid gap-2"
-                style={{
-                    marginBottom: ".5em",
-                }}
-            >
-                <Button
-                    variant="primary"
-                    onClick={() => {
-                        handleNewTask(
-                            props?.teammate,
-                            props?.tasks !== undefined ? props?.tasks?.length : 0
-                        );
-                    }}
+        <OverlayTrigger
+            trigger="click"
+            key="left"
+            placement="left"
+            rootClose
+            overlay={
+                <div
+                    className="bg-white"
                     style={{
-                        textAlign: "center",
+                        padding: "1em",
+                        marginTop: "10px",
+                        marginLeft: "-50px",
+                        width: "400px",
+                        boxShadow: "rgba(0, 0, 0, 0.15) 1px 3px 5px",
                     }}
-                    block
                 >
-                    Assign
-                </Button>
-            </div>
-        </div>
+                    <h5 className="blue">Move Task To.. </h5>
+                    {/* <Form.Group as={Row} className="mb-3" controlId="formPlaintext1">
+                        <Form.Label column sm="4" md="4">
+                            Client*
+                        </Form.Label>
+                        <Col sm="8">
+                            <Dropdown>
+                                <Dropdown.Toggle
+                                    id="dropdown-basic"
+                                    className="w-100 client-dropdown"
+                                >
+                                    Select Teammate
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu className="client-dropdown-menu">
+                                    <div className="add-new-input">
+                                        <input className="add-new-input-textbox"
+                                            type="text"
+                                            name="newClient"
+                                            placeholder="&#xf002;    Search"
+                                            value={newClient}
+                                            onChange={searchClient}
+                                        />
+                                    </div>
+                                    <div className=" client-dropdown-menu-list client-dropdown-menu-height">
+                                        <Row className="client-dropdown-menu-height">
+                                            {
+                                                teammateList.length === 0 && newClient === "" ?
+                                                    props?.manager?.clients?.map((client, index) => {
+                                                        return (
+                                                            <Dropdown.Item
+                                                                key={index}
+                                                                onClick={(e) => {
+                                                                    setNewTask((oldTask) => {
+                                                                        return { ...oldTask, client };
+                                                                    });
+                                                                }}
+                                                            >
+                                                                {client}
+                                                            </Dropdown.Item>
+                                                        );
+                                                    }) :
+                                                    teammateList.map((client, index) => {
+                                                        return (
+                                                            <Dropdown.Item
+                                                                key={index}
+                                                                onClick={(e) => {
+                                                                    setNewTask((oldTask) => {
+                                                                        return { ...oldTask, client };
+                                                                    });
+                                                                }}
+                                                            >
+                                                                {client}
+                                                            </Dropdown.Item>
+                                                        );
+                                                    })}</Row></div>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </Col>
+                    </Form.Group> */}
+                    <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
+                        <Form.Label column md="4" sm="4">
+                            Client
+                        </Form.Label>
+                        <Col sm="8">
+                            <Form.Control
+                                type="text"
+                                name="client"
+                                disabled
+                            // value={ }
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
+                        <Form.Label column md="4" sm="4">
+                            Task
+                        </Form.Label>
+                        <Col sm="8">
+                            <Form.Control
+                                type="text"
+                                name="task"
+                                disabled
+                            // value={ }
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} className="mb-3" controlId="formPlaintext3">
+                        <Form.Label column md="4" sm="4">
+                            Description*
+                        </Form.Label>
+                        <Col sm="8">
+                            <Form.Control
+                                as="textarea"
+                                name="description"
+                            // value={}
+                            // onChange={handleDescriptionChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                        className="mb-3 deadline"
+                        controlId="formPlaintext3"
+                    >
+                        <Form.Label column md="4" sm="4">
+                            Deadline
+                        </Form.Label>
+                        <Col sm="4" md="4">
+                            <Form.Control
+                                type="date"
+                                // min={moment().format("YYYY-MM-DD")}
+                                name="deadlineDate"
+                                style={{ fontSize: "12px" }}
+                            // onChange={handleDateChange}
+                            />
+                        </Col>
+                        <Col sm="4" md="4">
+                            <Form.Control
+                                type="time"
+                                style={{ fontSize: "12px" }}
+                                name="deadlineTime"
+                            // onChange={handleTimeChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <div
+                        className="d-grid gap-2"
+                        style={{
+                            marginBottom: ".5em",
+                        }}
+                    >
+                        {/* <Button
+                            variant="primary"
+                            onClick={() => {
+                                handleNewTask(
+                                    props?.teammate,
+                                    props?.tasks !== undefined ? props?.tasks?.length : 0
+                                );
+                            }}
+                            style={{
+                                textAlign: "center",
+                            }}
+                            block
+                        >
+                            Assign
+                        </Button> */}
+                    </div>
+                </div>
+            }
+        >
+
+            <Button
+                variant="light"
+                style={{
+                    textAlign: 'left',
+                }}
+                block
+            >
+                <FontAwesomeIcon
+                    icon="fa-solid fa-shuffle"
+                    style={{
+                        paddingRight:
+                            '.5em',
+                        color: "blue",
+                    }}
+                />
+                Switch Task To..
+            </Button>
+        </OverlayTrigger>
 
     );
 }

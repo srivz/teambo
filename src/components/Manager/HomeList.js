@@ -18,6 +18,7 @@ import { db } from "../../firebase-config";
 import Loader from "../Loader/Loader";
 import NewTask from "./NewTask";
 import TaskHistory from './TaskHistory'
+import SwitchTask from './SwitchTask';
 
 export default function HomeList(props) {
   const [selected, setSelected] = useState(
@@ -27,7 +28,7 @@ export default function HomeList(props) {
   const [teammateEmail, setTeammateEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [taskSelected, setTaskSelected] = useState();
-  const [modalShow, setModalShow] = React.useState(false);
+  const [modalShow, setModalShow] = useState(false);
   const [clientSelected, setClientSelected] = useState("");
 
 
@@ -416,7 +417,7 @@ export default function HomeList(props) {
                         <FontAwesomeIcon
                           icon="fa-solid fa-list"
                           color="#5f8fee"
-                            style={{ paddingRight: '1em' }}
+                            style={{ paddingRight: '1em', fontSize: "20px" }}
                         />
 
                         <FontAwesomeIcon
@@ -424,7 +425,7 @@ export default function HomeList(props) {
                               handleViewChange()
                           }}
                           icon="fa-solid fa-grip "
-                            style={{ paddingRight: '1em' }}
+                            style={{ paddingRight: '1em', fontSize: "20px" }}
                         />
                         <NewTask
                             name={'No Teammate'}
@@ -500,7 +501,7 @@ export default function HomeList(props) {
                                   handleViewChange()
                                 }}
                                 icon="fa-solid fa-grip "
-                                style={{ paddingRight: '1em', fontSize: "22px" }}
+                                style={{ paddingRight: '1em', fontSize: "20px" }}
                               />
                               <NewTask
                                 name={info.data.name}
@@ -1479,29 +1480,7 @@ export default function HomeList(props) {
                                                             style={{
                                                               marginBottom: '.5em',
                                                             }}
-                                                          >
-
-                                                            <Button
-                                                              disabled={info1.updates[
-                                                                info1.updates.length - 1
-                                                              ].status !== 'Done' ? true : false}
-
-                                                              variant="light"
-                                                              style={{
-                                                                textAlign: 'left',
-                                                              }}
-                                                              block
-                                                            >
-                                                              <FontAwesomeIcon
-                                                                icon="fa-solid fa-shuffle"
-                                                                style={{
-                                                                  paddingRight:
-                                                                    '.5em',
-                                                                  color: "blue",
-                                                                }}
-                                                              />
-                                                              Switch Task To..
-                                                            </Button>
+                                                          ><SwitchTask/>
                                                           </Row>
                                                           <Row
                                                             className="d-grid gap-2"
