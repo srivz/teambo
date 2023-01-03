@@ -417,7 +417,7 @@ export default function HomeList(props) {
                         <FontAwesomeIcon
                           icon="fa-solid fa-list"
                           color="#5f8fee"
-                            style={{ paddingRight: '1em' }}
+                            style={{ paddingRight: '1em', fontSize: "20px" }}
                         />
 
                         <FontAwesomeIcon
@@ -425,7 +425,7 @@ export default function HomeList(props) {
                               handleViewChange()
                           }}
                           icon="fa-solid fa-grip "
-                            style={{ paddingRight: '1em' }}
+                            style={{ paddingRight: '1em', fontSize: "20px" }}
                         />
                         <NewTask
                             name={'No Teammate'}
@@ -501,7 +501,7 @@ export default function HomeList(props) {
                                   handleViewChange()
                                 }}
                                 icon="fa-solid fa-grip "
-                                style={{ paddingRight: '1em', fontSize: "22px" }}
+                                style={{ paddingRight: '1em', fontSize: "20px" }}
                               />
                               <NewTask
                                 name={info.data.name}
