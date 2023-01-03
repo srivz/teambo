@@ -77,8 +77,7 @@ body {
 }
 .box-shadow {
   background: #FFFFFF 0% 0% no-repeat padding-box;
-
-box-shadow: 0px 3px 20px #0000000D !important;
+box-shadow: 0px 3px 20px #fffcfc0d !important;
 border-radius: 6px !important;
 
 }
@@ -360,4 +359,18 @@ margin-left: 8px;
   justify-content: space-between;
   align-items: center;
   padding: 15px !important;
+}
+.tablecell{
+background: #FFFFFF 0% 0% no-repeat padding-box;
+box-shadow: 0px 0px 20px 0px #d1cfcf0d;
+border-radius: 6px;
+border-bottom: 0 !important;
+}
+.add-task-button{
+  background: #FFFFFF 0% 0% no-repeat padding-box !important;
+box-shadow: 0px 3px 18px #0000001A !important;
+width: 140px;
+padding: 10px;
+font-size: 15px;
+border-radius: 10px !important;
 }

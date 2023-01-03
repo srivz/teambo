@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import logo from "../../assets/images/Group 3.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Login.css";
 import { auth, db } from "../../firebase-config";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
@@ -11,7 +12,12 @@ import { Row } from "react-bootstrap";
 export default function Signup({ userid }) {
   const [newCompany, setNewCompany] = useState("");
   const [companyNameList, setCompanyNameList] = useState([]);
+  const [isHide, setIsHide] = useState(false)
+  const [isHide2, setIsHide2] = useState(false)
+  const passwordRef = useRef();
+  const passwordRef2 = useRef();
   const [prevCompanies, setPrevCompanies] = useState([]);
+  const [loading,setLoading]=useState(false)
   const searchCompany = (e) => {
     setNewCompany(e.target.value)
     const newFilter = prevCompanies.filter((val) => {
@@ -59,7 +65,7 @@ export default function Signup({ userid }) {
     password: "",
     confirmPassword: "",
   });
-  const [loading,setLoading]=useState(false)
+  
   const handleChange = (event) => {
     let newInput = { [event.target.name]: event.target.value };
     setUser({ ...user, ...newInput });
@@ -89,7 +95,7 @@ export default function Signup({ userid }) {
         }
       ).then(() => (window.location.href = "/signUp/response"));
     }
-    setLoading(false)
+    
   };
 
   const registerLogin = () => {
@@ -227,17 +233,32 @@ export default function Signup({ userid }) {
                           </div>
                         </Dropdown.Menu>
                       </Dropdown>
-                  </div>
-                  <div className="col-sm-6 col-md-6">
-                    <label htmlFor="pwd">Password:</label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="pwd"
-                      placeholder="Password"
-                      name="password"
-                      onChange={handleChangeLog}
-                    />
+                    </div>
+                    <div className="col-sm-6 col-md-6">
+                      <label htmlFor="pwd">Password:</label>
+                      <div className="password-div">
+                        <input
+                          type="password"
+                          id="pwd"
+                          placeholder="Password"
+                          name="password"
+                          ref={passwordRef}
+                          onChange={handleChangeLog}
+                        />
+                        {
+                          isHide ? <FontAwesomeIcon
+                            icon="fa-solid fa-eye"
+                            style={{ paddingRight: ".4em", fontSize: "20px", cursor: "pointer" }}
+                            onClick={(e) => { passwordRef.current.type = 'password'; setIsHide(false) }}
+                          />
+                            :
+                            <FontAwesomeIcon
+                              icon="fa-solid fa-eye-slash"
+                              style={{ paddingRight: ".4em", fontSize: "20px", cursor: "pointer" }}
+                              onClick={(e) => { passwordRef.current.type = 'text'; setIsHide(true) }}
+                            />
+                        }
+                      </div>
                   </div>
                 </div>
               </div>
@@ -275,15 +296,32 @@ export default function Signup({ userid }) {
                     </select>
                   </div>
                   <div className="col-sm-6 col-md-6">
-                    <label htmlFor="pwd">Re-enter Password:</label>
-                    <input
+                      <label htmlFor="pwd">Re-enter Password:</label>
+                      <div className="password-div">
+                      <input
                       type="password"
                       className="form-control"
                       id="pwd"
                       placeholder="Re-enter Password"
-                      name="confirmPassword"
+                          name="confirmPassword"
+                          ref={passwordRef2}
                       onChange={handleChangeLog}
-                    />
+                        />
+                         {
+                          isHide2 ? <FontAwesomeIcon
+                            icon="fa-solid fa-eye"
+                            style={{ paddingRight: ".4em", fontSize: "20px", cursor: "pointer" }}
+                            onClick={(e) => { passwordRef2.current.type = 'password'; setIsHide2(false) }}
+                          />
+                            :
+                            <FontAwesomeIcon
+                              icon="fa-solid fa-eye-slash"
+                              style={{ paddingRight: ".4em", fontSize: "20px", cursor: "pointer" }}
+                              onClick={(e) => { passwordRef2.current.type = 'text'; setIsHide2(true) }}
+                            />
+                        }
+                      </div>
+                    
                   </div>
                 </div>
               </div>

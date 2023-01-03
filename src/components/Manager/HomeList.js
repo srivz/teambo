@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { onChildChanged, ref, remove, set, update } from 'firebase/database'
 import emailjs from '@emailjs/browser';
+import Dropdown from 'react-bootstrap/Dropdown';
 import React, { useState } from 'react'
 import {
   Button,
@@ -166,7 +167,7 @@ export default function HomeList(props) {
       {loading ? (
         <Loader />
       ) : (
-        <div id="main">
+          <div id="main" style={{ backgroundColor: "#fff" }}>
             <Container>
             <Row>
                 <Col sm={3} md={3} style={{ marginTop: '1em' }}>
@@ -289,15 +290,17 @@ export default function HomeList(props) {
                                       )
                                       setSelected(info.teammate)
                                     }}
+                                    style={{ backgroundColor: "#fff !important" }}
                                   >
                                     <TableCell
                                       style={{
                                         backgroundColor:
                                           selected === info.teammate
-                                            ? '#e2ecff'
-                                            : '#f9fbff',
+                                            ? '#E2ECFF'
+                                            : '#F9FBFF',
                                         height: 'fit-content',
-                                        borderRadius: '5px',
+                                        borderRadius: '6px',
+                                        borderBottom: "1px solid #fff",
                                         paddingTop: '.5em',
                                         paddingBottom: '0em',
                                       }}
@@ -410,14 +413,41 @@ export default function HomeList(props) {
                           <Col
                             sm={6}
                             md={6}
-                            style={{ marginTop: '1em' }}
+                            style={{ marginTop: '1em', }}
                             className="text-end"
                           >
-                            <div>
+                            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
+                              <Dropdown >
+                                <Dropdown.Toggle
+                                  id="dropdown-basic"
+                                  className="client-dropdown"
+                                  style={{
+                                    width: "140px", marginRight: "10px", border: "1px solid #D8D8D8"
+                                  }}
+                                >
+                                  All
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu className="w-100 client-dropdown-menu">
+                                  <Dropdown.Item>
+                                    All
+                                  </Dropdown.Item> <Dropdown.Item>
+                                    On Going
+                                  </Dropdown.Item> <Dropdown.Item>
+                                    Assigned
+                                  </Dropdown.Item> <Dropdown.Item>
+                                    Paused
+                                  </Dropdown.Item> <Dropdown.Item>
+                                    Completed
+                                  </Dropdown.Item>
+                                </Dropdown.Menu>
+                              </Dropdown>
                               <FontAwesomeIcon
                                 icon="fa-solid fa-list"
                                 color="#5f8fee"
-                                style={{ paddingRight: '1em' }}
+                                style={{
+                                  paddingRight: '1em', fontSize: "20px"
+                                }}
                               />
 
                               <FontAwesomeIcon
@@ -425,7 +455,7 @@ export default function HomeList(props) {
                                   handleViewChange()
                                 }}
                                 icon="fa-solid fa-grip "
-                                style={{ paddingRight: '1em' }}
+                                style={{ paddingRight: '1em', fontSize: "22px" }}
                               />
                               <NewTask
                                 name={info.data.name}
@@ -550,6 +580,7 @@ export default function HomeList(props) {
                                               fontFamily: 'rockwen',
                                             }}
                                             align="center"
+                                            className="tablecell"
                                           >
                                             {info1.client}
                                           </TableCell>
@@ -562,6 +593,7 @@ export default function HomeList(props) {
                                               fontFamily: 'rockwen',
                                             }}
                                             align="center"
+                                            className="tablecell"
                                           >
                                             {info1.task}
                                           </TableCell>
@@ -586,6 +618,7 @@ export default function HomeList(props) {
                                                       fontFamily: 'rockwen',
                                                     }}
                                                     align="center"
+                                                    className="tablecell"
                                                   >
                                                     {dateFormatChange(
                                                       info1.updates[
@@ -608,6 +641,7 @@ export default function HomeList(props) {
                                                       fontFamily: 'rockwen',
                                                     }}
                                                     align="center"
+                                                    className="tablecell"
                                                   >
                                                     {dateFormatChange(
                                                       info1.updates[
@@ -630,6 +664,7 @@ export default function HomeList(props) {
                                                       fontFamily: 'rockwen',
                                                     }}
                                                     align="center"
+                                                    className="tablecell"
                                                   >
                                                     {info1.updates[
                                                       info1.updates.length - 1
@@ -666,6 +701,7 @@ export default function HomeList(props) {
                                                       fontFamily: 'rockwen',
                                                     }}
                                                     align="center"
+                                                    className="tablecell"
                                                   >
                                                     {info1.updates[
                                                       info1.updates.length - 1
@@ -686,6 +722,7 @@ export default function HomeList(props) {
                                                       setTaskSelected(index);
                                                     }}
                                                     align="center"
+                                                    className="tablecell"
                                                     style={
                                                       (info1.updates[
                                                         info1.updates.length - 1
@@ -747,7 +784,7 @@ export default function HomeList(props) {
                                             })}
                                           <TableCell
                                             align="center"
-                                            className="text-end"
+                                            className="text-end tablecell"
                                           >
                                             <OverlayTrigger
                                               trigger="click"
@@ -786,6 +823,7 @@ export default function HomeList(props) {
                                                           style={{
                                                             paddingRight:
                                                               ".5em",
+                                                            color: "blue",
                                                           }}
                                                         />
                                                         Mark Completed
@@ -810,6 +848,7 @@ export default function HomeList(props) {
                                                         variant="light"
                                                         style={{
                                                           textAlign: 'left',
+
                                                         }}
                                                       >
                                                         <FontAwesomeIcon
@@ -817,6 +856,7 @@ export default function HomeList(props) {
                                                           style={{
                                                             paddingRight:
                                                               ".5em",
+                                                            color: "blue",
                                                           }}
                                                         />
                                                         Move Up
@@ -848,6 +888,7 @@ export default function HomeList(props) {
                                                           style={{
                                                             paddingRight:
                                                               ".5em",
+                                                            color: "blue",
                                                           }}
                                                         />
                                                         Move Down
@@ -878,6 +919,7 @@ export default function HomeList(props) {
                                                           style={{
                                                             paddingRight:
                                                               '.5em',
+                                                            color: "blue",
                                                           }}
                                                         />
                                                         Switch Task To..
@@ -907,6 +949,7 @@ export default function HomeList(props) {
                                                           style={{
                                                             paddingRight:
                                                               '.5em',
+                                                            color: "blue",
                                                           }}
                                                         />
                                                         Delete Task
