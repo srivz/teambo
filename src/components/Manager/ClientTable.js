@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, {
+    // useState
+} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import TaskHistory from './TaskHistory';
+// import TaskHistory from './TaskHistory';
 export default function ClientTable(props) {
-    const [modalShow, setModalShow] = useState(false);
-    const [taskSelected, setTaskSelected] = useState();
+    // const [modalShow, setModalShow] = useState(false);
+    // const [taskSelected, setTaskSelected] = useState();
+
     return (
         <Table
             style={{
@@ -104,8 +107,8 @@ export default function ClientTable(props) {
                                     >
                                         <TableCell
                                             onClick={() => {
-                                                setModalShow(true);
-                                                setTaskSelected(index);
+                                                // setModalShow(true);
+                                                // setTaskSelected(index);
                                             }}
                                             style={{
                                                 fontFamily: 'rockwen',
@@ -117,8 +120,8 @@ export default function ClientTable(props) {
                                         </TableCell>
                                         <TableCell
                                             onClick={() => {
-                                                setModalShow(true);
-                                                setTaskSelected(index);
+                                                // setModalShow(true);
+                                                // setTaskSelected(index);
                                             }}
                                             style={{
                                                 fontFamily: 'rockwen',
@@ -142,8 +145,8 @@ export default function ClientTable(props) {
                                                     <>
                                                         <TableCell
                                                             onClick={() => {
-                                                                setModalShow(true);
-                                                                setTaskSelected(index);
+                                                                // setModalShow(true);
+                                                                // setTaskSelected(index);
                                                             }}
                                                             style={{
                                                                 fontFamily: 'rockwen',
@@ -161,8 +164,8 @@ export default function ClientTable(props) {
                                                         </TableCell>
                                                         <TableCell
                                                             onClick={() => {
-                                                                setModalShow(true);
-                                                                setTaskSelected(index);
+                                                                // setModalShow(true);
+                                                                // setTaskSelected(index);
                                                             }}
                                                             style={{
                                                                 fontFamily: 'rockwen',
@@ -180,8 +183,8 @@ export default function ClientTable(props) {
                                                         </TableCell>
                                                         <TableCell
                                                             onClick={() => {
-                                                                setModalShow(true);
-                                                                setTaskSelected(index);
+                                                                // setModalShow(true);
+                                                                // setTaskSelected(index);
                                                             }}
                                                             style={{
                                                                 fontFamily: 'rockwen',
@@ -203,8 +206,8 @@ export default function ClientTable(props) {
                                                         </TableCell>
                                                         <TableCell
                                                             onClick={() => {
-                                                                setModalShow(true);
-                                                                setTaskSelected(index);
+                                                                // setModalShow(true);
+                                                                // setTaskSelected(index);
                                                             }}
                                                             style={{
                                                                 fontFamily: 'rockwen',
@@ -219,8 +222,8 @@ export default function ClientTable(props) {
                                                         </TableCell>
                                                         <TableCell
                                                             onClick={() => {
-                                                                setModalShow(true);
-                                                                setTaskSelected(index);
+                                                                // setModalShow(true);
+                                                                // setTaskSelected(index);
                                                             }}
                                                             align="center"
                                                             className="tablecell"

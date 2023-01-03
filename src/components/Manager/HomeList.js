@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import { onChildChanged, ref, remove, set, update } from 'firebase/database'
+import { onChildChanged, ref } from 'firebase/database'
 import React, { useEffect, useState } from 'react'
 import {
   Button,

@@ -1,11 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ref, set, update } from "firebase/database";
+import { ref, set } from "firebase/database";
 import React, { useState, useEffect } from "react";
-import { Button, Row, Col, Form, OverlayTrigger } from "react-bootstrap";
+import { Button, Row, Col, Form } from "react-bootstrap";
 import { db } from "../../firebase-config";
 import moment from "moment";
 import Dropdown from 'react-bootstrap/Dropdown';
-import Popover from 'react-bootstrap/Popover';
 
 
 export default function SwitchTask(props) {
