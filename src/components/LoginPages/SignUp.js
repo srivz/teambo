@@ -6,6 +6,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { onValue, ref, set } from "firebase/database";
 import Loader from "../Loader/Loader";
 import Dropdown from 'react-bootstrap/Dropdown';
+import { Row } from "react-bootstrap";
 
 export default function Signup({ userid }) {
   const [newCompany, setNewCompany] = useState("");
@@ -188,6 +189,8 @@ export default function Signup({ userid }) {
                               onChange={searchCompany}
                             />
                           </div>
+                          <div className=" company-dropdown-menu-list company-dropdown-menu-height">
+                            <Row className="company-dropdown-menu-height">
                           {
                             companyNameList.length === 0 && newCompany === "" ?
                               prevCompanies?.map((company, index) => {
@@ -217,7 +220,7 @@ export default function Signup({ userid }) {
                                     {company}
                                   </Dropdown.Item>
                                 );
-                              })}
+                              })}</Row></div>
                           <div className="add-new-input">
                             <button type="button" onClick={addCompany} className="w-100">Add Company</button>
                           </div>
