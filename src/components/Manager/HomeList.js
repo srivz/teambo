@@ -960,29 +960,7 @@ export default function HomeList(props) {
                                                           style={{
                                                             marginBottom: '.5em',
                                                           }}
-                                                        >
-
-                                                          <Button
-                                                            disabled={info1.updates[
-                                                              info1.updates.length - 1
-                                                            ].status !== 'Done' ? true : false}
-
-                                                            variant="light"
-                                                            style={{
-                                                              textAlign: 'left',
-                                                            }}
-                                                            block
-                                                          >
-                                                            <FontAwesomeIcon
-                                                              icon="fa-solid fa-shuffle"
-                                                              style={{
-                                                                paddingRight:
-                                                                  '.5em',
-                                                                color: "blue",
-                                                              }}
-                                                            />
-                                                            Switch Task To..
-                                                          </Button>
+                                                        >  <SwitchTask />
                                                         </Row>
                                                         <Row
                                                           className="d-grid gap-2"
@@ -1480,7 +1458,8 @@ export default function HomeList(props) {
                                                             style={{
                                                               marginBottom: '.5em',
                                                             }}
-                                                          ><SwitchTask/>
+                                                          >
+                                                            <SwitchTask />
                                                           </Row>
                                                           <Row
                                                             className="d-grid gap-2"
