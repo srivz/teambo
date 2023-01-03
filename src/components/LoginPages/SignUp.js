@@ -41,11 +41,12 @@ export default function Signup({ userid }) {
       if (prevCompanies) {
         const companies = [...prevCompanies, newCompany];
         set(ref(db, `company/`), companies);
-        alert(companies)
+        setNewCompany("")
       } else {
         const companies = [newCompany];
         set(ref(db, `company/`), companies);
         alert(companies)
+        setNewCompany("")
       }
   }
   const [user, setUser] = useState({
