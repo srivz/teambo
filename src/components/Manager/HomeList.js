@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { onChildChanged, ref, remove, set, update } from 'firebase/database'
 import emailjs from '@emailjs/browser';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Button,
   Col,
@@ -18,6 +18,7 @@ import Loader from "../Loader/Loader";
 import NewTask from "./NewTask";
 import ClientTable from './ClientTable';
 import TeammateTable from './TeammateTable';
+import { height } from '@mui/system';
 
 
 export default function HomeList(props) {
@@ -35,6 +36,34 @@ export default function HomeList(props) {
   function handleViewChange() {
     props.onChange(false)
   }
+  useEffect(() => {
+    return () => {
+      if (tab === "Company") {
+        setSelected(null);
+        localStorage.setItem(
+          'teammateSelected',
+          JSON.stringify(null)
+        );
+        setClientSelected(null);
+        localStorage.setItem(
+          'clientSelected',
+          JSON.stringify(null)
+        );
+      }
+      else {
+        setClientSelected(null);
+        localStorage.setItem(
+          'clientSelected',
+          JSON.stringify(null)
+        );
+        setSelected(null);
+        localStorage.setItem(
+          'teammateSelected',
+          JSON.stringify(null)
+        );
+      }
+    }
+  }, [tab])
 
   onChildChanged(ref(db, `/teammate/`), () => {
     setLoading(true)
@@ -227,11 +256,6 @@ export default function HomeList(props) {
                                         JSON.stringify(info.teammate)
                                       );
                                       setSelected(info.teammate);
-                                      setClientSelected("");
-                                      localStorage.setItem(
-                                        'clientSelected',
-                                        JSON.stringify("")
-                                      );
                                     }}
                                     style={{ backgroundColor: "#fff !important" }}
                                   >
@@ -304,14 +328,9 @@ export default function HomeList(props) {
                                     onClick={() => {
                                       setClientSelected(info);
                                       localStorage.setItem(
-                                        'teammateSelected',
-                                        JSON.stringify("")
-                                      );
-                                      localStorage.setItem(
                                         'clientSelected',
                                         JSON.stringify(info)
                                       );
-                                      setSelected("");
                                     }} style={{ backgroundColor: "#fff !important" }}
 
                                     className="box-shadow">
@@ -347,14 +366,11 @@ export default function HomeList(props) {
                 md={9}
                   style={{ marginTop: '1em' }}
                 >
-                  {!selected || !clientSelected ? (
+                  {!(selected || clientSelected) ? (
                   <Row>
                       <Col sm={6} md={6} style={{ marginTop: '1em' }}>
-                        {
-                          tab === "Teammate" ? <><h5 className="blue">No Teammate</h5>
-                            <h6>Selected</h6></> : <><h5 className="blue">No Client</h5>
-                            <h6>Selected</h6></>
-                        }
+                        <h5 className="blue">No {tab}</h5>
+                        <h6>Selected</h6>
                     </Col>
                     <Col
                       sm={6}
@@ -384,16 +400,15 @@ export default function HomeList(props) {
                     </Col>
                   </Row>
                 ) : (
-                      props.team
+                      tab === "Teammate" ? props?.team
                     .filter((info) => info.teammate === selected)
                     .map((info, index) => {
-                      return selected || clientSelected ? (
+                      return (
                         <Row key={index}>
                           <Col sm={6} md={6} style={{ marginTop: '1em' }}>
-                            {
-                              tab === "Teammate" ? <><h5 className="blue">{info.data.name}</h5>
-                                <h6>{info.data.designation}</h6></> : <><h5 className="blue">{clientSelected}</h5></>
-                            }
+                            <h5 className="blue">{info.data.name}</h5>
+                            <h6>{info.data.designation}</h6>
+
                           </Col>
                           <Col
                             sm={6}
@@ -465,10 +480,79 @@ export default function HomeList(props) {
                             </div>
                           </Col>
                         </Row>
-                      ) : (
-                        <></>
-                        )
-                    })
+                      )
+                    }) : (props?.manager?.clients
+                      .filter((info) => info === clientSelected)
+                      .map((info) => {
+                        return (
+                          <Row>
+                            <Col sm={6} md={6} style={{ marginTop: '1.5em' }}>
+                              <h4 className="blue">{info}</h4>
+                            </Col>
+                            <Col
+                              sm={6}
+                              md={6}
+                              style={{ marginTop: '1em' }}
+                              className="text-end"
+                            >
+                              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
+                                <Dropdown
+                                  style={{ width: "200px" }}>
+                                  <Dropdown.Toggle
+                                    id="dropdown-basic"
+                                    className="w-100  company-dropdown"
+                                  >{filter}
+                                  </Dropdown.Toggle>
+
+                                  <Dropdown.Menu
+                                    style={{ width: "200px" }} className="company-dropdown-menu">
+                                    <Dropdown.Item
+                                      onClick={(e) => {
+                                        setFilter("All")
+                                      }}
+                                    >All
+                                    </Dropdown.Item><Dropdown.Item
+                                      onClick={(e) => {
+                                        setFilter("On Going")
+                                      }}
+                                    >On Going
+                                    </Dropdown.Item><Dropdown.Item
+                                      onClick={(e) => {
+                                        setFilter("Assigned")
+                                      }}
+                                    >Assigned
+                                    </Dropdown.Item><Dropdown.Item
+                                      onClick={(e) => {
+                                        setFilter("Paused")
+                                      }}
+                                    >Paused
+                                    </Dropdown.Item><Dropdown.Item
+                                      onClick={(e) => {
+                                        setFilter("Completed")
+                                      }}
+                                    >Completed
+                                    </Dropdown.Item>
+                                  </Dropdown.Menu>
+                                </Dropdown>
+                                {/* <FontAwesomeIcon
+                                  icon="fa-solid fa-list"
+                                  color="#5f8fee"
+                                  style={{
+                                    paddingRight: '1em', fontSize: "20px"
+                                  }}
+                                />
+                                <FontAwesomeIcon
+                                  onClick={() => {
+                                    handleViewChange()
+                                  }}
+                                  icon="fa-solid fa-grip "
+                                  style={{ paddingRight: '1em', fontSize: "20px" }}
+                                />
+                                <NewTask /> */}
+                              </div>
+                            </Col>
+                          </Row>)
+                      }))
                 )}
                 <div className="overflow-set-auto table-height1">
                   <Row className="table-height1">
