@@ -142,6 +142,8 @@ export default function NewTask(props) {
                         </button>
                       )}
                     </div>
+                    <div className=" client-dropdown-menu-list client-dropdown-menu-height">
+                      <Row className="client-dropdown-menu-height">
                     {
                       clientList.length === 0 && newClient ==="" ? 
                       props.manager?.clients?.map((client, index) => {
@@ -171,7 +173,7 @@ export default function NewTask(props) {
                           {client}
                         </Dropdown.Item>
                       );
-                    })}
+                      })}</Row></div>
                   </Dropdown.Menu>
                 </Dropdown>
               </Col>
