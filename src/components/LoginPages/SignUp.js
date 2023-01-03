@@ -247,7 +247,7 @@ export default function Signup({ userid }) {
                       name="designation"
                       onChange={handleChange}>
                       <option
-                        selected
+                          selected={userid === "teammate" ? true : false}
                         hidden>
                         Select Designation
                       </option>
@@ -264,7 +264,7 @@ export default function Signup({ userid }) {
                             <option value="Animator">Animator</option>
                             </> 
                             :
-                             <option value="Manager">Manager</option>
+                            <option value="Manager" selected={userid === "teammate" ? false : true}>Manager</option>
                       }
                       
                       
