@@ -60,7 +60,7 @@ export default function Home() {
               { data, teammate },
             ])
             setAllTasks((oldTasks) => {
-              return [...oldTasks, { tasks: data.tasks, teammate: data.name }]
+              return [...oldTasks, { tasks: data.tasks, teammateEmail: teammate, teammate: data.name, teammateDesignation: data.designation }]
             })
           } else {
             console.log('No data available')
