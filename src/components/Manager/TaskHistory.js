@@ -170,19 +170,19 @@ export default function TaskHistory(props) {
               <h6>Client</h6>
             </Col>
             <Col sm={3} md={3} style={{ marginTop: '1em' }}>
-              <h4>{props?.teamtasks[props?.indexselected]?.client}</h4>
+              <h5>{props?.teamtasks[props?.indexselected]?.client}</h5>
             </Col>
             <Col sm={1} md={1} style={{ marginTop: '1.5em' }}>
               <h6>Task</h6>
             </Col>
             <Col sm={3} md={3} style={{ marginTop: '1em' }}>
-              <h4>{props?.teamtasks[props?.indexselected]?.task}</h4>
+              <h5>{props?.teamtasks[props?.indexselected]?.task}</h5>
             </Col>
             <Col sm={1} md={1} style={{ marginTop: '1.5em' }}>
               <h6>Status</h6>
             </Col>
             <Col sm={3} md={3} style={{ marginTop: '1em' }}>
-              <h4
+              <h5
                 style={
                   (props?.teamtasks[props?.indexselected]?.updates[
                     props?.teamtasks[props?.indexselected]?.updates.length - 1
@@ -221,7 +221,7 @@ export default function TaskHistory(props) {
                     props?.teamtasks[props?.indexselected]?.updates.length - 1
                   ].status
                 }
-              </h4>
+              </h5>
             </Col>
           </Row>
           <Table

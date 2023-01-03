@@ -1,186 +1,175 @@
-import React, { useState } from "react";
-import { auth, db } from "../../firebase-config";
-import NavBar from "../Navs/NavBar";
-import HomeBlock from "./HomeBlock";
-import HomeList from "./HomeList";
-import { onValue, ref, update } from "firebase/database";
-import { onAuthStateChanged } from "firebase/auth";
-import Loader from "../Loader/Loader";
+import React, { useState } from 'react'
+import { auth, db } from '../../firebase-config'
+import NavBar from '../Navs/NavBar'
+import HomeBlock from './HomeBlock'
+import HomeList from './HomeList'
+import { onValue, ref, update } from 'firebase/database'
+import { onAuthStateChanged } from 'firebase/auth'
+import Loader from '../Loader/Loader'
 
 export default function Home() {
-  const [view, setView] = useState(true);
-  const [manager, setManager] = useState({});
-  const [once, setOnce] = useState(true);
-  const [loading, setLoading] = useState(true);
-  const [once1, setOnce1] = useState(true);
-  const [managerId, setManagerId] = useState("");
-  const [managerName, setManagerName] = useState("");
-  const [teamRequest, setTeamRequest] = useState([]);
-  const [teammateList, setTeammateList] = useState([]);
-  const [teammateSet, setTeammateSet] = useState([]);
-  const [allTasks, setAllTasks] = useState([]);
-
+  const [view, setView] = useState(true)
+  const [manager, setManager] = useState({})
+  const [once, setOnce] = useState(true)
+  const [loading, setLoading] = useState(true)
+  const [once1, setOnce1] = useState(true)
+  const [managerId, setManagerId] = useState('')
+  const [managerName, setManagerName] = useState('')
+  const [teamRequest, setTeamRequest] = useState([])
+  const [teammateList, setTeammateList] = useState([])
+  const [teammateSet, setTeammateSet] = useState([])
+  const [allTasks, setAllTasks] = useState([])
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
       if (once) {
-        setLoading(true);
+        setLoading(true)
         onValue(ref(db, `manager/${user.uid}`), (snapshot) => {
           if (snapshot.exists()) {
-            let data = snapshot.val();
-            setManager(data);
-            setManagerId(user.uid);
-            setManagerName(user.displayName);
-            setTeammateSet(data.teammates);
+            let data = snapshot.val()
+            setManager(data)
+            setManagerId(user.uid)
+            setManagerName(user.displayName)
+            setTeammateSet(data.teammates)
             if (data.teammates !== undefined) {
-              getTeammates(data.teammates);
-              setLoading(false);
+              getTeammates(data.teammates)
+              setLoading(false)
             }
           } else {
-            console.log("No data available");
-            setLoading(false);
+            console.log('No data available')
+            setLoading(false)
           }
-        });
+        })
 
-        setOnce(false);
+        setOnce(false)
       }
     } else {
-      window.location.href = "/";
+      window.location.href = '/'
     }
-  });
+  })
 
   const getAllTasks = () => {
     // console.log(teammateList);
   }
 
-
-
-
-
-
   const getTeammates = (teamList) => {
     if (once1) {
-      setLoading(true);
+      setLoading(true)
       teamList.forEach((teammate) => {
         onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
           if (snapshot.exists()) {
-            const data = snapshot.val();
+            const data = snapshot.val()
             setTeammateList((teammateList) => [
               ...teammateList,
               { data, teammate },
-            ]);
+            ])
             setAllTasks((oldTasks) => {
               return [...oldTasks, { tasks: data.tasks, teammate: data.name }]
             })
-
           } else {
-            console.log("No data available");
-            setLoading(false);
+            console.log('No data available')
+            setLoading(false)
           }
-        });
-      });
-
+        })
+      })
     }
+    setOnce1(false)
+  }
 
-    setOnce1(false);
-  };
   const getTeammatesWithMail = (teammate) => {
     onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
       if (snapshot.exists()) {
-        const data = snapshot.val();
-        setTeamRequest(data.requests);
-        return true;
+        const data = snapshot.val()
+        setTeamRequest(data.requests)
+        return true
       } else {
-        alert("User not available");
-        setLoading(false);
+        alert('User not available')
+        setLoading(false)
       }
-    });
-  };
+    })
+  }
   const addNewTeammate = (teammateEmail) => {
-    setLoading(true);
-    if (teammateEmail === "") {
-      alert("Enter email first");
+    setLoading(true)
+    if (teammateEmail === '') {
+      alert('Enter email first')
       setLoading(false)
-      return;
+      return
     }
-    let id = teammateEmail.split(".");
-    let newId = id.join("_");
+    let id = teammateEmail.split('.')
+    let newId = id.join('_')
 
-    getTeammatesWithMail(newId);
+    getTeammatesWithMail(newId)
     if (teammateSet === undefined) {
       if (teamRequest === undefined) {
-        let newArr = [{ managerId, managerName }];
-        update(ref(db, `teammate/${newId}/`), { requests: newArr });
-        setLoading(false);
+        let newArr = [{ managerId, managerName }]
+        update(ref(db, `teammate/${newId}/`), { requests: newArr })
+        setLoading(false)
       } else {
-        let newArr = [];
-        let exists = false;
+        let newArr = []
+        let exists = false
         teamRequest.forEach((element) => {
           if (element.managerId === managerId) {
-            exists = true;
+            exists = true
           }
-          newArr.push(element);
-        });
+          newArr.push(element)
+        })
         if (exists) {
-          alert("Already requested !");
-          setLoading(false);
+          alert('Already requested !')
+          setLoading(false)
         } else {
-          let newArr2 = [...newArr, { managerId, managerName }];
-          update(ref(db, `teammate/${newId}/`), { requests: newArr2 });
-            setLoading(false);
+          let newArr2 = [...newArr, { managerId, managerName }]
+          update(ref(db, `teammate/${newId}/`), { requests: newArr2 })
+          setLoading(false)
         }
       }
-
     } else {
-      let newArr = [];
+      let newArr = []
       teammateSet.forEach((element) => {
-        newArr.push(element);
-      });
-      let exist = newArr.includes(newId);
+        newArr.push(element)
+      })
+      let exist = newArr.includes(newId)
       if (exist) {
-        alert("Already a Teammate !");
-        setLoading(false);
+        alert('Already a Teammate !')
+        setLoading(false)
       } else {
         if (teamRequest === undefined) {
-          let newArr = [{ managerId, managerName }];
-          update(ref(db, `teammate/${newId}/`), { requests: newArr });
-          setLoading(false);
+          let newArr = [{ managerId, managerName }]
+          update(ref(db, `teammate/${newId}/`), { requests: newArr })
+          setLoading(false)
         } else {
-          let newArr = [];
-          let exists = false;
+          let newArr = []
+          let exists = false
           teamRequest.forEach((element) => {
             if (element.managerId === managerId) {
-              exists = true;
+              exists = true
             }
-            newArr.push(element);
-          });
+            newArr.push(element)
+          })
           if (exists) {
-            alert("Already requested !");
-            setLoading(false);
+            alert('Already requested !')
+            setLoading(false)
           } else {
-            let newArr2 = [...newArr, { managerId, managerName }];
-            update(ref(db, `teammate/${newId}/`), { requests: newArr2 });
-            setLoading(false);
+            let newArr2 = [...newArr, { managerId, managerName }]
+            update(ref(db, `teammate/${newId}/`), { requests: newArr2 })
+            setLoading(false)
           }
         }
       }
     }
-    setLoading(false);
-    window.location.reload();
-  };
-
-
-  function handleChange(newValue) {
-    setView(newValue);
+    setLoading(false)
+    window.location.reload()
   }
 
-  console.log(allTasks.flat(2));
+  function handleChange(newValue) {
+    setView(newValue)
+  }
+
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
-          <div style={{ backgroundColor: "#FFF" }}>
+          <div style={{ backgroundColor: '#FFF' }}>
           <NavBar
             user="MANAGER"
             name={manager.name}
@@ -207,5 +196,5 @@ export default function Home() {
         </div>
       )}
     </>
-  );
+  )
 }
