@@ -34,6 +34,7 @@ export default function TeammateTable(props) {
             .catch((err) => {
                 console.log(err);
             });
+        setLoading(false)
     }
     const handleCompleteTask = (teammate, id, index, latest) => {
         setLoading(true)
@@ -55,6 +56,7 @@ export default function TeammateTable(props) {
             .catch((err) => {
                 console.log(err);
             });
+        setLoading(false)
     }
     onChildChanged(ref(db, `/teammate/`), () => {
         setLoading(true)
@@ -133,6 +135,7 @@ export default function TeammateTable(props) {
             update(ref(db, `teammate/${id}/`), {
                 tasks: newarr,
             })
+            setLoading(false)
         }
     }
 
@@ -147,6 +150,7 @@ export default function TeammateTable(props) {
             update(ref(db, `teammate/${id}/`), {
                 tasks: newarr,
             })
+            setLoading(false)
         }
     }
     // const addTeammate = () => {

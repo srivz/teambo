@@ -566,7 +566,7 @@ export default function HomeList(props) {
                   <Row className="table-height1">
                       <Col>
                         {
-                          tab === "Teammate" ?
+                          props?.team && tab === "Teammate" ?
                             <TeammateTable
                               filterTeammate={filter}
                               teammateselected={selected}
@@ -577,13 +577,14 @@ export default function HomeList(props) {
                               manager={props?.manager}
                               managerId={props?.managerId}
                               allTasks={props?.allTasks} />
-                            :
-                            <ClientTable
+                            : <></>}
+                        {
+                          props?.allTasks && tab === "Company" ? <ClientTable
                               filter={filter}
-                              allTasks={props.allTasks}
+                            allTasks={props?.allTasks}
                               clientSelected={clientSelected}
                               dateFormatChange={dateFormatChange}
-                              timeFormatChange={timeFormatChange} />
+                            timeFormatChange={timeFormatChange} /> : <></>
                         }
 
                     </Col>

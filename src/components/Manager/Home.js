@@ -33,13 +33,13 @@ export default function Home() {
             setTeammateSet(data.teammates)
             if (data.teammates !== undefined) {
               getTeammates(data.teammates)
-              setLoading(false)
             }
           } else {
             console.log('No data available')
             setLoading(false)
           }
         })
+        setLoading(false)
 
         setOnce(false)
       }
@@ -62,6 +62,7 @@ export default function Home() {
             setAllTasks((oldTasks) => {
               return [...oldTasks, { tasks: data.tasks, teammateEmail: teammate, teammate: data.name, teammateDesignation: data.designation }]
             })
+            setLoading(false)
           } else {
             console.log('No data available')
             setLoading(false)
@@ -77,6 +78,7 @@ export default function Home() {
       if (snapshot.exists()) {
         const data = snapshot.val()
         setTeamRequest(data.requests)
+        setLoading(false)
         return true
       } else {
         alert('User not available')
