@@ -598,7 +598,7 @@ export default function HomeList(props) {
                             <TableBody className="curve-box-homelist">
                               {props.team
                                 .filter((info) => info.teammate === selected)
-                                .map((info, index) => {
+                                .map((info) => {
                                   return (
                                     <>
                                       {!info.data.tasks ? (
