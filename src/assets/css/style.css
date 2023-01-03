@@ -374,3 +374,19 @@ padding: 10px;
 font-size: 15px;
 border-radius: 10px !important;
 }
+
+.switch-task-box{
+  width: 528px;
+  position: absolute;
+  right: 200px;
+  top: 160px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+box-shadow: 0px 3px 20px #0000000D;
+border-radius: 6px;
+padding: 1.6em;
+z-index: 11212;
+}
+.switch-task-box h5{
+  text-align: left;
+  padding:10px;
+}
