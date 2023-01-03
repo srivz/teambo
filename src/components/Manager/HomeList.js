@@ -461,7 +461,6 @@ export default function HomeList(props) {
                                   paddingRight: '1em', fontSize: "20px"
                                 }}
                               />
-
                               <FontAwesomeIcon
                                 onClick={() => {
                                   handleViewChange()
@@ -566,7 +565,15 @@ export default function HomeList(props) {
                                       No tasks assigned
                                     </TableRow>
                                   ) : (
-                                    info.data.tasks.map((info1, index) => {
+                                      info.data.tasks.filter((info1) => {
+                                        return filter !== "All" ?
+                                          info1.updates[
+                                            info1.updates.length - 1
+                                          ].status === filter
+                                          : info1.updates[
+                                            info1.updates.length - 1
+                                          ].status !== filter
+                                      }).map((info1, index) => {
                                       return (
                                         <TableRow
                                           key={index}
