@@ -17,7 +17,7 @@ export default function NewTask(props) {
     clientEmail: "",
     updates: {
       0: {
-        description: "",
+        description: { 0: "" },
         assignedDate:
           String(today.getDate()).padStart(2, "0") +
           "/" +
@@ -43,7 +43,7 @@ export default function NewTask(props) {
     setNewTask({ ...newTask, ...newInput });
   };
   const handleDescriptionChange = (event) => {
-    newTask.updates[0].description = event.target.value;
+    newTask.updates[0].description[0] = event.target.value;
   };
   const handleDateChange = (event) => {
     let date = (event.target.value).split("-")

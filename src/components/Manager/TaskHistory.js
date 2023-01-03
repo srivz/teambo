@@ -9,6 +9,7 @@ import moment from 'moment'
 export default function TaskHistory(props) {
   var today = new Date()
   const [updateTaskForm, setUpdateTaskForm] = useState(false)
+  const [updateAdditionalTaskForm, setUpdateAdditionalTaskForm] = useState(false)
   const [taskUpdate, setTaskUpdate] = useState({
     corrections: '',
     status: 'Assigned',
@@ -18,7 +19,6 @@ export default function TaskHistory(props) {
     description: '',
     deadlineTime: '--',
   })
-
   const dateFormatChange = (date) => {
     if (date === '--') {
       return '--'
@@ -85,13 +85,34 @@ export default function TaskHistory(props) {
         today.getFullYear(),
       assignedTime:
         today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds(),
-      corrections: props?.teamtasks[props?.indexselected]?.updates.length,
+      corrections: props?.teamtasks[props?.indexselected]?.updates?.length,
       status: 'Assigned',
       deadlineDate: taskUpdate.deadlineDate,
       description: taskUpdate.description,
       deadlineTime: taskUpdate.deadlineTime,
     })
-      .then(() => setUpdateTaskForm(false))
+      .then(() => { setUpdateTaskForm(false); setUpdateAdditionalTaskForm(false); })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+  const handleTaskCorrection1 = (id, index, correction) => {
+    set(ref(db, `/teammate/${id}/tasks/${index}/updates/${correction - 1}/`), {
+      assignedDate:
+        String(today.getDate()).padStart(2, '0') +
+        '/' +
+        String(today.getMonth() + 1).padStart(2, '0') +
+        '/' +
+        today.getFullYear(),
+      assignedTime:
+        today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds(),
+      corrections: correction - 1,
+      status: props?.teamtasks[props?.indexselected]?.updates[0].status,
+      deadlineDate: props?.teamtasks[props?.indexselected]?.updates[0].deadlineDate,
+      description: props?.teamtasks[props?.indexselected]?.updates[0].description.concat(taskUpdate.description),
+      deadlineTime: props?.teamtasks[props?.indexselected]?.updates[0].deadlineTime,
+    })
+      .then(() => { setUpdateTaskForm(false); setUpdateAdditionalTaskForm(false); })
       .catch((err) => {
         console.log(err)
       })
@@ -104,6 +125,7 @@ export default function TaskHistory(props) {
       deadlineTime: '--',
     })
     setUpdateTaskForm(false)
+    setUpdateAdditionalTaskForm(false)
   }
 
   const handleDateChange = (event) => {
@@ -114,7 +136,13 @@ export default function TaskHistory(props) {
     let newInput = { [event.target.name]: event.target.value }
     setTaskUpdate({ ...taskUpdate, ...newInput })
   }
-
+  const handleChange1 = (event) => {
+    let newInput = { [event.target.name]: event.target.value }
+    setTaskUpdate({ ...taskUpdate, ...newInput })
+  }
+  const descriptionList = (array) => {
+    return <p>{array}<br /></p>
+  }
   return (
     <div>
       <Modal
@@ -154,9 +182,7 @@ export default function TaskHistory(props) {
                 <Col sm="8" md="8">
                   <Form.Control
                     type="text"
-                    defaultValue={
-                      props?.teamtasks[props?.indexselected]?.clientEmail
-                    }
+                    defaultValue={props?.teamtasks[props?.indexselected]?.clientEmail}
                     name="clientEmail"
                     disabled
                     // onChange={handleclientEmailChange}
@@ -181,47 +207,41 @@ export default function TaskHistory(props) {
             <Col sm={1} md={1} style={{ marginTop: '1.5em' }}>
               <h6>Status</h6>
             </Col>
-            <Col sm={3} md={3} style={{ marginTop: '1em' }}>
-              <h5
-                style={
-                  (props?.teamtasks[props?.indexselected]?.updates[
-                    props?.teamtasks[props?.indexselected]?.updates.length - 1
-                  ].status === 'Done' && {
-                    fontFamily: 'rockwen',
-                    color: '#000000',
-                  }) ||
-                  (props?.teamtasks[props?.indexselected]?.updates[
-                    props?.teamtasks[props?.indexselected]?.updates.length - 1
-                  ].status === 'Completed' && {
-                    fontFamily: 'rockwen',
-                    color: '#000000',
-                  }) ||
-                  (props?.teamtasks[props?.indexselected]?.updates[
-                    props?.teamtasks[props?.indexselected]?.updates.length - 1
-                  ].status === 'On Going' && {
-                    fontFamily: 'rockwen',
-                    color: '#24A43A',
-                  }) ||
-                  (props?.teamtasks[props?.indexselected]?.updates[
-                    props?.teamtasks[props?.indexselected]?.updates.length - 1
-                  ].status === 'Paused' && {
-                    fontFamily: 'rockwen',
-                    color: '#2972B2',
-                  }) ||
-                  (props?.teamtasks[props?.indexselected]?.updates[
-                    props?.teamtasks[props?.indexselected]?.updates.length - 1
-                  ].status === 'Assigned' && {
-                    fontFamily: 'rockwen',
-                    color: '#D1AE00',
-                  })
-                }
-              >
-                {
-                  props?.teamtasks[props?.indexselected]?.updates[
-                    props?.teamtasks[props?.indexselected]?.updates.length - 1
-                  ].status
-                }
-              </h5>
+            <Col sm={3} md={3} style={{ marginTop: '1em' }}>{props?.teamtasks[props?.indexselected]?.updates
+              .sort((a, b) => (a.corrections > b.corrections ? -1 : 1))
+              .filter((info, index) => { return (index === 0) })
+              .map((info) => {
+                return (<>
+                  <h5
+                    style={
+                      (info.status === 'Done' && {
+                        fontFamily: 'rockwen',
+                        color: '#000000',
+                      }) ||
+                      (info.status === 'Completed' && {
+                        fontFamily: 'rockwen',
+                        color: '#000000',
+                      }) ||
+                      (info.status === 'On Going' && {
+                        fontFamily: 'rockwen',
+                        color: '#24A43A',
+                      }) ||
+                      (info.status === 'Paused' && {
+                        fontFamily: 'rockwen',
+                        color: '#2972B2',
+                      }) ||
+                      (info.status === 'Assigned' && {
+                        fontFamily: 'rockwen',
+                        color: '#D1AE00',
+                      })
+                    }
+                  >
+                    {
+                      info.status
+                    }
+                  </h5></>)
+              })}
+
             </Col>
           </Row>
           <Table
@@ -280,27 +300,40 @@ export default function TaskHistory(props) {
               <TableRow
                 style={
                   props?.teamtasks[props?.indexselected]?.updates[
-                    props?.teamtasks[props?.indexselected]?.updates.length - 1
+                    props?.teamtasks[props?.indexselected]?.updates?.length - 1
                   ].status === 'Completed'
                     ? { display: 'none' }
-                    : {}
+                    : { display: 'auto' }
                 }
               >
                 <TableCell colSpan={7}>
                   <Row className="d-grid gap-2">
-                    <Button
+                    {props?.teamtasks[props?.indexselected]?.updates
+                      .sort((a, b) => (a.corrections > b.corrections ? -1 : 1))
+                      .filter((info, index) => { return (index === 0) })
+                      .map((info, index) => {
+                        return (<>
+                          {info.status === 'Done' ? <Button
                       disabled={
-                        props?.teamtasks[props?.indexselected]?.updates[
-                          props?.teamtasks[props?.indexselected]?.updates
-                            .length - 1
-                        ].status !== 'Done' || updateTaskForm
+                              info.status !== 'Done' || updateTaskForm
                       }
-                      onClick={() => setUpdateTaskForm(true)}
+                            onClick={() => { setUpdateTaskForm(true); setUpdateAdditionalTaskForm(false); }}
                       variant="outline-primary"
                       block
                     >
                       + Add Correction
-                    </Button>
+                          </Button> : <></>
+                          }
+                          {info.status !== 'Done' ? <Button
+                            disabled={updateAdditionalTaskForm}
+                            onClick={() => setUpdateAdditionalTaskForm(true)}
+                            variant="outline-primary"
+                            block
+                          >
+                            + Add Additional Correction
+                          </Button> : <></>
+                          }</>)
+                      })}
                   </Row>
                 </TableCell>
               </TableRow>
@@ -313,7 +346,7 @@ export default function TaskHistory(props) {
                     }}
                     align="center"
                   >
-                    +{props?.teamtasks[props?.indexselected]?.updates.length}
+                    +{props?.teamtasks[props?.indexselected]?.updates?.length}
                   </TableCell>
                   <TableCell
                     style={{
@@ -375,8 +408,7 @@ export default function TaskHistory(props) {
                         handleTaskCorrection(
                           props?.id,
                           props?.indexselected,
-                          props?.teamtasks[props?.indexselected]?.updates
-                            .length,
+                          props?.teamtasks[props?.indexselected]?.updates?.length,
                         )
                       }
                       size="2xl"
@@ -389,6 +421,90 @@ export default function TaskHistory(props) {
                     <FontAwesomeIcon
                       className="pointer"
                       onClick={handleTaskCorrectionClear}
+                      icon="fa-solid fa-square-xmark"
+                      size="2xl"
+                      style={{
+                        color: 'red',
+                        paddingRight: '.25em',
+                      }}
+                    />
+                  </TableCell>
+                </TableRow>
+              ) : (
+                <></>
+              )}
+              {updateAdditionalTaskForm ? (
+                <TableRow>
+                  <TableCell
+                    style={{
+                      width: '100px',
+                      fontFamily: 'rockwen',
+                    }}
+                    align="center"
+                  >
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      width: '200px',
+                      fontFamily: 'rockwen',
+                    }}
+                    align="center"
+                  >
+                    <Form.Control
+                      as="textarea"
+                      name="description"
+                      onChange={handleChange1}
+                    />
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      fontFamily: 'rockwen',
+                    }}
+                    align="center"
+                  ></TableCell>
+                  <TableCell
+                    style={{
+                      fontFamily: 'rockwen',
+                    }}
+                    align="center"
+                  >
+                    <Row className="justify-content-md-center">
+                      <Col sm={10}>
+
+                      </Col>
+                    </Row>
+                    <br />
+                    <Row className="justify-content-md-center">
+                      <Col sm={10}>
+
+                      </Col>
+                    </Row>
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      fontFamily: 'rockwen',
+                    }}
+                    align="center"
+                  >
+                    <FontAwesomeIcon
+                      className="pointer"
+                      onClick={() =>
+                        handleTaskCorrection1(
+                          props?.id,
+                          props?.indexselected,
+                          props?.teamtasks[props?.indexselected]?.updates?.length,
+                        )
+                      }
+                      size="2xl"
+                      style={{
+                        color: 'blue',
+                        paddingRight: '.25em',
+                      }}
+                      icon="fa-solid fa-square-check"
+                    />
+                    <FontAwesomeIcon
+                      className="pointer"
+                      onClick={() => handleTaskCorrectionClear()}
                       icon="fa-solid fa-square-xmark"
                       size="2xl"
                       style={{
@@ -424,8 +540,7 @@ export default function TaskHistory(props) {
                           fontFamily: 'rockwen',
                         }}
                         align="center"
-                      >
-                        {info.description}
+                      >{info.description.map(descriptionList)}
                       </TableCell>
                       <TableCell
                         style={{
@@ -473,7 +588,6 @@ export default function TaskHistory(props) {
             </TableBody>
           </Table>
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
       </Modal>
     </div>
   )
