@@ -163,7 +163,7 @@ export default function Home() {
   function handleChange(newValue) {
     setView(newValue)
   }
-
+  console.log(allTasks);
   return (
     <>
       {loading ? (
