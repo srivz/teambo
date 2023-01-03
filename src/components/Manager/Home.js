@@ -18,6 +18,7 @@ export default function Home() {
   const [teamRequest, setTeamRequest] = useState([]);
   const [teammateList, setTeammateList] = useState([]);
   const [teammateSet, setTeammateSet] = useState([]);
+  const [allTasks, setAllTasks] = useState([]);
 
 
   onAuthStateChanged(auth, (user) => {
@@ -48,6 +49,15 @@ export default function Home() {
     }
   });
 
+  const getAllTasks = () => {
+    // console.log(teammateList);
+  }
+
+
+
+
+
+
   const getTeammates = (teamList) => {
     if (once1) {
       setLoading(true);
@@ -59,13 +69,17 @@ export default function Home() {
               ...teammateList,
               { data, teammate },
             ]);
-            setLoading(false);
+            setAllTasks((oldTasks) => {
+              return [...oldTasks, { tasks: data.tasks, teammate: data.name }]
+            })
+
           } else {
             console.log("No data available");
             setLoading(false);
           }
         });
       });
+
     }
 
     setOnce1(false);
@@ -160,7 +174,7 @@ export default function Home() {
     setView(newValue);
   }
 
-
+  console.log(allTasks.flat(2));
   return (
     <>
       {loading ? (
@@ -180,7 +194,8 @@ export default function Home() {
                 onChange={handleChange}
               addTeammate={addNewTeammate}
               manager={manager}
-              managerId={managerId}
+                managerId={managerId}
+                allTasks={allTasks}
             />
           ) : (
             <HomeBlock

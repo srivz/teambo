@@ -720,11 +720,12 @@ export default function Home() {
                                     <br />
                                     <br />
                                     <p
-                                      style={{
-                                        width: "150px",
+                                        style={{
                                         fontSize: "smaller",
                                       }}>
-                                      {info.description}
+                                        {info.updates[
+                                          info.updates.length - 1
+                                        ].description}
                                     </p>
                                   </TableCell>
                                   <TableCell
