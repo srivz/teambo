@@ -1,13 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../assets/images/Group 3.svg";
 import "./Login.css";
 import { auth, db } from "../../firebase-config";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { ref, set } from "firebase/database";
+import { onValue, ref, set } from "firebase/database";
 import Loader from "../Loader/Loader";
 import Dropdown from 'react-bootstrap/Dropdown';
 
-export default function Signup({userid}) {
+export default function Signup({ userid }) {
+  const [newCompany, setNewCompany] = useState("");
+  const [companyNameList, setCompanyNameList] = useState([]);
+  const [prevCompanies, setPrevCompanies] = useState([]);
+  const searchCompany = (e) => {
+    setNewCompany(e.target.value)
+    const newFilter = prevCompanies.filter((val) => {
+      return val.toLowerCase().includes(e.target.value.toLowerCase());
+    });
+    if (e.target.value === "") {
+      setCompanyNameList(prevCompanies);
+    } else {
+      setCompanyNameList(newFilter);
+    }
+  }
+  useEffect(() => {
+    onValue(ref(db, `company/`), (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        setPrevCompanies(
+          data
+        );
+      } else {
+        console.log("No data available");
+        setLoading(false);
+      }
+    });
+  }, [])
+  const addCompany = () => {
+    if (newCompany !== "")
+      if (prevCompanies) {
+        const companies = [...prevCompanies, newCompany];
+        set(ref(db, `company/`), companies);
+        alert(companies)
+      } else {
+        const companies = [newCompany];
+        set(ref(db, `company/`), companies);
+        alert(companies)
+      }
+  }
   const [user, setUser] = useState({
     name: "",
     companyName: "",
@@ -134,23 +173,54 @@ export default function Signup({userid}) {
                         <Dropdown.Toggle
                           id="dropdown-basic"
                           className="w-100 client-dropdown company-dropdown"
-                        >
-                          {
-                            user.companyName===""?"Select Company ":user.companyName
+                        >{
+                            user.companyName === "" ? "Select Company " : user.companyName
                           }
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu className="client-dropdown-menu company-dropdown-menu">
-                                   <Dropdown.Item onClick={(e)=>{
-                                    setUser((old)=>{
-                                      return{...old,companyName:"The Madras Branding Company"}
-                                    })
-                                   }}>
-                                  The Madras Branding Company
-                                  </Dropdown.Item> 
+                          <div className="add-new-company-input">
+                            <input
+                              type="text"
+                              name="newCompany"
+                              placeholder="Search Company"
+                              value={newCompany}
+                              onChange={searchCompany}
+                            />
+                          </div>
+                          {
+                            companyNameList.length === 0 && newCompany === "" ?
+                              prevCompanies?.map((company, index) => {
+                                return (
+                                  <Dropdown.Item
+                                    key={index}
+                                    onClick={(e) => {
+                                      setUser((old) => {
+                                        return { ...old, companyName: "" + company };
+                                      });
+                                    }}
+                                  >
+                                    {company}
+                                  </Dropdown.Item>
+                                );
+                              }) :
+                              companyNameList.map((company, index) => {
+                                return (
+                                  <Dropdown.Item
+                                    key={index}
+                                    onClick={(e) => {
+                                      setNewCompany((old) => {
+                                        return { ...old, companyName: "" + company };
+                                      });
+                                    }}
+                                  >
+                                    {company}
+                                  </Dropdown.Item>
+                                );
+                              })}
                           <div className="add-new-input">
-                              <button type="button" className="w-100">Add Company</button>
-                          </div>          
+                            <button type="button" onClick={addCompany} className="w-100">Add Company</button>
+                          </div>
                         </Dropdown.Menu>
                       </Dropdown>
                   </div>
