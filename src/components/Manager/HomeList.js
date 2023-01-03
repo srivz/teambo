@@ -52,22 +52,6 @@ export default function HomeList(props) {
       from_email: props?.manager.email,
       to_email: teammate.email
     }
-    // fetch('https://example.com/profile', {
-    //   method: 'POST', // or 'PUT'
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(info),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log('Success:');
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error:', error);
-    //   });
-
-
 
     emailjs.send("service_8babtb3", "template_3e3kpdk", info, "E1o2OcJneKcoyHqxA").then((res) => {
 
