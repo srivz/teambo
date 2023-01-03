@@ -465,7 +465,6 @@ export default function HomeList(props) {
                             {
                               clientSelected === "" ? <><h5 className="blue">{info.data.name}</h5>
                                 <h6>{info.data.designation}</h6></> : <h5 className="blue">{clientSelected}</h5>
-
                             }
 
                           </Col>
