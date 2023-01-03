@@ -137,7 +137,7 @@ export default function HomeList(props) {
                     defaultActiveKey="Teammate"
                   id="uncontrolled-tab-example"
                     className="mt-3"
-                    onSelect={(e) => { setTab(e); }}
+                    onSelect={(e) => { setTab(e); setSelected(""); setClientSelected("") }}
                     style={{ width: 'fit-content' }}
                 >
                     <Tab eventKey="Teammate" title="Teammate">
@@ -241,7 +241,7 @@ export default function HomeList(props) {
                                 No teammate right now
                               </TableRow>
                             ) : (
-                                  props.team.map((info) => {
+                                  props?.team.map((info) => {
                                 return (
                                   <TableRow
                                     key={info.teammate}
@@ -375,7 +375,7 @@ export default function HomeList(props) {
                         className="text-end"
                       >
                       <div>
-                        <FontAwesomeIcon
+                          {/* <FontAwesomeIcon
                           icon="fa-solid fa-list"
                           color="#5f8fee"
                             style={{ paddingRight: '1em', fontSize: "20px" }}
@@ -391,7 +391,7 @@ export default function HomeList(props) {
                         <NewTask
                             name={'No Teammate'}
                             designation={'Selected'}
-                        />
+                        /> */}
                       </div>
                     </Col>
                   </Row>

@@ -159,8 +159,8 @@ export default function TaskHistory(props) {
             </Button>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <Row>
+        <Modal.Body style={{ padding: "20px" }}>
+          <Row style={{ padding: "auto", margin: "auto" }}>
             <Col sm={6} md={6} style={{ marginTop: '1em' }}>
               <h5>{props?.name}</h5>
               <h6>{props?.designation}</h6>
