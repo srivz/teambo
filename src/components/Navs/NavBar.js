@@ -7,7 +7,7 @@ import logo from "../../assets/images/Group 3.svg";
 export default function NavBar({ user, name, role }) {
   return (
     <Container>
-      <Row style={{ marginTop: "1em" }}>
+      <Row style={{ paddingTop: "1.5em" }}>
         <Col
           sm={6}
           md={6}
@@ -17,12 +17,12 @@ export default function NavBar({ user, name, role }) {
               className="w-25 m-lg-2"
               style={{ margin: ".5em" }}
               src={logo}
-              alt=""
+              alt="logo"
             />
             <span className="border-left"></span>
             <span
               className="blue letter-spacing"
-              style={{ marginTop: ".5em" }}>
+              style={{ marginTop: ".5em", fontSize: "13px" }}>
               {user}
             </span>
           </h5>

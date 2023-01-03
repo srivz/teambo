@@ -262,11 +262,11 @@ export default function NewTask(props) {
         <Button
           type="Button"
           variant="light"
-          className="bg-white box-shadow rounded-4"
+          className="add-task-button"
         >
           <FontAwesomeIcon
             icon="fa-regular fa-square-plus"
-            style={{ paddingRight: ".5em" }}
+            style={{ paddingRight: ".5em", fontSize: "16px" }}
           />
           New Task
         </Button>

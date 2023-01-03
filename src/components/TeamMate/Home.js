@@ -6,6 +6,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import Dropdown from 'react-bootstrap/Dropdown';
 import { onAuthStateChanged } from "firebase/auth";
 import {
   onChildChanged,
@@ -318,19 +319,45 @@ export default function Home() {
             <Container>
               <Row>
                 <Col style={{ marginTop: "1em" }}>
-                  <Row>
+                    <Row>
+
                     <Col
                       sm="6"
                       md="6"
                       style={{ marginTop: "1em" }}>
                       <h5 className="blue">{teammate.name}</h5>
                       <h6>{teammate.designation}</h6>
-                    </Col>
+                      </Col>
+
                     <Col
                       sm="6"
                       md="6"
-                      style={{ marginTop: "1em" }}
-                      className="text-end">
+                        style={{ marginTop: "1em", display: "flex", justifyContent: "flex-end", alignItems: "center" }} className="text- end">
+                        <Dropdown >
+                          <Dropdown.Toggle
+                            id="dropdown-basic"
+                            className="client-dropdown"
+                            style={{
+                              width: "140px", marginRight: "20px", border: "1px solid #D8D8D8"
+                            }}
+                          >
+                            All
+                          </Dropdown.Toggle>
+
+                          <Dropdown.Menu className="w-100 client-dropdown-menu">
+                            <Dropdown.Item>
+                              All
+                            </Dropdown.Item> <Dropdown.Item>
+                              On Going
+                            </Dropdown.Item> <Dropdown.Item>
+                              Assigned
+                            </Dropdown.Item> <Dropdown.Item>
+                              Paused
+                            </Dropdown.Item> <Dropdown.Item>
+                              Completed
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
                       <Badge
                         as="button"
                         onClick={handleShow}
@@ -341,9 +368,12 @@ export default function Home() {
                           borderRadius: "25px",
                         }}
                         bg="light">
+
                         {!teammate.requests ? 0 : teammate.requests.length}
                       </Badge>
-                    </Col>
+
+                      </Col>
+
                   </Row>
                   <Row className="curve-box-homelist">
                     <Col className="overflow-set-auto table-height2">
@@ -363,7 +393,9 @@ export default function Home() {
                               style={{
                                 fontFamily: "rockwen",
                                 fontWeight: "bold",
-                              }}>
+                                }}
+                              >
+
                               Client
                             </TableCell>
                             <TableCell
@@ -447,7 +479,7 @@ export default function Home() {
                                       style={{
                                         fontFamily: "rockwen",
                                       }}
-                                      align="center">
+                                      align="center" className="tablecell">
                                       {info.client}
                                     </TableCell>
                                     <TableCell
@@ -457,7 +489,7 @@ export default function Home() {
                                       style={{
                                         fontFamily: "rockwen",
                                       }}
-                                      align="center">
+                                      align="center" className="tablecell">
                                       {info.task}
                                     </TableCell>
                                     {info.updates
@@ -475,7 +507,7 @@ export default function Home() {
                                               style={{
                                                 fontFamily: "rockwen",
                                               }}
-                                              align="center">
+                                              align="center" className="tablecell">
                                               {
                                                 dateFormatChange(info.updates[
                                                   info.updates.length - 1
@@ -489,12 +521,13 @@ export default function Home() {
                                               style={{
                                                 fontFamily: "rockwen",
                                               }}
-                                              align="center">
+                                              align="center" className="tablecell">
                                               {
                                                 timeFormatChange(info.updates[
                                                   info.updates.length - 1
                                                 ].deadlineTime)
                                               }
+
                                             </TableCell>
                                             <TableCell
                                               onClick={() => {
@@ -503,7 +536,7 @@ export default function Home() {
                                               style={{
                                                 fontFamily: "rockwen",
                                               }}
-                                              align="center">
+                                              align="center" className="tablecell">
                                               +
                                               {
                                                 info.updates[
@@ -516,6 +549,7 @@ export default function Home() {
                                                 setTaskSelected(index);
                                               }}
                                               align="center"
+                                              className="tablecell"
                                               style={
                                                 info.updates[
                                                   info.updates.length - 1
@@ -565,6 +599,7 @@ export default function Home() {
                                               onClick={() => {
                                                 setTaskSelected(index);
                                               }}
+                                              className="tablecell"
                                               align="center">
                                               <img
                                                 src={

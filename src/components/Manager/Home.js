@@ -166,7 +166,7 @@ export default function Home() {
       {loading ? (
         <Loader />
       ) : (
-        <div>
+          <div style={{ backgroundColor: "#FFF" }}>
           <NavBar
             user="MANAGER"
             name={manager.name}

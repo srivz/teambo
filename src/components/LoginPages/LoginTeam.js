@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import logo from "../../assets/images/Group 3.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Login.css";
@@ -13,7 +13,8 @@ export default function LoginTeam({ text, user, name, role }) {
     email: "",
     password: "",
   });
-
+  const [isHide, setIsHide] = useState(false)
+  const passwordRef = useRef();
   const [loading, setLoading] = useState(false);
   const handleChangeLog = (event) => {
     let newInput1 = { [event.target.name]: event.target.value };
@@ -81,20 +82,33 @@ export default function LoginTeam({ text, user, name, role }) {
                   onChange={handleChangeLog}
                   placeholder="Email"
                 />
-              </div>
-              <div className="form-group mb-2">
+                </div>
                 <label htmlFor="pwd">Password</label>
+                <div className="form-group mb-2 password-div">
                 <input
-                  type="password"
-                  className="form-control"
+                    type="password"
                   id="pwd"
                   placeholder="Password"
                   name="password"
-                  onChange={handleChangeLog}
-                />
-                  <Link to={"/forgotPassword"}
-                    className="signuplink"><p className="mt-3 blue pointer">Forgot your password?</p></Link>
-              </div>
+                    onChange={handleChangeLog}
+                    ref={passwordRef}
+                  />
+                  {
+                    isHide ? <FontAwesomeIcon
+                      icon="fa-solid fa-eye"
+                      style={{ paddingRight: ".4em", fontSize: "20px", cursor: "pointer" }}
+                      onClick={(e) => { passwordRef.current.type = 'password'; setIsHide(false) }}
+                    />
+                      :
+                      <FontAwesomeIcon
+                        icon="fa-solid fa-eye-slash"
+                        style={{ paddingRight: ".4em", fontSize: "20px", cursor: "pointer" }}
+                        onClick={(e) => { passwordRef.current.type = 'text'; setIsHide(true) }}
+                      />
+                  }
+
+                </div>
+                <Link to={"/forgotPassword"} className="signuplink"><p className="mt-3 blue pointer">Forgot your password?</p></Link>
               <button
                 type="Submit"
                 className="btn btn-primary bg-blue w-100 rounded-4 login-button2"
@@ -116,7 +130,7 @@ export default function LoginTeam({ text, user, name, role }) {
                 Continue with google
               </button>
             </form>
-            <h6
+              <h6
               style={{ marginTop: "2em" }}
               className="signup-h6">
               Don't have an account?{" "}
@@ -129,7 +143,7 @@ export default function LoginTeam({ text, user, name, role }) {
                   Signup
                 </span>
               </Link>
-            </h6>
+              </h6>
           </div>
         </div>
       )}
