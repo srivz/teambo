@@ -18,6 +18,7 @@ import { db } from "../../firebase-config";
 import Loader from "../Loader/Loader";
 import NewTask from "./NewTask";
 import TaskHistory from './TaskHistory'
+import SwitchTask from './SwitchTask';
 
 export default function HomeList(props) {
   const [selected, setSelected] = useState(
@@ -27,7 +28,7 @@ export default function HomeList(props) {
   const [teammateEmail, setTeammateEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [taskSelected, setTaskSelected] = useState();
-  const [modalShow, setModalShow] = React.useState(false);
+  const [modalShow, setModalShow] = useState(false);
 
   function handleViewChange() {
     props?.onChange(false)
@@ -557,7 +558,7 @@ export default function HomeList(props) {
                         <TableBody className="curve-box-homelist">
                             {props?.team
                             .filter((info) => info.teammate === selected)
-                            .map((info, index) => {
+                              .map((info, index1) => {
                               return (
                                 <>
                                   {!info.data.tasks ? (
@@ -912,37 +913,19 @@ export default function HomeList(props) {
                                                         />
                                                         Move Down
                                                       </Button>
-                                                    </Row><Row
+                                                    </Row>
+                                                    <Row
                                                       className="d-grid gap-2"
                                                       style={{
                                                         marginBottom: '.5em',
                                                       }}
                                                     >
-                                                      <Button
-                                                        disabled={info1.updates[
-                                                          info1.updates.length - 1
-                                                        ].status !== 'Done' ? false : true}
-                                                        // onClick={() => {
-                                                        //   handleSwitchTask(
-                                                        //     info.teammate
-                                                        //   )
-                                                        // }}
-                                                        variant="light"
-                                                        style={{
-                                                          textAlign: 'left',
-                                                        }}
-                                                        block
-                                                      >
-                                                        <FontAwesomeIcon
-                                                          icon="fa-solid fa-shuffle"
-                                                          style={{
-                                                            paddingRight:
-                                                              '.5em',
-                                                            color: "blue",
-                                                          }}
-                                                        />
-                                                        Switch Task To..
-                                                      </Button>
+                                                      <SwitchTask
+                                                        taskindex={index}
+                                                        teammate={info.teammate}
+                                                        tasks={info.data.tasks}
+                                                        manager={props?.manager}
+                                                        managerId={props?.managerId} />
                                                     </Row>
                                                     <Row
                                                       className="d-grid gap-2"
