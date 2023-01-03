@@ -1,151 +1,148 @@
-import React, { useEffect, useState, useRef } from "react";
-import logo from "../../assets/images/Group 3.svg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./Login.css";
-import { auth, db } from "../../firebase-config";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { onValue, ref, set } from "firebase/database";
-import Loader from "../Loader/Loader";
-import Dropdown from 'react-bootstrap/Dropdown';
-import { Row } from "react-bootstrap";
+import React, { useEffect, useState, useRef } from 'react'
+import logo from '../../assets/images/Group 3.svg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import './Login.css'
+import { auth, db } from '../../firebase-config'
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
+import { onValue, ref, set } from 'firebase/database'
+import Loader from '../Loader/Loader'
+import Dropdown from 'react-bootstrap/Dropdown'
+import { Row } from 'react-bootstrap'
 
 export default function Signup({ userid }) {
-  const [newCompany, setNewCompany] = useState("");
-  const [companyNameList, setCompanyNameList] = useState([]);
+  const [newCompany, setNewCompany] = useState('')
+  const [companyNameList, setCompanyNameList] = useState([])
   const [isHide, setIsHide] = useState(false)
   const [isHide2, setIsHide2] = useState(false)
-  const passwordRef = useRef();
-  const passwordRef2 = useRef();
-  const [prevCompanies, setPrevCompanies] = useState([]);
-  const [loading,setLoading]=useState(false)
+  const passwordRef = useRef()
+  const passwordRef2 = useRef()
+  const [prevCompanies, setPrevCompanies] = useState([])
+  const [loading, setLoading] = useState(false)
   const searchCompany = (e) => {
     setNewCompany(e.target.value)
     const newFilter = prevCompanies.filter((val) => {
-      return val.toLowerCase().includes(e.target.value.toLowerCase());
-    });
-    if (e.target.value === "") {
-      setCompanyNameList(prevCompanies);
+      return val.toLowerCase().includes(e.target.value.toLowerCase())
+    })
+    if (e.target.value === '') {
+      setCompanyNameList(prevCompanies)
     } else {
-      setCompanyNameList(newFilter);
+      setCompanyNameList(newFilter)
     }
   }
   useEffect(() => {
     onValue(ref(db, `company/`), (snapshot) => {
       if (snapshot.exists()) {
-        const data = snapshot.val();
-        setPrevCompanies(
-          data
-        );
+        const data = snapshot.val()
+        setPrevCompanies(data)
       } else {
-        console.log("No data available");
-        setLoading(false);
+        console.log('No data available')
+        setLoading(false)
       }
-    });
+    })
   }, [])
   const addCompany = () => {
-    if (newCompany !== "")
+    if (newCompany !== '')
       if (prevCompanies) {
-        const companies = [...prevCompanies, newCompany];
-        set(ref(db, `company/`), companies);
-        setNewCompany("")
+        const companies = [...prevCompanies, newCompany]
+        set(ref(db, `company/`), companies)
+        setNewCompany('')
       } else {
-        const companies = [newCompany];
-        set(ref(db, `company/`), companies);
+        const companies = [newCompany]
+        set(ref(db, `company/`), companies)
         alert(companies)
-        setNewCompany("")
+        setNewCompany('')
       }
   }
   const [user, setUser] = useState({
-    name: "",
-    companyName: "",
-    designation: "",
-  });
+    name: '',
+    companyName: '',
+    designation: '',
+  })
   const [userLog, setUserLog] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-  
+    email: '',
+    password: '',
+    confirmPassword: '',
+  })
+
   const handleChange = (event) => {
-    let newInput = { [event.target.name]: event.target.value };
-    setUser({ ...user, ...newInput });
-  };
+    let newInput = { [event.target.name]: event.target.value }
+    setUser({ ...user, ...newInput })
+  }
   const handleChangeLog = (event) => {
-    let newInput1 = { [event.target.name]: event.target.value };
-    setUserLog({ ...userLog, ...newInput1 });
-  };
+    let newInput1 = { [event.target.name]: event.target.value }
+    setUserLog({ ...userLog, ...newInput1 })
+  }
   const registerUser = async (currentUser) => {
-    if (user.designation === "Manager") {
-      set(ref(db, "/manager/" + currentUser.uid), {
+    if (user.designation === 'Manager') {
+      set(ref(db, '/manager/' + currentUser.uid), {
         company: user.companyName,
         designation: user.designation,
         name: user.name,
         email: userLog.email,
         teammates: [],
-        clients:[]
-      }).then(() => (window.location.href = "/signUp/response"));
+        clients: [],
+      }).then(() => (window.location.href = '/signUp/response'))
     } else {
       await set(
-        ref(db, "/teammate/" + currentUser.email.split(".").join("_")),
+        ref(db, '/teammate/' + currentUser.email.split('.').join('_')),
         {
           company: user.companyName,
           designation: user.designation,
           name: user.name,
           email: userLog.email,
-        }
-      ).then(() => (window.location.href = "/signUp/response"));
+        },
+      ).then(() => (window.location.href = '/signUp/response'))
     }
-    
-  };
+  }
 
   const registerLogin = () => {
     createUserWithEmailAndPassword(auth, userLog.email, userLog.password)
       .then((cred) => {
         updateProfile(auth.currentUser, {
-          photoURL: user.designation === "Manager" ? "Manager" : "Teammate",
+          photoURL: user.designation === 'Manager' ? 'Manager' : 'Teammate',
           displayName: user.name,
-        });
-        registerUser(auth.currentUser);
+        })
+        registerUser(auth.currentUser)
       })
       .catch((err) => {
-        setLoading(false);
-        alert(err)});
-  };
+        setLoading(false)
+        alert(err)
+      })
+  }
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     if (
-      user.name === "" ||
-      user.companyName === "" ||
-      user.designation === ""
+      user.name === '' ||
+      user.companyName === '' ||
+      user.designation === ''
     ) {
-      alert("Fill the fields");
+      alert('Fill the fields')
     } else if (userLog.password.length < 6) {
-      alert("Password should be atleast 6 characters!!!");
+      alert('Password should be atleast 6 characters!!!')
     } else {
       if (userLog.password === userLog.confirmPassword) {
         setLoading(true)
-        localStorage.setItem("currentUser", JSON.stringify(user.name));
-        registerLogin();
+        localStorage.setItem('currentUser', JSON.stringify(user.name))
+        registerLogin()
       } else {
-        alert("Passwords does not match!!");
+        alert('Passwords does not match!!')
       }
     }
-  };
+  }
   return (
     <>
-    {
-        loading ? <Loader /> : 
+      {loading ? (
+        <Loader />
+      ) : (
         <div className="login-container2">
           <div className="form-box1">
             <div className="img text-center">
-              <img
-                className="w-50"
-                src={logo}
-                alt=""
-              />
+                <img className="w-50" src={logo} alt="" />
             </div>
-            <h4 className="mt-4 text-center mb-4 signup-para">Sign up a new Teambo account!</h4>
+              <h4 className="mt-4 text-center mb-4 signup-para">
+                Sign up a new Teambo account!
+              </h4>
             <form onSubmit={handleSubmit}>
               <div className="form-group mb-4 ">
                 <div className="row">
@@ -181,9 +178,10 @@ export default function Signup({ userid }) {
                         <Dropdown.Toggle
                           id="dropdown-basic"
                           className="w-100  company-dropdown"
-                        >{
-                            user.companyName === "" ? "Select Company " : user.companyName
-                          }
+                        >
+                          {user.companyName === ''
+                            ? 'Select Company '
+                            : user.companyName}
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu className="company-dropdown-menu">
@@ -198,38 +196,51 @@ export default function Signup({ userid }) {
                           </div>
                           <div className=" company-dropdown-menu-list company-dropdown-menu-height">
                             <Row className="company-dropdown-menu-height">
-                          {
-                            companyNameList.length === 0 && newCompany === "" ?
-                              prevCompanies?.map((company, index) => {
-                                return (
-                                  <Dropdown.Item
-                                    key={index}
-                                    onClick={(e) => {
-                                      setUser((old) => {
-                                        return { ...old, companyName: "" + company };
-                                      });
-                                    }}
-                                  >
-                                    {company}
-                                  </Dropdown.Item>
-                                );
-                              }) :
-                              companyNameList.map((company, index) => {
-                                return (
-                                  <Dropdown.Item
-                                    key={index}
-                                    onClick={(e) => {
-                                      setNewCompany((old) => {
-                                        return { ...old, companyName: "" + company };
-                                      });
-                                    }}
-                                  >
-                                    {company}
-                                  </Dropdown.Item>
-                                );
-                              })}</Row></div>
+                              {companyNameList.length === 0 && newCompany === ''
+                                ? prevCompanies?.map((company, index) => {
+                                  return (
+                                    <Dropdown.Item
+                                      key={index}
+                                      onClick={(e) => {
+                                        setUser((old) => {
+                                          return {
+                                            ...old,
+                                            companyName: '' + company,
+                                          }
+                                        })
+                                      }}
+                                    >
+                                      {company}
+                                    </Dropdown.Item>
+                                )
+                              })
+                                : companyNameList.map((company, index) => {
+                                  return (
+                                    <Dropdown.Item
+                                      key={index}
+                                      onClick={(e) => {
+                                        setNewCompany((old) => {
+                                          return {
+                                            ...old,
+                                            companyName: '' + company,
+                                          }
+                                        })
+                                      }}
+                                    >
+                                      {company}
+                                    </Dropdown.Item>
+                                )
+                              })}
+                            </Row>
+                          </div>
                           <div className="add-new-input">
-                            <button type="button" onClick={addCompany} className="w-100">Add Company</button>
+                            <button
+                              type="button"
+                              onClick={addCompany}
+                              className="w-100"
+                            >
+                              Add Company
+                            </button>
                           </div>
                         </Dropdown.Menu>
                       </Dropdown>
@@ -245,19 +256,33 @@ export default function Signup({ userid }) {
                           ref={passwordRef}
                           onChange={handleChangeLog}
                         />
-                        {
-                          isHide ? <FontAwesomeIcon
+                        {isHide ? (
+                          <FontAwesomeIcon
                             icon="fa-solid fa-eye"
-                            style={{ paddingRight: ".4em", fontSize: "20px", cursor: "pointer" }}
-                            onClick={(e) => { passwordRef.current.type = 'password'; setIsHide(false) }}
+                            style={{
+                              paddingRight: '.4em',
+                              fontSize: '20px',
+                              cursor: 'pointer',
+                            }}
+                            onClick={(e) => {
+                              passwordRef.current.type = 'password'
+                              setIsHide(false)
+                            }}
                           />
-                            :
-                            <FontAwesomeIcon
-                              icon="fa-solid fa-eye-slash"
-                              style={{ paddingRight: ".4em", fontSize: "20px", cursor: "pointer" }}
-                              onClick={(e) => { passwordRef.current.type = 'text'; setIsHide(true) }}
+                        ) : (
+                          <FontAwesomeIcon
+                            icon="fa-solid fa-eye-slash"
+                              style={{
+                                paddingRight: '.4em',
+                                fontSize: '20px',
+                                cursor: 'pointer',
+                              }}
+                              onClick={(e) => {
+                                passwordRef.current.type = 'text'
+                                setIsHide(true)
+                              }}
                             />
-                        }
+                        )}
                       </div>
                   </div>
                 </div>
@@ -270,72 +295,90 @@ export default function Signup({ userid }) {
                       className="form-select"
                       aria-label="Default select example"
                       name="designation"
-                      onChange={handleChange}>
+                        onChange={handleChange}
+                      >
                       <option
-                          selected={userid === "teammate" ? true : false}
-                        hidden>
+                          selected={userid === 'teammate' ? true : false}
+                          hidden
+                        >
                         Select Designation
                       </option>
-                      {
-                          userid === "teammate" ?
-                           <>
-                           <option value="Developer">Developer</option>
+                        {userid === 'teammate' ? (
+                          <>
+                            <option value="Developer">Developer</option>
                             <option value="Digital Artist">Digital Artist</option>
                             <option value="Designer">Designer</option>
                             <option value="Editor">Editor</option>
-                            <option value="Content writter">Content writter</option>
+                            <option value="Content writter">
+                              Content writter
+                            </option>
                             <option value="Client Manager">Client Manager</option>
                             <option value="Photographer">Photographer</option>
                             <option value="Animator">Animator</option>
-                            </> 
-                            :
-                            <option value="Manager" selected={userid === "teammate" ? false : true}>Manager</option>
-                      }
-                      
-                      
+                          </>
+                        ) : (
+                          <option
+                            value="Manager"
+                            selected={userid === 'teammate' ? false : true}
+                          >
+                            Manager
+                          </option>
+                        )}
                     </select>
                   </div>
                   <div className="col-sm-6 col-md-6">
                       <label htmlFor="pwd">Re-enter Password:</label>
                       <div className="password-div">
                       <input
-                      type="password"
-                      className="form-control"
-                      id="pwd"
-                      placeholder="Re-enter Password"
+                          type="password"
+                          className="form-control"
+                          id="pwd"
+                          placeholder="Re-enter Password"
                           name="confirmPassword"
                           ref={passwordRef2}
-                      onChange={handleChangeLog}
+                          onChange={handleChangeLog}
                         />
-                         {
-                          isHide2 ? <FontAwesomeIcon
+                        {isHide2 ? (
+                          <FontAwesomeIcon
                             icon="fa-solid fa-eye"
-                            style={{ paddingRight: ".4em", fontSize: "20px", cursor: "pointer" }}
-                            onClick={(e) => { passwordRef2.current.type = 'password'; setIsHide2(false) }}
+                            style={{
+                              paddingRight: '.4em',
+                              fontSize: '20px',
+                              cursor: 'pointer',
+                            }}
+                            onClick={(e) => {
+                              passwordRef2.current.type = 'password'
+                              setIsHide2(false)
+                            }}
                           />
-                            :
-                            <FontAwesomeIcon
-                              icon="fa-solid fa-eye-slash"
-                              style={{ paddingRight: ".4em", fontSize: "20px", cursor: "pointer" }}
-                              onClick={(e) => { passwordRef2.current.type = 'text'; setIsHide2(true) }}
+                        ) : (
+                          <FontAwesomeIcon
+                            icon="fa-solid fa-eye-slash"
+                              style={{
+                                paddingRight: '.4em',
+                                fontSize: '20px',
+                                cursor: 'pointer',
+                              }}
+                              onClick={(e) => {
+                                passwordRef2.current.type = 'text'
+                                setIsHide2(true)
+                              }}
                             />
-                        }
+                        )}
                       </div>
-                    
                   </div>
                 </div>
               </div>
               <button
                 type="submit"
-                className="btn btn-primary bg-blue w-100 rounded-4 mt-4">
+                  className="btn btn-primary bg-blue w-100 rounded-4 mt-4"
+                >
                 Sign Up
               </button>
             </form>
           </div>
         </div>
-    }
-    
+      )}
     </>
-    
-  );
+  )
 }
