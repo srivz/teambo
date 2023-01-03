@@ -19,6 +19,7 @@ import Loader from "../Loader/Loader";
 import NewTask from "./NewTask";
 import TaskHistory from './TaskHistory'
 import SwitchTask from './SwitchTask';
+import TeammateTable from './TeammateTable';
 import ClientTable from './ClientTable';
 
 export default function HomeList(props) {
@@ -308,6 +309,7 @@ export default function HomeList(props) {
                                         JSON.stringify(info.teammate)
                                       );
                                       setSelected(info.teammate);
+                                      setClientSelected("");
                                     }}
                                     style={{ backgroundColor: "#fff !important" }}
                                   >
@@ -379,6 +381,11 @@ export default function HomeList(props) {
                                     key={info}
                                     onClick={() => {
                                       setClientSelected(info);
+                                      localStorage.setItem(
+                                        'teammateSelected',
+                                        JSON.stringify("")
+                                      );
+                                      setSelected("");
                                     }} style={{ backgroundColor: "#fff !important" }}
 
                                     className="box-shadow">
