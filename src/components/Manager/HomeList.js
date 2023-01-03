@@ -2,12 +2,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { onChildChanged, ref, remove, set, update } from 'firebase/database'
 import emailjs from '@emailjs/browser';
-import Dropdown from 'react-bootstrap/Dropdown';
 import React, { useState } from 'react'
 import {
   Button,
   Col,
   Container,
+  Dropdown,
   OverlayTrigger,
   Popover,
   Row,
@@ -22,12 +22,12 @@ import TaskHistory from './TaskHistory'
 export default function HomeList(props) {
   const [selected, setSelected] = useState(
     JSON.parse(localStorage.getItem('teammateSelected')),
-  )
-
-  const [teammateEmail, setTeammateEmail] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [taskSelected, setTaskSelected] = useState()
-  const [modalShow, setModalShow] = React.useState(false)
+  );
+  const [filter, setFilter] = useState("All");
+  const [teammateEmail, setTeammateEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [taskSelected, setTaskSelected] = useState();
+  const [modalShow, setModalShow] = React.useState(false);
 
   function handleViewChange() {
     props?.onChange(false)
@@ -43,7 +43,6 @@ export default function HomeList(props) {
         console.log(err);
       });
   }
-
   const handleCompleteTask = (teammate, id, index, latest) => {
     setLoading(true)
     const info = {
@@ -413,32 +412,45 @@ export default function HomeList(props) {
                           <Col
                             sm={6}
                             md={6}
-                            style={{ marginTop: '1em', }}
+                            style={{ marginTop: '1em' }}
                             className="text-end"
                           >
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
-                              <Dropdown >
+                              <Dropdown
+                                style={{ width: "150px", marginRight: '1em' }}>
                                 <Dropdown.Toggle
                                   id="dropdown-basic"
-                                  className="client-dropdown"
-                                  style={{
-                                    width: "140px", marginRight: "10px", border: "1px solid #D8D8D8"
-                                  }}
-                                >
-                                  All
+                                  className="w-100  company-dropdown"
+                                >{filter}
                                 </Dropdown.Toggle>
 
-                                <Dropdown.Menu className="w-100 client-dropdown-menu">
-                                  <Dropdown.Item>
-                                    All
-                                  </Dropdown.Item> <Dropdown.Item>
-                                    On Going
-                                  </Dropdown.Item> <Dropdown.Item>
-                                    Assigned
-                                  </Dropdown.Item> <Dropdown.Item>
-                                    Paused
-                                  </Dropdown.Item> <Dropdown.Item>
-                                    Completed
+                                <Dropdown.Menu
+                                  style={{ width: "100px" }} className="company-dropdown-menu">
+                                  <Dropdown.Item
+                                    onClick={(e) => {
+                                      setFilter("All")
+                                    }}
+                                  >All
+                                  </Dropdown.Item><Dropdown.Item
+                                    onClick={(e) => {
+                                      setFilter("On Going")
+                                    }}
+                                  >On Going
+                                  </Dropdown.Item><Dropdown.Item
+                                    onClick={(e) => {
+                                      setFilter("Assigned")
+                                    }}
+                                  >Assigned
+                                  </Dropdown.Item><Dropdown.Item
+                                    onClick={(e) => {
+                                      setFilter("Paused")
+                                    }}
+                                  >Paused
+                                  </Dropdown.Item><Dropdown.Item
+                                    onClick={(e) => {
+                                      setFilter("Completed")
+                                    }}
+                                  >Completed
                                   </Dropdown.Item>
                                 </Dropdown.Menu>
                               </Dropdown>
