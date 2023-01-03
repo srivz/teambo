@@ -5,6 +5,7 @@ import { Button, Row, Col, Form, OverlayTrigger } from "react-bootstrap";
 import { db } from "../../firebase-config";
 import moment from "moment";
 import Dropdown from 'react-bootstrap/Dropdown';
+import Popover from 'react-bootstrap/Popover';
 
 
 export default function SwitchTask(props) {
@@ -73,26 +74,34 @@ export default function SwitchTask(props) {
     }
 
 
-
     return (
+        <Row
+            className="d-grid gap-2"
+            style={{
+                marginBottom: '.5em',
+            }}
+        >
         <OverlayTrigger
             trigger="click"
-            key="left"
-            placement="left"
-            rootClose
-            overlay={
-                <div
-                    className="bg-white"
-                    style={{
-                        padding: "1em",
-                        marginTop: "10px",
-                        marginLeft: "-50px",
-                        width: "400px",
-                        boxShadow: "rgba(0, 0, 0, 0.15) 1px 3px 5px",
-                    }}
-                >
-                    <h5 className="blue">Move Task To.. </h5>
-                    {/* <Form.Group as={Row} className="mb-3" controlId="formPlaintext1">
+                key="auto"
+                placement="top"
+                overlay={
+                    <Popover>
+                        <div
+                            className="bg-white"
+                            style={{
+                                padding: "1em",
+                                marginBottom: "40px",
+                                marginLeft: "-50px",
+                                width: "400px",
+                                boxShadow: "rgba(0, 0, 0, 0.15) 1px 3px 5px",
+                                cursor: "pointer",
+                                position: "relative",
+                                zIndex: "11111"
+                            }}
+                        >
+                            <h5 className="blue">Move Task To.. </h5>
+                            {/* <Form.Group as={Row} className="mb-3" controlId="formPlaintext1">
                         <Form.Label column sm="4" md="4">
                             Client*
                         </Form.Label>
@@ -151,78 +160,78 @@ export default function SwitchTask(props) {
                             </Dropdown>
                         </Col>
                     </Form.Group> */}
-                    <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
-                        <Form.Label column md="4" sm="4">
-                            Client
-                        </Form.Label>
-                        <Col sm="8">
-                            <Form.Control
-                                type="text"
-                                name="client"
-                                disabled
-                            // value={ }
-                            />
-                        </Col>
-                    </Form.Group>
-                    <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
-                        <Form.Label column md="4" sm="4">
-                            Task
-                        </Form.Label>
-                        <Col sm="8">
-                            <Form.Control
-                                type="text"
-                                name="task"
-                                disabled
-                            // value={ }
-                            />
-                        </Col>
-                    </Form.Group>
-                    <Form.Group as={Row} className="mb-3" controlId="formPlaintext3">
-                        <Form.Label column md="4" sm="4">
-                            Description*
-                        </Form.Label>
-                        <Col sm="8">
-                            <Form.Control
-                                as="textarea"
-                                name="description"
-                            // value={}
-                            // onChange={handleDescriptionChange}
-                            />
-                        </Col>
-                    </Form.Group>
-                    <Form.Group
-                        as={Row}
-                        className="mb-3 deadline"
-                        controlId="formPlaintext3"
-                    >
-                        <Form.Label column md="4" sm="4">
-                            Deadline
-                        </Form.Label>
-                        <Col sm="4" md="4">
-                            <Form.Control
-                                type="date"
-                                // min={moment().format("YYYY-MM-DD")}
-                                name="deadlineDate"
-                                style={{ fontSize: "12px" }}
-                            // onChange={handleDateChange}
-                            />
-                        </Col>
-                        <Col sm="4" md="4">
-                            <Form.Control
-                                type="time"
-                                style={{ fontSize: "12px" }}
-                                name="deadlineTime"
-                            // onChange={handleTimeChange}
-                            />
-                        </Col>
-                    </Form.Group>
-                    <div
-                        className="d-grid gap-2"
-                        style={{
-                            marginBottom: ".5em",
-                        }}
-                    >
-                        {/* <Button
+                            <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
+                                <Form.Label column md="4" sm="4">
+                                    Client
+                                </Form.Label>
+                                <Col sm="8">
+                                    <Form.Control
+                                        type="text"
+                                        name="client"
+                                        disabled
+                                    // value={ }
+                                    />
+                                </Col>
+                            </Form.Group>
+                            <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
+                                <Form.Label column md="4" sm="4">
+                                    Task
+                                </Form.Label>
+                                <Col sm="8">
+                                    <Form.Control
+                                        type="text"
+                                        name="task"
+                                        disabled
+                                    // value={ }
+                                    />
+                                </Col>
+                            </Form.Group>
+                            <Form.Group as={Row} className="mb-3" controlId="formPlaintext3">
+                                <Form.Label column md="4" sm="4">
+                                    Description*
+                                </Form.Label>
+                                <Col sm="8">
+                                    <Form.Control
+                                        as="textarea"
+                                        name="description"
+                                    // value={}
+                                    // onChange={handleDescriptionChange}
+                                    />
+                                </Col>
+                            </Form.Group>
+                            <Form.Group
+                                as={Row}
+                                className="mb-3 deadline"
+                                controlId="formPlaintext3"
+                            >
+                                <Form.Label column md="4" sm="4">
+                                    Deadline
+                                </Form.Label>
+                                <Col sm="4" md="4">
+                                    <Form.Control
+                                        type="date"
+                                        // min={moment().format("YYYY-MM-DD")}
+                                        name="deadlineDate"
+                                        style={{ fontSize: "12px" }}
+                                    // onChange={handleDateChange}
+                                    />
+                                </Col>
+                                <Col sm="4" md="4">
+                                    <Form.Control
+                                        type="time"
+                                        style={{ fontSize: "12px" }}
+                                        name="deadlineTime"
+                                    // onChange={handleTimeChange}
+                                    />
+                                </Col>
+                            </Form.Group>
+                            <div
+                                className="d-grid gap-2"
+                                style={{
+                                    marginBottom: ".5em",
+                                }}
+                            >
+                                {/* <Button
                             variant="primary"
                             onClick={() => {
                                 handleNewTask(
@@ -237,17 +246,19 @@ export default function SwitchTask(props) {
                         >
                             Assign
                         </Button> */}
-                    </div>
-                </div>
+                            </div>
+                        </div>
+                    </Popover>
+
             }
         >
+
 
             <Button
                 variant="light"
                 style={{
                     textAlign: 'left',
                 }}
-                block
             >
                 <FontAwesomeIcon
                     icon="fa-solid fa-shuffle"
@@ -258,8 +269,9 @@ export default function SwitchTask(props) {
                     }}
                 />
                 Switch Task To..
-            </Button>
-        </OverlayTrigger>
+                </Button>
+            </OverlayTrigger>
+        </Row>
 
     );
 }
