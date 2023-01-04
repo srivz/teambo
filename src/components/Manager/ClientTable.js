@@ -116,7 +116,9 @@ export default function ClientTable(props) {
                                             align="center"
                                             className="tablecell"
                                         >
-                                            {index} {info.teammate}
+                                            {
+                                                // index
+                                            } {info.teammate}
                                         </TableCell>
                                         <TableCell
                                             onClick={() => {

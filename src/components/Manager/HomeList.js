@@ -484,7 +484,7 @@ export default function HomeList(props) {
                         </Row>
                       )
                     }) : (props?.manager?.clients
-                      .filter((info) => info === clientSelected)
+                          ?.filter((info) => info === clientSelected)
                       .map((info) => {
                         return (
                           <Row>

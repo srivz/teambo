@@ -55,13 +55,18 @@ export default function NewTask(props) {
   };
 
   const handleNewTask = async (id, tasknumber) => {
-    set(ref(db, `/teammate/${id}/tasks/${tasknumber}/`), newTask)
-      .then(() => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (props.name === "No Teammate") {
+      alert("Select a Teammate first")
+    } else {
+      set(ref(db, `/teammate/${id}/tasks/${tasknumber}/`), newTask)
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
   };
 
  const searchClient=(e)=>{
