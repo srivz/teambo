@@ -24,7 +24,7 @@ export default function TeammateTable(props) {
     const [switchTask, setSwitchTask] = useState()
     const [prevTeammateId, setPrevTeammateId] = useState("");
     const [prevTaskIndex, setPrevTaskIndex] = useState()
-   
+
     const handleDeleteTask = (id, index) => {
         setLoading(true);
         remove(ref(db, `/teammate/${id}/tasks/${index}/`))
@@ -591,19 +591,19 @@ export default function TeammateTable(props) {
 
                                                                     {
                                                                         // <Row
-                                                                    //     className="d-grid gap-2"
-                                                                    //     style={{
-                                                                    //         marginBottom: '.5em',
-                                                                    //     }}
-                                                                    // >  <Button
-                                                                    //     variant="light"
-                                                                    //     style={{
-                                                                    //         textAlign: 'left',
-                                                                    //     }}
-                                                                    //     onClick={(e) => {
-                                                                    //         setPrevTeammateId(info.teammate)
-                                                                    //         setPrevTaskIndex(index)
-                                                                    //         setSwitchTask(info1)
+                                                                        //     className="d-grid gap-2"
+                                                                        //     style={{
+                                                                        //         marginBottom: '.5em',
+                                                                        //     }}
+                                                                        // >  <Button
+                                                                        //     variant="light"
+                                                                        //     style={{
+                                                                        //         textAlign: 'left',
+                                                                        //     }}
+                                                                        //     onClick={(e) => {
+                                                                        //         setPrevTeammateId(info.teammate)
+                                                                        //         setPrevTaskIndex(index)
+                                                                        //         setSwitchTask(info1)
 
                                                                         //     }}
                                                                         // >
