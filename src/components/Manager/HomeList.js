@@ -2,14 +2,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { onChildChanged, ref, remove, set, update } from 'firebase/database'
 import emailjs from '@emailjs/browser';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Button,
   Col,
   Container,
   Dropdown,
   OverlayTrigger,
-  Popover,
   Row,
 } from "react-bootstrap";
 import Tab from 'react-bootstrap/Tab';
@@ -17,10 +16,9 @@ import Tabs from 'react-bootstrap/Tabs';
 import { db } from "../../firebase-config";
 import Loader from "../Loader/Loader";
 import NewTask from "./NewTask";
-import TaskHistory from './TaskHistory'
-import SwitchTask from './SwitchTask';
 import ClientTable from './ClientTable';
 import TeammateTable from './TeammateTable';
+import { height } from '@mui/system';
 
 
 export default function HomeList(props) {
@@ -30,73 +28,47 @@ export default function HomeList(props) {
   const [filter, setFilter] = useState("All");
   const [teammateEmail, setTeammateEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [taskSelected, setTaskSelected] = useState();
-  const [modalShow, setModalShow] = useState(false);
-  const [clientSelected, setClientSelected] = useState("");
+  const [tab, setTab] = useState("Teammate");
+  const [clientSelected, setClientSelected] = useState(
+    JSON.parse(localStorage.getItem('clientSelected')),);
 
 
   function handleViewChange() {
     props.onChange(false)
   }
-
-  const handleDeleteTask = (id, index) => {
-    setLoading(true);
-    remove(ref(db, `/teammate/${id}/tasks/${index}/`))
-      .then(() => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  const handleCompleteTask = (teammate, id, index, latest) => {
-    setLoading(true)
-    const info = {
-      to_name: teammate.name,
-      from_name: props.manager.name,
-      message: `Your task ${teammate.tasks[index].task} from client ${teammate.tasks[index].client} has been approved by your manager ${props.manager.name}`,
-      from_email: props.manager.email,
-      to_email: teammate.email
+  useEffect(() => {
+    return () => {
+      if (tab === "Company") {
+        setSelected(null);
+        localStorage.setItem(
+          'teammateSelected',
+          JSON.stringify(null)
+        );
+        setClientSelected(null);
+        localStorage.setItem(
+          'clientSelected',
+          JSON.stringify(null)
+        );
+      }
+      else {
+        setClientSelected(null);
+        localStorage.setItem(
+          'clientSelected',
+          JSON.stringify(null)
+        );
+        setSelected(null);
+        localStorage.setItem(
+          'teammateSelected',
+          JSON.stringify(null)
+        );
+      }
     }
-    // fetch('https://example.com/profile', {
-    //   method: 'POST', // or 'PUT'
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(info),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log('Success:');
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error:', error);
-    //   });
+  }, [tab])
 
-
-
-    emailjs.send("service_8babtb3", "template_3e3kpdk", info, "E1o2OcJneKcoyHqxA").then((res) => {
-
-    }).catch((err) => console.log(err));
-    set(ref(db, `/teammate/${id}/tasks/${index}/updates/${latest}/status`), "Completed")
-      .then(() => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
   onChildChanged(ref(db, `/teammate/`), () => {
     setLoading(true)
     window.location.reload()
   })
-
-  function swap(arr, from, to) {
-    let temp = arr[from]
-    arr[from] = arr[to]
-    arr[to] = temp
-  }
-
   const dateFormatChange = (date) => {
     if (date === '--') {
       return '--'
@@ -152,33 +124,6 @@ export default function HomeList(props) {
       return hour + ':' + minute + ' am'
     }
   }
-  const handleUpTask = (id, index, tasks, taskLength) => {
-    setLoading(true)
-    if (index === 0) {
-      setLoading(false)
-      alert('Its already on the top')
-    } else {
-      let newarr = tasks
-      swap(newarr, index, index - 1)
-      update(ref(db, `teammate/${id}/`), {
-        tasks: newarr,
-      })
-    }
-  }
-
-  const handleDownTask = (id, index, tasks, taskLength) => {
-    setLoading(true)
-    if (index === taskLength - 1) {
-      setLoading(false)
-      alert('Its already on the bottom')
-    } else {
-      let newarr = tasks
-      swap(newarr, index + 1, index)
-      update(ref(db, `teammate/${id}/`), {
-        tasks: newarr,
-      })
-    }
-  }
   const addTeammate = () => {
     props.addTeammate(teammateEmail);
   };
@@ -193,12 +138,13 @@ export default function HomeList(props) {
             <Row>
                 <Col sm={3} md={3} style={{ marginTop: '1em' }}>
                 <Tabs
-                    defaultActiveKey="home"
+                    defaultActiveKey="Teammate"
                   id="uncontrolled-tab-example"
-                  className="mt-3"
+                    className="mt-3"
+                    onSelect={(e) => { setTab(e); }}
                     style={{ width: 'fit-content' }}
                 >
-                  <Tab eventKey="home" title="Teammate">
+                    <Tab eventKey="Teammate" title="Teammate">
                     <div className="task-box">
                       <OverlayTrigger
                         trigger="click"
@@ -310,7 +256,6 @@ export default function HomeList(props) {
                                         JSON.stringify(info.teammate)
                                       );
                                       setSelected(info.teammate);
-                                      setClientSelected("")
                                     }}
                                     style={{ backgroundColor: "#fff !important" }}
                                   >
@@ -341,7 +286,7 @@ export default function HomeList(props) {
                       </div>
                     </div>
                   </Tab>
-                    <Tab eventKey="profile" title="Company">
+                    <Tab eventKey="Company" title="Company">
                       <div className="task-box">
                         <input
                           className="rounded-2 w-100"
@@ -369,20 +314,23 @@ export default function HomeList(props) {
                             <TableRow></TableRow>
                           </TableHead>
                           <TableBody>
-                              {!props.manager?.clients ? (
+                              {!props?.manager?.clients ? (
                               <TableRow
                                 colSpan={7}
                                 align="center">
                                   No Clients right now
                               </TableRow>
                             ) : (
-                                  props.manager?.clients?.map((info) => {
+                                  props?.manager?.clients?.map((info) => {
                                 return (
                                   <TableRow
                                     key={info}
                                     onClick={() => {
                                       setClientSelected(info);
-
+                                      localStorage.setItem(
+                                        'clientSelected',
+                                        JSON.stringify(info)
+                                      );
                                     }} style={{ backgroundColor: "#fff !important" }}
 
                                     className="box-shadow">
@@ -418,11 +366,11 @@ export default function HomeList(props) {
                 md={9}
                   style={{ marginTop: '1em' }}
                 >
-                {!selected ? (
+                  {!(selected || clientSelected) ? (
                   <Row>
                       <Col sm={6} md={6} style={{ marginTop: '1em' }}>
-                      <h5 className="blue">No Teammate</h5>
-                      <h6>Selected</h6>
+                        <h5 className="blue">No {tab}</h5>
+                        <h6>Selected</h6>
                     </Col>
                     <Col
                       sm={6}
@@ -452,17 +400,14 @@ export default function HomeList(props) {
                     </Col>
                   </Row>
                 ) : (
-                      props.team
+                      tab === "Teammate" ? props?.team
                     .filter((info) => info.teammate === selected)
                     .map((info, index) => {
-                      return selected ? (
+                      return (
                         <Row key={index}>
                           <Col sm={6} md={6} style={{ marginTop: '1em' }}>
-                            {
-                              clientSelected === "" ? <><h5 className="blue">{info.data.name}</h5>
-                                <h6>{info.data.designation}</h6></> : <h5 className="blue">{clientSelected}</h5>
-
-                            }
+                            <h5 className="blue">{info.data.name}</h5>
+                            <h6>{info.data.designation}</h6>
 
                           </Col>
                           <Col
@@ -472,10 +417,11 @@ export default function HomeList(props) {
                             className="text-end"
                           >
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
-                              <Dropdown
+                              <Dropdown 
                                 style={{ width: "150px", marginRight: '1em' }}>
                                 <Dropdown.Toggle
                                   id="dropdown-basic"
+                                  style={{ height: "45px" }}
                                   className="w-100  company-dropdown"
                                 >{filter}
                                 </Dropdown.Toggle>
@@ -532,22 +478,89 @@ export default function HomeList(props) {
                                 manager={props.manager}
                                 managerId={props.managerId}
                               />
-
-
-
                             </div>
                           </Col>
                         </Row>
-                      ) : (
-                        <></>
-                        )
-                    })
+                      )
+                    }) : (props?.manager?.clients
+                      .filter((info) => info === clientSelected)
+                      .map((info) => {
+                        return (
+                          <Row>
+                            <Col sm={6} md={6} style={{ marginTop: '1.5em' }}>
+                              <h4 className="blue">{info}</h4>
+                            </Col>
+                            <Col
+                              sm={6}
+                              md={6}
+                              style={{ marginTop: '1em' }}
+                              className="text-end"
+                            >
+                              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
+                                <Dropdown 
+                                  style={{ width: "200px" }}>
+                                  <Dropdown.Toggle
+                                    style={{ height: "45px" }}
+                                    id="dropdown-basic"
+                                    className="w-100  company-dropdown"
+                                  >{filter}
+                                  </Dropdown.Toggle>
+
+                                  <Dropdown.Menu
+                                    style={{ width: "200px" }} className="company-dropdown-menu">
+                                    <Dropdown.Item
+                                      onClick={(e) => {
+                                        setFilter("All")
+                                      }}
+                                    >All
+                                    </Dropdown.Item><Dropdown.Item
+                                      onClick={(e) => {
+                                        setFilter("On Going")
+                                      }}
+                                    >On Going
+                                    </Dropdown.Item><Dropdown.Item
+                                      onClick={(e) => {
+                                        setFilter("Assigned")
+                                      }}
+                                    >Assigned
+                                    </Dropdown.Item><Dropdown.Item
+                                      onClick={(e) => {
+                                        setFilter("Paused")
+                                      }}
+                                    >Paused
+                                    </Dropdown.Item><Dropdown.Item
+                                      onClick={(e) => {
+                                        setFilter("Completed")
+                                      }}
+                                    >Completed
+                                    </Dropdown.Item>
+                                  </Dropdown.Menu>
+                                </Dropdown>
+                                {/* <FontAwesomeIcon
+                                  icon="fa-solid fa-list"
+                                  color="#5f8fee"
+                                  style={{
+                                    paddingRight: '1em', fontSize: "20px"
+                                  }}
+                                />
+                                <FontAwesomeIcon
+                                  onClick={() => {
+                                    handleViewChange()
+                                  }}
+                                  icon="fa-solid fa-grip "
+                                  style={{ paddingRight: '1em', fontSize: "20px" }}
+                                />
+                                <NewTask /> */}
+                              </div>
+                            </Col>
+                          </Row>)
+                      }))
                 )}
                 <div className="overflow-set-auto table-height1">
                   <Row className="table-height1">
                       <Col>
                         {
-                          clientSelected === "" ?
+                          tab === "Teammate" ?
                             <TeammateTable
                               filterTeammate={filter}
                               teammateselected={selected}
