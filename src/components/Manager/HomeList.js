@@ -95,7 +95,11 @@ export default function HomeList(props) {
     }
     let givenTime = time.split(':')
     if (parseInt(givenTime[0]) === 0) {
-      return '12:' + givenTime[1] + ' am'
+      let minute =
+        parseInt(givenTime[1]) > 9
+          ? parseInt(givenTime[1])
+          : '0' + String(parseInt(givenTime[1]))
+      return '12:' + minute + ' am'
     } else if (parseInt(givenTime[0]) > 12) {
       let hour =
         parseInt(givenTime[0]) % 12 > 9
@@ -104,18 +108,18 @@ export default function HomeList(props) {
       let minute =
         parseInt(givenTime[1]) > 9
           ? parseInt(givenTime[1])
-          : '0' + String(givenTime[1])
+          : '0' + String(parseInt(givenTime[1]))
 
       return hour + ':' + minute + ' pm'
     } else if (parseInt(givenTime[0]) < 13) {
       let hour =
         parseInt(givenTime[0]) > 9
           ? parseInt(givenTime[0])
-          : '0' + String(givenTime[0])
+          : '0' + String(parseInt(givenTime[0]))
       let minute =
         parseInt(givenTime[1]) > 9
           ? parseInt(givenTime[1])
-          : '0' + String(givenTime[1])
+          : '0' + String(parseInt(givenTime[1]))
 
       return hour + ':' + minute + ' am'
     }
