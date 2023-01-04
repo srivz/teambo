@@ -163,8 +163,7 @@ export default function Home() {
       teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].startTimeInMs;
     var totTime=(timeInMs-stTime);
     if(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].totalTimeInMs){
-      totTime = totTime+teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].totalTimeInMs;
-      console.log(totTime);
+      totTime = totTime + teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].totalTimeInMs;
     }
     var timeGapInMs=totTime;
     var timeGap = getHourFormatFromMilliSeconds(totTime)

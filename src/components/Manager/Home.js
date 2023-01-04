@@ -48,10 +48,6 @@ export default function Home() {
     }
   })
 
-  const getAllTasks = () => {
-    // console.log(teammateList);
-  }
-
   const getTeammates = (teamList) => {
     if (once1) {
       setLoading(true)
@@ -163,7 +159,6 @@ export default function Home() {
   function handleChange(newValue) {
     setView(newValue)
   }
-  console.log(allTasks);
   return (
     <>
       {loading ? (

@@ -1,7 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-const ClientTable = ({ filter, allTasks, clientSelected, dateFormatChange, timeFormatChange }) => {
+export default function ClientTable(props) {
     return (
         <Table
             style={{
@@ -73,21 +73,21 @@ const ClientTable = ({ filter, allTasks, clientSelected, dateFormatChange, timeF
 
 
             <TableBody className="curve-box-homelist">
-                {allTasks
+                {props?.allTasks
                     .map((info) => {
                         return (
                             <>
                                 {
                                     info?.tasks?.filter((info1) => {
-                                        return filter !== "All" ?
+                                        return props?.filter !== "All" ?
                                             info1.updates[
                                                 info1.updates.length - 1
-                                            ].status === filter
+                                            ].status === props?.filter
                                             : info1.updates[
                                                 info1.updates.length - 1
-                                            ].status !== filter
+                                            ].status !== props?.filter
                                     }).filter((info1) => {
-                                        return info1.client === clientSelected
+                                        return info1.client === props?.clientSelected
                                     })
                                         ?.map((info1, index) => {
                                             return (
@@ -143,13 +143,13 @@ const ClientTable = ({ filter, allTasks, clientSelected, dateFormatChange, timeF
                                                                         align="center"
                                                                         className="tablecell"
                                                                     >
-                                                                        {dateFormatChange(
+                                                                        {props?.dateFormatChange(
                                                                             info1.updates[
                                                                                 info1.updates.length - 1
                                                                             ].assignedDate,
                                                                         )}
                                                                         <br />
-                                                                        {timeFormatChange(
+                                                                        {props?.timeFormatChange(
                                                                             info1.updates[
                                                                                 info1.updates.length - 1
                                                                             ].assignedTime,
@@ -162,13 +162,13 @@ const ClientTable = ({ filter, allTasks, clientSelected, dateFormatChange, timeF
                                                                         align="center"
                                                                         className="tablecell"
                                                                     >
-                                                                        {dateFormatChange(
+                                                                        {props?.dateFormatChange(
                                                                             info1.updates[
                                                                                 info1.updates.length - 1
                                                                             ].deadlineDate,
                                                                         )}
                                                                         <br />
-                                                                        {timeFormatChange(
+                                                                        {props?.timeFormatChange(
                                                                             info1.updates[
                                                                                 info1.updates.length - 1
                                                                             ].deadlineTime,
@@ -186,7 +186,7 @@ const ClientTable = ({ filter, allTasks, clientSelected, dateFormatChange, timeF
                                                                         ].status === 'Done' || info1.updates[
                                                                             info1.updates.length - 1
                                                                         ].status === 'Completed'
-                                                                            ? dateFormatChange(
+                                                                            ? props?.dateFormatChange(
                                                                                 info1.updates[
                                                                                     info1.updates
                                                                                         .length - 1
@@ -199,7 +199,7 @@ const ClientTable = ({ filter, allTasks, clientSelected, dateFormatChange, timeF
                                                                         ].status === 'Done' || info1.updates[
                                                                             info1.updates.length - 1
                                                                         ].status === 'Completed'
-                                                                            ? timeFormatChange(
+                                                                            ? props?.timeFormatChange(
                                                                                 info1.updates[
                                                                                     info1.updates
                                                                                         .length - 1
@@ -302,4 +302,3 @@ const ClientTable = ({ filter, allTasks, clientSelected, dateFormatChange, timeF
     )
 }
 
-export default ClientTable

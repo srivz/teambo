@@ -33,7 +33,7 @@ export default function HomeBlock(props) {
                   md={6}
                   style={{ marginTop: "1em" }}
                   className="text-end">
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
+                  <div>
                     <FontAwesomeIcon
                       onClick={() => {
                         handleViewChange();
