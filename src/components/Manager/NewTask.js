@@ -90,7 +90,6 @@ export default function NewTask(props) {
   window.location.reload()
  }
 
-
   return (
     <>
       <OverlayTrigger
@@ -137,36 +136,37 @@ export default function NewTask(props) {
                     </div>
                     <div className=" client-dropdown-menu-list client-dropdown-menu-height">
                       <Row className="client-dropdown-menu-height">
-                    {
-                      clientList.length === 0 && newClient ==="" ? 
+                        {
+                          props.manager ? clientList?.length === 0 && newClient === "" ?
                             props?.manager?.clients?.map((client, index) => {
-                        return (
-                          <Dropdown.Item
-                            key={index}
-                            onClick={(e) => {
-                              setNewTask((oldTask) => {
-                                return { ...oldTask, client };
-                              });
-                            }}
-                          >
-                            {client}
-                          </Dropdown.Item>
-                        );
-                      }): 
-                      clientList.map((client, index) => {
-                      return (
-                        <Dropdown.Item
-                          key={index}
-                          onClick={(e) => {
-                            setNewTask((oldTask) => {
-                              return { ...oldTask, client };
-                            });
-                          }}
-                        >
-                          {client}
-                        </Dropdown.Item>
-                      );
-                      })}</Row></div>
+                              return (
+                                <Dropdown.Item
+                                  key={index}
+                                  onClick={(e) => {
+                                    setNewTask((oldTask) => {
+                                      return { ...oldTask, client };
+                                    });
+                                  }}
+                                >
+                                  {client}
+                                </Dropdown.Item>
+                              );
+                            }) :
+                            clientList.map((client, index) => {
+                              return (
+                                <Dropdown.Item
+                                  key={index}
+                                  onClick={(e) => {
+                                    setNewTask((oldTask) => {
+                                      return { ...oldTask, client };
+                                    });
+                                  }}
+                                >
+                                  {client}
+                                </Dropdown.Item>
+                              );
+                            }) : <></>
+                        }</Row></div>
                   </Dropdown.Menu>
                 </Dropdown>
               </Col>
