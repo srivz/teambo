@@ -329,7 +329,6 @@ export default function Signup({ userid }) {
                       <div className="password-div">
                       <input
                           type="password"
-                          className="form-control"
                           id="pwd"
                           placeholder="Re-enter Password"
                           name="confirmPassword"

@@ -59,8 +59,9 @@ export default function SwitchTask(props) {
             alert("First Select a teammate")
         }
         else {
+            props.switchTask.updates[props.switchTask.updates.length - 1].status = 'Assigned';
             props?.handleDeleteTask(props?.prevTeammateId, props?.prevTaskIndex);
-            set(ref(db, `/teammate/${teammateId}/tasks/${taskNumber}/`), newTask)
+            set(ref(db, `/teammate/${teammateId}/tasks/${taskNumber}/`), props?.switchTask)
                 .then(() => {
                     window.location.reload();
                 })
@@ -95,7 +96,6 @@ export default function SwitchTask(props) {
     }, [props]);
 
     console.log(props);
-    console.log(newTask);
 
     return (
         <div
@@ -175,78 +175,13 @@ export default function SwitchTask(props) {
                 </Col>
             </Form.Group>
 
-            <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
-                <Form.Label column md="4" sm="4">
-                    Client
-                </Form.Label>
-                <Col sm="8">
-                    <Form.Control
-                        type="text"
-                        name="client"
-                        disabled
-                        value={newTask.client}
-                    />
-                </Col>
-            </Form.Group>
 
-            <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
-                <Form.Label column md="4" sm="4">
-                    Task
-                </Form.Label>
-                <Col sm="8">
-                    <Form.Control
-                        type="text"
-                        name="task"
-                        disabled
-                        value={newTask.task}
-                    />
-                </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3" controlId="formPlaintext3">
-                <Form.Label column md="4" sm="4">
-                    Description*
-                </Form.Label>
-                <Col sm="8">
-                    <Form.Control
-                        as="textarea"
-                        name="description"
-
-                        onChange={handleDescriptionChange}
-                    />
-                </Col>
-            </Form.Group>
-            <Form.Group
-                as={Row}
-                className="mb-3 deadline"
-                controlId="formPlaintext3"
-            >
-                <Form.Label column md="4" sm="4">
-                    Deadline
-                </Form.Label>
-                <Col sm="4" md="4">
-                    <Form.Control
-                        type="date"
-                        min={moment().format("YYYY-MM-DD")}
-                        name="deadlineDate"
-                        style={{ fontSize: "12px" }}
-                        onChange={handleDateChange}
-                    />
-                </Col>
-                <Col sm="4" md="4">
-                    <Form.Control
-                        type="time"
-                        style={{ fontSize: "12px" }}
-                        name="deadlineTime"
-                        onChange={handleTimeChange}
-                    />
-                </Col>
-            </Form.Group>
-            <div
-                className="d-grid gap-2"
-                style={{
-                    marginBottom: ".5em",
-                }}
-            >
+                            <div
+                                className="d-grid gap-2"
+                                style={{
+                                    marginBottom: ".5em",
+                                }}
+                            >
                 <Button
                     variant="primary"
                     onClick={handleNewTask}

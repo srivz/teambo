@@ -36,11 +36,9 @@ export default function Home() {
             }
           } else {
             console.log('No data available')
-            setLoading(false)
           }
+          setLoading(false)
         })
-        setLoading(false)
-
         setOnce(false)
       }
     } else {
@@ -62,7 +60,7 @@ export default function Home() {
             setAllTasks((oldTasks) => {
               return [...oldTasks, { tasks: data.tasks, teammateEmail: teammate, teammate: data.name, teammateDesignation: data.designation }]
             })
-            setLoading(false)
+            setLoading(false);
           } else {
             console.log('No data available')
             setLoading(false)
