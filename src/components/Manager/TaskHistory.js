@@ -185,7 +185,7 @@ export default function TaskHistory(props) {
                     defaultValue={props?.teamtasks[props?.indexselected]?.clientEmail}
                     name="clientEmail"
                     disabled
-                    // onChange={handleclientEmailChange}
+                  // onChange={handleclientEmailChange}
                   />
                 </Col>
               </Form.Group>
@@ -297,15 +297,7 @@ export default function TaskHistory(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow
-                style={
-                  props?.teamtasks[props?.indexselected]?.updates[
-                    props?.teamtasks[props?.indexselected]?.updates?.length - 1
-                  ].status === 'Completed'
-                    ? { display: 'none' }
-                    : { display: 'auto' }
-                }
-              >
+              <TableRow>
                 <TableCell colSpan={7}>
                   <Row className="d-grid gap-2">
                     {props?.teamtasks[props?.indexselected]?.updates
@@ -313,18 +305,23 @@ export default function TaskHistory(props) {
                       .filter((info, index) => { return (index === 0) })
                       .map((info, index) => {
                         return (<>
-                          {info.status === 'Done' ? <Button
-                      disabled={
+                          {info.status === 'Done' ? <Button style={info.status === 'Completed'
+                            ? { display: 'none' }
+                            : { display: 'auto' }}
+                            disabled={
                               info.status !== 'Done' || updateTaskForm
-                      }
+                            }
                             onClick={() => { setUpdateTaskForm(true); setUpdateAdditionalTaskForm(false); }}
-                      variant="outline-primary"
-                      block
-                    >
-                      + Add Correction
+                            variant="outline-primary"
+                            block
+                          >
+                            + Add Correction
                           </Button> : <></>
                           }
                           {info.status !== 'Done' ? <Button
+                            style={info.status === 'Completed'
+                              ? { display: 'none' }
+                              : { display: 'auto' }}
                             disabled={updateAdditionalTaskForm}
                             onClick={() => setUpdateAdditionalTaskForm(true)}
                             variant="outline-primary"

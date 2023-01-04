@@ -12,20 +12,19 @@ import {
 import TaskHistory from './TaskHistory'
 import SwitchTask from './SwitchTask';
 import { db } from '../../firebase-config';
+import Loader from '../Loader/Loader';
 
 export default function TeammateTable(props) {
     const selected = props?.teammateselected
     const filter = props?.filterTeammate;
-    const [teammateEmail, setTeammateEmail] = useState('');
-    const [loading, setLoading] = useState(false);
     const [taskSelected, setTaskSelected] = useState();
     const [modalShow, setModalShow] = useState(false);
+    // const [teammateEmail, setTeammateEmail] = useState('');
+    const [loading, setLoading] = useState(false);
     const [switchTask, setSwitchTask] = useState()
     const [prevTeammateId, setPrevTeammateId] = useState("");
     const [prevTaskIndex, setPrevTaskIndex] = useState()
-    function handleViewChange() {
-        props?.onChange(false)
-    }
+   
     const handleDeleteTask = (id, index) => {
         setLoading(true);
         remove(ref(db, `/teammate/${id}/tasks/${index}/`))
@@ -150,11 +149,13 @@ export default function TeammateTable(props) {
             })
         }
     }
-    const addTeammate = () => {
-        props?.addTeammate(teammateEmail);
-    };
+    // const addTeammate = () => {
+    //     props?.addTeammate(teammateEmail);
+    // };
 
-    return (
+    return (<>{loading ? (
+        <Loader />
+    ) : (
         <Table
             style={{
                 borderCollapse: 'separate',
@@ -688,6 +689,7 @@ export default function TeammateTable(props) {
                         )
                     })}
             </TableBody>
-        </Table>
+        </Table>)
+    }</>
     )
 }
