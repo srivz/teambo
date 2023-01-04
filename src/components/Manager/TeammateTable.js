@@ -20,13 +20,12 @@ export default function TeammateTable(props) {
     const [loading, setLoading] = useState(false);
     const [taskSelected, setTaskSelected] = useState();
     const [modalShow, setModalShow] = useState(false);
-    const [clientSelected, setClientSelected] = useState("");
-
-
+    const [switchTask, setSwitchTask] = useState()
+    const [prevTeammateId, setPrevTeammateId] = useState("");
+    const [prevTaskIndex, setPrevTaskIndex] = useState()
     function handleViewChange() {
         props?.onChange(false)
     }
-
     const handleDeleteTask = (id, index) => {
         setLoading(true);
         remove(ref(db, `/teammate/${id}/tasks/${index}/`))
@@ -46,22 +45,6 @@ export default function TeammateTable(props) {
             from_email: props?.manager.email,
             to_email: teammate.email
         }
-        // fetch('https://example.com/profile', {
-        //   method: 'POST', // or 'PUT'
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify(info),
-        // })
-        //   .then((response) => response.json())
-        //   .then((data) => {
-        //     console.log('Success:');
-        //   })
-        //   .catch((error) => {
-        //     console.error('Error:', error);
-        //   });
-
-
 
         emailjs.send("service_8babtb3", "template_3e3kpdk", info, "E1o2OcJneKcoyHqxA").then((res) => {
 
@@ -606,7 +589,28 @@ export default function TeammateTable(props) {
                                                                         style={{
                                                                             marginBottom: '.5em',
                                                                         }}
-                                                                    >  <SwitchTask />
+                                                                    >  <Button
+                                                                        variant="light"
+                                                                        style={{
+                                                                            textAlign: 'left',
+                                                                        }}
+                                                                        onClick={(e) => {
+                                                                            setPrevTeammateId(info.teammate)
+                                                                            setPrevTaskIndex(index)
+                                                                            setSwitchTask(info1)
+
+                                                                        }}
+                                                                    >
+                                                                            <FontAwesomeIcon
+                                                                                icon="fa-solid fa-shuffle"
+                                                                                style={{
+                                                                                    paddingRight:
+                                                                                        '.5em',
+                                                                                    color: "blue",
+                                                                                }}
+                                                                            />
+                                                                            Switch Task To..
+                                                                        </Button>
                                                                     </Row>
                                                                     <Row
                                                                         className="d-grid gap-2"
@@ -657,6 +661,7 @@ export default function TeammateTable(props) {
                                     })
                                 )}
 
+
                                 {info.data.tasks && taskSelected !== null ? (
                                     <TaskHistory
                                         show={modalShow}
@@ -670,7 +675,15 @@ export default function TeammateTable(props) {
                                 ) : (
                                     <></>
                                 )}
-
+                                {switchTask &&
+                                    <SwitchTask
+                                        setSwitchTask={setSwitchTask}
+                                        props={props}
+                                        switchTask={switchTask}
+                                        handleDeleteTask={handleDeleteTask}
+                                        prevTeammateId={prevTeammateId}
+                                        prevTaskIndex={prevTaskIndex}
+                                    />}
                             </>
                         )
                     })}
