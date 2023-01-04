@@ -98,28 +98,39 @@ export default function TeammateTable(props) {
             return '--'
         }
         let givenTime = time.split(':')
-        if (parseInt(givenTime[0]) === 0) {
-            return '12:' + givenTime[1] + ' am'
+        if (parseInt(givenTime[0]) === 0 || parseInt(givenTime[0]) === 24) {
+            let minute =
+                parseInt(givenTime[1]) > 9
+                    ? parseInt(givenTime[1])
+                    : '0' + parseInt(givenTime[1])
+            return '12:' + minute + ' am'
+        } else if (parseInt(givenTime[0]) === 12) {
+            let minute =
+                parseInt(givenTime[1]) > 9
+                    ? parseInt(givenTime[1])
+                    : '0' + parseInt(givenTime[1])
+
+            return "12" + ':' + minute + ' pm'
         } else if (parseInt(givenTime[0]) > 12) {
             let hour =
                 parseInt(givenTime[0]) % 12 > 9
                     ? parseInt(givenTime[0]) % 12
-                    : '0' + String(parseInt(givenTime[0]) % 12)
+                    : '0' + parseInt(givenTime[0] % 12)
             let minute =
                 parseInt(givenTime[1]) > 9
                     ? parseInt(givenTime[1])
-                    : '0' + String(givenTime[1])
+                    : '0' + parseInt(givenTime[1])
 
             return hour + ':' + minute + ' pm'
-        } else if (parseInt(givenTime[0]) < 13) {
+        } else if (parseInt(givenTime[0]) < 12) {
             let hour =
                 parseInt(givenTime[0]) > 9
                     ? parseInt(givenTime[0])
-                    : '0' + String(givenTime[0])
+                    : '0' + parseInt(givenTime[0])
             let minute =
                 parseInt(givenTime[1]) > 9
                     ? parseInt(givenTime[1])
-                    : '0' + String(givenTime[1])
+                    : '0' + parseInt(givenTime[1])
 
             return hour + ':' + minute + ' am'
         }
