@@ -600,66 +600,67 @@ export default function TeammateTable(props) {
                                                                         </Button>
                                                                     </Row>
 
-                                                                    {
-                                                                        // <Row
-                                                                        //     className="d-grid gap-2"
-                                                                        //     style={{
-                                                                        //         marginBottom: '.5em',
-                                                                        //     }}
-                                                                        // >  <Button
-                                                                        //     variant="light"
-                                                                        //     style={{
-                                                                        //         textAlign: 'left',
-                                                                        //     }}
-                                                                        //     onClick={(e) => {
-                                                                        //         setPrevTeammateId(info.teammate)
-                                                                        //         setPrevTaskIndex(index)
-                                                                        //         setSwitchTask(info1)
 
-                                                                        //     }}
-                                                                        // >
-                                                                        //         <FontAwesomeIcon
-                                                                        //             icon="fa-solid fa-shuffle"
-                                                                        //             style={{
-                                                                        //                 paddingRight:
-                                                                        //                     '.5em',
-                                                                        //                 color: "blue",
-                                                                        //             }}
-                                                                        //         />
-                                                                        //         Switch Task To..
-                                                                        //     </Button>
-                                                                        // </Row>
-                                                                        // <Row
-                                                                        //     className="d-grid gap-2"
-                                                                        //     style={{
-                                                                        //         marginBottom: '.5em',
-                                                                        //     }}
-                                                                        // >
-                                                                        //     <Button
-                                                                        //         onClick={() => {
-                                                                        //             handleDeleteTask(
-                                                                        //                 info.teammate,
-                                                                        //                 index,
-                                                                        //             )
-                                                                        //         }}
-                                                                        //         variant="light"
-                                                                        //         style={{
-                                                                        //             textAlign: 'left',
-                                                                        //         }}
-                                                                        //         block
-                                                                        //     >
-                                                                        //         <FontAwesomeIcon
-                                                                        //             icon="fa-solid fa-trash"
-                                                                        //             style={{
-                                                                        //                 paddingRight:
-                                                                        //                     '.5em',
-                                                                        //                 color: "blue",
-                                                                        //             }}
-                                                                        //         />
-                                                                        //         Delete Task
-                                                                        //     </Button>
-                                                                        // </Row>
-                                                                    }
+                                                                    <Row
+                                                                        className="d-grid gap-2"
+                                                                        style={{
+                                                                            marginBottom: '.5em',
+                                                                        }}
+                                                                    >  <Button
+                                                                        disabled
+                                                                        variant="light"
+                                                                        style={{
+                                                                            textAlign: 'left',
+                                                                        }}
+                                                                        onClick={(e) => {
+                                                                            setPrevTeammateId(info.teammate)
+                                                                            setPrevTaskIndex(index)
+                                                                            setSwitchTask(info1)
+
+                                                                        }}
+                                                                    >
+                                                                            <FontAwesomeIcon
+                                                                                icon="fa-solid fa-shuffle"
+                                                                                style={{
+                                                                                    paddingRight:
+                                                                                        '.5em',
+                                                                                    color: "blue",
+                                                                                }}
+                                                                            />
+                                                                            Switch Task To..
+                                                                        </Button>
+                                                                    </Row>
+                                                                    <Row
+                                                                        className="d-grid gap-2"
+                                                                        style={{
+                                                                            marginBottom: '.5em',
+                                                                        }}
+                                                                    >
+                                                                        <Button
+                                                                            onClick={() => {
+                                                                                handleDeleteTask(
+                                                                                    info.teammate,
+                                                                                    index,
+                                                                                )
+                                                                            }}
+                                                                            variant="light"
+                                                                            style={{
+                                                                                textAlign: 'left',
+                                                                            }}
+                                                                            block
+                                                                        >
+                                                                            <FontAwesomeIcon
+                                                                                icon="fa-solid fa-trash"
+                                                                                style={{
+                                                                                    paddingRight:
+                                                                                        '.5em',
+                                                                                    color: "blue",
+                                                                                }}
+                                                                            />
+                                                                            Delete Task
+                                                                        </Button>
+                                                                    </Row>
+
                                                                 </Popover.Body>
                                                             </Popover>
                                                         }

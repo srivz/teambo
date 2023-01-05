@@ -65,6 +65,7 @@ export default function HomeList(props) {
     setLoading(true)
     window.location.reload()
   })
+
   const dateFormatChange = (date) => {
     if (date === '--') {
       return '--'
