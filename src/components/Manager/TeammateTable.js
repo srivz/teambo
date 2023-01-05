@@ -25,9 +25,13 @@ export default function TeammateTable(props) {
     const [prevTeammateId, setPrevTeammateId] = useState("");
     const [prevTaskIndex, setPrevTaskIndex] = useState()
 
-    const handleDeleteTask = (id, index) => {
+    const handleDeleteTask = (teammate, id, index) => {
         setLoading(true);
-        remove(ref(db, `/teammate/${id}/tasks/${index}/`))
+        let list1 = teammate.tasks.slice(0, index);
+        let list2 = teammate.tasks.slice(index + 1);
+        let list = list1.concat(list2)
+
+        set(ref(db, `/teammate/${id}/tasks`), list)
             .then(() => {
                 window.location.reload();
             })
@@ -637,6 +641,7 @@ export default function TeammateTable(props) {
                                                                         <Button
                                                                             onClick={() => {
                                                                                 handleDeleteTask(
+                                                                                    info.data,
                                                                                     info.teammate,
                                                                                     index,
                                                                                 )
