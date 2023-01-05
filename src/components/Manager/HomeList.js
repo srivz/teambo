@@ -27,6 +27,8 @@ export default function HomeList(props) {
   const [teammateEmail, setTeammateEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState("Teammate");
+  const [searchText, setSearchText] = useState("");
+  const [searchText2, setSearchText2] = useState("");
 
 
   function handleViewChange() {
@@ -226,16 +228,17 @@ export default function HomeList(props) {
                         className="rounded-2 w-100"
                         style={{
                           marginTop: '1em',
-                          padding: '.25em',
-                          borderRadius: '25px',
-                          border: '2px solid #e8e7e7',
-                          paddingLeft: '20px',
+                          padding: '.4em',
+                          border: "2px solid #CDCDCD",
+                          borderRadius: "25px",
+                          outline: "none",
                         }}
                         type="search"
                         name="search"
                         id="search"
-                        placeholder="Search"
-                      />
+                          onChange={(e) => setSearchText(e.target.value)}
+                          placeholder="Search"
+                        />
                         <div className="overflow-set-auto table-height">
                         <Table
                             className="table-height"
@@ -252,8 +255,9 @@ export default function HomeList(props) {
                                 <TableRow colSpan={7} align="center">
                                 No teammate right now
                               </TableRow>
-                            ) : (
-                                  props?.team.map((info) => {
+                              ) : (props?.team?.filter((info) => {
+                                return info.data?.name.toLowerCase().includes(searchText?.toLowerCase())
+                              })?.map((info) => {
                                 return (
                                   <TableRow
                                     key={info.teammate}
@@ -300,15 +304,17 @@ export default function HomeList(props) {
                           className="rounded-2 w-100"
                           style={{
                             marginTop: '1em',
-                            padding: '.25em',
-                            borderRadius: '25px',
-                            border: '2px solid #e8e7e7',
-                            paddingLeft: '20px',
+                            padding: '.4em',
+                            border: "2px solid #CDCDCD",
+                            borderRadius: "25px",
+                            outline: "none",
                           }}
                           type="search"
                           name="search"
                           id="search"
                           placeholder="Search"
+                          onChange={(e) => setSearchText2(e.target.value)}
+
                         />
                         <div className="overflow-set-auto table-height">
                         <Table
@@ -328,8 +334,11 @@ export default function HomeList(props) {
                                 align="center">
                                   No Clients right now
                               </TableRow>
-                            ) : (
-                                  props?.manager?.clients?.map((info) => {
+                              ) : (
+                                  props?.manager?.clients?.filter((info) => {
+                                    return info.toLowerCase().includes(searchText2?.toLowerCase())
+                                  })
+                                    ?.map((info) => {
                                 return (
                                   <TableRow
                                     key={info}

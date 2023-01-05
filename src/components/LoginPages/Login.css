@@ -9,7 +9,7 @@
 .login-container2 {
   margin-top: 1.5em;
   width: 100vw;
-  height: 90vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -105,4 +105,18 @@ align-items: center;
 .password-div input:focus{
   border-color: #e1e0e0 !important;
   box-shadow: #e1e0e0 !important;
+}
+
+@media screen and (max-width: 680px) {
+.form-box {
+  width: 90%;
+
+}
+.logo-container{
+  display: none;
+}
+.form-box1 {
+  width: 90%;
+
+}
 }

@@ -115,22 +115,23 @@ export default function LoginTeam({ text, user, name, role }) {
                 style={{ background: "#3975EA" }}>
                 Log in
               </button>
-                {
-                  // <h6 className="text-center mt-1">or</h6>
-                  // <button
-                  //   onClick={() => {
-                  //     window.location.href =
-                  //       "https://mail.google.com/mail/?tab=rm&ogbl";
-                  //   }}
-                  //   type="button"
-                  //   className="btn btn-light w-100 rounded-4 login-button">
-                  //   <FontAwesomeIcon
-                  //     icon="fa-brands fa-google"
-                  //     style={{ paddingRight: ".4em", fontSize: "20px" }}
-                  //   />{" "}
-                  //   Continue with google
-                  // </button>
-                }
+
+                <h6 className="text-center mt-1">or</h6>
+                <button
+                  // onClick={() => {
+                  //   window.location.href =
+                  //     "https://mail.google.com/mail/?tab=rm&ogbl";
+                  // }}
+                  disabled
+                  type="button"
+                  className="btn btn-light w-100 rounded-4 login-button">
+                  <FontAwesomeIcon
+                    icon="fa-brands fa-google"
+                    style={{ paddingRight: ".4em", fontSize: "20px" }}
+                  />{" "}
+                  Continue with google
+                </button>
+
             </form>
               <h6
               style={{ marginTop: "2em" }}
