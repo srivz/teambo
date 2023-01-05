@@ -223,6 +223,7 @@ export default function HomeList(props) {
                         name="search"
                         id="search"
                         placeholder="Search"
+                          disabled
                       />
                         <div className="overflow-set-auto table-height">
                         <Table
@@ -297,6 +298,7 @@ export default function HomeList(props) {
                           name="search"
                           id="search"
                           placeholder="Search"
+                          disabled
                         />
                         <div className="overflow-set-auto table-height">
                         <Table
