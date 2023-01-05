@@ -12,7 +12,6 @@ import {
 import TaskHistory from './TaskHistory'
 import SwitchTask from './SwitchTask';
 import { db } from '../../firebase-config';
-import Loader from '../Loader/Loader';
 
 export default function TeammateTable(props) {
     const selected = props?.teammateselected
@@ -20,13 +19,11 @@ export default function TeammateTable(props) {
     const [taskSelected, setTaskSelected] = useState();
     const [modalShow, setModalShow] = useState(false);
     // const [teammateEmail, setTeammateEmail] = useState('');
-    const [loading, setLoading] = useState(false);
     const [switchTask, setSwitchTask] = useState()
     const [prevTeammateId, setPrevTeammateId] = useState("");
     const [prevTaskIndex, setPrevTaskIndex] = useState()
 
     const handleDeleteTask = (teammate, id, index) => {
-        setLoading(true);
         let list1 = teammate.tasks.slice(0, index);
         let list2 = teammate.tasks.slice(index + 1);
         let list = list1.concat(list2)
@@ -38,10 +35,8 @@ export default function TeammateTable(props) {
             .catch((err) => {
                 console.log(err);
             });
-        setLoading(false)
     }
     const handleCompleteTask = (teammate, id, index, latest) => {
-        setLoading(true)
         const info = {
             to_name: teammate.name,
             from_name: props?.manager.name,
@@ -60,10 +55,8 @@ export default function TeammateTable(props) {
             .catch((err) => {
                 console.log(err);
             });
-        setLoading(false)
     }
     onChildChanged(ref(db, `/teammate/`), () => {
-        setLoading(true)
         window.location.reload()
     })
 
@@ -140,9 +133,7 @@ export default function TeammateTable(props) {
         }
     }
     const handleUpTask = (id, index, tasks, taskLength) => {
-        setLoading(true)
         if (index === 0) {
-            setLoading(false)
             alert('Its already on the top')
         } else {
             let newarr = tasks
@@ -150,14 +141,11 @@ export default function TeammateTable(props) {
             update(ref(db, `teammate/${id}/`), {
                 tasks: newarr,
             })
-            setLoading(false)
         }
     }
 
     const handleDownTask = (id, index, tasks, taskLength) => {
-        setLoading(true)
         if (index === taskLength - 1) {
-            setLoading(false)
             alert('Its already on the bottom')
         } else {
             let newarr = tasks
@@ -165,16 +153,13 @@ export default function TeammateTable(props) {
             update(ref(db, `teammate/${id}/`), {
                 tasks: newarr,
             })
-            setLoading(false)
         }
     }
     // const addTeammate = () => {
     //     props?.addTeammate(teammateEmail);
     // };
 
-    return (<>{loading ? (
-        <Loader />
-    ) : (
+    return (
         <Table
             style={{
                 borderCollapse: 'separate',
@@ -609,7 +594,6 @@ export default function TeammateTable(props) {
                                                                             marginBottom: '.5em',
                                                                         }}
                                                                     >  <Button
-                                                                        disabled
                                                                         variant="light"
                                                                         style={{
                                                                             textAlign: 'left',
@@ -698,7 +682,8 @@ export default function TeammateTable(props) {
                                 )}
                                 {switchTask &&
                                     <SwitchTask
-                                        setSwitchTask={setSwitchTask}
+                                    setSwitchTask={setSwitchTask}
+                                    prevTaskList={info.data}
                                         props={props}
                                         switchTask={switchTask}
                                         handleDeleteTask={handleDeleteTask}
@@ -709,7 +694,6 @@ export default function TeammateTable(props) {
                         )
                     })}
             </TableBody>
-        </Table>)
-    }</>
+        </Table>
     )
 }

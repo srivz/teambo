@@ -1,73 +1,56 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ref, set } from 'firebase/database'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Row, Col, Form } from 'react-bootstrap'
 import { db } from '../../firebase-config'
 import Dropdown from 'react-bootstrap/Dropdown'
 
 export default function SwitchTask(props) {
-    var today = new Date()
     const [newClient, setNewClient] = useState('')
     const [teammateId, setTeammateId] = useState('')
     const [teammateName, setTeammateName] = useState('')
     const [taskNumber, setTaskNumber] = useState(0)
     const [teammateList, setTeammateList] = useState([])
-    const [newTask, setNewTask] = useState({
-        client: '',
-        task: '',
-        clientEmail: '',
-        updates: {
-            0: {
-              description: { 0: '' },
-              assignedDate:
-                  String(today.getDate()).padStart(2, '0') +
-                  '/' +
-                  String(today.getMonth() + 1).padStart(2, '0') +
-                  '/' +
-                  today.getFullYear(),
-              assignedTime:
-                  today.getHours() +
-                ':' +
-                today.getMinutes() +
-                  ':' +
-                  today.getSeconds(),
-                corrections: '0',
+    const [newTask, setNewTask] = useState()
+    useEffect(() => {
+        var today = new Date()
+        setNewTask({
+            client: props?.switchTask?.client,
+            task: props?.switchTask?.task,
+            clientEmail: props?.switchTask?.clientEmail,
+            updates: props?.switchTask?.updates.concat({
+                description: ['This task was switched to you.'],
+                assignedDate:
+                    String(today.getDate()).padStart(2, '0') +
+                    '/' +
+                    String(today.getMonth() + 1).padStart(2, '0') +
+                    '/' +
+                    today.getFullYear(),
+                assignedTime:
+                    today.getHours() +
+                    ':' +
+                    today.getMinutes() +
+                    ':' +
+                    today.getSeconds(),
+                corrections: props?.switchTask?.updates.length,
                 deadlineDate: '--',
                 deadlineTime: '--',
                 status: 'Assigned',
-            },
-        },
-    })
-
-    const handleDescriptionChange = (event) => {
-        newTask.updates[0].description[0] = event.target.value
-    }
-    const handleDateChange = (event) => {
-        let date = event.target.value.split('-')
-        newTask.updates[0].deadlineDate = date[2] + '/' + date[1] + '/' + date[0]
-    }
-
-    const handleTimeChange = (event) => {
-        newTask.updates[0].deadlineTime = event.target.value
-    }
-
-    const handleNewTask = async () => {
+            },),
+        })
+    }, [props])
+    const handleNewTask = () => {
         if (teammateId === '') {
             alert('First Select a teammate')
         } else {
-            props.switchTask.updates[props.switchTask.updates.length - 1].status =
-                'Assigned'
-            props?.handleDeleteTask(props?.prevTeammateId, props?.prevTaskIndex)
-            set(
-                ref(db, `/teammate/${teammateId}/tasks/${taskNumber}/`),
-                props?.switchTask,
-            )
+            set(ref(db, `/teammate/${teammateId}/tasks/${taskNumber}`), newTask,)
                 .then(() => {
-                  window.location.reload()
-              })
-              .catch((err) => {
-              console.log(err)
-          })
+                    props?.handleDeleteTask(props?.prevTaskList, props?.prevTeammateId, props?.prevTaskIndex)
+                    window.location.reload()
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
         }
     }
 
@@ -76,7 +59,7 @@ export default function SwitchTask(props) {
         const newFilter = props?.props?.team
             .filter((client) => {
                 return client.teammate !== props.prevTeammateId
-          })
+            })
             .filter((val) => {
                 return val.data.name
                     .toLowerCase()
@@ -86,25 +69,12 @@ export default function SwitchTask(props) {
             setTeammateList(
                 props?.props?.team.filter((client) => {
                     return client.teammate !== props.prevTeammateId
-              }),
-          )
-      } else {
+                }),
+            )
+        } else {
             setTeammateList(newFilter)
         }
     }
-
-    useEffect(() => {
-        setNewTask((task) => {
-            return {
-                ...task,
-                task: props?.switchTask?.task,
-                client: props?.switchTask?.client,
-                clientEmail: props?.switchTask?.clientEmail,
-            }
-        })
-    }, [props])
-
-    console.log(props)
 
     return (
         <div className="bg-white switch-task-box" style={{}}>
@@ -160,8 +130,8 @@ export default function SwitchTask(props) {
                                                 >
                                                     {client.data.name}
                                                 </Dropdown.Item>
-                                          )
-                                      })
+                                            )
+                                        })
                                     : teammateList.map((client, index) => {
                                         return (
                                             <Dropdown.Item
@@ -174,8 +144,8 @@ export default function SwitchTask(props) {
                                             >
                                                 {client.data.name}
                                             </Dropdown.Item>
-                                      )
-                                  })}
+                                        )
+                                    })}
                             </div>
                         </Dropdown.Menu>
                     </Dropdown>
