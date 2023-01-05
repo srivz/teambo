@@ -94,28 +94,39 @@ export default function HomeList(props) {
       return '--'
     }
     let givenTime = time.split(':')
-    if (parseInt(givenTime[0]) === 0) {
-      return '12:' + givenTime[1] + ' am'
+    if (parseInt(givenTime[0]) === 0 || parseInt(givenTime[0]) === 24) {
+      let minute =
+        parseInt(givenTime[1]) > 9
+          ? parseInt(givenTime[1])
+          : '0' + parseInt(givenTime[1])
+      return '12:' + minute + ' am'
+    } else if (parseInt(givenTime[0]) === 12) {
+      let minute =
+        parseInt(givenTime[1]) > 9
+          ? parseInt(givenTime[1])
+          : '0' + parseInt(givenTime[1])
+
+      return "12" + ':' + minute + ' pm'
     } else if (parseInt(givenTime[0]) > 12) {
       let hour =
         parseInt(givenTime[0]) % 12 > 9
           ? parseInt(givenTime[0]) % 12
-          : '0' + String(parseInt(givenTime[0]) % 12)
+          : '0' + parseInt(givenTime[0] % 12)
       let minute =
         parseInt(givenTime[1]) > 9
           ? parseInt(givenTime[1])
-          : '0' + String(givenTime[1])
+          : '0' + parseInt(givenTime[1])
 
       return hour + ':' + minute + ' pm'
-    } else if (parseInt(givenTime[0]) < 13) {
+    } else if (parseInt(givenTime[0]) < 12) {
       let hour =
         parseInt(givenTime[0]) > 9
           ? parseInt(givenTime[0])
-          : '0' + String(givenTime[0])
+          : '0' + parseInt(givenTime[0])
       let minute =
         parseInt(givenTime[1]) > 9
           ? parseInt(givenTime[1])
-          : '0' + String(givenTime[1])
+          : '0' + parseInt(givenTime[1])
 
       return hour + ':' + minute + ' am'
     }
@@ -137,7 +148,7 @@ export default function HomeList(props) {
                     defaultActiveKey="Teammate"
                   id="uncontrolled-tab-example"
                     className="mt-3"
-                    onSelect={(e) => { setTab(e); }}
+                    onSelect={(e) => { setTab(e); setSelected(""); setClientSelected("") }}
                     style={{ width: 'fit-content' }}
                 >
                     <Tab eventKey="Teammate" title="Teammate">
@@ -242,7 +253,7 @@ export default function HomeList(props) {
                                 No teammate right now
                               </TableRow>
                             ) : (
-                                  props.team.map((info) => {
+                                  props?.team.map((info) => {
                                 return (
                                   <TableRow
                                     key={info.teammate}
@@ -377,7 +388,7 @@ export default function HomeList(props) {
                         className="text-end"
                       >
                       <div>
-                        <FontAwesomeIcon
+                          {/* <FontAwesomeIcon
                           icon="fa-solid fa-list"
                           color="#5f8fee"
                             style={{ paddingRight: '1em', fontSize: "20px" }}
@@ -393,7 +404,7 @@ export default function HomeList(props) {
                         <NewTask
                             name={'No Teammate'}
                             designation={'Selected'}
-                        />
+                        /> */}
                       </div>
                     </Col>
                   </Row>
@@ -568,7 +579,7 @@ export default function HomeList(props) {
                   <Row className="table-height1">
                       <Col>
                         {
-                          tab === "Teammate" ?
+                          props?.team && tab === "Teammate" ?
                             <TeammateTable
                               filterTeammate={filter}
                               teammateselected={selected}
@@ -579,13 +590,14 @@ export default function HomeList(props) {
                               manager={props?.manager}
                               managerId={props?.managerId}
                               allTasks={props?.allTasks} />
-                            :
-                            <ClientTable
+                            : <></>}
+                        {
+                          props?.allTasks && tab === "Company" ? <ClientTable
                               filter={filter}
-                              allTasks={props.allTasks}
+                            allTasks={props?.allTasks}
                               clientSelected={clientSelected}
                               dateFormatChange={dateFormatChange}
-                              timeFormatChange={timeFormatChange} />
+                            timeFormatChange={timeFormatChange} /> : <></>
                         }
 
                     </Col>

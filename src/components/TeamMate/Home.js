@@ -68,7 +68,6 @@ export default function Home() {
         newArr.push(element)
       })
       if (exists) {
-        alert('Already requested !')
         setLoading(false)
       } else {
         let newArr2 = [...newArr, id]
@@ -297,40 +296,45 @@ export default function Home() {
                           <Col md={8} sm={8}>
                             {info.managerName}
                           </Col>
-                          <Col md={1} sm={1}>
+                          <Col md={2} sm={2}>
                             <Badge
                               as="button"
                               onClick={() => {
                                 reject(index)
                               }}
                               style={{
-                                padding: '.25em',
+                                padding: '.5em',
                                 color: 'black',
                                 fontFamily: 'rockwen',
                                 fontWeight: 'bold',
                                 borderRadius: '25px',
                               }}
                               bg="light"
-                            >
-                              R
+                            ><FontAwesomeIcon
+                                className="pointer"
+                                size="xl"
+                                icon="fa-solid fa-circle-xmark" />
                             </Badge>
                           </Col>
-                          <Col md={1} sm={1}>
+                          <Col md={2} sm={2}>
                             <Badge
                               as="button"
                               onClick={() => {
                                 accept(info.managerId)
                               }}
                               style={{
-                                padding: '.25em',
+                                padding: '.5em',
                                 color: 'black',
                                 fontFamily: 'rockwen',
                                 fontWeight: 'bold',
                                 borderRadius: '25px',
                               }}
                               bg="light"
-                            >
-                              A
+                            ><FontAwesomeIcon
+                                className="pointer"
+                                size="xl"
+                                icon="fa-solid fa-circle-check"
+                              />
                             </Badge>
                           </Col>
                         </Row>

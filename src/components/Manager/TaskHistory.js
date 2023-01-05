@@ -48,28 +48,39 @@ export default function TaskHistory(props) {
       return '--'
     }
     let givenTime = time.split(':')
-    if (parseInt(givenTime[0]) === 0) {
-      return '12:' + givenTime[1] + ' am'
+    if (parseInt(givenTime[0]) === 0 || parseInt(givenTime[0]) === 24) {
+      let minute =
+        parseInt(givenTime[1]) > 9
+          ? parseInt(givenTime[1])
+          : '0' + parseInt(givenTime[1])
+      return '12:' + minute + ' am'
+    } else if (parseInt(givenTime[0]) === 12) {
+      let minute =
+        parseInt(givenTime[1]) > 9
+          ? parseInt(givenTime[1])
+          : '0' + parseInt(givenTime[1])
+
+      return "12" + ':' + minute + ' pm'
     } else if (parseInt(givenTime[0]) > 12) {
       let hour =
         parseInt(givenTime[0]) % 12 > 9
           ? parseInt(givenTime[0]) % 12
-          : '0' + String(parseInt(givenTime[0]) % 12)
+          : '0' + parseInt(givenTime[0] % 12)
       let minute =
         parseInt(givenTime[1]) > 9
           ? parseInt(givenTime[1])
-          : '0' + String(givenTime[1])
+          : '0' + parseInt(givenTime[1])
 
       return hour + ':' + minute + ' pm'
-    } else if (parseInt(givenTime[0]) < 13) {
+    } else if (parseInt(givenTime[0]) < 12) {
       let hour =
         parseInt(givenTime[0]) > 9
           ? parseInt(givenTime[0])
-          : '0' + String(givenTime[0])
+          : '0' + parseInt(givenTime[0])
       let minute =
         parseInt(givenTime[1]) > 9
           ? parseInt(givenTime[1])
-          : '0' + String(givenTime[1])
+          : '0' + parseInt(givenTime[1])
 
       return hour + ':' + minute + ' am'
     }
@@ -159,8 +170,8 @@ export default function TaskHistory(props) {
             </Button>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <Row>
+        <Modal.Body style={{ padding: "20px" }}>
+          <Row style={{ padding: "auto", margin: "auto" }}>
             <Col sm={6} md={6} style={{ marginTop: '1em' }}>
               <h5>{props?.name}</h5>
               <h6>{props?.designation}</h6>

@@ -24,7 +24,7 @@ export default function TeammateTable(props) {
     const [switchTask, setSwitchTask] = useState()
     const [prevTeammateId, setPrevTeammateId] = useState("");
     const [prevTaskIndex, setPrevTaskIndex] = useState()
-   
+
     const handleDeleteTask = (id, index) => {
         setLoading(true);
         remove(ref(db, `/teammate/${id}/tasks/${index}/`))
@@ -34,6 +34,7 @@ export default function TeammateTable(props) {
             .catch((err) => {
                 console.log(err);
             });
+        setLoading(false)
     }
     const handleCompleteTask = (teammate, id, index, latest) => {
         setLoading(true)
@@ -55,6 +56,7 @@ export default function TeammateTable(props) {
             .catch((err) => {
                 console.log(err);
             });
+        setLoading(false)
     }
     onChildChanged(ref(db, `/teammate/`), () => {
         setLoading(true)
@@ -96,28 +98,39 @@ export default function TeammateTable(props) {
             return '--'
         }
         let givenTime = time.split(':')
-        if (parseInt(givenTime[0]) === 0) {
-            return '12:' + givenTime[1] + ' am'
+        if (parseInt(givenTime[0]) === 0 || parseInt(givenTime[0]) === 24) {
+            let minute =
+                parseInt(givenTime[1]) > 9
+                    ? parseInt(givenTime[1])
+                    : '0' + parseInt(givenTime[1])
+            return '12:' + minute + ' am'
+        } else if (parseInt(givenTime[0]) === 12) {
+            let minute =
+                parseInt(givenTime[1]) > 9
+                    ? parseInt(givenTime[1])
+                    : '0' + parseInt(givenTime[1])
+
+            return "12" + ':' + minute + ' pm'
         } else if (parseInt(givenTime[0]) > 12) {
             let hour =
                 parseInt(givenTime[0]) % 12 > 9
                     ? parseInt(givenTime[0]) % 12
-                    : '0' + String(parseInt(givenTime[0]) % 12)
+                    : '0' + parseInt(givenTime[0] % 12)
             let minute =
                 parseInt(givenTime[1]) > 9
                     ? parseInt(givenTime[1])
-                    : '0' + String(givenTime[1])
+                    : '0' + parseInt(givenTime[1])
 
             return hour + ':' + minute + ' pm'
-        } else if (parseInt(givenTime[0]) < 13) {
+        } else if (parseInt(givenTime[0]) < 12) {
             let hour =
                 parseInt(givenTime[0]) > 9
                     ? parseInt(givenTime[0])
-                    : '0' + String(givenTime[0])
+                    : '0' + parseInt(givenTime[0])
             let minute =
                 parseInt(givenTime[1]) > 9
                     ? parseInt(givenTime[1])
-                    : '0' + String(givenTime[1])
+                    : '0' + parseInt(givenTime[1])
 
             return hour + ':' + minute + ' am'
         }
@@ -133,6 +146,7 @@ export default function TeammateTable(props) {
             update(ref(db, `teammate/${id}/`), {
                 tasks: newarr,
             })
+            setLoading(false)
         }
     }
 
@@ -147,6 +161,7 @@ export default function TeammateTable(props) {
             update(ref(db, `teammate/${id}/`), {
                 tasks: newarr,
             })
+            setLoading(false)
         }
     }
     // const addTeammate = () => {
@@ -486,7 +501,7 @@ export default function TeammateTable(props) {
                                                                 id={`popover-positioned-bottom`}
                                                             >
                                                                 <Popover.Body>
-                                                                    <div
+                                                                    <Row
                                                                         className="d-grid gap-2"
                                                                         style={{
                                                                             marginBottom: '.5em',
@@ -518,7 +533,7 @@ export default function TeammateTable(props) {
                                                                             />
                                                                             Mark Completed
                                                                         </Button>
-                                                                    </div>
+                                                                    </Row>
                                                                     <Row
                                                                         className="d-grid gap-2"
                                                                         style={{
@@ -587,19 +602,19 @@ export default function TeammateTable(props) {
 
                                                                     {
                                                                         // <Row
-                                                                    //     className="d-grid gap-2"
-                                                                    //     style={{
-                                                                    //         marginBottom: '.5em',
-                                                                    //     }}
-                                                                    // >  <Button
-                                                                    //     variant="light"
-                                                                    //     style={{
-                                                                    //         textAlign: 'left',
-                                                                    //     }}
-                                                                    //     onClick={(e) => {
-                                                                    //         setPrevTeammateId(info.teammate)
-                                                                    //         setPrevTaskIndex(index)
-                                                                    //         setSwitchTask(info1)
+                                                                        //     className="d-grid gap-2"
+                                                                        //     style={{
+                                                                        //         marginBottom: '.5em',
+                                                                        //     }}
+                                                                        // >  <Button
+                                                                        //     variant="light"
+                                                                        //     style={{
+                                                                        //         textAlign: 'left',
+                                                                        //     }}
+                                                                        //     onClick={(e) => {
+                                                                        //         setPrevTeammateId(info.teammate)
+                                                                        //         setPrevTaskIndex(index)
+                                                                        //         setSwitchTask(info1)
 
                                                                         //     }}
                                                                         // >
