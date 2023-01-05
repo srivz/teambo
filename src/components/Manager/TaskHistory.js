@@ -60,7 +60,7 @@ export default function TaskHistory(props) {
           ? parseInt(givenTime[1])
           : '0' + parseInt(givenTime[1])
 
-      return "12" + ':' + minute + ' pm'
+      return "12:" + minute + ' pm'
     } else if (parseInt(givenTime[0]) > 12) {
       let hour =
         parseInt(givenTime[0]) % 12 > 9
@@ -202,20 +202,20 @@ export default function TaskHistory(props) {
               </Form.Group>
             </Col>
           </Row>
-          <Row>
-            <Col sm={1} md={1} style={{ marginTop: '1.5em' }}>
+          <Row style={{ alignItems: "bottom" }}>
+            <Col sm={1} md={1} style={{ marginTop: '1em' }}>
               <h6>Client</h6>
             </Col>
             <Col sm={3} md={3} style={{ marginTop: '1em' }}>
               <h5>{props?.teamtasks[props?.indexselected]?.client}</h5>
             </Col>
-            <Col sm={1} md={1} style={{ marginTop: '1.5em' }}>
+            <Col sm={1} md={1} style={{ marginTop: '1em' }}>
               <h6>Task</h6>
             </Col>
-            <Col sm={3} md={3} style={{ marginTop: '1em' }}>
-              <h5>{props?.teamtasks[props?.indexselected]?.task}</h5>
+            <Col sm={3} md={3} style={{ marginTop: '.75em' }}>
+              <marquee scrollamount="5"><h5>{props?.teamtasks[props?.indexselected]?.task}</h5></marquee>
             </Col>
-            <Col sm={1} md={1} style={{ marginTop: '1.5em' }}>
+            <Col sm={1} md={1} style={{ marginTop: '1em' }}>
               <h6>Status</h6>
             </Col>
             <Col sm={3} md={3} style={{ marginTop: '1em' }}>{props?.teamtasks[props?.indexselected]?.updates

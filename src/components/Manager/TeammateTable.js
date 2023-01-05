@@ -594,6 +594,9 @@ export default function TeammateTable(props) {
                                                                             marginBottom: '.5em',
                                                                         }}
                                                                     >  <Button
+                                                                            disabled={info1.updates[
+                                                                                info1.updates.length - 1
+                                                                            ].status === 'Completed' ? true : false}
                                                                         variant="light"
                                                                         style={{
                                                                             textAlign: 'left',
