@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import { onChildChanged, ref, remove, set, update } from 'firebase/database'
+import { onChildChanged, ref, set, update } from 'firebase/database'
 import emailjs from '@emailjs/browser';
 import React, { useState } from 'react'
 import {
@@ -25,9 +25,13 @@ export default function TeammateTable(props) {
     const [prevTeammateId, setPrevTeammateId] = useState("");
     const [prevTaskIndex, setPrevTaskIndex] = useState()
 
-    const handleDeleteTask = (id, index) => {
+    const handleDeleteTask = (teammate, id, index) => {
         setLoading(true);
-        remove(ref(db, `/teammate/${id}/tasks/${index}/`))
+        let list1 = teammate.tasks.slice(0, index);
+        let list2 = teammate.tasks.slice(index + 1);
+        let list = list1.concat(list2)
+
+        set(ref(db, `/teammate/${id}/tasks`), list)
             .then(() => {
                 window.location.reload();
             })
@@ -110,7 +114,7 @@ export default function TeammateTable(props) {
                     ? parseInt(givenTime[1])
                     : '0' + parseInt(givenTime[1])
 
-            return "12" + ':' + minute + ' pm'
+            return "12:" + minute + ' pm'
         } else if (parseInt(givenTime[0]) > 12) {
             let hour =
                 parseInt(givenTime[0]) % 12 > 9
@@ -599,67 +603,66 @@ export default function TeammateTable(props) {
                                                                             Move Down
                                                                         </Button>
                                                                     </Row>
+                                                                    <Row
+                                                                        className="d-grid gap-2"
+                                                                        style={{
+                                                                            marginBottom: '.5em',
+                                                                        }}
+                                                                    >  <Button
+                                                                        disabled
+                                                                        variant="light"
+                                                                        style={{
+                                                                            textAlign: 'left',
+                                                                        }}
+                                                                        onClick={(e) => {
+                                                                            setPrevTeammateId(info.teammate)
+                                                                            setPrevTaskIndex(index)
+                                                                            setSwitchTask(info1)
 
-                                                                    {
-                                                                        // <Row
-                                                                        //     className="d-grid gap-2"
-                                                                        //     style={{
-                                                                        //         marginBottom: '.5em',
-                                                                        //     }}
-                                                                        // >  <Button
-                                                                        //     variant="light"
-                                                                        //     style={{
-                                                                        //         textAlign: 'left',
-                                                                        //     }}
-                                                                        //     onClick={(e) => {
-                                                                        //         setPrevTeammateId(info.teammate)
-                                                                        //         setPrevTaskIndex(index)
-                                                                        //         setSwitchTask(info1)
-
-                                                                        //     }}
-                                                                        // >
-                                                                        //         <FontAwesomeIcon
-                                                                        //             icon="fa-solid fa-shuffle"
-                                                                        //             style={{
-                                                                        //                 paddingRight:
-                                                                        //                     '.5em',
-                                                                        //                 color: "blue",
-                                                                        //             }}
-                                                                        //         />
-                                                                        //         Switch Task To..
-                                                                        //     </Button>
-                                                                        // </Row>
-                                                                        // <Row
-                                                                        //     className="d-grid gap-2"
-                                                                        //     style={{
-                                                                        //         marginBottom: '.5em',
-                                                                        //     }}
-                                                                        // >
-                                                                        //     <Button
-                                                                        //         onClick={() => {
-                                                                        //             handleDeleteTask(
-                                                                        //                 info.teammate,
-                                                                        //                 index,
-                                                                        //             )
-                                                                        //         }}
-                                                                        //         variant="light"
-                                                                        //         style={{
-                                                                        //             textAlign: 'left',
-                                                                        //         }}
-                                                                        //         block
-                                                                        //     >
-                                                                        //         <FontAwesomeIcon
-                                                                        //             icon="fa-solid fa-trash"
-                                                                        //             style={{
-                                                                        //                 paddingRight:
-                                                                        //                     '.5em',
-                                                                        //                 color: "blue",
-                                                                        //             }}
-                                                                        //         />
-                                                                        //         Delete Task
-                                                                        //     </Button>
-                                                                        // </Row>
-                                                                    }
+                                                                        }}
+                                                                    >
+                                                                            <FontAwesomeIcon
+                                                                                icon="fa-solid fa-shuffle"
+                                                                                style={{
+                                                                                    paddingRight:
+                                                                                        '.5em',
+                                                                                    color: "blue",
+                                                                                }}
+                                                                            />
+                                                                            Switch Task To..
+                                                                        </Button>
+                                                                    </Row>
+                                                                    <Row
+                                                                        className="d-grid gap-2"
+                                                                        style={{
+                                                                            marginBottom: '.5em',
+                                                                        }}
+                                                                    >
+                                                                        <Button
+                                                                            onClick={() => {
+                                                                                handleDeleteTask(
+                                                                                    info.data,
+                                                                                    info.teammate,
+                                                                                    index,
+                                                                                )
+                                                                            }}
+                                                                            variant="light"
+                                                                            style={{
+                                                                                textAlign: 'left',
+                                                                            }}
+                                                                            block
+                                                                        >
+                                                                            <FontAwesomeIcon
+                                                                                icon="fa-solid fa-trash"
+                                                                                style={{
+                                                                                    paddingRight:
+                                                                                        '.5em',
+                                                                                    color: "blue",
+                                                                                }}
+                                                                            />
+                                                                            Delete Task
+                                                                        </Button>
+                                                                    </Row>
                                                                 </Popover.Body>
                                                             </Popover>
                                                         }
