@@ -54,11 +54,11 @@ export default function NewTask(props) {
     newTask.updates[0].deadlineTime = event.target.value;
   };
 
-  const handleNewTask = async (id, tasknumber) => {
+  const handleNewTask = async (id, tasknumber, allTasks) => {
     if (props.name === "No Teammate") {
       alert("Select a Teammate first")
     } else {
-      set(ref(db, `/teammate/${id}/tasks/${tasknumber}/`), newTask)
+      set(ref(db, `/teammate/${id}/tasks`), [newTask].concat(allTasks))
         .then(() => {
           window.location.reload();
         })
@@ -245,7 +245,8 @@ export default function NewTask(props) {
                 onClick={() => {
                   handleNewTask(
                     props?.teammate,
-                    props?.tasks !== undefined ? props?.tasks?.length : 0
+                    props?.tasks !== undefined ? props?.tasks?.length : 0,
+                    props?.tasks
                   );
                 }}
                 style={{
