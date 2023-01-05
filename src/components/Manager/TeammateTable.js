@@ -599,8 +599,6 @@ export default function TeammateTable(props) {
                                                                             Move Down
                                                                         </Button>
                                                                     </Row>
-
-
                                                                     <Row
                                                                         className="d-grid gap-2"
                                                                         style={{
@@ -660,7 +658,6 @@ export default function TeammateTable(props) {
                                                                             Delete Task
                                                                         </Button>
                                                                     </Row>
-
                                                                 </Popover.Body>
                                                             </Popover>
                                                         }
