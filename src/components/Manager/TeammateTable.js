@@ -480,7 +480,7 @@ export default function TeammateTable(props) {
                                                     align="center"
                                                     className="text-end tablecell"
                                                 >
-                                                    <OverlayTrigger
+                                                    {filter === "All" ? <OverlayTrigger
                                                         trigger="click"
                                                         key="bottom"
                                                         placement="auto"
@@ -657,12 +657,8 @@ export default function TeammateTable(props) {
                                                         <FontAwesomeIcon
                                                             className="pointer"
                                                             icon="fa-solid fa-ellipsis-vertical"
-                                                            style={{
-                                                                color: 'blue',
-                                                                paddingRight: '.25em',
-                                                            }}
                                                         />
-                                                    </OverlayTrigger>
+                                                    </OverlayTrigger> : <></>}
                                                 </TableCell>
                                             </TableRow>
                                         )
