@@ -109,7 +109,7 @@ export default function HomeList(props) {
           ? parseInt(givenTime[1])
           : '0' + parseInt(givenTime[1])
 
-      return "12" + ':' + minute + ' pm'
+      return "12:" + minute + ' pm'
     } else if (parseInt(givenTime[0]) > 12) {
       let hour =
         parseInt(givenTime[0]) % 12 > 9
