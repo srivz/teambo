@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
+import { Table, TableBody, TableCell, TableHead, TableRow, useStepContext } from '@mui/material'
 import { onChildChanged, ref, set, update } from 'firebase/database'
 import emailjs from '@emailjs/browser';
 import React, { useRef, useState } from 'react'
@@ -22,6 +22,7 @@ export default function TeammateTable(props) {
     const [switchTask, setSwitchTask] = useState()
     const [prevTeammateId, setPrevTeammateId] = useState("");
     const [prevTaskIndex, setPrevTaskIndex] = useState()
+    const [dragStyle, setDragStyle] = useState("blur(0px)")
 
 
     const dragItem = useRef();
@@ -167,7 +168,7 @@ export default function TeammateTable(props) {
 
     const dragStart = (e, index) => {
         dragItem.current = index;
-        console.log(e.target.innerHTML)
+        setDragStyle("blur(1px)")
     }
     const dragEnter = (e, index) => {
         dragOverItem.current = index;
@@ -176,6 +177,7 @@ export default function TeammateTable(props) {
 
     const drop = (e, list, id) => {
         if (dragItem.current === dragOverItem.current) {
+            setDragStyle("blur(0px)")
             return;
         }
         let copyList = [...list];
@@ -261,7 +263,7 @@ export default function TeammateTable(props) {
             </TableHead>
 
 
-            <TableBody className="curve-box-homelist">
+            <TableBody className="curve-box-homelist" >
                 {props?.team
                     .filter((info) => info.teammate === selected)
                     .map((info) => {
@@ -294,6 +296,7 @@ export default function TeammateTable(props) {
                                                             ? '#fff'
                                                             : '#f1f4fb',
                                                     height: '70px',
+                                                    filter: dragStyle
                                                 }}
                                                 className="box-shadow"
                                                 draggable
