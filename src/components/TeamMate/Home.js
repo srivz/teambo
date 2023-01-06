@@ -2,9 +2,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { onAuthStateChanged } from 'firebase/auth'
-import { onChildChanged, onValue, ref, remove, update } from 'firebase/database'
+import { onChildChanged, onValue, ref, update } from 'firebase/database'
 import React, { useState } from 'react'
-import { Badge, Col, Container, Offcanvas, Row } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 import { auth, db } from '../../firebase-config'
 import Loader from '../Loader/Loader'
 import NavBar from '../Navs/NavBar'
@@ -14,19 +14,15 @@ import play from '../../assets/images/play.svg'
 import played from '../../assets/images/played.svg'
 import tick from '../../assets/images/tick.svg'
 import TeammateTaskHistory from './TeammateTaskHistory'
+import Notifications from './Notifications'
 
 export default function Home() {
   var today = new Date()
   const [loading, setLoading] = useState(true)
   const [taskSelected, setTaskSelected] = useState()
   const [once, setOnce] = useState(true)
-  const [once2, setOnce2] = useState(true)
   const [teammate, setTeammate] = useState({})
   const [id, setId] = useState('')
-
-  const [show, setShow] = useState(false)
-  const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
   const [filter, setFilter] = useState('All')
   const [modalShow, setModalShow] = useState(false)
 
@@ -52,51 +48,6 @@ export default function Home() {
       window.location.href = '/'
     }
   })
-
-  const acceptChange = (managerId, managerTeam) => {
-    if (managerTeam === undefined) {
-      update(ref(db, `manager/${managerId}/`), { teammates: [id] })
-      remove(ref(db, `teammate/${id}/requests/`))
-      setLoading(false)
-    } else {
-      let newArr = []
-      let exists = false
-      managerTeam.forEach((element) => {
-        if (element === id) {
-          exists = true
-        }
-        newArr.push(element)
-      })
-      if (exists) {
-        setLoading(false)
-      } else {
-        let newArr2 = [...newArr, id]
-        update(ref(db, `manager/${managerId}/`), { teammates: newArr2 })
-        remove(ref(db, `teammate/${id}/requests/`))
-        setLoading(false)
-      }
-    }
-  }
-  const accept = (managerId) => {
-    setLoading(true)
-    if (once2) {
-      onValue(ref(db, `manager/${managerId}`), (snapshot) => {
-        if (snapshot.exists()) {
-          let data = snapshot.val()
-          acceptChange(managerId, data.teammates)
-        } else {
-          alert('No manager found')
-          setLoading(false)
-        }
-      })
-      setOnce2(false)
-    }
-    setLoading(false)
-  }
-
-  const reject = (index) => {
-    remove(ref(db, `teammate/${id}/requests/${index}`))
-  }
 
   onChildChanged(ref(db, `/teammate/${id}`), () => {
     window.location.reload()
@@ -270,93 +221,7 @@ export default function Home() {
             name={teammate.name}
             role={teammate.designation}
           />
-          <Container>
-              <Offcanvas show={show} onHide={handleClose}>
-              <Offcanvas.Header closeButton>
-                <Offcanvas.Title>Requests</Offcanvas.Title>
-              </Offcanvas.Header>
-              <Offcanvas.Body>
-                {!teammate.requests ? (
-                  <Row
-                    style={{
-                        boxShadow: 'rgba(0, 0, 0, 0.55) 0px 1px 3px',
-                        margin: '.5em',
-                        color: 'black',
-                        padding: '1em',
-                        fontFamily: 'rockwen',
-                        border: '2px black',
-                    }}
-                      align="center"
-                    >
-                    No Requests Available
-                  </Row>
-                ) : (
-                  teammate.requests.map((info, index) => {
-                    return (
-                      <>
-                        <Row
-                          style={{
-                            boxShadow: 'rgba(0, 0, 0, 0.55) 0px 1px 3px',
-                            margin: '.5em',
-                            color: 'black',
-                            padding: '1em',
-                            fontFamily: 'rockwen',
-                            border: '2px black',
-                          }}
-                          key={index}
-                        >
-                          <Col md={8} sm={8}>
-                            {info.managerName}
-                          </Col>
-                          <Col md={2} sm={2}>
-                            <Badge
-                              as="button"
-                              onClick={() => {
-                                reject(index)
-                              }}
-                              style={{
-                                padding: '.5em',
-                                color: 'black',
-                                fontFamily: 'rockwen',
-                                fontWeight: 'bold',
-                                borderRadius: '25px',
-                              }}
-                              bg="light"
-                            ><FontAwesomeIcon
-                                className="pointer"
-                                size="xl"
-                                icon="fa-solid fa-circle-xmark" />
-                            </Badge>
-                          </Col>
-                          <Col md={2} sm={2}>
-                            <Badge
-                              as="button"
-                              onClick={() => {
-                                accept(info.managerId)
-                              }}
-                              style={{
-                                padding: '.5em',
-                                color: 'black',
-                                fontFamily: 'rockwen',
-                                fontWeight: 'bold',
-                                borderRadius: '25px',
-                              }}
-                              bg="light"
-                            ><FontAwesomeIcon
-                                className="pointer"
-                                size="xl"
-                                icon="fa-solid fa-circle-check"
-                              />
-                            </Badge>
-                          </Col>
-                        </Row>
-                        <br />
-                      </>
-                    )
-                  })
-                )}
-              </Offcanvas.Body>
-            </Offcanvas>
+            <Container>
             <Container>
               <Row>
                   <Col style={{ marginTop: '1em' }}>
@@ -376,8 +241,8 @@ export default function Home() {
                         alignItems: 'center',
                       }}
                         className="text- end"
-                      >
-                        <Dropdown style={{ width: '200px', marginRight: '1em' }}>
+                      ><Notifications teammate={teammate} id={id} />
+                        <Dropdown style={{ width: '200px' }}>
                           <Dropdown.Toggle
                             style={{ height: '45px' }}
                             id="dropdown-basic"
@@ -434,19 +299,6 @@ export default function Home() {
                             </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
-                      <Badge
-                        as="button"
-                        onClick={handleShow}
-                        style={{
-                          color: 'black',
-                          fontFamily: 'rockwen',
-                          fontWeight: 'bold',
-                          borderRadius: '25px',
-                        }}
-                          bg="light"
-                        >
-                        {!teammate.requests ? 0 : teammate.requests.length}
-                        </Badge>
                       </Col>
                   </Row>
                   <Row className="curve-box-homelist">

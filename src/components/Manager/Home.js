@@ -98,7 +98,7 @@ export default function Home() {
     if (teammateSet === undefined) {
       if (teamRequest === undefined) {
         let newArr = [{ managerId, managerName }]
-        update(ref(db, `teammate/${newId}/`), { requests: newArr })
+        update(ref(db, `teammate/${newId}/notifications`), { requests: newArr })
         setLoading(false)
       } else {
         let newArr = []
@@ -114,7 +114,7 @@ export default function Home() {
           setLoading(false)
         } else {
           let newArr2 = [...newArr, { managerId, managerName }]
-          update(ref(db, `teammate/${newId}/`), { requests: newArr2 })
+          update(ref(db, `teammate/${newId}/notifications`), { requests: newArr2 })
           setLoading(false)
         }
       }
@@ -130,7 +130,7 @@ export default function Home() {
       } else {
         if (teamRequest === undefined) {
           let newArr = [{ managerId, managerName }]
-          update(ref(db, `teammate/${newId}/`), { requests: newArr })
+          update(ref(db, `teammate/${newId}/notifications`), { requests: newArr })
           setLoading(false)
         } else {
           let newArr = []
@@ -146,7 +146,7 @@ export default function Home() {
             setLoading(false)
           } else {
             let newArr2 = [...newArr, { managerId, managerName }]
-            update(ref(db, `teammate/${newId}/`), { requests: newArr2 })
+            update(ref(db, `teammate/${newId}/notifications`), { requests: newArr2 })
             setLoading(false)
           }
         }
