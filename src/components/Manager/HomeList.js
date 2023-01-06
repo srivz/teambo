@@ -69,7 +69,7 @@ export default function HomeList(props) {
   })
 
   const dateFormatChange = (date) => {
-    if (date === '--') {
+    if (date === '--' || !date) {
       return '--'
     }
     let givenDate = date.split('/')
@@ -93,7 +93,7 @@ export default function HomeList(props) {
   }
 
   const timeFormatChange = (time) => {
-    if (time === '--') {
+    if (time === '--' || !time) {
       return '--'
     }
     let givenTime = time.split(':')
