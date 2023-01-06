@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { onChildChanged, ref, set, update } from 'firebase/database'
 import emailjs from '@emailjs/browser';
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
     Button,
     OverlayTrigger,
@@ -22,6 +22,12 @@ export default function TeammateTable(props) {
     const [switchTask, setSwitchTask] = useState()
     const [prevTeammateId, setPrevTeammateId] = useState("");
     const [prevTaskIndex, setPrevTaskIndex] = useState()
+
+
+    const dragItem = useRef();
+    const dragOverItem = useRef();
+
+
 
     const handleDeleteTask = (teammate, id, index) => {
         let list1 = teammate.tasks.slice(0, index);
@@ -67,7 +73,7 @@ export default function TeammateTable(props) {
     }
 
     const dateFormatChange = (date) => {
-        if (date === '--') {
+        if (date === '--' || !date) {
             return '--'
         }
         let givenDate = date.split('/')
@@ -91,7 +97,7 @@ export default function TeammateTable(props) {
     }
 
     const timeFormatChange = (time) => {
-        if (time === '--') {
+        if (time === '--' || !time) {
             return '--'
         }
         let givenTime = time.split(':')
@@ -158,6 +164,32 @@ export default function TeammateTable(props) {
     // const addTeammate = () => {
     //     props?.addTeammate(teammateEmail);
     // };
+
+    const dragStart = (e, index) => {
+        dragItem.current = index;
+        console.log(e.target.innerHTML)
+    }
+    const dragEnter = (e, index) => {
+        dragOverItem.current = index;
+        console.log(e.target.innerHTML)
+    }
+
+    const drop = (e, list, id) => {
+        if (dragItem.current === dragOverItem.current) {
+            return;
+        }
+        let copyList = [...list];
+        const dragItemContent = copyList[dragItem.current];
+        copyList.splice(dragItem.current, 1);
+        copyList.splice(dragOverItem.current, 0, dragItemContent);
+        dragItem.current = null;
+        dragOverItem.current = null;
+        update(ref(db, `teammate/${id}/`), {
+            tasks: copyList,
+        })
+    }
+
+
 
     return (
         <Table
@@ -264,6 +296,16 @@ export default function TeammateTable(props) {
                                                     height: '70px',
                                                 }}
                                                 className="box-shadow"
+                                                draggable
+                                                onDragStart={(e) => {
+                                                    dragStart(e, index)
+                                                }}
+                                                onDragEnter={(e) => {
+                                                    dragEnter(e, index)
+                                                }}
+                                                onDragEnd={(e) => {
+                                                    drop(e, info?.data?.tasks, info?.teammate)
+                                                }}
                                             >
                                                 <TableCell
                                                     onClick={() => {

@@ -20,7 +20,7 @@ export default function TaskHistory(props) {
     deadlineTime: '--',
   })
   const dateFormatChange = (date) => {
-    if (date === '--') {
+    if (date === '--' || !date) {
       return '--'
     }
     let givenDate = date.split('/')
@@ -44,7 +44,7 @@ export default function TaskHistory(props) {
   }
 
   const timeFormatChange = (time) => {
-    if (time === '--') {
+    if (time === '--' || !time) {
       return '--'
     }
     let givenTime = time.split(':')
