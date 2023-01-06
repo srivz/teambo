@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { onValue, ref, set, update } from "firebase/database";
+import { onValue, ref, update } from "firebase/database";
 import React, { useState } from "react";
 import { Button, Row, Col, Form, OverlayTrigger } from "react-bootstrap";
 import { db } from "../../firebase-config";
@@ -12,7 +12,6 @@ export default function NewTask(props) {
   const [newClient,setNewClient]=useState("");
   const [clientList, setClientList] = useState([]);
   const [teamRequest, setTeamRequest] = useState([])
-  const [once, setOnce] = useState(true);
   const [newTask, setNewTask] = useState({
     client: "",
     task: "",
@@ -153,7 +152,7 @@ export default function NewTask(props) {
           })
           if (exists) {
             let newArr2 = [...newArr, newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
-            update(ref(db, `/teammate/${id}/`), { tasks: [newTask], notifications: newArr })
+            update(ref(db, `/teammate/${id}/`), { tasks: [newTask], notifications: newArr2 })
           }
         }
       }
@@ -337,7 +336,7 @@ export default function NewTask(props) {
               </Form.Label>
               <Col sm="8">
                 <Form.Control
-                  type="text"
+                  type="email"
                   name="clientEmail"
                   onChange={handleChange}
                 />

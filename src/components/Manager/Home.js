@@ -3,7 +3,7 @@ import { auth, db } from '../../firebase-config'
 import NavBar from '../Navs/NavBar'
 import HomeBlock from './HomeBlock'
 import HomeList from './HomeList'
-import { onValue, ref, set, update } from 'firebase/database'
+import { onValue, ref, set } from 'firebase/database'
 import { onAuthStateChanged } from 'firebase/auth'
 import Loader from '../Loader/Loader'
 
