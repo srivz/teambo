@@ -127,9 +127,26 @@ export default function Home() {
   }
 
   const completeTask = (e, index, length) => {
+    var timeInMs = today.getTime()
+    var stTime =
+      teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
+        .startTimeInMs
+    var totTime = timeInMs - stTime
+    if (
+      teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
+        .totalTimeInMs
+    ) {
+      totTime =
+        totTime +
+        teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
+          .totalTimeInMs
+    }
+    var timeGapInMs = totTime
+    var timeGap = getHourFormatFromMilliSeconds(totTime)
     update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
       status: 'Done',
-      totalTimeInMs: 0,
+      totalTime: timeGap,
+      totalTimeInMs: timeGapInMs,
       startTime: null,
       startTimeInMs: null,
       endDate:
@@ -632,7 +649,9 @@ export default function Home() {
                                                     )
                                                   }}
                                                   style={{
-                                                    display:
+                                                    display: info.updates[
+                                                      info.updates.length - 1
+                                                    ].status === 'Assigned' ||
                                                       info.updates[
                                                         info.updates.length - 1
                                                       ].status === 'Done' ||
