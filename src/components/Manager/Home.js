@@ -75,7 +75,7 @@ export default function Home() {
     onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val()
-        setTeamRequest(data.requests)
+        setTeamRequest(data.notifications)
         setLoading(false)
         return true
       } else {
@@ -84,6 +84,7 @@ export default function Home() {
       }
     })
   }
+
   const addNewTeammate = (teammateEmail) => {
     setLoading(true)
     if (teammateEmail === '') {
@@ -98,7 +99,7 @@ export default function Home() {
     if (teammateSet === undefined) {
       if (teamRequest === undefined) {
         let newArr = [{ managerId, managerName }]
-        set(ref(db, `teammate/${newId}/notifications/`), newArr)
+        set(ref(db, `teammate/${newId}/notifications/requests`), newArr)
         setLoading(false)
       } else {
         let newArr = []
@@ -114,7 +115,7 @@ export default function Home() {
           setLoading(false)
         } else {
           let newArr2 = [...newArr, { managerId, managerName }]
-          set(ref(db, `teammate/${newId}/notifications/`), newArr2)
+          set(ref(db, `teammate/${newId}/notifications/requests`), newArr2)
           setLoading(false)
         }
       }
@@ -130,7 +131,7 @@ export default function Home() {
       } else {
         if (teamRequest === undefined) {
           let newArr = [{ managerId, managerName }]
-          set(ref(db, `teammate/${newId}/notifications/`), newArr)
+          set(ref(db, `teammate/${newId}/notifications/requests`), newArr)
           setLoading(false)
         } else {
           let newArr = []
@@ -146,7 +147,7 @@ export default function Home() {
             setLoading(false)
           } else {
             let newArr2 = [...newArr, { managerId, managerName }]
-            set(ref(db, `teammate/${newId}/notifications/`), newArr2)
+            set(ref(db, `teammate/${newId}/notifications/requests`), newArr2)
             setLoading(false)
           }
         }

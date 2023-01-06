@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ref, set,update } from "firebase/database";
+import { onValue, ref, set, update } from "firebase/database";
 import React, { useState } from "react";
 import { Button, Row, Col, Form, OverlayTrigger } from "react-bootstrap";
 import { db } from "../../firebase-config";
@@ -10,7 +10,9 @@ import Dropdown from 'react-bootstrap/Dropdown';
 export default function NewTask(props) {
   var today = new Date();
   const [newClient,setNewClient]=useState("");
-  const [clientList,setClientList]=useState([]);
+  const [clientList, setClientList] = useState([]);
+  const [teamRequest, setTeamRequest] = useState([])
+  const [once, setOnce] = useState(true);
   const [newTask, setNewTask] = useState({
     client: "",
     task: "",
@@ -54,17 +56,124 @@ export default function NewTask(props) {
     newTask.updates[0].deadlineTime = event.target.value;
   };
 
-  const handleNewTask = async (id, tasknumber, allTasks) => {
+  const dateFormatChange = (date) => {
+    if (date === '--' || !date) {
+      return '--'
+    }
+    let givenDate = date.split('/')
+    let months = [
+      '-',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ]
+    let dateMonth = months[parseInt(givenDate[1])]
+    return dateMonth + ',' + givenDate[0] + ' ' + givenDate[2]
+  }
+
+  const timeFormatChange = (time) => {
+    if (time === '--' || !time) {
+      return '--'
+    }
+    let givenTime = time.split(':')
+    if (parseInt(givenTime[0]) === 0 || parseInt(givenTime[0]) === 24) {
+      let minute =
+        parseInt(givenTime[1]) > 9
+          ? parseInt(givenTime[1])
+          : '0' + parseInt(givenTime[1])
+      return '12:' + minute + ' am'
+    } else if (parseInt(givenTime[0]) === 12) {
+      let minute =
+        parseInt(givenTime[1]) > 9
+          ? parseInt(givenTime[1])
+          : '0' + parseInt(givenTime[1])
+
+      return "12:" + minute + ' pm'
+    } else if (parseInt(givenTime[0]) > 12) {
+      let hour =
+        parseInt(givenTime[0]) % 12 > 9
+          ? parseInt(givenTime[0]) % 12
+          : '0' + parseInt(givenTime[0] % 12)
+      let minute =
+        parseInt(givenTime[1]) > 9
+          ? parseInt(givenTime[1])
+          : '0' + parseInt(givenTime[1])
+
+      return hour + ':' + minute + ' pm'
+    } else if (parseInt(givenTime[0]) < 12) {
+      let hour =
+        parseInt(givenTime[0]) > 9
+          ? parseInt(givenTime[0])
+          : '0' + parseInt(givenTime[0])
+      let minute =
+        parseInt(givenTime[1]) > 9
+          ? parseInt(givenTime[1])
+          : '0' + parseInt(givenTime[1])
+
+      return hour + ':' + minute + ' am'
+    }
+  }
+
+  const getTeammatesWithMail = (teammate) => {
+    onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val()
+        setTeamRequest(data.notifications)
+        return true
+      } else {
+        alert('User not available')
+      }
+    })
+  }
+  const handleNewTask = (id, allTasks) => {
     if (props.name === "No Teammate") {
       alert("Select a Teammate first")
     } else {
-      set(ref(db, `/teammate/${id}/tasks`), [newTask].concat(allTasks))
-        .then(() => {
-          window.location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+
+      getTeammatesWithMail(id)
+      if (allTasks === undefined) {
+        if (teamRequest === undefined) {
+          let newArr = [newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
+          update(ref(db, `/teammate/${id}/`), { tasks: [newTask], notifications: newArr })
+        } else {
+          let newArr = []
+          let exists = false
+          teamRequest.forEach((element) => {
+            exists = true
+            newArr.push(element)
+          })
+          if (exists) {
+            let newArr2 = [...newArr, newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
+            update(ref(db, `/teammate/${id}/`), { tasks: [newTask], notifications: newArr })
+          }
+        }
+      }
+      else {
+        if (teamRequest === undefined) {
+          let newArr = [newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
+          update(ref(db, `/teammate/${id}/`), { tasks: [newTask].concat(allTasks), notifications: newArr })
+        } else {
+          let newArr = []
+          let exists = false
+          teamRequest.forEach((element) => {
+            exists = true
+            newArr.push(element)
+          })
+          if (exists) {
+            let newArr2 = [...newArr, newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
+            update(ref(db, `/teammate/${id}/`), { tasks: [newTask].concat(allTasks), notifications: newArr2 })
+          }
+        }
+      }
     }
 
   };
@@ -245,7 +354,6 @@ export default function NewTask(props) {
                 onClick={() => {
                   handleNewTask(
                     props?.teammate,
-                    props?.tasks !== undefined ? props?.tasks?.length : 0,
                     props?.tasks
                   );
                 }}

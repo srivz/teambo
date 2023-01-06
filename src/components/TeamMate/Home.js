@@ -358,7 +358,7 @@ export default function Home() {
                                   fontWeight: 'bold',
                                 }}
                               >
-                              Date
+                                Assigned
                             </TableCell>
                             <TableCell
                               align="center"
@@ -367,7 +367,7 @@ export default function Home() {
                                   fontWeight: 'bold',
                                 }}
                               >
-                              Time
+                                Deadline
                             </TableCell>
                             <TableCell
                               align="center"
@@ -471,11 +471,16 @@ export default function Home() {
                                                   fontFamily: 'rockwen',
                                                 }}
                                                 align="center"
-                                              >
-                                                {dateFormatChange(
+                                              >{dateFormatChange(
+                                                info.updates[
+                                                  info.updates.length - 1
+                                                ].assignedDate,
+                                              )}
+                                                <br />
+                                                {timeFormatChange(
                                                   info.updates[
                                                     info.updates.length - 1
-                                                  ].deadlineDate,
+                                                  ].assignedTime,
                                                 )}
                                               </TableCell>
                                               <TableCell
@@ -487,7 +492,12 @@ export default function Home() {
                                                   fontFamily: 'rockwen',
                                                 }}
                                                 align="center"
-                                              >
+                                              > {dateFormatChange(
+                                                info.updates[
+                                                  info.updates.length - 1
+                                                ].deadlineDate,
+                                              )}
+                                                <br />
                                                 {timeFormatChange(
                                                   info.updates[
                                                     info.updates.length - 1
