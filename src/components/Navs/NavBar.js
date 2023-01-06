@@ -1,10 +1,11 @@
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase-config";
 import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import logo from "../../assets/images/Group 3.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function NavBar({ user, name, role }) {
+export default function NavBar({ user, user2, name, role }) {
   return (
     <Container>
       <Row style={{ paddingTop: "1.5em" }}>
@@ -25,6 +26,19 @@ export default function NavBar({ user, name, role }) {
               style={{ marginTop: ".5em", fontSize: "13px" }}>
               {user}
             </span>
+            <a href={user2 === "ANALYTICS" ? "/manager/home" : "/manager/analytics"} >
+              <span style={{
+                marginLeft: "1.5em",
+                border: "2px black"
+              }}>
+                <Button
+                  variant="light"
+                  style={user !== 'MANAGER' ? {
+                    display: "none",
+                  } : user2 === "ANALYTICS" ? { backgroundColor: "#3975ea", color: "white" } : {}}
+                >
+                  <FontAwesomeIcon icon="fa-solid fa-chart-line" />
+                </Button></span></a>
           </h5>
         </Col>
         <Col

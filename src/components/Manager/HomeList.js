@@ -244,7 +244,7 @@ export default function HomeList(props) {
                             className="table-height"
                           style={{
                               borderCollapse: 'separate',
-                              borderSpacing: '0 20px',
+                            borderSpacing: '0 10px',
                             }}
                           >
                           <TableHead>

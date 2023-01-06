@@ -232,7 +232,7 @@ export default function Home() {
           ? parseInt(givenTime[1])
           : '0' + parseInt(givenTime[1])
 
-      return "12" + ':' + minute + ' pm'
+      return "12:" + minute + ' pm'
     } else if (parseInt(givenTime[0]) > 12) {
       let hour =
         parseInt(givenTime[0]) % 12 > 9
@@ -265,7 +265,8 @@ export default function Home() {
       ) : (
         <div id="main">
           <NavBar
-            user="TEAMMATE"
+              user="TEAMMATE"
+              user2="TEAMMATE"
             name={teammate.name}
             role={teammate.designation}
           />

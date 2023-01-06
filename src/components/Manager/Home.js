@@ -166,7 +166,8 @@ export default function Home() {
       ) : (
           <div style={{ backgroundColor: '#FFF' }}>
           <NavBar
-            user="MANAGER"
+              user="MANAGER"
+              user2="MANAGER"
             name={manager.name}
             role={manager.designation}
           />
