@@ -49,8 +49,14 @@ export default function Home() {
     }
   })
 
-  onChildChanged(ref(db, `/teammate/${id}`), () => {
-    window.location.reload()
+  onChildChanged(ref(db, `/teammate/${id}`), () => { 
+    onValue(ref(db, `teammate/${id}`), (snapshot) => {
+      if (snapshot.exists()) {
+        setTeammate(snapshot.val())
+      } else {
+        console.log('No data available')
+      }
+    })
   })
 
   const playTask = (e, index, length) => {
@@ -159,7 +165,7 @@ export default function Home() {
         today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds(),
     })
   }
-
+  const doNothing = () => { }
   const dateFormatChange = (date) => {
     if (date === '--') {
       return '--'
@@ -652,16 +658,17 @@ export default function Home() {
                                                   alt="done"
                                                   width={30}
                                                   onClick={(e) => {
-                                                    completeTask(
-                                                      e,
-                                                      index,
-                                                      info.updates.length,
-                                                    )
+                                                    info.updates[
+                                                      info.updates.length - 1
+                                                    ].status !== 'Assigned' ?
+                                                      completeTask(
+                                                        e,
+                                                        index,
+                                                        info.updates.length,
+                                                      ) : doNothing()
                                                   }}
                                                   style={{
-                                                    display: info.updates[
-                                                      info.updates.length - 1
-                                                    ].status === 'Assigned' ||
+                                                    display:
                                                       info.updates[
                                                         info.updates.length - 1
                                                       ].status === 'Done' ||
