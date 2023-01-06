@@ -213,7 +213,7 @@ export default function TaskHistory(props) {
               <h6>Task</h6>
             </Col>
             <Col sm={3} md={3} style={{ marginTop: '.75em' }}>
-              <div className='marquee'><h5>{props?.teamtasks[props?.indexselected]?.task}</h5></div>
+              <div className={props?.teamtasks[props?.indexselected]?.task.length > 20 ? 'marquee' : ''}><h5>{props?.teamtasks[props?.indexselected]?.task}</h5></div>
             </Col>
             <Col sm={1} md={1} style={{ marginTop: '1em' }}>
               <h6>Status</h6>
