@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { auth, db } from '../../firebase-config'
 import NavBar from '../Navs/NavBar'
 import HomeBlock from './HomeBlock'
@@ -8,7 +8,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 import Loader from '../Loader/Loader'
 
 export default function Home() {
-  const [view, setView] = useState(true)
+  const [view, setView] = useState(false)
   const [manager, setManager] = useState({})
   const [once, setOnce] = useState(true)
   const [loading, setLoading] = useState(true)
@@ -160,6 +160,9 @@ export default function Home() {
   function handleChange(newValue) {
     setView(newValue)
   }
+
+
+
   return (
     <>
       {loading ? (
@@ -173,7 +176,6 @@ export default function Home() {
             role={manager.designation}
           />
 
-          {view ? (
             <HomeList
               viewType={view}
               team={teammateList}
@@ -183,14 +185,9 @@ export default function Home() {
                 managerId={managerId}
                 allTasks={allTasks}
             />
-          ) : (
-            <HomeBlock
-              viewType={view}
-              team={teammateList}
-              onChange={handleChange}
-            />
-          )}
-        </div>
+
+          </div>
+
       )}
     </>
   )
