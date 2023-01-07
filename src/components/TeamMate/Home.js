@@ -17,7 +17,6 @@ import TeammateTaskHistory from './TeammateTaskHistory'
 import Notifications from './Notifications'
 
 export default function Home() {
-  var today = new Date()
   const [loading, setLoading] = useState(true)
   const [taskSelected, setTaskSelected] = useState()
   const [once, setOnce] = useState(true)
@@ -50,19 +49,20 @@ export default function Home() {
   })
 
   onChildChanged(ref(db, `/teammate/${id}`), () => { 
-    onValue(ref(db, `teammate/${id}`), (snapshot) => {
-      if (snapshot.exists()) {
-        setTeammate(snapshot.val())
-      } else {
-        console.log('No data available')
-      }
-    })
+    // onValue(ref(db, `teammate/${id}`), (snapshot) => {
+    //   if (snapshot.exists()) {
+    //     setTeammate(snapshot.val());
+    //   } else {
+    //     console.log('No data available')
+    //   }
+    // })
   })
 
   const playTask = (e, index, length) => {
-    var timeInMs = today.getTime()
+    var now = new Date()
+    var timeInMs = now.getTime()
     var time =
-      today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+      now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds()
     teammate.tasks.forEach((task, i) => {
       if (i === index) {
         update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
@@ -71,15 +71,7 @@ export default function Home() {
           startTimeInMs: timeInMs,
         })
       } else if (task.updates[task.updates.length - 1].status === 'On Going') {
-        update(
-          ref(
-            db,
-            `teammate/${id}/tasks/${i}/updates/${task.updates.length - 1}`,
-          ),
-          {
-            status: 'Paused',
-          },
-        )
+        pauseTask("", i, task.updates.length)
       }
     })
   }
@@ -109,6 +101,7 @@ export default function Home() {
   }
 
   const pauseTask = (e, index, length) => {
+    var today = new Date()
     var timeInMs = today.getTime()
     var stTime =
       teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
@@ -127,12 +120,15 @@ export default function Home() {
     var timeGap = getHourFormatFromMilliSeconds(totTime)
     update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
       status: 'Paused',
+      startTime: 0,
+      startTimeInMs: 0,
       totalTime: timeGap,
       totalTimeInMs: timeGapInMs,
     })
   }
 
   const completeTask = (e, index, length) => {
+    var today = new Date()
     var timeInMs = today.getTime()
     var stTime =
       teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
@@ -167,7 +163,7 @@ export default function Home() {
   }
   const doNothing = () => { }
   const dateFormatChange = (date) => {
-    if (date === '--') {
+    if (date === '--' || date === undefined) {
       return '--'
     }
     let givenDate = date.split('/')
@@ -190,7 +186,7 @@ export default function Home() {
     return dateMonth + ',' + givenDate[0] + ' ' + givenDate[2]
   }
   const timeFormatChange = (time) => {
-    if (time === '--') {
+    if (time === '--' || time === undefined) {
       return '--'
     }
     let givenTime = time.split(':')
