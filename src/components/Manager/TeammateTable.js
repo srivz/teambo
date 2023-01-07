@@ -36,9 +36,6 @@ export default function TeammateTable(props) {
         let list = list1.concat(list2)
 
         set(ref(db, `/teammate/${id}/tasks`), list)
-            .then(() => {
-                window.location.reload();
-            })
             .catch((err) => {
                 console.log(err);
             });
@@ -56,17 +53,10 @@ export default function TeammateTable(props) {
 
         }).catch((err) => console.log(err));
         set(ref(db, `/teammate/${id}/tasks/${index}/updates/${latest}/status`), "Completed")
-            .then(() => {
-                window.location.reload();
-            })
             .catch((err) => {
                 console.log(err);
             });
     }
-    onChildChanged(ref(db, `/teammate/`), () => {
-        window.location.reload()
-    })
-
     function swap(arr, from, to) {
         let temp = arr[from]
         arr[from] = arr[to]

@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { auth, db } from '../../firebase-config'
 import NavBar from '../Navs/NavBar'
-import HomeBlock from './HomeBlock'
 import HomeList from './HomeList'
-import { onValue, ref, set } from 'firebase/database'
+import { onChildChanged, onValue, ref, set } from 'firebase/database'
 import { onAuthStateChanged } from 'firebase/auth'
 import Loader from '../Loader/Loader'
 
@@ -34,6 +33,7 @@ export default function Home() {
             if (data.teammates !== undefined) {
               getTeammates(data.teammates)
             }
+            console.log('No')
           } else {
             console.log('No data available')
           }
@@ -48,7 +48,6 @@ export default function Home() {
 
   const getTeammates = (teamList) => {
     if (once1) {
-      setLoading(true)
       teamList.forEach((teammate) => {
         onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
           if (snapshot.exists()) {
@@ -60,47 +59,41 @@ export default function Home() {
             setAllTasks((oldTasks) => {
               return [...oldTasks, { tasks: data.tasks, teammateEmail: teammate, teammate: data.name, teammateDesignation: data.designation }]
             })
-            setLoading(false);
           } else {
             console.log('No data available')
-            setLoading(false)
           }
         })
       })
+      setOnce1(false)
     }
-    setOnce1(false)
   }
-
+  onChildChanged(ref(db, `/teammate/`), () => {
+    window.location.reload()
+  })
   const getTeammatesWithMail = (teammate) => {
     onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val()
         setTeamRequest(data.notifications)
-        setLoading(false)
         return true
       } else {
         alert('User not available')
-        setLoading(false)
       }
     })
   }
 
   const addNewTeammate = (teammateEmail) => {
-    setLoading(true)
     if (teammateEmail === '') {
       alert('Enter email first')
-      setLoading(false)
       return
     }
     let id = teammateEmail.split('.')
     let newId = id.join('_')
-
     getTeammatesWithMail(newId)
     if (teammateSet === undefined) {
       if (teamRequest === undefined) {
         let newArr = [{ managerId, managerName }]
         set(ref(db, `teammate/${newId}/notifications/requests`), newArr)
-        setLoading(false)
       } else {
         let newArr = []
         let exists = false
@@ -112,11 +105,9 @@ export default function Home() {
         })
         if (exists) {
           alert('Already requested !')
-          setLoading(false)
         } else {
           let newArr2 = [...newArr, { managerId, managerName }]
           set(ref(db, `teammate/${newId}/notifications/requests`), newArr2)
-          setLoading(false)
         }
       }
     } else {
@@ -127,12 +118,10 @@ export default function Home() {
       let exist = newArr.includes(newId)
       if (exist) {
         alert('Already a Teammate !')
-        setLoading(false)
       } else {
         if (teamRequest === undefined) {
           let newArr = [{ managerId, managerName }]
           set(ref(db, `teammate/${newId}/notifications/requests`), newArr)
-          setLoading(false)
         } else {
           let newArr = []
           let exists = false
@@ -144,17 +133,14 @@ export default function Home() {
           })
           if (exists) {
             alert('Already requested !')
-            setLoading(false)
           } else {
             let newArr2 = [...newArr, { managerId, managerName }]
             set(ref(db, `teammate/${newId}/notifications/requests`), newArr2)
-            setLoading(false)
           }
         }
       }
     }
-    setLoading(false)
-    window.location.reload()
+
   }
 
   function handleChange(newValue) {

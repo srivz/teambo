@@ -95,11 +95,7 @@ export default function HomeBlock(props) {
     let list1 = teammate.tasks.slice(0, index);
     let list2 = teammate.tasks.slice(index + 1);
     let list = list1.concat(list2)
-    console.log(list, id);
     set(ref(db, `/teammate/${id}/tasks`), list)
-      .then(() => {
-        window.location.reload();
-      })
       .catch((err) => {
         console.log(err);
       });

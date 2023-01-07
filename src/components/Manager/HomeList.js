@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import { onChildChanged, ref } from 'firebase/database'
 import React, { useEffect, useState } from 'react'
 import {
   Button,
@@ -12,7 +11,6 @@ import {
 } from "react-bootstrap";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { db } from "../../firebase-config";
 import Loader from "../Loader/Loader";
 import NewTask from "./NewTask";
 import ClientTable from './ClientTable';
@@ -63,10 +61,6 @@ export default function HomeList(props) {
     }
   }, [tab])
 
-  onChildChanged(ref(db, `/teammate/`), () => {
-    setLoading(true)
-    window.location.reload()
-  })
 
   const dateFormatChange = (date) => {
     if (date === '--' || !date) {
