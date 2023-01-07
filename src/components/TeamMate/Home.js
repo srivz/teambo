@@ -71,6 +71,7 @@ export default function Home() {
           startTimeInMs: timeInMs,
         })
       } else if (task.updates[task.updates.length - 1].status === 'On Going') {
+        // alert(length)
         pauseTask(e, i, length)
       }
     })
@@ -118,7 +119,7 @@ export default function Home() {
     }
     var timeGapInMs = totTime
     var timeGap = getHourFormatFromMilliSeconds(totTime)
-    update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
+    update(ref(db, `teammate/${id}/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), {
       status: 'Paused',
       startTime: 0,
       startTimeInMs: 0,
@@ -411,9 +412,9 @@ export default function Home() {
                                   .filter((info) => {
                                     return filter !== 'All'
                                       ? info.updates[info.updates.length - 1]
-                                        .status === filter
+                                        ?.status === filter
                                       : info.updates[info.updates.length - 1]
-                                        .status !== filter
+                                        ?.status !== filter
                                   })
                                   .map((info, index) => {
                                     return (
