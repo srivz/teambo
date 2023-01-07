@@ -169,6 +169,7 @@ export default function TeammateTable(props) {
     const dragStart = (e, index) => {
         dragItem.current = index;
         setDragStyle("blur(1px)")
+        e.target.style.border = "4px solid red"
     }
     const dragEnter = (e, index) => {
         dragOverItem.current = index;

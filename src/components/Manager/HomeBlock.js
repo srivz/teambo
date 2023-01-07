@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { set, ref, update } from 'firebase/database'
 import {
   Col,
   Container,
@@ -7,14 +8,95 @@ import {
 } from "react-bootstrap";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import NewTask from "./NewTask";
+import { db } from '../../firebase-config';
 
 export default function HomeBlock(props) {
+  const fromTeammate = useRef({});
+  const toTeammate = useRef({});
   const [selected, setSelected] = useState(
     JSON.parse(localStorage.getItem("teammateSelected"))
   );
   function handleViewChange() {
     props.onChange(true);
   }
+
+  const handleDeleteTask = (teammate, id, index) => {
+    let list1 = teammate.tasks.slice(0, index);
+    let list2 = teammate.tasks.slice(index + 1);
+    let list = list1.concat(list2)
+    console.log(list, id);
+    set(ref(db, `/teammate/${id}/tasks`), list)
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+
+
+  function dragStart(e, index, list, id) {
+    fromTeammate.current.id = id;
+    fromTeammate.current.tasks = list;
+    fromTeammate.current.taskIndex = index;
+  }
+
+  function dragEnter(e, index, list, id) {
+    toTeammate.current.id = id;
+    toTeammate.current.tasks = list;
+    toTeammate.current.taskIndex = index;
+  }
+
+  function drop(e, index, list, id) {
+    if (fromTeammate.current.id === toTeammate.current.id && fromTeammate.current.taskIndex === toTeammate.current.taskIndex) {
+      return;
+    }
+    if (fromTeammate.current.id === toTeammate.current.id) {
+      let copyList = [...fromTeammate.current.tasks];
+      const dragItemContent = copyList[fromTeammate.current.taskIndex];
+      copyList.splice(fromTeammate.current.taskIndex, 1);
+      copyList.splice(toTeammate.current.taskIndex, 0, dragItemContent);
+      fromTeammate.current.taskIndex = null;
+      toTeammate.current.taskIndex = null;
+      update(ref(db, `teammate/${fromTeammate.current.id}/`), {
+        tasks: copyList,
+      })
+    }
+    else {
+      var today = new Date()
+      let copyList = [...fromTeammate.current.tasks];
+      const dragItemContent = copyList[fromTeammate.current.taskIndex];
+      const newTask = {
+        client: dragItemContent?.client,
+        task: dragItemContent?.task,
+        clientEmail: dragItemContent?.clientEmail,
+        updates: dragItemContent?.updates.concat({
+          description: ['This task was switched to you.'],
+          assignedDate:
+            String(today.getDate()).padStart(2, '0') +
+            '/' +
+            String(today.getMonth() + 1).padStart(2, '0') +
+            '/' +
+            today.getFullYear(),
+          assignedTime:
+            today.getHours() +
+            ':' +
+            today.getMinutes() +
+            ':' +
+            today.getSeconds(),
+          corrections: dragItemContent?.updates?.length || 0,
+          deadlineDate: '--',
+          deadlineTime: '--',
+          status: 'Assigned',
+        },),
+      }
+      set(ref(db, `/teammate/${toTeammate.current.id}/tasks/${toTeammate.current.tasks.length}`), newTask,)
+      handleDeleteTask(fromTeammate.current, fromTeammate.current.id, fromTeammate.current.taskIndex)
+
+    }
+  }
+
   return (
     <div id="main">
       <Container>
@@ -140,8 +222,19 @@ export default function HomeBlock(props) {
                               return (
                                 <div
                                   key={index}
+
                                   className="card-tasks">
-                                  <Row>
+                                  <Row draggable
+                                    onDragStart={(e) => {
+                                      dragStart(e, index, info?.data?.tasks, info?.teammate)
+                                    }}
+                                    onDragEnter={(e) => {
+                                      dragEnter(e, index, info?.data?.tasks, info?.teammate)
+                                    }}
+                                    onDragEnd={(e) => {
+                                      drop(e, index, info?.data?.tasks, info?.teammate)
+                                    }}
+                                  >
                                     <Col sm="8">
                                       <span>{info1.client}</span>
                                       <br />
