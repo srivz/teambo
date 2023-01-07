@@ -206,19 +206,19 @@ export default function TaskHistory(props) {
             <Col sm={1} md={1} style={{ marginTop: '1em' }}>
               <h6>Client</h6>
             </Col>
-            <Col sm={3} md={3} style={{ marginTop: '1em' }}>
+            <Col sm={3} md={3} style={{ marginTop: '.75em' }}>
               <h5>{props?.teamtasks[props?.indexselected]?.client}</h5>
             </Col>
             <Col sm={1} md={1} style={{ marginTop: '1em' }}>
               <h6>Task</h6>
             </Col>
             <Col sm={3} md={3} style={{ marginTop: '.75em' }}>
-              <marquee scrollamount="3"><h5>{props?.teamtasks[props?.indexselected]?.task}</h5></marquee>
+              <div className={props?.teamtasks[props?.indexselected]?.task.length > 20 ? 'marquee' : ''}><h5>{props?.teamtasks[props?.indexselected]?.task}</h5></div>
             </Col>
             <Col sm={1} md={1} style={{ marginTop: '1em' }}>
               <h6>Status</h6>
             </Col>
-            <Col sm={3} md={3} style={{ marginTop: '1em' }}>{props?.teamtasks[props?.indexselected]?.updates
+            <Col sm={3} md={3} style={{ marginTop: '.75em' }}>{props?.teamtasks[props?.indexselected]?.updates
               .sort((a, b) => (a.corrections > b.corrections ? -1 : 1))
               .filter((info, index) => { return (index === 0) })
               .map((info) => {

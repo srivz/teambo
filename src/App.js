@@ -9,6 +9,7 @@ import ManagerHome from "./components/Manager/Home";
 import LoginHome from "./components/LoginPages/LoginHome";
 import SignUpResponse from "./components/LoginPages/SignUpResponse";
 import ForgotPassword from "./components/LoginPages/ForgotPassword";
+import Analytics from "./components/Manager/Analytics";
 
 export default function App() {
   return (
@@ -20,7 +21,6 @@ export default function App() {
           <Route
           path="/signup/select"
           element={<LoginHome />}></Route>
-
         <Route
           path="/forgotPassword"
           element={<ForgotPassword />}></Route>
@@ -52,6 +52,9 @@ export default function App() {
         <Route
           path="/manager/home"
           element={<ManagerHome />}></Route>
+        <Route
+          path="/manager/analytics"
+          element={<Analytics />}></Route>
         <Route
           path="/teamMate/home"
           element={<TeamMateHome />}></Route>
