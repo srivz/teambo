@@ -200,7 +200,6 @@ export default function NewTask(props) {
     clients
      });
   }
-  window.location.reload()
  }
 
   return (

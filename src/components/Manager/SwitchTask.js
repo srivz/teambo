@@ -46,7 +46,6 @@ export default function SwitchTask(props) {
             set(ref(db, `/teammate/${teammateId}/tasks/${taskNumber}`), newTask,)
                 .then(() => {
                     props?.handleDeleteTask(props?.prevTaskList, props?.prevTeammateId, props?.prevTaskIndex)
-                    window.location.reload()
                 })
                 .catch((err) => {
                     console.log(err)
