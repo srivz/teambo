@@ -169,11 +169,16 @@ export default function TeammateTable(props) {
     const dragStart = (e, index) => {
         dragItem.current = index;
         setDragStyle("blur(1px)")
-        e.target.style.border = "4px solid red"
+
     }
     const dragEnter = (e, index) => {
         dragOverItem.current = index;
-        console.log(e.target.innerHTML)
+        // console.log(e.target.classList.add("hidden"))
+        // if (e.target.style.visibility === "hidden") {
+        //     e.target.style.visibility = "visible"
+        // } else {
+        //     e.target.style.visibility = "hidden"
+        // }
     }
 
     const drop = (e, list, id) => {
