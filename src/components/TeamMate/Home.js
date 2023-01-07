@@ -51,7 +51,7 @@ export default function Home() {
   onChildChanged(ref(db, `/teammate/${id}`), () => { 
     // onValue(ref(db, `teammate/${id}`), (snapshot) => {
     //   if (snapshot.exists()) {
-    //     setTeammate(snapshot.val());
+    //     setTeammate(snapshot.val())
     //   } else {
     //     console.log('No data available')
     //   }
@@ -71,7 +71,7 @@ export default function Home() {
           startTimeInMs: timeInMs,
         })
       } else if (task.updates[task.updates.length - 1].status === 'On Going') {
-        pauseTask("", i, task.updates.length)
+        pauseTask(e, i, length)
       }
     })
   }
@@ -166,7 +166,7 @@ export default function Home() {
     if (date === '--' || date === undefined) {
       return '--'
     }
-    let givenDate = date.split('/')
+    let givenDate = date?.split('/')
     let months = [
       '',
       'Jan',
@@ -189,7 +189,7 @@ export default function Home() {
     if (time === '--' || time === undefined) {
       return '--'
     }
-    let givenTime = time.split(':')
+    let givenTime = time?.split(':')
     if (parseInt(givenTime[0]) === 0 || parseInt(givenTime[0]) === 24) {
       let minute =
         parseInt(givenTime[1]) > 9
