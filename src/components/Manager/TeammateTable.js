@@ -305,6 +305,7 @@ export default function TeammateTable(props) {
                                                 onDragEnd={(e) => {
                                                     drop(e, info?.data?.tasks, info?.teammate)
                                                 }}
+
                                             >
                                                 <TableCell
                                                     onClick={() => {

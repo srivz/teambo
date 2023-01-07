@@ -15,6 +15,7 @@ import Loader from "../Loader/Loader";
 import NewTask from "./NewTask";
 import ClientTable from './ClientTable';
 import TeammateTable from './TeammateTable';
+import { useNavigate } from 'react-router'
 export default function HomeList(props) {
   const [selected, setSelected] = useState(
     JSON.parse(localStorage.getItem('teammateSelected')),
@@ -27,8 +28,7 @@ export default function HomeList(props) {
   const [tab, setTab] = useState("Teammate");
   const [searchText, setSearchText] = useState("");
   const [searchText2, setSearchText2] = useState("");
-
-
+  const navigate = useNavigate();
   function handleViewChange() {
     props.onChange(false)
   }
@@ -481,7 +481,7 @@ export default function HomeList(props) {
                               />
                               <FontAwesomeIcon
                                 onClick={() => {
-                                  handleViewChange()
+                                  navigate('/manager/home/block')
                                 }}
                                 icon="fa-solid fa-grip "
                                 style={{ paddingRight: '1em', fontSize: "20px" }}

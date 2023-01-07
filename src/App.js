@@ -10,6 +10,7 @@ import LoginHome from "./components/LoginPages/LoginHome";
 import SignUpResponse from "./components/LoginPages/SignUpResponse";
 import ForgotPassword from "./components/LoginPages/ForgotPassword";
 import Analytics from "./components/Manager/Analytics";
+import HomeBlock from "./components/Manager/HomeBlock";
 
 export default function App() {
   return (
@@ -58,6 +59,9 @@ export default function App() {
         <Route
           path="/teamMate/home"
           element={<TeamMateHome />}></Route>
+        <Route
+          path="/manager/home/block"
+          element={<HomeBlock />}></Route>
       </Routes>
     </Router>
   );
