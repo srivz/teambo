@@ -50,12 +50,13 @@ export default function TeammateTable(props) {
         }
 
         emailjs.send("service_8babtb3", "template_3e3kpdk", info, "E1o2OcJneKcoyHqxA").then((res) => {
-
+            alert("Email send Successfully");
+            set(ref(db, `/teammate/${id}/tasks/${index}/updates/${latest}/status`), "Completed")
+                .catch((err) => {
+                    console.log(err);
+                });
         }).catch((err) => console.log(err));
-        set(ref(db, `/teammate/${id}/tasks/${index}/updates/${latest}/status`), "Completed")
-            .catch((err) => {
-                console.log(err);
-            });
+
     }
     function swap(arr, from, to) {
         let temp = arr[from]
