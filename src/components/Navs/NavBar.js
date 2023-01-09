@@ -26,7 +26,7 @@ export default function NavBar({ user, user2, name, role }) {
               style={{ marginTop: ".5em", fontSize: "13px" }}>
               {user}
             </span>
-            <a href={user2 === "ANALYTICS" ? "/manager/home" : "/manager/analytics"} >
+            <a href={user2 === "ANALYTICS" ? "/manager/home/list" : "/manager/analytics"} >
               <span style={{
                 marginLeft: "1.5em",
                 border: "2px black"
