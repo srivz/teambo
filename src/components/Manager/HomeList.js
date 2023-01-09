@@ -24,10 +24,10 @@ import { onAuthStateChanged } from 'firebase/auth'
 
 export default function HomeList() {
   const [selected, setSelected] = useState(
-    JSON.parse(localStorage.getItem("teammateSelected"))
+    JSON.parse(localStorage.getItem("teammateSelected")) === undefined ? null : JSON.parse(localStorage.getItem("teammateSelected"))
   );
   const [clientSelected, setClientSelected] = useState(
-    JSON.parse(localStorage.getItem('clientSelected')),);
+    JSON.parse(localStorage.getItem('clientSelected')) === undefined ? null : JSON.parse(localStorage.getItem('clientSelected')),);
   const [filter, setFilter] = useState("All");
   const [teammateEmail, setTeammateEmail] = useState('');
   const [loading, setLoading] = useState(false);
