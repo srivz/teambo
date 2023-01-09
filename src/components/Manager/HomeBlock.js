@@ -23,9 +23,6 @@ export default function HomeBlock(props) {
   const [selected, setSelected] = useState(
     JSON.parse(localStorage.getItem("teammateSelected"))
   );
-  function handleViewChange() {
-    props.onChange(true);
-  }
 
   const [manager, setManager] = useState({})
   const [once, setOnce] = useState(true)
@@ -78,9 +75,6 @@ export default function HomeBlock(props) {
     setOnce1(false)
   }
 
-
-
-
   const handleDeleteTask = (teammate, id, index) => {
     let list1 = teammate.tasks.slice(0, index);
     let list2 = teammate.tasks.slice(index + 1);
@@ -90,8 +84,6 @@ export default function HomeBlock(props) {
         console.log(err);
       });
   }
-
-
 
   function dragStart(e, index, list, id) {
     fromTeammate.current.id = id;
@@ -173,7 +165,9 @@ export default function HomeBlock(props) {
         user2="MANAGER"
         name={manager.name}
         role={manager.designation}
-      />{
+      />
+
+      {
         loading ? <Loader /> : <div id="main">
           <Container>
             <Row className="curve-box-homelist">
@@ -232,7 +226,7 @@ export default function HomeBlock(props) {
                               <div>
                                 <FontAwesomeIcon
                                   onClick={() => {
-                                    handleViewChange();
+                                    navigate('/manager/home/list');
                                   }}
                                   icon="fa-solid fa-list"
                                   style={{ paddingRight: "1em", fontSize: "20px" }}

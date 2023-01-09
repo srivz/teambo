@@ -24,7 +24,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 
 export default function HomeList() {
   const [selected, setSelected] = useState(
-    JSON.parse(localStorage.getItem('teammateSelected')),
+    JSON.parse(localStorage.getItem("teammateSelected"))
   );
   const [clientSelected, setClientSelected] = useState(
     JSON.parse(localStorage.getItem('clientSelected')),);
@@ -677,21 +677,6 @@ export default function HomeList() {
                                     </Dropdown.Item>
                                   </Dropdown.Menu>
                                 </Dropdown>
-                                {/* <FontAwesomeIcon
-                                  icon="fa-solid fa-list"
-                                  color="#5f8fee"
-                                  style={{
-                                    paddingRight: '1em', fontSize: "20px"
-                                  }}
-                                />
-                                <FontAwesomeIcon
-                                  onClick={() => {
-                                    handleViewChange()
-                                  }}
-                                  icon="fa-solid fa-grip "
-                                  style={{ paddingRight: '1em', fontSize: "20px" }}
-                                />
-                                <NewTask /> */}
                               </div>
                             </Col>
                           </Row>)
