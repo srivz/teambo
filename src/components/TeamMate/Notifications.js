@@ -19,7 +19,7 @@ export default function Notifications(props) {
             set(ref(db, `manager/${managerId}/teammates/`), [{ data: props?.teammate, teammateId: props?.id }])
             remove(ref(db, `manager/${managerId}/teammates/0/data/notifications/`))
             updateProfile(auth.currentUser, {
-                phoneNumber: managerId
+                phoneNumber: managerId, tenantId: 0
             })
         } else {
             let newArr = []
@@ -37,7 +37,7 @@ export default function Notifications(props) {
                 set(ref(db, `manager/${managerId}/teammates/`), newArr2)
                 remove(ref(db, `manager/${managerId}/teammates/${newArr2.length - 1}/data/notifications/`))
                 updateProfile(auth.currentUser, {
-                    phoneNumber: managerId
+                    phoneNumber: managerId, tenantId: newArr2.length - 1
                 })
             }
         }
