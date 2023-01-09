@@ -93,7 +93,7 @@ export default function Home() {
     if (teammateSet === undefined) {
       if (teamRequest === undefined) {
         let newArr = [{ managerId, managerName }]
-        set(ref(db, `teammate/${newId}/notifications/requests`), newArr)
+        set(ref(db, `teammate/${newId}/notifications/`), { requests: newArr })
       } else {
         let newArr = []
         let exists = false
@@ -107,7 +107,7 @@ export default function Home() {
           alert('Already requested !')
         } else {
           let newArr2 = [...newArr, { managerId, managerName }]
-          set(ref(db, `teammate/${newId}/notifications/requests`), newArr2)
+          set(ref(db, `teammate/${newId}/notifications/`), { requests: newArr2 })
         }
       }
     } else {
@@ -121,7 +121,7 @@ export default function Home() {
       } else {
         if (teamRequest === undefined) {
           let newArr = [{ managerId, managerName }]
-          set(ref(db, `teammate/${newId}/notifications/requests`), newArr)
+          set(ref(db, `teammate/${newId}/notifications/`), { requests: newArr })
         } else {
           let newArr = []
           let exists = false
@@ -135,7 +135,7 @@ export default function Home() {
             alert('Already requested !')
           } else {
             let newArr2 = [...newArr, { managerId, managerName }]
-            set(ref(db, `teammate/${newId}/notifications/requests`), newArr2)
+            set(ref(db, `teammate/${newId}/notifications/`), { requests: newArr2 })
           }
         }
       }

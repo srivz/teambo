@@ -48,7 +48,7 @@ export default function Home() {
     }
   })
 
-  onChildChanged(ref(db, `/teammate/${id}`), () => { 
+  // onChildChanged(ref(db, `/teammate/${id}`), () => {
     // onValue(ref(db, `teammate/${id}`), (snapshot) => {
     //   if (snapshot.exists()) {
     //     setTeammate(snapshot.val())
@@ -56,7 +56,7 @@ export default function Home() {
     //     console.log('No data available')
     //   }
     // })
-  })
+  // })
 
   const playTask = (e, index, length) => {
     var now = new Date()
@@ -71,7 +71,6 @@ export default function Home() {
           startTimeInMs: timeInMs,
         })
       } else if (task.updates[task.updates.length - 1].status === 'On Going') {
-        // alert(length)
         pauseTask(e, i, length)
       }
     })
