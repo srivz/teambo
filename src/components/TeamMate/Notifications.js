@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { updateProfile } from 'firebase/auth'
-import { onValue, ref, remove, set } from 'firebase/database'
+import { onValue, ref, remove, set, update } from 'firebase/database'
 import React, { useState } from 'react'
 import {
     Badge,
@@ -9,24 +9,22 @@ import {
     OverlayTrigger,
     Row,
 } from 'react-bootstrap'
-import { auth, db } from '../../firebase-config'
+import { db } from '../../firebase-config'
 
 export default function Notifications(props) {
     const [once2, setOnce2] = useState(true)
 
     const acceptChange = (managerId, managerTeam) => {
         if (managerTeam === undefined) {
+            set(ref(db, `teammate/${props?.id}/link`), { index: 0, managerId: managerId })
             set(ref(db, `manager/${managerId}/teammates/`), [{
                 data: props?.teammate, teammateId: props?.id, teammateIndex: 0
             }])
             remove(ref(db, `manager/${managerId}/teammates/0/data/notifications/`))
-            updateProfile(auth.currentUser, {
-                phoneNumber: 0, tenantId: managerId
-            })
+
         } else {
             let newArr = []
             let exists = false
-            console.log(managerTeam)
             managerTeam.forEach((element) => {
                 if (element.teammateId === props?.id) {
                     exists = true
@@ -35,12 +33,11 @@ export default function Notifications(props) {
             })
             if (exists) {
             } else {
+                set(ref(db, `teammate/${props?.id}/link`), { index: newArr.length, managerId: managerId })
                 let newArr2 = [...newArr, { data: props?.teammate, teammateId: props?.id, teammateIndex: newArr.length }]
                 set(ref(db, `manager/${managerId}/teammates/`), newArr2)
                 remove(ref(db, `manager/${managerId}/teammates/${newArr.length}/data/notifications/`))
-                updateProfile(auth.currentUser, {
-                    phoneNumber: newArr.length, tenantId: managerId
-                })
+
             }
         }
     }

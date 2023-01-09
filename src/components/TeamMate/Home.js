@@ -20,6 +20,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [taskSelected, setTaskSelected] = useState()
   const [once, setOnce] = useState(true)
+  const [once1, setOnce1] = useState(true)
   const [teammate, setTeammate] = useState({})
   const [id, setId] = useState('')
   const [filter, setFilter] = useState('All')
@@ -27,16 +28,16 @@ export default function Home() {
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      alert(user.phoneNumber)
-      if (user.phoneNumber === null) {
         if (once) {
           setLoading(true)
           let id = user.email.split('.')
           let newId = id.join('_')
-          onValue(ref(db, `teammate/${newId}`), (snapshot) => {
+          onValue(ref(db, `/teammate/${newId}`), (snapshot) => {
             if (snapshot.exists()) {
               setTeammate(snapshot.val())
               setId(newId)
+              if (snapshot.val().index && snapshot.val().managerId)
+                getDetails(snapshot.val().managerId, snapshot.val().index)
               setLoading(false)
             } else {
               setLoading(false)
@@ -45,29 +46,26 @@ export default function Home() {
           })
           setOnce(false)
         }
-      } else {
-        if (once) {
-          setLoading(true)
-          let id = user.email.split('.')
-          let newId = id.join('_')
-          alert(user.tenantId)
-          onValue(ref(db, `/manager/${user.phoneNumber}/teammates/${user.tenantId}/data`), (snapshot) => {
-            if (snapshot.exists()) {
-              setTeammate(snapshot.val())
-              setId(newId)
-              setLoading(false)
-            } else {
-              setLoading(false)
-              console.log('No data available')
-            }
-          })
-          setOnce(false)
-        }
-      }
     } else {
       window.location.href = '/'
     }
   })
+
+  const getDetails = (managerId, index) => {
+    if (once1) {
+      setLoading(true)
+      onValue(ref(db, `/manager/${managerId}/teammates/${index}/data`), (snapshot) => {
+        if (snapshot.exists()) {
+          setTeammate(snapshot.val())
+          setLoading(false)
+        } else {
+          setLoading(false)
+          console.log('No data available')
+        }
+      })
+      setOnce1(false)
+    }
+  }
 
   const playTask = (e, index, length) => {
     var now = new Date()
@@ -76,7 +74,7 @@ export default function Home() {
       now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds()
     teammate.tasks.forEach((task, i) => {
       if (i === index) {
-        update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
+        update(ref(db, `/manager/${auth.currentUser.tenantId}/teammates/${auth.currentUser.phoneNumber}/data/tasks/${index}/updates/${length - 1}`), {
           status: 'On Going',
           startTime: time,
           startTimeInMs: timeInMs,
@@ -129,7 +127,7 @@ export default function Home() {
     }
     var timeGapInMs = totTime
     var timeGap = getHourFormatFromMilliSeconds(totTime)
-    update(ref(db, `teammate/${id}/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), {
+    update(ref(db, `/manager/${auth.currentUser.tenantId}/teammates/${auth.currentUser.phoneNumber}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), {
       status: 'Paused',
       startTime: 0,
       startTimeInMs: 0,
@@ -156,7 +154,7 @@ export default function Home() {
     }
     var timeGapInMs = totTime
     var timeGap = getHourFormatFromMilliSeconds(totTime)
-    update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
+    update(ref(db, `/manager/${auth.currentUser.tenantId}/teammates/${auth.currentUser.phoneNumber}/data/tasks/${index}/updates/${length - 1}`), {
       status: 'Done',
       totalTime: timeGap,
       totalTimeInMs: timeGapInMs,
@@ -250,7 +248,7 @@ export default function Home() {
               user2="TEAMMATE"
             name={teammate.name}
             role={teammate.designation}
-          />
+            />{console.log(teammate)}
             <Container>
             <Container>
               <Row>
