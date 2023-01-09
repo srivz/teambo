@@ -292,7 +292,6 @@ export default function HomeBlock(props) {
                                     return (
                                       <div
                                         key={index}
-
                                         className="card-tasks">
                                         <Row draggable
                                           onDragStart={(e) => {
@@ -361,8 +360,9 @@ export default function HomeBlock(props) {
                                             )}
                                           </Col>
                                         </Row>
-                                        <hr className="divider" />
+                                        {index !== info1.updates.length ? <hr className="divider" /> : <></>}
                                       </div>
+
                                     );
                                   })
                                 )}
