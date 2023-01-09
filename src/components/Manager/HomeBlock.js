@@ -31,11 +31,7 @@ export default function HomeBlock(props) {
   const [once, setOnce] = useState(true)
   const [loading, setLoading] = useState(true)
   const [once1, setOnce1] = useState(true)
-  const [managerId, setManagerId] = useState('')
-  const [managerName, setManagerName] = useState('')
   const [teammateList, setTeammateList] = useState([])
-  const [teammateSet, setTeammateSet] = useState([])
-  const [allTasks, setAllTasks] = useState([])
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -45,9 +41,6 @@ export default function HomeBlock(props) {
           if (snapshot.exists()) {
             let data = snapshot.val()
             setManager(data)
-            setManagerId(user.uid)
-            setManagerName(user.displayName)
-            setTeammateSet(data.teammates)
             if (data.teammates !== undefined) {
               getTeammates(data.teammates)
             }
@@ -74,9 +67,6 @@ export default function HomeBlock(props) {
               ...teammateList,
               { data, teammate },
             ])
-            setAllTasks((oldTasks) => {
-              return [...oldTasks, { tasks: data.tasks, teammateEmail: teammate, teammate: data.name, teammateDesignation: data.designation }]
-            })
             setLoading(false);
           } else {
             console.log('No data available')
@@ -204,7 +194,7 @@ export default function HomeBlock(props) {
                       <div>
                         <FontAwesomeIcon
                           onClick={() => {
-                            navigate('/manager/home')
+                            navigate('/manager/home/list')
                           }}
                           icon="fa-solid fa-list"
                           style={{ paddingRight: "1em", fontSize: "20px" }}

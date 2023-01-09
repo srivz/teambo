@@ -16,7 +16,13 @@ import NewTask from "./NewTask";
 import ClientTable from './ClientTable';
 import TeammateTable from './TeammateTable';
 import { useNavigate } from 'react-router'
-export default function HomeList(props) {
+import NavBar from '../Navs/NavBar';
+import { auth, db } from '../../firebase-config'
+import { onChildChanged, onValue, ref, set } from 'firebase/database'
+import { onAuthStateChanged } from 'firebase/auth'
+
+
+export default function HomeList() {
   const [selected, setSelected] = useState(
     JSON.parse(localStorage.getItem('teammateSelected')),
   );
@@ -28,10 +34,17 @@ export default function HomeList(props) {
   const [tab, setTab] = useState("Teammate");
   const [searchText, setSearchText] = useState("");
   const [searchText2, setSearchText2] = useState("");
+  const [manager, setManager] = useState({})
+  const [once, setOnce] = useState(true)
+  const [once1, setOnce1] = useState(true)
+  const [managerId, setManagerId] = useState('')
+  const [managerName, setManagerName] = useState('')
+  const [teamRequest, setTeamRequest] = useState([])
+  const [teammateList, setTeammateList] = useState([])
+  const [teammateSet, setTeammateSet] = useState([])
+  const [allTasks, setAllTasks] = useState([])
+
   const navigate = useNavigate();
-  function handleViewChange() {
-    props.onChange(false)
-  }
   useEffect(() => {
     return () => {
       if (tab === "Company") {
@@ -61,6 +74,54 @@ export default function HomeList(props) {
     }
   }, [tab])
 
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      if (once) {
+        setLoading(true)
+        onValue(ref(db, `manager/${user.uid}`), (snapshot) => {
+          if (snapshot.exists()) {
+            let data = snapshot.val()
+            setManager(data)
+            setManagerId(user.uid)
+            setManagerName(user.displayName)
+            setTeammateSet(data.teammates)
+            if (data.teammates !== undefined) {
+              getTeammates(data.teammates)
+            }
+            console.log('No')
+          } else {
+            console.log('No data available')
+          }
+          setLoading(false)
+        })
+        setOnce(false)
+      }
+    } else {
+      window.location.href = '/'
+    }
+  })
+
+  const getTeammates = (teamList) => {
+    if (once1) {
+      teamList.forEach((teammate) => {
+        onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
+          if (snapshot.exists()) {
+            const data = snapshot.val()
+            setTeammateList((teammateList) => [
+              ...teammateList,
+              { data, teammate },
+            ])
+            setAllTasks((oldTasks) => {
+              return [...oldTasks, { tasks: data.tasks, teammateEmail: teammate, teammate: data.name, teammateDesignation: data.designation }]
+            })
+          } else {
+            console.log('No data available')
+          }
+        })
+      })
+      setOnce1(false)
+    }
+  }
 
   const dateFormatChange = (date) => {
     if (date === '--' || !date) {
@@ -128,16 +189,94 @@ export default function HomeList(props) {
       return hour + ':' + minute + ' am'
     }
   }
+  const getTeammatesWithMail = (teammate) => {
+    onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val()
+        setTeamRequest(data.notifications)
+        return true
+      } else {
+        alert('User not available')
+      }
+    })
+  }
+
   const addTeammate = () => {
-    props.addTeammate(teammateEmail);
+    if (teammateEmail === '') {
+      alert('Enter email first')
+      return
+    }
+    let id = teammateEmail.split('.')
+    let newId = id.join('_')
+    getTeammatesWithMail(newId)
+    if (teammateSet === undefined) {
+      if (teamRequest === undefined) {
+        let newArr = [{ managerId, managerName }]
+        set(ref(db, `teammate/${newId}/notifications/`), { requests: newArr })
+      } else {
+        let newArr = []
+        let exists = false
+        teamRequest.forEach((element) => {
+          if (element.managerId === managerId) {
+            exists = true
+          }
+          newArr.push(element)
+        })
+        if (exists) {
+          alert('Already requested !')
+        } else {
+          let newArr2 = [...newArr, { managerId, managerName }]
+          set(ref(db, `teammate/${newId}/notifications/`), { requests: newArr2 })
+        }
+      }
+    } else {
+      let newArr = []
+      teammateSet.forEach((element) => {
+        newArr.push(element)
+      })
+      let exist = newArr.includes(newId)
+      if (exist) {
+        alert('Already a Teammate !')
+      } else {
+        if (teamRequest === undefined) {
+          let newArr = [{ managerId, managerName }]
+          set(ref(db, `teammate/${newId}/notifications/`), { requests: newArr })
+        } else {
+          let newArr = []
+          let exists = false
+          teamRequest.forEach((element) => {
+            if (element.managerId === managerId) {
+              exists = true
+            }
+            newArr.push(element)
+          })
+          if (exists) {
+            alert('Already requested !')
+          } else {
+            let newArr2 = [...newArr, { managerId, managerName }]
+            set(ref(db, `teammate/${newId}/notifications/`), { requests: newArr2 })
+          }
+        }
+      }
+    }
   };
 
+  onChildChanged(ref(db, `/teammate/`), () => {
+    window.location.reload()
+  })
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
           <div id="main" style={{ backgroundColor: "#fff" }}>
+
+            <NavBar
+              user="MANAGER"
+              user2="MANAGER"
+              name={manager.name}
+              role={manager.designation}
+            />
             <Container>
             <Row>
                 <Col sm={3} md={3} style={{ marginTop: '1em' }}>
@@ -245,11 +384,11 @@ export default function HomeList(props) {
                             <TableRow></TableRow>
                           </TableHead>
                             <TableBody>
-                              {!props.team ? (
+                              {!teammateList ? (
                                 <TableRow colSpan={7} align="center">
                                 No teammate right now
                               </TableRow>
-                              ) : (props?.team?.filter((info) => {
+                              ) : (teammateList?.filter((info) => {
                                 return info.data?.name.toLowerCase().includes(searchText?.toLowerCase())
                               })?.map((info) => {
                                 return (
@@ -322,14 +461,14 @@ export default function HomeList(props) {
                             <TableRow></TableRow>
                           </TableHead>
                           <TableBody>
-                              {!props?.manager?.clients ? (
+                              {!manager?.clients ? (
                               <TableRow
                                 colSpan={7}
                                 align="center">
                                   No Clients right now
                               </TableRow>
                               ) : (
-                                  props?.manager?.clients?.filter((info) => {
+                                  manager?.clients?.filter((info) => {
                                     return info.toLowerCase().includes(searchText2?.toLowerCase())
                                   })
                                     ?.map((info) => {
@@ -389,29 +528,10 @@ export default function HomeList(props) {
                         style={{ marginTop: '1em' }}
                         className="text-end"
                       >
-                      <div>
-                          {/* <FontAwesomeIcon
-                          icon="fa-solid fa-list"
-                          color="#5f8fee"
-                            style={{ paddingRight: '1em', fontSize: "20px" }}
-                        />
-
-                        <FontAwesomeIcon
-                          onClick={() => {
-                              handleViewChange()
-                          }}
-                          icon="fa-solid fa-grip "
-                            style={{ paddingRight: '1em', fontSize: "20px" }}
-                        />
-                        <NewTask
-                            name={'No Teammate'}
-                            designation={'Selected'}
-                        /> */}
-                      </div>
                     </Col>
                   </Row>
                 ) : (
-                      tab === "Teammate" ? props?.team
+                      tab === "Teammate" ? teammateList
                     .filter((info) => info.teammate === selected)
                     .map((info, index) => {
                       return (
@@ -491,14 +611,14 @@ export default function HomeList(props) {
                                 designation={info.data.designation}
                                 teammate={info.teammate}
                                 tasks={info.data.tasks}
-                                manager={props.manager}
-                                managerId={props.managerId}
+                                manager={manager}
+                                managerId={managerId}
                               />
                             </div>
                           </Col>
                         </Row>
                       )
-                    }) : (props?.manager?.clients
+                    }) : (manager?.clients
                           ?.filter((info) => info === clientSelected)
                       .map((info) => {
                         return (
@@ -581,22 +701,19 @@ export default function HomeList(props) {
                   <Row className="table-height1">
                       <Col>
                         {
-                          props?.team && tab === "Teammate" ?
+                          teammateList && tab === "Teammate" ?
                             <TeammateTable
                               filterTeammate={filter}
                               teammateselected={selected}
-                              viewType={props?.viewType}
-                              team={props?.team}
-                              onChange={props?.onChange}
-                              addTeammate={props?.addTeammate}
-                              manager={props?.manager}
-                              managerId={props?.managerId}
-                              allTasks={props?.allTasks} />
+                              team={teammateList}
+                              addTeammate={addTeammate}
+                              manager={manager}
+                              allTasks={allTasks} />
                             : <></>}
                         {
-                          props?.allTasks && tab === "Company" ? <ClientTable
+                          allTasks && tab === "Company" ? <ClientTable
                               filter={filter}
-                            allTasks={props?.allTasks}
+                            allTasks={allTasks}
                               clientSelected={clientSelected}
                               dateFormatChange={dateFormatChange}
                             timeFormatChange={timeFormatChange} /> : <></>
