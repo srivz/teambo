@@ -57,7 +57,6 @@ export default function HomeList() {
             setManagerId(user.uid)
             setManagerName(user.displayName)
             setTeammateSet(data.teammates)
-            console.log(data.teammates)
             if (data.teammates !== undefined) {
               getTeammates(data.teammates)
             }
@@ -75,13 +74,13 @@ export default function HomeList() {
 
   const getTeammates = (teamList) => {
     if (once1) {
-      teamList.forEach((teammate1, teammateIndex) => {
+      setTeammateList(teamList)
+      teamList.forEach((teammate1) => {
         let data = teammate1.data;
         let teammate = teammate1.teammateId;
-        setTeammateList(
-          teammateList.concat([{ data, teammate, teammateIndex }])
-        )
-        setAllTasks(allTasks.concat([{ tasks: data.tasks, teammateEmail: teammate, teammate: data.name, teammateDesignation: data.designation }]))
+        setAllTasks((oldTasks) => {
+          return [...oldTasks, { tasks: data.tasks, teammateEmail: teammate, teammate: data.name, teammateDesignation: data.designation }]
+        })
         })
     }
       setOnce1(false)
@@ -226,22 +225,18 @@ export default function HomeList() {
     }
   };
 
-  // onChildChanged(ref(db, `/teammate/`), () => {
-  //   window.location.reload()
-  // })
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
           <div id="main" style={{ backgroundColor: "#fff" }}>
-
             <NavBar
               user="MANAGER"
               user2="MANAGER"
               name={manager.name}
               role={manager.designation}
-            />{console.log(teammateList)}
+            />
             <Container>
             <Row>
                 <Col sm={3} md={3} style={{ marginTop: '1em' }}>
@@ -363,16 +358,16 @@ export default function HomeList() {
                                     onClick={() => {
                                       localStorage.setItem(
                                         'teammateSelected',
-                                        JSON.stringify(info.teammate)
+                                        JSON.stringify(info.teammateId)
                                       );
-                                      setSelected(info.teammate);
+                                      setSelected(info.teammateId);
                                     }}
                                     style={{ backgroundColor: "#fff !important" }}
                                   >
                                     <TableCell
                                       style={{
                                         backgroundColor:
-                                          selected === info.teammate
+                                          selected === info.teammateId
                                             ? '#E2ECFF'
                                             : '#F9FBFF',
                                         height: 'fit-content',
@@ -497,7 +492,7 @@ export default function HomeList() {
                   </Row>
                 ) : (
                       tab === "Teammate" ? teammateList
-                    .filter((info) => info.teammate === selected)
+                        .filter((info) => info.teammateId === selected)
                     .map((info, index) => {
                       return (
                         <Row key={index}>

@@ -21,6 +21,7 @@ export default function TeammateTable(props) {
     // const [teammateEmail, setTeammateEmail] = useState('');
     const [switchTask, setSwitchTask] = useState()
     const [prevTeammateId, setPrevTeammateId] = useState("");
+    const [prevTeammateIndex, setPrevTeammateIndex] = useState("");
     const [prevTaskIndex, setPrevTaskIndex] = useState()
     const [dragStyle, setDragStyle] = useState("blur(0px)")
 
@@ -35,7 +36,7 @@ export default function TeammateTable(props) {
         let list2 = teammate.tasks.slice(index + 1);
         let list = list1.concat(list2)
 
-        set(ref(db, `/manager/${props?.managerId}/teammates/${props?.team.teammateIndex}/data/tasks`), list)
+        set(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks`), list)
             .catch((err) => {
                 console.log(err);
             });
@@ -155,24 +156,13 @@ export default function TeammateTable(props) {
     }
     const dragStart = (e, index) => {
         dragItem.current = index;
-        setDragStyle("blur(1px)")
 
     }
     const dragEnter = (e, index) => {
         dragOverItem.current = index;
-        // console.log(e.target.classList.add("hidden"))
-        // if (e.target.style.visibility === "hidden") {
-        //     e.target.style.visibility = "visible"
-        // } else {
-        //     e.target.style.visibility = "hidden"
-        // }
     }
 
     const drop = (e, list, id) => {
-        if (dragItem.current === dragOverItem.current) {
-            setDragStyle("blur(0px)")
-            return;
-        }
         let copyList = [...list];
         const dragItemContent = copyList[dragItem.current];
         copyList.splice(dragItem.current, 1);
@@ -258,7 +248,7 @@ export default function TeammateTable(props) {
 
             <TableBody className="curve-box-homelist" >
                 {props?.team
-                    .filter((info) => info.teammate === selected)
+                    .filter((info) => info.teammateId === selected)
                     .map((info) => {
                         return (
                             <>
@@ -641,7 +631,8 @@ export default function TeammateTable(props) {
                                                                             textAlign: 'left',
                                                                         }}
                                                                         onClick={(e) => {
-                                                                            setPrevTeammateId(info.teammate)
+                                                                            setPrevTeammateId(info.teammateId)
+                                                                            setPrevTeammateIndex(info.teammateIndex)
                                                                             setPrevTaskIndex(index)
                                                                             setSwitchTask(info1)
 
@@ -668,7 +659,7 @@ export default function TeammateTable(props) {
                                                                             onClick={() => {
                                                                                 handleDeleteTask(
                                                                                     info.data,
-                                                                                    info.teammate,
+                                                                                    info.teammateIndex,
                                                                                     index,
                                                                                 )
                                                                             }}
@@ -708,7 +699,7 @@ export default function TeammateTable(props) {
                                 {info.data.tasks && taskSelected !== null ? (
                                     <TaskHistory
                                         show={modalShow}
-                                        id={info.teammate}
+                                        id={info.teammateId}
                                         onHide={() => { setModalShow(false); setTaskSelected(null); }}
                                         indexselected={taskSelected}
                                         teamtasks={info.data.tasks}
@@ -723,10 +714,10 @@ export default function TeammateTable(props) {
                                     setSwitchTask={setSwitchTask}
                                     prevTaskList={info.data}
                                     props={props}
-
                                         switchTask={switchTask}
-                                        handleDeleteTask={handleDeleteTask}
-                                        prevTeammateId={prevTeammateId}
+                                    handleDeleteTask={handleDeleteTask}
+                                    prevTeammateIndex={prevTeammateIndex}
+                                    prevTeammateId={prevTeammateId}
                                         prevTaskIndex={prevTaskIndex}
                                     />}
                             </>

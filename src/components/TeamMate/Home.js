@@ -69,16 +69,6 @@ export default function Home() {
     }
   })
 
-  // onChildChanged(ref(db, `/teammate/${id}`), () => {
-    // onValue(ref(db, `teammate/${id}`), (snapshot) => {
-    //   if (snapshot.exists()) {
-    //     setTeammate(snapshot.val())
-    //   } else {
-    //     console.log('No data available')
-    //   }
-    // })
-  // })
-
   const playTask = (e, index, length) => {
     var now = new Date()
     var timeInMs = now.getTime()

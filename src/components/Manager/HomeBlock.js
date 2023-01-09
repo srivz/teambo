@@ -21,10 +21,11 @@ export default function HomeBlock(props) {
   const toTeammate = useRef({});
   const navigate = useNavigate();
   const [selected, setSelected] = useState(
-    JSON.parse(localStorage.getItem("teammateSelected"))
+    JSON.parse(localStorage.getItem("teammateSelected")) === undefined ? 0 : JSON.parse(localStorage.getItem("teammateSelected"))
   );
 
   const [manager, setManager] = useState({})
+  const [managerId, setManagerId] = useState({})
   const [once, setOnce] = useState(true)
   const [loading, setLoading] = useState(true)
   const [once1, setOnce1] = useState(true)
@@ -38,6 +39,7 @@ export default function HomeBlock(props) {
           if (snapshot.exists()) {
             let data = snapshot.val()
             setManager(data)
+            setManagerId(user.uid)
             if (data.teammates !== undefined) {
               getTeammates(data.teammates)
             }
@@ -55,13 +57,7 @@ export default function HomeBlock(props) {
 
   const getTeammates = (teamList) => {
     if (once1) {
-      teamList.forEach((teammate1, teammateIndex) => {
-        let data = teammate1.data;
-        let teammate = teammate1.teammateId;
-        setTeammateList(
-          teammateList.concat([{ data, teammate, teammateIndex }])
-        )
-      })
+      setTeammateList(teamList)
     }
     setOnce1(false)
   }
@@ -83,15 +79,12 @@ export default function HomeBlock(props) {
   }
 
   function dragEnter(e, index, list, id) {
-    console.log(id);
     toTeammate.current.id = id;
     toTeammate.current.tasks = list;
     toTeammate.current.taskIndex = index;
   }
 
   function drop(e, index, list, id) {
-    console.log(list);
-    console.log(toTeammate);
     if (fromTeammate.current.id === toTeammate.current.id && fromTeammate.current.taskIndex === toTeammate.current.taskIndex) {
       return;
     }
@@ -198,7 +191,7 @@ export default function HomeBlock(props) {
                   </Row>
                 ) : (
                     teammateList
-                      .filter((info) => info.teammate === selected)
+                      .filter((info) => info.teammateId === selected)
                       .map((info) => {
                         return selected ? (
                           <Row>
@@ -231,7 +224,10 @@ export default function HomeBlock(props) {
                                   name={info.data.name}
                                   designation={info.data.designation}
                                   teammate={info.teammate}
+                                  teammateIndex={info.teammateIndex}
                                   tasks={info.data.tasks}
+                                  manager={manager}
+                                  managerId={managerId}
                                 />
                               </div>
                             </Col>
@@ -260,9 +256,9 @@ export default function HomeBlock(props) {
                               onClick={() => {
                                 localStorage.setItem(
                                   "teammateSelected",
-                                  JSON.stringify(info.teammate)
+                                  JSON.stringify(info.teammateId)
                                 );
-                                setSelected(info.teammate);
+                                setSelected(info.teammateId);
                               }}>
                               <div className="cards">
                                 <div className="heading bg-blue p-3 rounded-3">
