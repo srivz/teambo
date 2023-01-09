@@ -43,7 +43,7 @@ export default function SwitchTask(props) {
         if (teammateId === '') {
             alert('First Select a teammate')
         } else {
-            set(ref(db, `/teammate/${teammateId}/tasks/${taskNumber}`), newTask,)
+            set(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/tasks/${taskNumber}`), newTask,)
                 .then(() => {
                     props?.handleDeleteTask(props?.prevTaskList, props?.prevTeammateId, props?.prevTaskIndex)
                 })

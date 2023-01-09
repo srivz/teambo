@@ -659,6 +659,7 @@ export default function HomeList() {
                               team={teammateList}
                               addTeammate={addTeammate}
                               manager={manager}
+                              managerId={managerId}
                               allTasks={allTasks} />
                             : <></>}
                         {

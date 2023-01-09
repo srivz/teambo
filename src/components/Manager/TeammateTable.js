@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import { onChildChanged, ref, set, update } from 'firebase/database'
+import { ref, set, update } from 'firebase/database'
 import emailjs from '@emailjs/browser';
 import React, { useRef, useState } from 'react'
 import {
@@ -726,7 +726,8 @@ export default function TeammateTable(props) {
                                     <SwitchTask
                                     setSwitchTask={setSwitchTask}
                                     prevTaskList={info.data}
-                                        props={props}
+                                    props={props}
+
                                         switchTask={switchTask}
                                         handleDeleteTask={handleDeleteTask}
                                         prevTeammateId={prevTeammateId}

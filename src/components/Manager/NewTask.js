@@ -123,7 +123,7 @@ export default function NewTask(props) {
   }
 
   const getTeammatesWithMail = () => {
-    onValue(ref(db, `/manager/${props.managerId}/teammates/${props?.teammateIndex}/data`), (snapshot) => {
+    onValue(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val()
         setTeamRequest(data.notifications)
@@ -135,14 +135,14 @@ export default function NewTask(props) {
   }
 
   const handleNewTask = (id, allTasks) => {
-    if (props.name === "No Teammate") {
+    if (props?.name === "No Teammate") {
       alert("Select a Teammate first")
     } else {
       getTeammatesWithMail()
       if (allTasks === undefined) {
         if (teamRequest === undefined) {
           let newArr = [newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
-          update(ref(db, `/manager/${props.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask], notifications: newArr })
+          update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask], notifications: newArr })
         } else {
           let newArr = []
           let exists = false
@@ -152,14 +152,14 @@ export default function NewTask(props) {
           })
           if (exists) {
             let newArr2 = [...newArr, newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
-            update(ref(db, `/manager/${props.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask], notifications: newArr2 })
+            update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask], notifications: newArr2 })
           }
         }
       }
       else {
         if (teamRequest === undefined) {
           let newArr = [newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
-          update(ref(db, `/teammate/${id}/`), { tasks: [newTask].concat(allTasks), notifications: newArr })
+          update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask].concat(allTasks), notifications: newArr })
         } else {
           let newArr = []
           let exists = false
@@ -169,7 +169,7 @@ export default function NewTask(props) {
           })
           if (exists) {
             let newArr2 = [...newArr, newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
-            update(ref(db, `/teammate/${id}/`), { tasks: [newTask].concat(allTasks), notifications: newArr2 })
+            update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask].concat(allTasks), notifications: newArr2 })
           }
         }
       }
@@ -179,29 +179,32 @@ export default function NewTask(props) {
 
  const searchClient=(e)=>{
   setNewClient(e.target.value)
-  const newFilter = props.manager?.clients.filter((val) => {
+   const newFilter = props?.manager?.clients.filter((val) => {
       return val.toLowerCase().includes(e.target.value.toLowerCase());
     });
     if (e.target.value === "") {
-      setClientList(props.manager?.clients);
+      setClientList(props?.manager?.clients);
     } else {
       setClientList(newFilter);
     }
  }
- const addClient=()=>{
-  if(props.manager.clients){
-   const clients=[...props.manager.clients,newClient];
-   update(ref(db, `manager/${props.managerId}/`), {
-     clients,
-   });
+  const addClient = () => {
+    if (props?.manager?.clients) {
+      if (props?.manager.clients.includes(newClient)) {
+        alert("Client Already Added")
+      } else {
+        const clients = [...props.manager.clients, newClient];
+        update(ref(db, `manager/${props?.managerId}/`), {
+          clients,
+        });
+      }
   }else{
     const clients = [newClient];
-     update(ref(db, `manager/${props.managerId}/`), {
+      update(ref(db, `manager/${props?.managerId}/`), {
     clients
      });
+    } 
   }
- }
-
   return (
     <>
       <OverlayTrigger
@@ -241,15 +244,14 @@ export default function NewTask(props) {
                         type="text"
                         name="newClient"
                         placeholder="&#xf002;    Search"
-                        value={newClient}
                         onChange={searchClient}
                       />
-                      <button onClick={addClient}>Add</button>
+                      <button onClick={() => { addClient(); }} >Add</button>
                     </div>
                     <div className=" client-dropdown-menu-list client-dropdown-menu-height">
                       <Row className="client-dropdown-menu-height">
                         {
-                          props.manager ? clientList?.length === 0 && newClient === "" ?
+                          props?.manager ? clientList?.length === 0 && newClient === "" ?
                             props?.manager?.clients?.map((client, index) => {
                               return (
                                 <Dropdown.Item
