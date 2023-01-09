@@ -56,9 +56,11 @@ export default function Notifications(props) {
     }
     const clearAllNotifications = () => {
         remove(ref(db, `teammate/${props?.id}/notifications`))
+        remove(ref(db, `manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/notifications/`))
     }
     const reject = (index) => {
-        remove(ref(db, `teammate/${props?.id}/notifications/requests/${index}`))
+        remove(ref(db, `teammate/${props?.id}/notifications`))
+        remove(ref(db, `manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/notifications/`))
     }
     return (
         <>

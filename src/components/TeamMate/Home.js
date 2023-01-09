@@ -24,6 +24,8 @@ export default function Home() {
   const [teammate, setTeammate] = useState({})
   const [id, setId] = useState('')
   const [filter, setFilter] = useState('All')
+  const [managerId, setManagerId] = useState('')
+  const [teammateIndex, setTeammateIndex] = useState('All')
   const [modalShow, setModalShow] = useState(false)
 
   onAuthStateChanged(auth, (user) => {
@@ -36,8 +38,11 @@ export default function Home() {
             if (snapshot.exists()) {
               setTeammate(snapshot.val())
               setId(newId)
-              if (snapshot.val().index && snapshot.val().managerId)
-                getDetails(snapshot.val().managerId, snapshot.val().index)
+              if (snapshot.val().link) {
+                setManagerId(snapshot.val().link.managerId)
+                setTeammateIndex(snapshot.val().link.index)
+                getDetails(snapshot.val().link.managerId, snapshot.val().link.index)
+              }
               setLoading(false)
             } else {
               setLoading(false)
@@ -269,7 +274,9 @@ export default function Home() {
                         alignItems: 'center',
                       }}
                         className="text- end"
-                      ><Notifications teammate={teammate} id={id} />
+                      ><Notifications teammate={teammate} id={id}
+                        managerId={managerId}
+                        teammateIndex={teammateIndex} />
                         <Dropdown style={{ width: '200px' }}>
                           <Dropdown.Toggle
                             style={{ height: '45px' }}
@@ -701,7 +708,7 @@ export default function Home() {
                                         }}
                                         indexselected={taskSelected}
                                         teamtasks={teammate.tasks}
-                                        name={teammate.name}
+                                              name={teammate.name}
                                         designation={teammate.designation}
                                       />
                                     ) : (
