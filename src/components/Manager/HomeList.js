@@ -18,7 +18,7 @@ import TeammateTable from './TeammateTable';
 import { useNavigate } from 'react-router'
 import NavBar from '../Navs/NavBar';
 import { auth, db } from '../../firebase-config'
-import { onChildChanged, onValue, ref, set } from 'firebase/database'
+import { onValue, ref, set } from 'firebase/database'
 import { onAuthStateChanged } from 'firebase/auth'
 
 
@@ -57,6 +57,7 @@ export default function HomeList() {
             setManagerId(user.uid)
             setManagerName(user.displayName)
             setTeammateSet(data.teammates)
+            console.log(data.teammates)
             if (data.teammates !== undefined) {
               getTeammates(data.teammates)
             }
@@ -80,13 +81,12 @@ export default function HomeList() {
         setTeammateList(
           teammateList.concat([{ data, teammate, teammateIndex }])
         )
-        setAllTasks((oldTasks) => {
-          return [...oldTasks, { tasks: data.tasks, teammateEmail: teammate, teammate: data.name, teammateDesignation: data.designation }]
+        setAllTasks(allTasks.concat([{ tasks: data.tasks, teammateEmail: teammate, teammate: data.name, teammateDesignation: data.designation }]))
         })
-      })
+    }
       setOnce1(false)
     }
-  }
+
 
   const dateFormatChange = (date) => {
     if (date === '--' || !date) {
@@ -226,9 +226,9 @@ export default function HomeList() {
     }
   };
 
-  onChildChanged(ref(db, `/teammate/`), () => {
-    window.location.reload()
-  })
+  // onChildChanged(ref(db, `/teammate/`), () => {
+  //   window.location.reload()
+  // })
   return (
     <>
       {loading ? (

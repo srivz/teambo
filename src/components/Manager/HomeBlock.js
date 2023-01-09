@@ -55,21 +55,12 @@ export default function HomeBlock(props) {
 
   const getTeammates = (teamList) => {
     if (once1) {
-      setLoading(true)
-      teamList.forEach((teammate) => {
-        onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
-          if (snapshot.exists()) {
-            const data = snapshot.val()
-            setTeammateList((teammateList) => [
-              ...teammateList,
-              { data, teammate },
-            ])
-            setLoading(false);
-          } else {
-            console.log('No data available')
-            setLoading(false)
-          }
-        })
+      teamList.forEach((teammate1, teammateIndex) => {
+        let data = teammate1.data;
+        let teammate = teammate1.teammateId;
+        setTeammateList(
+          teammateList.concat([{ data, teammate, teammateIndex }])
+        )
       })
     }
     setOnce1(false)
@@ -114,7 +105,6 @@ export default function HomeBlock(props) {
       update(ref(db, `teammate/${fromTeammate.current.id}/`), {
         tasks: copyList,
       })
-      window.location.reload()
     }
     else {
       var today = new Date()

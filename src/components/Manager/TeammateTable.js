@@ -35,7 +35,7 @@ export default function TeammateTable(props) {
         let list2 = teammate.tasks.slice(index + 1);
         let list = list1.concat(list2)
 
-        set(ref(db, `/teammate/${id}/tasks`), list)
+        set(ref(db, `/manager/${props?.managerId}/teammates/${props?.team.teammateIndex}/data/tasks`), list)
             .catch((err) => {
                 console.log(err);
             });
@@ -51,7 +51,7 @@ export default function TeammateTable(props) {
 
         emailjs.send("service_8babtb3", "template_3e3kpdk", info, "E1o2OcJneKcoyHqxA").then((res) => {
             alert("Email send Successfully");
-            set(ref(db, `/teammate/${id}/tasks/${index}/updates/${latest}/status`), "Completed")
+            set(ref(db, `/manager/${props?.managerId}/teammates/${props?.team.teammateIndex}/data/tasks/${index}/updates/${latest}/status`), "Completed")
                 .catch((err) => {
                     console.log(err);
                 });
@@ -136,7 +136,7 @@ export default function TeammateTable(props) {
         } else {
             let newarr = tasks
             swap(newarr, index, index - 1)
-            update(ref(db, `teammate/${id}/`), {
+            update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/`), {
                 tasks: newarr,
             })
         }
@@ -148,15 +148,11 @@ export default function TeammateTable(props) {
         } else {
             let newarr = tasks
             swap(newarr, index + 1, index)
-            update(ref(db, `teammate/${id}/`), {
+            update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/`), {
                 tasks: newarr,
             })
         }
     }
-    // const addTeammate = () => {
-    //     props?.addTeammate(teammateEmail);
-    // };
-
     const dragStart = (e, index) => {
         dragItem.current = index;
         setDragStyle("blur(1px)")
@@ -183,7 +179,7 @@ export default function TeammateTable(props) {
         copyList.splice(dragOverItem.current, 0, dragItemContent);
         dragItem.current = null;
         dragOverItem.current = null;
-        update(ref(db, `teammate/${id}/`), {
+        update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/`), {
             tasks: copyList,
         })
     }
@@ -304,7 +300,7 @@ export default function TeammateTable(props) {
                                                     dragEnter(e, index)
                                                 }}
                                                 onDragEnd={(e) => {
-                                                    drop(e, info?.data?.tasks, info?.teammate)
+                                                    drop(e, info?.data?.tasks, info?.teammateIndex)
                                                 }}
 
                                             >
@@ -575,7 +571,7 @@ export default function TeammateTable(props) {
                                                                         <Button
                                                                             onClick={() => {
                                                                                 handleUpTask(
-                                                                                    info.teammate,
+                                                                                    info.teammateIndex,
                                                                                     index,
                                                                                     info.data.tasks,
                                                                                     info.data.tasks
@@ -608,7 +604,7 @@ export default function TeammateTable(props) {
                                                                         <Button
                                                                             onClick={() => {
                                                                                 handleDownTask(
-                                                                                    info.teammate,
+                                                                                    info.teammateIndex,
                                                                                     index,
                                                                                     info.data.tasks,
                                                                                     info.data.tasks
