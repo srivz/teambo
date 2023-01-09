@@ -54,9 +54,6 @@ export default function Notifications(props) {
     const reject = (index) => {
         remove(ref(db, `teammate/${props?.id}/notifications/requests/${index}`))
     }
-    const notificationsList = (array) => {
-        return <p>{array}<br /></p>
-    }
     return (
         <>
             <OverlayTrigger
