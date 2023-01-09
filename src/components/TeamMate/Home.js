@@ -27,6 +27,7 @@ export default function Home() {
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
+      alert(user.phoneNumber)
       if (user.phoneNumber === null) {
         if (once) {
           setLoading(true)
@@ -49,7 +50,8 @@ export default function Home() {
           setLoading(true)
           let id = user.email.split('.')
           let newId = id.join('_')
-          onValue(ref(db, `manager/${user.phoneNumber}/teammate/${user.tenantId}/data`), (snapshot) => {
+          alert(user.tenantId)
+          onValue(ref(db, `/manager/${user.phoneNumber}/teammates/${user.tenantId}/data`), (snapshot) => {
             if (snapshot.exists()) {
               setTeammate(snapshot.val())
               setId(newId)

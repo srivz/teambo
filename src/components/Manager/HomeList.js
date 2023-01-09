@@ -74,13 +74,12 @@ export default function HomeList() {
 
   const getTeammates = (teamList) => {
     if (once1) {
-      teamList.forEach((teammate1) => {
+      teamList.forEach((teammate1, teammateIndex) => {
         let data = teammate1.data;
         let teammate = teammate1.teammateId;
-        setTeammateList((teammateList) => [
-          ...teammateList,
-          { data, teammate }
-        ])
+        setTeammateList(
+          teammateList.concat([{ data, teammate, teammateIndex }])
+        )
         setAllTasks((oldTasks) => {
           return [...oldTasks, { tasks: data.tasks, teammateEmail: teammate, teammate: data.name, teammateDesignation: data.designation }]
         })
@@ -242,7 +241,7 @@ export default function HomeList() {
               user2="MANAGER"
               name={manager.name}
               role={manager.designation}
-            />
+            />{console.log(teammateList)}
             <Container>
             <Row>
                 <Col sm={3} md={3} style={{ marginTop: '1em' }}>
@@ -576,6 +575,7 @@ export default function HomeList() {
                                 name={info.data.name}
                                 designation={info.data.designation}
                                 teammate={info.teammate}
+                                teammateIndex={info.teammateIndex}
                                 tasks={info.data.tasks}
                                 manager={manager}
                                 managerId={managerId}

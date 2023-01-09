@@ -16,10 +16,12 @@ export default function Notifications(props) {
 
     const acceptChange = (managerId, managerTeam) => {
         if (managerTeam === undefined) {
-            set(ref(db, `manager/${managerId}/teammates/`), [{ data: props?.teammate, teammateId: props?.id }])
+            set(ref(db, `manager/${managerId}/teammates/`), [{
+                data: props?.teammate, teammateId: props?.id
+            }])
             remove(ref(db, `manager/${managerId}/teammates/0/data/notifications/`))
             updateProfile(auth.currentUser, {
-                phoneNumber: managerId, tenantId: 0
+                phoneNumber: 0, tenantId: managerId
             })
         } else {
             let newArr = []
@@ -35,9 +37,9 @@ export default function Notifications(props) {
             } else {
                 let newArr2 = [...newArr, { data: props?.teammate, teammateId: props?.id }]
                 set(ref(db, `manager/${managerId}/teammates/`), newArr2)
-                remove(ref(db, `manager/${managerId}/teammates/${newArr2.length - 1}/data/notifications/`))
+                remove(ref(db, `manager/${managerId}/teammates/${newArr.length}/data/notifications/`))
                 updateProfile(auth.currentUser, {
-                    phoneNumber: managerId, tenantId: newArr2.length - 1
+                    phoneNumber: newArr.length, tenantId: managerId
                 })
             }
         }

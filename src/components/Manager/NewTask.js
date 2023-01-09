@@ -122,8 +122,8 @@ export default function NewTask(props) {
     }
   }
 
-  const getTeammatesWithMail = (teammate) => {
-    onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
+  const getTeammatesWithMail = () => {
+    onValue(ref(db, `/manager/${props.managerId}/teammates/${props?.teammateIndex}/data`), (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val()
         setTeamRequest(data.notifications)
@@ -133,16 +133,16 @@ export default function NewTask(props) {
       }
     })
   }
+
   const handleNewTask = (id, allTasks) => {
     if (props.name === "No Teammate") {
       alert("Select a Teammate first")
     } else {
-
-      getTeammatesWithMail(id)
+      getTeammatesWithMail()
       if (allTasks === undefined) {
         if (teamRequest === undefined) {
           let newArr = [newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
-          update(ref(db, `/teammate/${id}/`), { tasks: [newTask], notifications: newArr })
+          update(ref(db, `/manager/${props.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask], notifications: newArr })
         } else {
           let newArr = []
           let exists = false
@@ -152,7 +152,7 @@ export default function NewTask(props) {
           })
           if (exists) {
             let newArr2 = [...newArr, newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
-            update(ref(db, `/teammate/${id}/`), { tasks: [newTask], notifications: newArr2 })
+            update(ref(db, `/manager/${props.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask], notifications: newArr2 })
           }
         }
       }
