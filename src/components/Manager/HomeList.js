@@ -60,7 +60,6 @@ export default function HomeList() {
             if (data.teammates !== undefined) {
               getTeammates(data.teammates)
             }
-            console.log('No')
           } else {
             console.log('No data available')
           }
@@ -75,20 +74,15 @@ export default function HomeList() {
 
   const getTeammates = (teamList) => {
     if (once1) {
-      teamList.forEach((teammate) => {
-        onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
-          if (snapshot.exists()) {
-            const data = snapshot.val()
-            setTeammateList((teammateList) => [
-              ...teammateList,
-              { data, teammate },
-            ])
-            setAllTasks((oldTasks) => {
-              return [...oldTasks, { tasks: data.tasks, teammateEmail: teammate, teammate: data.name, teammateDesignation: data.designation }]
-            })
-          } else {
-            console.log('No data available')
-          }
+      teamList.forEach((teammate1) => {
+        let data = teammate1.data;
+        let teammate = teammate1.teammateId;
+        setTeammateList((teammateList) => [
+          ...teammateList,
+          { data, teammate }
+        ])
+        setAllTasks((oldTasks) => {
+          return [...oldTasks, { tasks: data.tasks, teammateEmail: teammate, teammate: data.name, teammateDesignation: data.designation }]
         })
       })
       setOnce1(false)
@@ -440,46 +434,46 @@ export default function HomeList() {
                                   No Clients right now
                               </TableRow>
                               ) : (
-                                manager?.clients?.filter((info) => {
-                                  return info.toLowerCase().includes(searchText2?.toLowerCase())
-                                })
-                                  ?.map((info) => {
-                                    return (
-                                      <TableRow
-                                        key={info}
-                                        onClick={() => {
-                                          setClientSelected(info);
-                                          localStorage.setItem(
-                                            'clientSelected',
-                                            JSON.stringify(info)
-                                          );
-                                        }} style={{ backgroundColor: "#fff !important" }}
+                                  manager?.clients?.filter((info) => {
+                                    return info.toLowerCase().includes(searchText2?.toLowerCase())
+                                  })
+                                    ?.map((info) => {
+                                      return (
+                                        <TableRow
+                                          key={info}
+                                          onClick={() => {
+                                            setClientSelected(info);
+                                            localStorage.setItem(
+                                              'clientSelected',
+                                              JSON.stringify(info)
+                                            );
+                                          }} style={{ backgroundColor: "#fff !important" }}
 
-                                      className="box-shadow">
-                                      <TableCell
-                                        style={{
-                                          backgroundColor:
-                                            info === clientSelected
-                                              ? '#E2ECFF'
-                                              : '#F9FBFF',
-                                          height: 'fit-content',
-                                          borderRadius: '6px',
-                                          borderBottom: "1px solid #fff",
-                                          paddingTop: '1em',
-                                          paddingBottom: '0.5em',
-                                          cursor: "pointer"
-                                        }}>
-                                        <h5>{info}</h5>
-                                      </TableCell>
-                                    </TableRow>
-                                  )
-                                })
+                                          className="box-shadow">
+                                          <TableCell
+                                            style={{
+                                              backgroundColor:
+                                                info === clientSelected
+                                                  ? '#E2ECFF'
+                                                  : '#F9FBFF',
+                                              height: 'fit-content',
+                                              borderRadius: '6px',
+                                              borderBottom: "1px solid #fff",
+                                              paddingTop: '1em',
+                                              paddingBottom: '0.5em',
+                                              cursor: "pointer"
+                                            }}>
+                                            <h5>{info}</h5>
+                                          </TableCell>
+                                        </TableRow>
+                                      )
+                                    })
                             )}
                             </TableBody>
                         </Table>
                       </div>
                     </div>
-                    </Tab>
+                    </Tab> 
                   </Tabs>
               </Col>
               <Col
@@ -520,7 +514,7 @@ export default function HomeList() {
                             className="text-end"
                           >
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
-                              <Dropdown
+                              <Dropdown 
                                 style={{ width: "150px", marginRight: '1em' }}>
                                 <Dropdown.Toggle
                                   id="dropdown-basic"
@@ -605,7 +599,7 @@ export default function HomeList() {
                               className="text-end"
                             >
                               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
-                                <Dropdown
+                                <Dropdown 
                                   style={{ width: "200px" }}>
                                   <Dropdown.Toggle
                                     style={{ height: "45px" }}

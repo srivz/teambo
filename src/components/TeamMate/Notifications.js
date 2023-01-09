@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { onValue, ref, remove, update } from 'firebase/database'
+import { updateProfile } from 'firebase/auth'
+import { onValue, ref, remove, set } from 'firebase/database'
 import React, { useState } from 'react'
 import {
     Badge,
@@ -8,29 +9,36 @@ import {
     OverlayTrigger,
     Row,
 } from 'react-bootstrap'
-import { db } from '../../firebase-config'
+import { auth, db } from '../../firebase-config'
 
 export default function Notifications(props) {
     const [once2, setOnce2] = useState(true)
 
     const acceptChange = (managerId, managerTeam) => {
         if (managerTeam === undefined) {
-            update(ref(db, `manager/${managerId}/`), { teammates: [props?.id] })
-            remove(ref(db, `teammate/${props?.id}/notifications`))
+            set(ref(db, `manager/${managerId}/teammates/`), [{ data: props?.teammate, teammateId: props?.id }])
+            remove(ref(db, `manager/${managerId}/teammates/0/data/notifications/`))
+            updateProfile(auth.currentUser, {
+                phoneNumber: managerId
+            })
         } else {
             let newArr = []
             let exists = false
+            console.log(managerTeam)
             managerTeam.forEach((element) => {
-                if (element === props?.id) {
+                if (element.teammateId === props?.id) {
                     exists = true
                 }
                 newArr.push(element)
             })
             if (exists) {
             } else {
-                let newArr2 = [...newArr, props?.id]
-                update(ref(db, `manager/${managerId}/`), { teammates: newArr2 })
-                remove(ref(db, `teammate/${props?.id}/notifications`))
+                let newArr2 = [...newArr, { data: props?.teammate, teammateId: props?.id }]
+                set(ref(db, `manager/${managerId}/teammates/`), newArr2)
+                remove(ref(db, `manager/${managerId}/teammates/${newArr2.length - 1}/data/notifications/`))
+                updateProfile(auth.currentUser, {
+                    phoneNumber: managerId
+                })
             }
         }
     }
@@ -39,6 +47,7 @@ export default function Notifications(props) {
             onValue(ref(db, `manager/${managerId}`), (snapshot) => {
                 if (snapshot.exists()) {
                     let data = snapshot.val()
+                    remove(ref(db, `teammate/${props?.id}/notifications`))
                     acceptChange(managerId, data.teammates)
                 } else {
                     alert('No manager found')
@@ -47,7 +56,6 @@ export default function Notifications(props) {
             setOnce2(false)
         }
     }
-
     const clearAllNotifications = () => {
         remove(ref(db, `teammate/${props?.id}/notifications`))
     }

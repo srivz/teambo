@@ -27,21 +27,40 @@ export default function Home() {
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      if (once) {
-        setLoading(true)
-        let id = user.email.split('.')
-        let newId = id.join('_')
-        onValue(ref(db, `teammate/${newId}`), (snapshot) => {
-          if (snapshot.exists()) {
-            setTeammate(snapshot.val())
-            setId(newId)
-            setLoading(false)
-          } else {
-            setLoading(false)
-            console.log('No data available')
-          }
-        })
-        setOnce(false)
+      if (user.phoneNumber === null) {
+        if (once) {
+          setLoading(true)
+          let id = user.email.split('.')
+          let newId = id.join('_')
+          onValue(ref(db, `teammate/${newId}`), (snapshot) => {
+            if (snapshot.exists()) {
+              setTeammate(snapshot.val())
+              setId(newId)
+              setLoading(false)
+            } else {
+              setLoading(false)
+              console.log('No data available')
+            }
+          })
+          setOnce(false)
+        }
+      } else {
+        if (once) {
+          setLoading(true)
+          let id = user.email.split('.')
+          let newId = id.join('_')
+          onValue(ref(db, `manager/${user.phoneNumber}/teammate/${newId}`), (snapshot) => {
+            if (snapshot.exists()) {
+              setTeammate(snapshot.val())
+              setId(newId)
+              setLoading(false)
+            } else {
+              setLoading(false)
+              console.log('No data available')
+            }
+          })
+          setOnce(false)
+        }
       }
     } else {
       window.location.href = '/'

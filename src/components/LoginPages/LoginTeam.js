@@ -26,7 +26,7 @@ export default function LoginTeam({ text, user, name, role }) {
       .then((userCredential) => {
         const user = userCredential.user;
         if (user.photoURL === "Manager") {
-          window.location.href = "/manager/home";
+          window.location.href = "/manager/home/list";
         } else {
           window.location.href = "/teammate/home";
         }

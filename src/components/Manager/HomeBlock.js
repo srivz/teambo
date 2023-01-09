@@ -360,7 +360,7 @@ export default function HomeBlock(props) {
                                             )}
                                           </Col>
                                         </Row>
-                                        {index !== info1.updates.length ? <hr className="divider" /> : <></>}
+                                        <hr className="divider" />
                                       </div>
 
                                     );

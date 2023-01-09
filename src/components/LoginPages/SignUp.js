@@ -86,6 +86,7 @@ export default function Signup({ userid }) {
       await set(
         ref(db, '/teammate/' + currentUser.email.split('.').join('_')),
         {
+          teammateId: currentUser.email.split('.').join('_'),
           company: user.companyName,
           designation: user.designation,
           name: user.name,
