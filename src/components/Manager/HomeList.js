@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
   Button,
   Col,
@@ -348,7 +348,7 @@ export default function HomeList() {
                         <Table
                             className="table-height"
                           style={{
-                              borderCollapse: 'separate',
+                            borderCollapse: 'separate',
                             borderSpacing: '0 10px',
                             }}
                           >
@@ -440,46 +440,46 @@ export default function HomeList() {
                                   No Clients right now
                               </TableRow>
                               ) : (
-                                  manager?.clients?.filter((info) => {
-                                    return info.toLowerCase().includes(searchText2?.toLowerCase())
-                                  })
-                                    ?.map((info) => {
-                                return (
-                                  <TableRow
-                                    key={info}
-                                    onClick={() => {
-                                      setClientSelected(info);
-                                      localStorage.setItem(
-                                        'clientSelected',
-                                        JSON.stringify(info)
-                                      );
-                                    }} style={{ backgroundColor: "#fff !important" }}
+                                manager?.clients?.filter((info) => {
+                                  return info.toLowerCase().includes(searchText2?.toLowerCase())
+                                })
+                                  ?.map((info) => {
+                                    return (
+                                      <TableRow
+                                        key={info}
+                                        onClick={() => {
+                                          setClientSelected(info);
+                                          localStorage.setItem(
+                                            'clientSelected',
+                                            JSON.stringify(info)
+                                          );
+                                        }} style={{ backgroundColor: "#fff !important" }}
 
-                                    className="box-shadow">
-                                    <TableCell
-                                      style={{
-                                        backgroundColor:
-                                          info === clientSelected
-                                            ? '#E2ECFF'
-                                            : '#F9FBFF',
-                                        height: 'fit-content',
-                                        borderRadius: '6px',
-                                        borderBottom: "1px solid #fff",
-                                        paddingTop: '1em',
-                                        paddingBottom: '0.5em',
-                                        cursor: "pointer"
-                                      }}>
-                                      <h5>{info}</h5>
-                                    </TableCell>
-                                  </TableRow>
-                                )
-                              })
+                                      className="box-shadow">
+                                      <TableCell
+                                        style={{
+                                          backgroundColor:
+                                            info === clientSelected
+                                              ? '#E2ECFF'
+                                              : '#F9FBFF',
+                                          height: 'fit-content',
+                                          borderRadius: '6px',
+                                          borderBottom: "1px solid #fff",
+                                          paddingTop: '1em',
+                                          paddingBottom: '0.5em',
+                                          cursor: "pointer"
+                                        }}>
+                                        <h5>{info}</h5>
+                                      </TableCell>
+                                    </TableRow>
+                                  )
+                                })
                             )}
-                           </TableBody>
+                            </TableBody>
                         </Table>
                       </div>
                     </div>
-                    </Tab> 
+                    </Tab>
                   </Tabs>
               </Col>
               <Col
@@ -520,7 +520,7 @@ export default function HomeList() {
                             className="text-end"
                           >
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
-                              <Dropdown 
+                              <Dropdown
                                 style={{ width: "150px", marginRight: '1em' }}>
                                 <Dropdown.Toggle
                                   id="dropdown-basic"
@@ -605,7 +605,7 @@ export default function HomeList() {
                               className="text-end"
                             >
                               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
-                                <Dropdown 
+                                <Dropdown
                                   style={{ width: "200px" }}>
                                   <Dropdown.Toggle
                                     style={{ height: "45px" }}
@@ -669,10 +669,10 @@ export default function HomeList() {
                             : <></>}
                         {
                           allTasks && tab === "Company" ? <ClientTable
-                              filter={filter}
+                            filter={filter}
                             allTasks={allTasks}
-                              clientSelected={clientSelected}
-                              dateFormatChange={dateFormatChange}
+                            clientSelected={clientSelected}
+                            dateFormatChange={dateFormatChange}
                             timeFormatChange={timeFormatChange} /> : <></>
                         }
 
