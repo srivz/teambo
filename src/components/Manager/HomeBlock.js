@@ -239,7 +239,7 @@ export default function HomeBlock(props) {
                                 />
                                 <NewTask
                                   name={info.data.name}
-                                  description={info.data.designation}
+                                  designation={info.data.designation}
                                   teammate={info.teammate}
                                   tasks={info.data.tasks}
                                 />

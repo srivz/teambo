@@ -45,34 +45,6 @@ export default function HomeList() {
   const [allTasks, setAllTasks] = useState([])
 
   const navigate = useNavigate();
-  useEffect(() => {
-    return () => {
-      if (tab === "Company") {
-        setSelected(null);
-        localStorage.setItem(
-          'teammateSelected',
-          JSON.stringify(null)
-        );
-        setClientSelected(null);
-        localStorage.setItem(
-          'clientSelected',
-          JSON.stringify(null)
-        );
-      }
-      else {
-        setClientSelected(null);
-        localStorage.setItem(
-          'clientSelected',
-          JSON.stringify(null)
-        );
-        setSelected(null);
-        localStorage.setItem(
-          'teammateSelected',
-          JSON.stringify(null)
-        );
-      }
-    }
-  }, [tab])
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -284,7 +256,7 @@ export default function HomeList() {
                     defaultActiveKey="Teammate"
                   id="uncontrolled-tab-example"
                     className="mt-3"
-                    onSelect={(e) => { setTab(e); setSelected(""); setClientSelected("") }}
+                    onSelect={(e) => { setTab(e); }}
                     style={{ width: 'fit-content' }}
                 >
                     <Tab eventKey="Teammate" title="Teammate">
