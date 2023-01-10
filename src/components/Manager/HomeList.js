@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Button,
   Col,
@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router'
 import NavBar from '../Navs/NavBar';
 import { auth, db } from '../../firebase-config'
 import { onValue, ref, set } from 'firebase/database'
-import { onAuthStateChanged } from 'firebase/auth'
+import { onAuthStateChanged, signOut } from 'firebase/auth'
 
 
 export default function HomeList() {
@@ -31,7 +31,7 @@ export default function HomeList() {
   const [filter, setFilter] = useState("All");
   const [teammateEmail, setTeammateEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [tab, setTab] = useState("Teammate");
+  const [tab, setTab] = useState(JSON.parse(localStorage.getItem('tabSelected')) === undefined ? "Teammate" : JSON.parse(localStorage.getItem('tabSelected')));
   const [searchText, setSearchText] = useState("");
   const [searchText2, setSearchText2] = useState("");
   const [manager, setManager] = useState({})
@@ -84,8 +84,7 @@ export default function HomeList() {
         })
     }
       setOnce1(false)
-    }
-
+  }
 
   const dateFormatChange = (date) => {
     if (date === '--' || !date) {
@@ -244,7 +243,13 @@ export default function HomeList() {
                     defaultActiveKey="Teammate"
                   id="uncontrolled-tab-example"
                     className="mt-3"
-                    onSelect={(e) => { setTab(e); }}
+                    onSelect={(e) => {
+                      setTab(e);
+                      localStorage.setItem(
+                        'tabSelected',
+                        JSON.stringify(e)
+                      );
+                    }}
                     style={{ width: 'fit-content' }}
                 >
                     <Tab eventKey="Teammate" title="Teammate">
@@ -359,7 +364,7 @@ export default function HomeList() {
                                       localStorage.setItem(
                                         'teammateSelected',
                                         JSON.stringify(info.teammateId)
-                                      );
+                                      ); 
                                       setSelected(info.teammateId);
                                     }}
                                     style={{ backgroundColor: "#fff !important" }}
