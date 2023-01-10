@@ -25,7 +25,7 @@ export default function Home() {
   const [id, setId] = useState('')
   const [filter, setFilter] = useState('All')
   const [managerId, setManagerId] = useState('')
-  const [teammateIndex, setTeammateIndex] = useState('All')
+  const [teammateIndex, setTeammateIndex] = useState(null)
   const [modalShow, setModalShow] = useState(false)
 
   onAuthStateChanged(auth, (user) => {
@@ -79,7 +79,7 @@ export default function Home() {
       now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds()
     teammate.tasks.forEach((task, i) => {
       if (i === index) {
-        update(ref(db, `/manager/${auth.currentUser.tenantId}/teammates/${auth.currentUser.phoneNumber}/data/tasks/${index}/updates/${length - 1}`), {
+        update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${length - 1}`), {
           status: 'On Going',
           startTime: time,
           startTimeInMs: timeInMs,
@@ -132,7 +132,7 @@ export default function Home() {
     }
     var timeGapInMs = totTime
     var timeGap = getHourFormatFromMilliSeconds(totTime)
-    update(ref(db, `/manager/${auth.currentUser.tenantId}/teammates/${auth.currentUser.phoneNumber}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), {
+    update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), {
       status: 'Paused',
       startTime: 0,
       startTimeInMs: 0,
@@ -159,7 +159,7 @@ export default function Home() {
     }
     var timeGapInMs = totTime
     var timeGap = getHourFormatFromMilliSeconds(totTime)
-    update(ref(db, `/manager/${auth.currentUser.tenantId}/teammates/${auth.currentUser.phoneNumber}/data/tasks/${index}/updates/${length - 1}`), {
+    update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${length - 1}`), {
       status: 'Done',
       totalTime: timeGap,
       totalTimeInMs: timeGapInMs,
@@ -274,7 +274,10 @@ export default function Home() {
                         alignItems: 'center',
                       }}
                         className="text- end"
-                      ><Notifications teammate={teammate} id={id}
+                      >
+                        <Notifications
+                          teammate={teammate}
+                          id={id}
                         managerId={managerId}
                         teammateIndex={teammateIndex} />
                         <Dropdown style={{ width: '200px' }}>
