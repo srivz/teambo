@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
   Button,
   Col,
@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router'
 import NavBar from '../Navs/NavBar';
 import { auth, db } from '../../firebase-config'
 import { onValue, ref, set } from 'firebase/database'
-import { onAuthStateChanged, signOut } from 'firebase/auth'
+import { onAuthStateChanged } from 'firebase/auth'
 
 
 export default function HomeList() {

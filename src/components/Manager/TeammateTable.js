@@ -23,7 +23,6 @@ export default function TeammateTable(props) {
     const [prevTeammateId, setPrevTeammateId] = useState("");
     const [prevTeammateIndex, setPrevTeammateIndex] = useState("");
     const [prevTaskIndex, setPrevTaskIndex] = useState()
-    const [dragStyle, setDragStyle] = useState("blur(0px)")
 
 
     const dragItem = useRef();
@@ -278,8 +277,7 @@ export default function TeammateTable(props) {
                                                         ].status !== 'Completed'
                                                             ? '#fff'
                                                             : '#f1f4fb',
-                                                    height: '70px',
-                                                    filter: dragStyle
+                                                    height: '70px'
                                                 }}
                                                 className="box-shadow"
                                                 draggable
