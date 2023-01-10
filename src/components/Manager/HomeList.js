@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router'
 import NavBar from '../Navs/NavBar';
 import { auth, db } from '../../firebase-config'
 import { onValue, ref, set } from 'firebase/database'
-import { onAuthStateChanged } from 'firebase/auth'
+import { onAuthStateChanged, signOut } from 'firebase/auth'
 
 
 export default function HomeList() {
@@ -31,7 +31,7 @@ export default function HomeList() {
   const [filter, setFilter] = useState("All");
   const [teammateEmail, setTeammateEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [tab, setTab] = useState(JSON.parse(localStorage.getItem('tabSelected')) === undefined ? "Teammate" : JSON.parse(localStorage.getItem('tabSelected')));
+  const [tab, setTab] = useState(JSON.parse(localStorage.getItem('tabSelected')) === null || JSON.parse(localStorage.getItem('tabSelected')) === undefined ? "Teammate" : JSON.parse(localStorage.getItem('tabSelected')));
   const [searchText, setSearchText] = useState("");
   const [searchText2, setSearchText2] = useState("");
   const [manager, setManager] = useState({})
@@ -85,6 +85,8 @@ export default function HomeList() {
     }
       setOnce1(false)
   }
+
+  window.addEventListener('unload', (e) => { signOut(auth); localStorage.clear(); })
 
   const dateFormatChange = (date) => {
     if (date === '--' || !date) {
@@ -240,11 +242,12 @@ export default function HomeList() {
             <Row>
                 <Col sm={3} md={3} style={{ marginTop: '1em' }}>
                 <Tabs
-                    defaultActiveKey="Teammate"
+                    defaultActiveKey={tab}
                   id="uncontrolled-tab-example"
                     className="mt-3"
                     onSelect={(e) => {
                       setTab(e);
+                      alert(e)
                       localStorage.setItem(
                         'tabSelected',
                         JSON.stringify(e)
