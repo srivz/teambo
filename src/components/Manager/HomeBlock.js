@@ -362,18 +362,18 @@ export default function HomeBlock(props) {
                                   })
                                 )}
                               </div>
-                              {teammateList[teammateSelected].data.tasks && taskSelected !== null && teammateSelected !== null ? (
+                              {teammateList[teammateSelected]?.data?.tasks !== undefined && taskSelected !== null && teammateSelected !== null ? (
                                 <>
                                   <TaskHistory
                                     show={modalShow}
-                                    id={info.teammateId}
+                                    id={teammateList[teammateSelected]?.teammateId}
                                     onHide={() => { setModalShow(false); setTaskSelected(null); }}
                                     indexselected={taskSelected}
-                                    teamtasks={teammateList[teammateSelected].data.tasks}
-                                    name={info.data.name}
+                                    teamtasks={teammateList[teammateSelected]?.data?.tasks}
+                                    name={teammateList[teammateSelected]?.data.name}
                                     managerId={props?.managerId}
-                                    teammateIndex={info.teammateIndex}
-                                    designation={info.data.designation}
+                                    teammateIndex={teammateList[teammateSelected]?.teammateIndex}
+                                    designation={teammateList[teammateSelected]?.data.designation}
                                   /></>
                               ) : (
                                 <></>
