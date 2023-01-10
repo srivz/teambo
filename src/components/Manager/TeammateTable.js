@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
+import { Table, TableBody, TableCell, TableRow } from '@mui/material'
 import { ref, set, update } from 'firebase/database'
 import emailjs from '@emailjs/browser';
 import React, { useRef, useState } from 'react'
@@ -175,76 +175,13 @@ export default function TeammateTable(props) {
 
 
 
-    return (
+    return (<>
         <Table
             style={{
                 borderCollapse: 'separate',
                 borderSpacing: '0 10px',
             }}
         >
-            <TableHead>
-                <TableRow>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Client
-                    </TableCell>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Task
-                    </TableCell>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Assigned
-                    </TableCell>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Deadline
-                    </TableCell>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Completed
-                    </TableCell>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Corrections
-                    </TableCell>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Status
-                    </TableCell>
-                    <TableCell></TableCell>
-                </TableRow>
-            </TableHead>
-
-
             <TableBody className="curve-box-homelist" >
                 {props?.team
                     .filter((info) => info.teammateId === selected)
@@ -725,5 +662,6 @@ export default function TeammateTable(props) {
                     })}
             </TableBody>
         </Table>
+    </>
     )
 }

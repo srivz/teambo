@@ -649,7 +649,69 @@ export default function HomeList() {
                             </Col>
                           </Row>)
                       }))
-                )}
+                  )}<Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell
+                          style={{
+                            fontFamily: 'rockwen',
+                          }}
+                          align="center"
+                        >
+                          {tab === "Company" ? "Teammate" : "Client"}
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            fontFamily: 'rockwen',
+                          }}
+                          align="center"
+                        >
+                          Task
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            fontFamily: 'rockwen',
+                          }}
+                          align="center"
+                        >
+                          Assigned
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            fontFamily: 'rockwen',
+                          }}
+                          align="center"
+                        >
+                          Deadline
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            fontFamily: 'rockwen',
+                          }}
+                          align="center"
+                        >
+                          Completed
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            fontFamily: 'rockwen',
+                          }}
+                          align="center"
+                        >
+                          Corrections
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            fontFamily: 'rockwen',
+                          }}
+                          align="center"
+                        >
+                          Status
+                        </TableCell>
+                        <TableCell></TableCell>
+                      </TableRow>
+                    </TableHead>
+                  </Table>
                 <div className="overflow-set-auto table-height1">
                   <Row className="table-height1">
                       <Col>

@@ -1,76 +1,16 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
+import { Table, TableBody, TableCell, TableRow } from '@mui/material'
 export default function ClientTable(props) {
 
     return (
         <Table
             style={{
+                userSelect: "none",
                 borderCollapse: 'separate',
                 borderSpacing: '0 10px',
             }}
         >
-            <TableHead>
-                <TableRow>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Teammate
-                    </TableCell>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Task
-                    </TableCell>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Assigned
-                    </TableCell>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Deadline
-                    </TableCell>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Completed
-                    </TableCell>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Corrections
-                    </TableCell>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Status
-                    </TableCell>
-                    <TableCell></TableCell>
-                </TableRow>
-            </TableHead>
             <TableBody className="curve-box-homelist">
                 {props?.allTasks
                     .map((info) => {
