@@ -66,7 +66,7 @@ export default function HomeBlock(props) {
     let list1 = teammate.tasks.slice(0, index);
     let list2 = teammate.tasks.slice(index + 1);
     let list = list1.concat(list2)
-    set(ref(db, `/teammate/${id}/tasks`), list)
+    set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${id}/data/tasks`), list)
       .catch((err) => {
         console.log(err);
       });
@@ -89,13 +89,15 @@ export default function HomeBlock(props) {
       return;
     }
     if (fromTeammate.current.id === toTeammate.current.id) {
+      console.log(fromTeammate.current)
+      console.log(toTeammate.current)
       let copyList = [...fromTeammate.current.tasks];
       const dragItemContent = copyList[fromTeammate.current.taskIndex];
       copyList.splice(fromTeammate.current.taskIndex, 1);
       copyList.splice(toTeammate.current.taskIndex, 0, dragItemContent);
       fromTeammate.current.taskIndex = null;
       toTeammate.current.taskIndex = null;
-      update(ref(db, `teammate/${fromTeammate.current.id}/`), {
+      update(ref(db, `/manager/${auth.currentUser.uid}/teammates/${fromTeammate.current.id}/data/`), {
         tasks: copyList,
       })
     }
@@ -129,11 +131,11 @@ export default function HomeBlock(props) {
       }
 
       if (toTeammate.current.tasks) {
-        set(ref(db, `/teammate/${toTeammate.current.id}/tasks/${toTeammate.current.tasks.length || 0}`), newTask,)
+        set(ref(db, `manager/${auth.currentUser.uid}/teammates/${toTeammate.current.id}/data/tasks/${toTeammate.current.tasks.length || 0}`), newTask,)
         handleDeleteTask(fromTeammate.current, fromTeammate.current.id, fromTeammate.current.taskIndex)
       }
       else {
-        set(ref(db, `/teammate/${toTeammate.current.id}/tasks/0`), newTask,)
+        set(ref(db, `manager/${auth.currentUser.uid}/teammates/${toTeammate.current.id}/data/tasks/0`), newTask,)
         handleDeleteTask(fromTeammate.current, fromTeammate.current.id, fromTeammate.current.taskIndex)
       }
 
@@ -281,13 +283,13 @@ export default function HomeBlock(props) {
                                         className="card-tasks">
                                         <Row draggable
                                           onDragStart={(e) => {
-                                            dragStart(e, index, info?.data?.tasks, info?.teammate)
+                                            dragStart(e, index, info?.data?.tasks, info?.teammateIndex)
                                           }}
                                           onDragEnter={(e) => {
-                                            dragEnter(e, index, info?.data?.tasks, info?.teammate)
+                                            dragEnter(e, index, info?.data?.tasks, info?.teammateIndex)
                                           }}
                                           onDragEnd={(e) => {
-                                            drop(e, index, info?.data?.tasks, info?.teammate)
+                                            drop(e, index, info?.data?.tasks, info?.teammateIndex)
                                           }}
                                         >
                                           <Col sm="8">
