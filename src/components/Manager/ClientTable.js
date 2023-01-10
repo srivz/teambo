@@ -1,12 +1,7 @@
-import React, {
-    // useState
-} from 'react'
+import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-// import TaskHistory from './TaskHistory';
 export default function ClientTable(props) {
-    // const [modalShow, setModalShow] = useState(false);
-    // const [taskSelected, setTaskSelected] = useState();
 
     return (
         <Table
@@ -106,10 +101,6 @@ export default function ClientTable(props) {
                                         className="box-shadow"
                                     >
                                         <TableCell
-                                            onClick={() => {
-                                                // setModalShow(true);
-                                                // setTaskSelected(index);
-                                            }}
                                             style={{
                                                 fontFamily: 'rockwen',
                                             }}
@@ -119,10 +110,6 @@ export default function ClientTable(props) {
                                             {info.teammate}
                                         </TableCell>
                                         <TableCell
-                                            onClick={() => {
-                                                // setModalShow(true);
-                                                // setTaskSelected(index);
-                                            }}
                                             style={{
                                                 fontFamily: 'rockwen',
                                             }}
@@ -144,10 +131,6 @@ export default function ClientTable(props) {
                                                 return (
                                                     <>
                                                         <TableCell
-                                                            onClick={() => {
-                                                                // setModalShow(true);
-                                                                // setTaskSelected(index);
-                                                            }}
                                                             style={{
                                                                 fontFamily: 'rockwen',
                                                             }}
@@ -163,10 +146,6 @@ export default function ClientTable(props) {
                                                             )}
                                                         </TableCell>
                                                         <TableCell
-                                                            onClick={() => {
-                                                                // setModalShow(true);
-                                                                // setTaskSelected(index);
-                                                            }}
                                                             style={{
                                                                 fontFamily: 'rockwen',
                                                             }}
@@ -182,10 +161,6 @@ export default function ClientTable(props) {
                                                             )}
                                                         </TableCell>
                                                         <TableCell
-                                                            onClick={() => {
-                                                                // setModalShow(true);
-                                                                // setTaskSelected(index);
-                                                            }}
                                                             style={{
                                                                 fontFamily: 'rockwen',
                                                             }}
@@ -205,10 +180,6 @@ export default function ClientTable(props) {
                                                                 : ''}
                                                         </TableCell>
                                                         <TableCell
-                                                            onClick={() => {
-                                                                // setModalShow(true);
-                                                                // setTaskSelected(index);
-                                                            }}
                                                             style={{
                                                                 fontFamily: 'rockwen',
                                                             }}
@@ -221,10 +192,6 @@ export default function ClientTable(props) {
                                                                 info2.corrections}
                                                         </TableCell>
                                                         <TableCell
-                                                            onClick={() => {
-                                                                // setModalShow(true);
-                                                                // setTaskSelected(index);
-                                                            }}
                                                             align="center"
                                                             className="tablecell"
                                                             style={
@@ -260,7 +227,6 @@ export default function ClientTable(props) {
                                                         >
                                                             {info2.status === 'Done' ? (
                                                                 <FontAwesomeIcon
-                                                                    // onClick={() => {  }}
                                                                     className="pointer"
                                                                     size="xl"
                                                                     icon="fa-solid fa-circle-check"
@@ -276,19 +242,6 @@ export default function ClientTable(props) {
                                 )
                             })
                             }
-                                {/* {info?.tasks && taskSelected !== null ? (
-                                    <TaskHistory
-                                        show={modalShow}
-                                        id={info?.teammateEmail}
-                                        onHide={() => { setModalShow(false); setTaskSelected(null); }}
-                                        indexselected={taskSelected}
-                                        teamtasks={info?.tasks}
-                                        name={info?.teammate}
-                                        designation={info?.teammateDesignation}
-                                    />
-                                ) : (
-                                    <></>
-                                )} */}
                             </>
                         )
                     })}
