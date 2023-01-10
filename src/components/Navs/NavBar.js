@@ -35,7 +35,7 @@ export default function NavBar({ user, user2, name, role }) {
               }}>
                 <Button
                   variant="light"
-
+                  style={{ border: "2px solid #ebebeb", backgroundColor: "white", borderRadius: "15px" }}
                 >
                   <FontAwesomeIcon icon="fa-solid fa-chart-line" />
                 </Button></span></a>

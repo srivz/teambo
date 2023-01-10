@@ -63,9 +63,9 @@ export default function HomeList() {
           } else {
             console.log('No data available')
           }
-          setLoading(false)
         })
         setOnce(false)
+        setLoading(false)
       }
     } else {
       window.location.href = '/'
@@ -81,9 +81,9 @@ export default function HomeList() {
         setAllTasks((oldTasks) => {
           return [...oldTasks, { tasks: data.tasks, teammateEmail: teammate, teammate: data.name, teammateDesignation: data.designation }]
         })
-        })
+      })
     }
-      setOnce1(false)
+    setOnce1(false)
   }
 
   window.addEventListener('unload', (e) => { signOut(auth); localStorage.clear(); })
@@ -366,7 +366,7 @@ export default function HomeList() {
                                       localStorage.setItem(
                                         'teammateSelected',
                                         JSON.stringify(info.teammateId)
-                                      ); 
+                                      );
                                       setSelected(info.teammateId);
                                     }}
                                     style={{ backgroundColor: "#fff !important" }}
@@ -474,7 +474,7 @@ export default function HomeList() {
                         </Table>
                       </div>
                     </div>
-                    </Tab> 
+                    </Tab>
                   </Tabs>
               </Col>
               <Col
@@ -515,7 +515,7 @@ export default function HomeList() {
                             className="text-end"
                           >
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
-                              <Dropdown 
+                              <Dropdown
                                 style={{ width: "150px", marginRight: '1em' }}>
                                 <Dropdown.Toggle
                                   id="dropdown-basic"
@@ -601,7 +601,7 @@ export default function HomeList() {
                               className="text-end"
                             >
                               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
-                                <Dropdown 
+                                <Dropdown
                                   style={{ width: "200px" }}>
                                   <Dropdown.Toggle
                                     style={{ height: "45px" }}
@@ -649,8 +649,9 @@ export default function HomeList() {
                             </Col>
                           </Row>)
                       }))
-                  )}<Table>
-                    <TableHead>
+                  )}
+                  <Table>
+                    <TableBody>
                       <TableRow>
                         <TableCell
                           style={{
@@ -710,7 +711,7 @@ export default function HomeList() {
                         </TableCell>
                         <TableCell></TableCell>
                       </TableRow>
-                    </TableHead>
+                    </TableBody>
                   </Table>
                 <div className="overflow-set-auto table-height1">
                   <Row className="table-height1">

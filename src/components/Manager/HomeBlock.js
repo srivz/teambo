@@ -240,7 +240,7 @@ export default function HomeBlock(props) {
                       })
                 )}
               </Col>
-              <Container className="overflow-set-auto table-height1">
+              <Container className="overflow-set-auto table-height2">
                 <ResponsiveMasonry
                   columnsCountBreakPoints={{ 300: 1, 600: 2, 750: 3, 900: 4 }}>
                   <Masonry>
@@ -348,7 +348,7 @@ export default function HomeBlock(props) {
                                             )}
                                           </Col>
                                         </Row>
-                                        <hr className="divider" />
+                                        <hr className="divider" style={{ marginBottom: "-22px" }} />
                                       </div>
 
                                     );

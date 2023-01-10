@@ -3,7 +3,7 @@
   "editor.formatOnSaveMode": "modifications",
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
-  "editor.defaultFormatter": "SimonSiefke.prettier-vscode",
+  "editor.defaultFormatter": "vscode.typescript-language-features",
   "[javascript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
