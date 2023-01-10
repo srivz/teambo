@@ -13,6 +13,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 import NavBar from "../Navs/NavBar";
 import { useNavigate } from "react-router";
 import Loader from "../Loader/Loader";
+import TaskHistory from "./TaskHistory";
 
 
 
@@ -24,12 +25,15 @@ export default function HomeBlock(props) {
     JSON.parse(localStorage.getItem("teammateSelected")) === undefined ? 0 : JSON.parse(localStorage.getItem("teammateSelected"))
   );
 
-  const [manager, setManager] = useState({})
-  const [managerId, setManagerId] = useState({})
-  const [once, setOnce] = useState(true)
-  const [loading, setLoading] = useState(true)
-  const [once1, setOnce1] = useState(true)
-  const [teammateList, setTeammateList] = useState([])
+  const [manager, setManager] = useState({});
+  const [managerId, setManagerId] = useState({});
+  const [once, setOnce] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [once1, setOnce1] = useState(true);
+  const [teammateList, setTeammateList] = useState([]);
+  const [taskSelected, setTaskSelected] = useState();
+  const [teammateSelected, setTeammateSelected] = useState();
+  const [modalShow, setModalShow] = useState(false);
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -89,8 +93,6 @@ export default function HomeBlock(props) {
       return;
     }
     if (fromTeammate.current.id === toTeammate.current.id) {
-      console.log(fromTeammate.current)
-      console.log(toTeammate.current)
       let copyList = [...fromTeammate.current.tasks];
       const dragItemContent = copyList[fromTeammate.current.taskIndex];
       copyList.splice(fromTeammate.current.taskIndex, 1);
@@ -261,6 +263,7 @@ export default function HomeBlock(props) {
                                   JSON.stringify(info.teammateId)
                                 );
                                 setSelected(info.teammateId);
+                                setTeammateSelected(info.teammateIndex);
                               }}>
                               <div className="cards">
                                 <div className="heading bg-blue p-3 rounded-3">
@@ -280,6 +283,10 @@ export default function HomeBlock(props) {
                                     return (
                                       <div
                                         key={index}
+                                        onClick={() => {
+                                          setModalShow(true);
+                                          setTaskSelected(index);
+                                        }}
                                         className="card-tasks">
                                         <Row draggable
                                           onDragStart={(e) => {
@@ -355,6 +362,22 @@ export default function HomeBlock(props) {
                                   })
                                 )}
                               </div>
+                              {teammateList[teammateSelected].data.tasks && taskSelected !== null && teammateSelected !== null ? (
+                                <>
+                                  <TaskHistory
+                                    show={modalShow}
+                                    id={info.teammateId}
+                                    onHide={() => { setModalShow(false); setTaskSelected(null); }}
+                                    indexselected={taskSelected}
+                                    teamtasks={teammateList[teammateSelected].data.tasks}
+                                    name={info.data.name}
+                                    managerId={props?.managerId}
+                                    teammateIndex={info.teammateIndex}
+                                    designation={info.data.designation}
+                                  /></>
+                              ) : (
+                                <></>
+                              )}
                             </div>
                           );
                         })

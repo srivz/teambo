@@ -728,7 +728,8 @@ export default function HomeList() {
                               allTasks={allTasks} />
                             : <></>}
                         {
-                          allTasks && tab === "Company" ? <ClientTable
+                          allTasks && tab === "Company" ?
+                            <ClientTable
                             filter={filter}
                             allTasks={allTasks}
                             clientSelected={clientSelected}
