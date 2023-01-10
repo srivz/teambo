@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { onValue, ref, remove, set, update } from 'firebase/database'
+import { onValue, ref, remove, set } from 'firebase/database'
 import React, { useState } from 'react'
 import {
     Badge,
