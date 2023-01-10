@@ -26,16 +26,16 @@ export default function NavBar({ user, user2, name, role }) {
               style={{ marginTop: ".5em", fontSize: "13px" }}>
               {user}
             </span>
-            <a href={user2 === "ANALYTICS" ? "/manager/home/list" : "/manager/analytics"} >
+            <a style={user !== 'MANAGER' ? {
+              display: "none",
+            } : user2 === "ANALYTICS" ? { backgroundColor: "#3975ea", color: "white" } : {}} href={user2 === "ANALYTICS" ? "/manager/home/list" : "/manager/analytics"} >
               <span style={{
                 marginLeft: "1.5em",
                 border: "2px black"
               }}>
                 <Button
                   variant="light"
-                  style={user !== 'MANAGER' ? {
-                    display: "none",
-                  } : user2 === "ANALYTICS" ? { backgroundColor: "#3975ea", color: "white" } : {}}
+
                 >
                   <FontAwesomeIcon icon="fa-solid fa-chart-line" />
                 </Button></span></a>
