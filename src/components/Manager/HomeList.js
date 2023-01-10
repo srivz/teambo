@@ -247,7 +247,6 @@ export default function HomeList() {
                     className="mt-3"
                     onSelect={(e) => {
                       setTab(e);
-                      alert(e)
                       localStorage.setItem(
                         'tabSelected',
                         JSON.stringify(e)
