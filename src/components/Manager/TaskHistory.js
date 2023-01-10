@@ -87,7 +87,7 @@ export default function TaskHistory(props) {
   }
 
   const handleTaskCorrection = (id, index, correction) => {
-    set(ref(db, `/teammate/${id}/tasks/${index}/updates/${correction}`), {
+    set(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/tasks/${index}/updates/${correction}`), {
       assignedDate:
         String(today.getDate()).padStart(2, '0') +
         '/' +
@@ -108,7 +108,7 @@ export default function TaskHistory(props) {
       })
   }
   const handleTaskCorrection1 = (id, index, correction) => {
-    set(ref(db, `/teammate/${id}/tasks/${index}/updates/${correction - 1}/`), {
+    set(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/tasks/${index}/updates/${correction - 1}/`), {
       assignedDate:
         String(today.getDate()).padStart(2, '0') +
         '/' +
@@ -120,7 +120,7 @@ export default function TaskHistory(props) {
       corrections: correction - 1,
       status: props?.teamtasks[props?.indexselected]?.updates[0].status,
       deadlineDate: props?.teamtasks[props?.indexselected]?.updates[0].deadlineDate,
-      description: props?.teamtasks[props?.indexselected]?.updates[0].description.concat(taskUpdate.description),
+      description: [taskUpdate.description].concat(props?.teamtasks[props?.indexselected]?.updates[0].description),
       deadlineTime: props?.teamtasks[props?.indexselected]?.updates[0].deadlineTime,
     })
       .then(() => { setUpdateTaskForm(false); setUpdateAdditionalTaskForm(false); })

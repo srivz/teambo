@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
   Button,
   Col,
@@ -16,51 +16,77 @@ import NewTask from "./NewTask";
 import ClientTable from './ClientTable';
 import TeammateTable from './TeammateTable';
 import { useNavigate } from 'react-router'
-export default function HomeList(props) {
+import NavBar from '../Navs/NavBar';
+import { auth, db } from '../../firebase-config'
+import { onValue, ref, set } from 'firebase/database'
+import { onAuthStateChanged, signOut } from 'firebase/auth'
+
+
+export default function HomeList() {
   const [selected, setSelected] = useState(
-    JSON.parse(localStorage.getItem('teammateSelected')),
+    JSON.parse(localStorage.getItem("teammateSelected")) === undefined ? null : JSON.parse(localStorage.getItem("teammateSelected"))
   );
   const [clientSelected, setClientSelected] = useState(
-    JSON.parse(localStorage.getItem('clientSelected')),);
+    JSON.parse(localStorage.getItem('clientSelected')) === undefined ? null : JSON.parse(localStorage.getItem('clientSelected')),);
   const [filter, setFilter] = useState("All");
   const [teammateEmail, setTeammateEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [tab, setTab] = useState("Teammate");
+  const [tab, setTab] = useState(JSON.parse(localStorage.getItem('tabSelected')) === null || JSON.parse(localStorage.getItem('tabSelected')) === undefined ? "Teammate" : JSON.parse(localStorage.getItem('tabSelected')));
   const [searchText, setSearchText] = useState("");
   const [searchText2, setSearchText2] = useState("");
-  const navigate = useNavigate();
-  function handleViewChange() {
-    props.onChange(false)
-  }
-  useEffect(() => {
-    return () => {
-      if (tab === "Company") {
-        setSelected(null);
-        localStorage.setItem(
-          'teammateSelected',
-          JSON.stringify(null)
-        );
-        setClientSelected(null);
-        localStorage.setItem(
-          'clientSelected',
-          JSON.stringify(null)
-        );
-      }
-      else {
-        setClientSelected(null);
-        localStorage.setItem(
-          'clientSelected',
-          JSON.stringify(null)
-        );
-        setSelected(null);
-        localStorage.setItem(
-          'teammateSelected',
-          JSON.stringify(null)
-        );
-      }
-    }
-  }, [tab])
+  const [manager, setManager] = useState({})
+  const [once, setOnce] = useState(true)
+  const [once1, setOnce1] = useState(true)
+  const [managerId, setManagerId] = useState('')
+  const [managerName, setManagerName] = useState('')
+  const [teamRequest, setTeamRequest] = useState([])
+  const [teammateList, setTeammateList] = useState([])
+  const [teammateSet, setTeammateSet] = useState([])
+  const [allTasks, setAllTasks] = useState([])
 
+  const navigate = useNavigate();
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      if (once) {
+        setLoading(true)
+        onValue(ref(db, `manager/${user.uid}`), (snapshot) => {
+          if (snapshot.exists()) {
+            let data = snapshot.val()
+            setManager(data)
+            setManagerId(user.uid)
+            setManagerName(user.displayName)
+            setTeammateSet(data.teammates)
+            if (data.teammates !== undefined) {
+              getTeammates(data.teammates)
+            }
+          } else {
+            console.log('No data available')
+          }
+          setLoading(false)
+        })
+        setOnce(false)
+      }
+    } else {
+      window.location.href = '/'
+    }
+  })
+
+  const getTeammates = (teamList) => {
+    if (once1) {
+      setTeammateList(teamList)
+      teamList.forEach((teammate1) => {
+        let data = teammate1.data;
+        let teammate = teammate1.teammateId;
+        setAllTasks((oldTasks) => {
+          return [...oldTasks, { tasks: data.tasks, teammateEmail: teammate, teammate: data.name, teammateDesignation: data.designation }]
+        })
+        })
+    }
+      setOnce1(false)
+  }
+
+  window.addEventListener('unload', (e) => { signOut(auth); localStorage.clear(); })
 
   const dateFormatChange = (date) => {
     if (date === '--' || !date) {
@@ -128,8 +154,76 @@ export default function HomeList(props) {
       return hour + ':' + minute + ' am'
     }
   }
+  const getTeammatesWithMail = (teammate) => {
+    onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val()
+        setTeamRequest(data.notifications)
+        return true
+      } else {
+        alert('User not available')
+      }
+    })
+  }
+
   const addTeammate = () => {
-    props.addTeammate(teammateEmail);
+    if (teammateEmail === '') {
+      alert('Enter email first')
+      return
+    }
+    let id = teammateEmail.split('.')
+    let newId = id.join('_')
+    getTeammatesWithMail(newId)
+    if (teammateSet === undefined) {
+      if (teamRequest === undefined) {
+        let newArr = [{ managerId, managerName }]
+        set(ref(db, `teammate/${newId}/notifications/`), { requests: newArr })
+      } else {
+        let newArr = []
+        let exists = false
+        teamRequest.forEach((element) => {
+          if (element.managerId === managerId) {
+            exists = true
+          }
+          newArr.push(element)
+        })
+        if (exists) {
+          alert('Already requested !')
+        } else {
+          let newArr2 = [...newArr, { managerId, managerName }]
+          set(ref(db, `teammate/${newId}/notifications/`), { requests: newArr2 })
+        }
+      }
+    } else {
+      let newArr = []
+      teammateSet.forEach((element) => {
+        newArr.push(element)
+      })
+      let exist = newArr.includes(newId)
+      if (exist) {
+        alert('Already a Teammate !')
+      } else {
+        if (teamRequest === undefined) {
+          let newArr = [{ managerId, managerName }]
+          set(ref(db, `teammate/${newId}/notifications/`), { requests: newArr })
+        } else {
+          let newArr = []
+          let exists = false
+          teamRequest.forEach((element) => {
+            if (element.managerId === managerId) {
+              exists = true
+            }
+            newArr.push(element)
+          })
+          if (exists) {
+            alert('Already requested !')
+          } else {
+            let newArr2 = [...newArr, { managerId, managerName }]
+            set(ref(db, `teammate/${newId}/notifications/`), { requests: newArr2 })
+          }
+        }
+      }
+    }
   };
 
   return (
@@ -138,14 +232,26 @@ export default function HomeList(props) {
         <Loader />
       ) : (
           <div id="main" style={{ backgroundColor: "#fff" }}>
+            <NavBar
+              user="MANAGER"
+              user2="MANAGER"
+              name={manager.name}
+              role={manager.designation}
+            />
             <Container>
             <Row>
                 <Col sm={3} md={3} style={{ marginTop: '1em' }}>
                 <Tabs
-                    defaultActiveKey="Teammate"
+                    defaultActiveKey={tab}
                   id="uncontrolled-tab-example"
                     className="mt-3"
-                    onSelect={(e) => { setTab(e); setSelected(""); setClientSelected("") }}
+                    onSelect={(e) => {
+                      setTab(e);
+                      localStorage.setItem(
+                        'tabSelected',
+                        JSON.stringify(e)
+                      );
+                    }}
                     style={{ width: 'fit-content' }}
                 >
                     <Tab eventKey="Teammate" title="Teammate">
@@ -237,7 +343,7 @@ export default function HomeList(props) {
                         <Table
                             className="table-height"
                           style={{
-                              borderCollapse: 'separate',
+                            borderCollapse: 'separate',
                             borderSpacing: '0 10px',
                             }}
                           >
@@ -245,11 +351,11 @@ export default function HomeList(props) {
                             <TableRow></TableRow>
                           </TableHead>
                             <TableBody>
-                              {!props.team ? (
+                              {!teammateList ? (
                                 <TableRow colSpan={7} align="center">
                                 No teammate right now
                               </TableRow>
-                              ) : (props?.team?.filter((info) => {
+                              ) : (teammateList?.filter((info) => {
                                 return info.data?.name.toLowerCase().includes(searchText?.toLowerCase())
                               })?.map((info) => {
                                 return (
@@ -259,16 +365,16 @@ export default function HomeList(props) {
                                     onClick={() => {
                                       localStorage.setItem(
                                         'teammateSelected',
-                                        JSON.stringify(info.teammate)
-                                      );
-                                      setSelected(info.teammate);
+                                        JSON.stringify(info.teammateId)
+                                      ); 
+                                      setSelected(info.teammateId);
                                     }}
                                     style={{ backgroundColor: "#fff !important" }}
                                   >
                                     <TableCell
                                       style={{
                                         backgroundColor:
-                                          selected === info.teammate
+                                          selected === info.teammateId
                                             ? '#E2ECFF'
                                             : '#F9FBFF',
                                         height: 'fit-content',
@@ -322,49 +428,49 @@ export default function HomeList(props) {
                             <TableRow></TableRow>
                           </TableHead>
                           <TableBody>
-                              {!props?.manager?.clients ? (
+                              {!manager?.clients ? (
                               <TableRow
                                 colSpan={7}
                                 align="center">
                                   No Clients right now
                               </TableRow>
                               ) : (
-                                  props?.manager?.clients?.filter((info) => {
+                                  manager?.clients?.filter((info) => {
                                     return info.toLowerCase().includes(searchText2?.toLowerCase())
                                   })
                                     ?.map((info) => {
-                                return (
-                                  <TableRow
-                                    key={info}
-                                    onClick={() => {
-                                      setClientSelected(info);
-                                      localStorage.setItem(
-                                        'clientSelected',
-                                        JSON.stringify(info)
-                                      );
-                                    }} style={{ backgroundColor: "#fff !important" }}
+                                      return (
+                                        <TableRow
+                                          key={info}
+                                          onClick={() => {
+                                            setClientSelected(info);
+                                            localStorage.setItem(
+                                              'clientSelected',
+                                              JSON.stringify(info)
+                                            );
+                                          }} style={{ backgroundColor: "#fff !important" }}
 
-                                    className="box-shadow">
-                                    <TableCell
-                                      style={{
-                                        backgroundColor:
-                                          info === clientSelected
-                                            ? '#E2ECFF'
-                                            : '#F9FBFF',
-                                        height: 'fit-content',
-                                        borderRadius: '6px',
-                                        borderBottom: "1px solid #fff",
-                                        paddingTop: '1em',
-                                        paddingBottom: '0.5em',
-                                        cursor: "pointer"
-                                      }}>
-                                      <h5>{info}</h5>
-                                    </TableCell>
-                                  </TableRow>
-                                )
-                              })
+                                          className="box-shadow">
+                                          <TableCell
+                                            style={{
+                                              backgroundColor:
+                                                info === clientSelected
+                                                  ? '#E2ECFF'
+                                                  : '#F9FBFF',
+                                              height: 'fit-content',
+                                              borderRadius: '6px',
+                                              borderBottom: "1px solid #fff",
+                                              paddingTop: '1em',
+                                              paddingBottom: '0.5em',
+                                              cursor: "pointer"
+                                            }}>
+                                            <h5>{info}</h5>
+                                          </TableCell>
+                                        </TableRow>
+                                      )
+                                    })
                             )}
-                           </TableBody>
+                            </TableBody>
                         </Table>
                       </div>
                     </div>
@@ -389,30 +495,11 @@ export default function HomeList(props) {
                         style={{ marginTop: '1em' }}
                         className="text-end"
                       >
-                      <div>
-                          {/* <FontAwesomeIcon
-                          icon="fa-solid fa-list"
-                          color="#5f8fee"
-                            style={{ paddingRight: '1em', fontSize: "20px" }}
-                        />
-
-                        <FontAwesomeIcon
-                          onClick={() => {
-                              handleViewChange()
-                          }}
-                          icon="fa-solid fa-grip "
-                            style={{ paddingRight: '1em', fontSize: "20px" }}
-                        />
-                        <NewTask
-                            name={'No Teammate'}
-                            designation={'Selected'}
-                        /> */}
-                      </div>
                     </Col>
                   </Row>
                 ) : (
-                      tab === "Teammate" ? props?.team
-                    .filter((info) => info.teammate === selected)
+                      tab === "Teammate" ? teammateList
+                        .filter((info) => info.teammateId === selected)
                     .map((info, index) => {
                       return (
                         <Row key={index}>
@@ -490,15 +577,16 @@ export default function HomeList(props) {
                                 name={info.data.name}
                                 designation={info.data.designation}
                                 teammate={info.teammate}
+                                teammateIndex={info.teammateIndex}
                                 tasks={info.data.tasks}
-                                manager={props.manager}
-                                managerId={props.managerId}
+                                manager={manager}
+                                managerId={managerId}
                               />
                             </div>
                           </Col>
                         </Row>
                       )
-                    }) : (props?.manager?.clients
+                    }) : (manager?.clients
                           ?.filter((info) => info === clientSelected)
                       .map((info) => {
                         return (
@@ -557,21 +645,6 @@ export default function HomeList(props) {
                                     </Dropdown.Item>
                                   </Dropdown.Menu>
                                 </Dropdown>
-                                {/* <FontAwesomeIcon
-                                  icon="fa-solid fa-list"
-                                  color="#5f8fee"
-                                  style={{
-                                    paddingRight: '1em', fontSize: "20px"
-                                  }}
-                                />
-                                <FontAwesomeIcon
-                                  onClick={() => {
-                                    handleViewChange()
-                                  }}
-                                  icon="fa-solid fa-grip "
-                                  style={{ paddingRight: '1em', fontSize: "20px" }}
-                                />
-                                <NewTask /> */}
                               </div>
                             </Col>
                           </Row>)
@@ -581,24 +654,22 @@ export default function HomeList(props) {
                   <Row className="table-height1">
                       <Col>
                         {
-                          props?.team && tab === "Teammate" ?
+                          teammateList && tab === "Teammate" ?
                             <TeammateTable
                               filterTeammate={filter}
                               teammateselected={selected}
-                              viewType={props?.viewType}
-                              team={props?.team}
-                              onChange={props?.onChange}
-                              addTeammate={props?.addTeammate}
-                              manager={props?.manager}
-                              managerId={props?.managerId}
-                              allTasks={props?.allTasks} />
+                              team={teammateList}
+                              addTeammate={addTeammate}
+                              manager={manager}
+                              managerId={managerId}
+                              allTasks={allTasks} />
                             : <></>}
                         {
-                          props?.allTasks && tab === "Company" ? <ClientTable
-                              filter={filter}
-                            allTasks={props?.allTasks}
-                              clientSelected={clientSelected}
-                              dateFormatChange={dateFormatChange}
+                          allTasks && tab === "Company" ? <ClientTable
+                            filter={filter}
+                            allTasks={allTasks}
+                            clientSelected={clientSelected}
+                            dateFormatChange={dateFormatChange}
                             timeFormatChange={timeFormatChange} /> : <></>
                         }
 

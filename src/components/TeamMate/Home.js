@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { onAuthStateChanged } from 'firebase/auth'
-import { onChildChanged, onValue, ref, update } from 'firebase/database'
+import { onValue, ref, update } from 'firebase/database'
 import React, { useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { auth, db } from '../../firebase-config'
@@ -20,43 +20,57 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [taskSelected, setTaskSelected] = useState()
   const [once, setOnce] = useState(true)
+  const [once1, setOnce1] = useState(true)
   const [teammate, setTeammate] = useState({})
   const [id, setId] = useState('')
   const [filter, setFilter] = useState('All')
+  const [managerId, setManagerId] = useState('')
+  const [teammateIndex, setTeammateIndex] = useState(null)
   const [modalShow, setModalShow] = useState(false)
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      if (once) {
-        setLoading(true)
-        let id = user.email.split('.')
-        let newId = id.join('_')
-        onValue(ref(db, `teammate/${newId}`), (snapshot) => {
-          if (snapshot.exists()) {
-            setTeammate(snapshot.val())
-            setId(newId)
-            setLoading(false)
-          } else {
-            setLoading(false)
-            console.log('No data available')
-          }
-        })
-        setOnce(false)
-      }
+        if (once) {
+          setLoading(true)
+          let id = user.email.split('.')
+          let newId = id.join('_')
+          onValue(ref(db, `/teammate/${newId}`), (snapshot) => {
+            if (snapshot.exists()) {
+              setTeammate(snapshot.val())
+              setId(newId)
+              if (snapshot.val().link) {
+                setManagerId(snapshot.val().link.managerId)
+                setTeammateIndex(snapshot.val().link.index)
+                getDetails(snapshot.val().link.managerId, snapshot.val().link.index)
+              }
+              setLoading(false)
+            } else {
+              setLoading(false)
+              console.log('No data available')
+            }
+          })
+          setOnce(false)
+        }
     } else {
       window.location.href = '/'
     }
   })
 
-  onChildChanged(ref(db, `/teammate/${id}`), () => { 
-    // onValue(ref(db, `teammate/${id}`), (snapshot) => {
-    //   if (snapshot.exists()) {
-    //     setTeammate(snapshot.val())
-    //   } else {
-    //     console.log('No data available')
-    //   }
-    // })
-  })
+  const getDetails = (managerId, index) => {
+    if (once1) {
+      setLoading(true)
+      onValue(ref(db, `/manager/${managerId}/teammates/${index}/data`), (snapshot) => {
+        if (snapshot.exists()) {
+          setTeammate(snapshot.val())
+          setLoading(false)
+        } else {
+          setLoading(false)
+          console.log('No data available')
+        }
+      })
+      setOnce1(false)
+    }
+  }
 
   const playTask = (e, index, length) => {
     var now = new Date()
@@ -65,13 +79,12 @@ export default function Home() {
       now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds()
     teammate.tasks.forEach((task, i) => {
       if (i === index) {
-        update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
+        update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${length - 1}`), {
           status: 'On Going',
           startTime: time,
           startTimeInMs: timeInMs,
         })
       } else if (task.updates[task.updates.length - 1].status === 'On Going') {
-        // alert(length)
         pauseTask(e, i, length)
       }
     })
@@ -119,7 +132,7 @@ export default function Home() {
     }
     var timeGapInMs = totTime
     var timeGap = getHourFormatFromMilliSeconds(totTime)
-    update(ref(db, `teammate/${id}/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), {
+    update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), {
       status: 'Paused',
       startTime: 0,
       startTimeInMs: 0,
@@ -146,7 +159,7 @@ export default function Home() {
     }
     var timeGapInMs = totTime
     var timeGap = getHourFormatFromMilliSeconds(totTime)
-    update(ref(db, `teammate/${id}/tasks/${index}/updates/${length - 1}`), {
+    update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${length - 1}`), {
       status: 'Done',
       totalTime: timeGap,
       totalTimeInMs: timeGapInMs,
@@ -240,7 +253,7 @@ export default function Home() {
               user2="TEAMMATE"
             name={teammate.name}
             role={teammate.designation}
-          />
+            />{console.log(teammate)}
             <Container>
             <Container>
               <Row>
@@ -261,7 +274,12 @@ export default function Home() {
                         alignItems: 'center',
                       }}
                         className="text- end"
-                      ><Notifications teammate={teammate} id={id} />
+                      >
+                        <Notifications
+                          teammate={teammate}
+                          id={id}
+                        managerId={managerId}
+                        teammateIndex={teammateIndex} />
                         <Dropdown style={{ width: '200px' }}>
                           <Dropdown.Toggle
                             style={{ height: '45px' }}
@@ -693,7 +711,7 @@ export default function Home() {
                                         }}
                                         indexselected={taskSelected}
                                         teamtasks={teammate.tasks}
-                                        name={teammate.name}
+                                              name={teammate.name}
                                         designation={teammate.designation}
                                       />
                                     ) : (

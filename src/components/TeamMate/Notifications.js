@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { onValue, ref, remove, update } from 'firebase/database'
+import { onValue, ref, remove, set } from 'firebase/database'
 import React, { useState } from 'react'
 import {
     Badge,
@@ -10,27 +10,33 @@ import {
 } from 'react-bootstrap'
 import { db } from '../../firebase-config'
 
-export default function Notifications({ teammate, id }) {
+export default function Notifications(props) {
     const [once2, setOnce2] = useState(true)
 
     const acceptChange = (managerId, managerTeam) => {
         if (managerTeam === undefined) {
-            update(ref(db, `manager/${managerId}/`), { teammates: [id] })
-            remove(ref(db, `teammate/${id}/notifications`))
+            set(ref(db, `teammate/${props?.id}/link/`), { index: 0, managerId: managerId })
+            set(ref(db, `manager/${managerId}/teammates/`), [{
+                data: props?.teammate, teammateId: props?.id, teammateIndex: 0
+            }])
+            remove(ref(db, `manager/${managerId}/teammates/0/data/notifications/`))
+
         } else {
             let newArr = []
             let exists = false
             managerTeam.forEach((element) => {
-                if (element === id) {
+                if (element.teammateId === props?.id) {
                     exists = true
                 }
                 newArr.push(element)
             })
             if (exists) {
             } else {
-                let newArr2 = [...newArr, id]
-                update(ref(db, `manager/${managerId}/`), { teammates: newArr2 })
-                remove(ref(db, `teammate/${id}/notifications`))
+                set(ref(db, `teammate/${props?.id}/link/`), { index: newArr.length, managerId: managerId })
+                let newArr2 = [...newArr, { data: props?.teammate, teammateId: props?.id, teammateIndex: newArr.length }]
+                set(ref(db, `manager/${managerId}/teammates/`), newArr2)
+                remove(ref(db, `manager/${managerId}/teammates/${newArr.length}/data/notifications/`))
+
             }
         }
     }
@@ -39,6 +45,7 @@ export default function Notifications({ teammate, id }) {
             onValue(ref(db, `manager/${managerId}`), (snapshot) => {
                 if (snapshot.exists()) {
                     let data = snapshot.val()
+                    remove(ref(db, `teammate/${props?.id}/notifications`))
                     acceptChange(managerId, data.teammates)
                 } else {
                     alert('No manager found')
@@ -47,12 +54,11 @@ export default function Notifications({ teammate, id }) {
             setOnce2(false)
         }
     }
-
     const clearAllNotifications = () => {
-        remove(ref(db, `teammate/${id}/notifications`))
+        remove(ref(db, `manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/notifications/`))
     }
     const reject = (index) => {
-        remove(ref(db, `teammate/${id}/notifications/requests/${index}`))
+        remove(ref(db, `teammate/${props?.id}/notifications/requests/${index}`))
     }
     return (
         <>
@@ -71,13 +77,13 @@ export default function Notifications({ teammate, id }) {
                             width: '300px',
                             boxShadow: 'rgba(0, 0, 0, 0.15) 1px 3px 5px',
                         }}
-                    >{!teammate?.notifications ? (<></>) : (<Row>
+                    >{!props?.teammate.notifications ? (<></>) : (<Row>
                         <Col className='text-end'><span className='pointer' style={{ color: "#9b9b9b" }}
                             onClick={() => {
                                 clearAllNotifications()
-                            }}><FontAwesomeIcon size={"xs"} icon="fa-solid fa-x" /> Clear</span></Col>
+                                }}><FontAwesomeIcon size={"xs"} icon="fa-solprops?.id fa-x" /> Clear</span></Col>
                     </Row>)}
-                        {!teammate?.notifications ? (
+                        {!props?.teammate.notifications ? (
                             <Row
                                 style={{
                                     boxShadow: 'rgba(0, 0, 0, 0.55) 0px 1px 3px',
@@ -91,29 +97,14 @@ export default function Notifications({ teammate, id }) {
                             >
                                 No Notifications Available
                             </Row>
-                        ) : (
-                                teammate?.notifications?.map((info, index) => {
+                        ) : (props?.teammate?.notifications?.requests ?
+                            props?.teammate?.notifications?.requests.map((info, index) => {
                                     return (
                                         <>
-
-                                            {!info.requests ? (
-                                                <Row
+                                            <Row
                                                     style={{
                                                         boxShadow: 'rgba(0, 0, 0, 0.55) 0px 1px 3px',
-                                                        margin: '1px',
-                                                        marginBottom: "-10px",
-                                                        color: 'black',
-                                                        padding: '.5em',
-                                                        fontFamily: 'rockwen',
-                                                        border: '2px black',
-                                                    }}>
-                                                    <Col>{info}</Col>
-                                                </Row>
-                                            ) : (
-                                                <><Row
-                                                    style={{
-                                                        boxShadow: 'rgba(0, 0, 0, 0.55) 0px 1px 3px',
-                                                        margin: '1px',
+                                                    margin: '1px',
                                                         color: 'black',
                                                         padding: '.5em',
                                                     fontFamily: 'rockwen',
@@ -143,7 +134,7 @@ export default function Notifications({ teammate, id }) {
                                                                 <FontAwesomeIcon
                                                             className="pointer"
                                                             size="xl"
-                                                                    icon="fa-solid fa-circle-xmark"
+                                                            icon="fa-solprops?.id fa-circle-xmark"
                                                                 />
                                                     </Badge>
                                                 </Col>
@@ -165,16 +156,27 @@ export default function Notifications({ teammate, id }) {
                                                                 <FontAwesomeIcon
                                                             className="pointer"
                                                             size="xl"
-                                                            icon="fa-solid fa-circle-check"
+                                                            icon="fa-solprops?.id fa-circle-check"
                                                         />
                                                     </Badge>
                                                         </Col>
-                                                    </Row>
-                                                </>
-                                            )}
+                                            </Row>
                                             <br />
                                         </>
                                     )
+                            }) : props?.teammate?.notifications.map((info, index) => {
+                                return (
+                                    <><Row
+                                        style={{
+                                            boxShadow: 'rgba(0, 0, 0, 0.55) 0px 1px 3px',
+                                            margin: '1px',
+                                            color: 'black',
+                                            padding: '.5em',
+                                            fontFamily: 'rockwen',
+                                            border: '2px black',
+                                        }}
+                                        key={index}
+                                    >{info}</Row></>)
                                 })
                         )}
                     </div>
@@ -184,7 +186,7 @@ export default function Notifications({ teammate, id }) {
                     variant="light"
                     className="box-shadow"
                     style={
-                        !teammate.notifications
+                        !props?.teammate?.notifications
                             ? {
                                 color: 'black',
                                 fontFamily: 'rockwen',
@@ -209,7 +211,7 @@ export default function Notifications({ teammate, id }) {
                         size="xl"
                         icon="fa-regular fa-bell"
                     />
-                    {!teammate.notifications ? (
+                    {!props?.teammate?.notifications ? (
                         <></>
                     ) : (
                         <div class="notification-dot"></div>

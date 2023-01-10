@@ -1,20 +1,20 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { ref, set } from 'firebase/database'
+import { onValue, ref, set } from 'firebase/database'
 import React, { useEffect, useState } from 'react'
 import { Button, Row, Col, Form } from 'react-bootstrap'
-import { db } from '../../firebase-config'
+import { auth, db } from '../../firebase-config'
 import Dropdown from 'react-bootstrap/Dropdown'
 
 export default function SwitchTask(props) {
     const [newClient, setNewClient] = useState('')
-    const [teammateId, setTeammateId] = useState('')
+    const [teammateId, setTeammateId] = useState(null)
     const [teammateName, setTeammateName] = useState('')
-    const [taskNumber, setTaskNumber] = useState(0)
+    const [prevTasks, setPrevTasks] = useState([])
     const [teammateList, setTeammateList] = useState([])
     const [newTask, setNewTask] = useState()
     useEffect(() => {
         var today = new Date()
-        setNewTask({
+        setNewTask([{
             client: props?.switchTask?.client,
             task: props?.switchTask?.task,
             clientEmail: props?.switchTask?.clientEmail,
@@ -37,19 +37,54 @@ export default function SwitchTask(props) {
                 deadlineTime: '--',
                 status: 'Assigned',
             },),
-        })
+        }])
     }, [props])
+    const getTeammatesWithMail = () => {
+        onValue(ref(db, `/manager/${auth.currentUser.uid}/teammates/${teammateId}/data`), (snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val()
+                setPrevTasks(data.tasks)
+                return true
+            } else {
+                alert('User not available')
+            }
+        })
+    }
     const handleNewTask = () => {
         if (teammateId === '') {
             alert('First Select a teammate')
         } else {
-            set(ref(db, `/teammate/${teammateId}/tasks/${taskNumber}`), newTask,)
-                .then(() => {
-                    props?.handleDeleteTask(props?.prevTaskList, props?.prevTeammateId, props?.prevTaskIndex)
+            getTeammatesWithMail()
+            if (!prevTasks) {
+                set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${teammateId}/data/tasks`), newTask,)
+                    .then(() => {
+                        props?.handleDeleteTask(props?.prevTaskList, props?.prevTeammateIndex, props?.prevTaskIndex)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            } else {
+                let newArr = []
+                let exists = false
+                prevTasks.forEach((element) => {
+                    exists = true
+                    newArr.push(element)
                 })
-                .catch((err) => {
-                    console.log(err)
-                })
+                if (!exists) {
+                } else {
+                    console.log(newArr)
+                    let newArr2 = newTask.concat(newArr)
+                    console.log(newArr2)
+                    set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${teammateId}/data/tasks`), newArr2,)
+                        .then(() => {
+                            props?.handleDeleteTask(props?.prevTaskList, props?.prevTeammateIndex, props?.prevTaskIndex)
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
+                }
+
+            }
         }
     }
 
@@ -123,8 +158,7 @@ export default function SwitchTask(props) {
                                                     key={index}
                                                     onClick={(e) => {
                                                         setTeammateName(client.data.name)
-                                                        setTeammateId(client.teammate)
-                                                        setTaskNumber(client.data.tasks.length)
+                                                        setTeammateId(client.teammateIndex)
                                                     }}
                                                 >
                                                     {client.data.name}
@@ -137,8 +171,7 @@ export default function SwitchTask(props) {
                                                 key={index}
                                                 onClick={(e) => {
                                                     setTeammateName(client.data.name)
-                                                    setTeammateId(client.teammate)
-                                                    setTaskNumber(client.data.tasks.length)
+                                                    setTeammateId(client.teammateIndex)
                                                 }}
                                             >
                                                 {client.data.name}

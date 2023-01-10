@@ -108,7 +108,8 @@ export default function TeammateTaskHistory(props) {
             <Col sm={1} md={1} style={{ marginTop: '1em' }}>
               <h6>Status</h6>
             </Col>
-            <Col sm={3} md={3} style={{ marginTop: '.75em' }}>{props?.teamtasks[props?.indexselected]?.updates
+            <Col sm={3} md={3} style={{ marginTop: '.75em' }}>
+              {props?.teamtasks[props?.indexselected]?.updates
               .sort((a, b) => (a.corrections > b.corrections ? -1 : 1))
               .filter((info, index) => { return (index === 0) })
               .map((info) => {
@@ -177,7 +178,7 @@ export default function TeammateTaskHistory(props) {
                   }}
                   align="center"
                 >
-                  Start Time
+                  Assigned
                 </TableCell>
                 <TableCell
                   style={{

@@ -21,21 +21,15 @@ export default function HomeBlock(props) {
   const toTeammate = useRef({});
   const navigate = useNavigate();
   const [selected, setSelected] = useState(
-    JSON.parse(localStorage.getItem("teammateSelected"))
+    JSON.parse(localStorage.getItem("teammateSelected")) === undefined ? 0 : JSON.parse(localStorage.getItem("teammateSelected"))
   );
-  function handleViewChange() {
-    props.onChange(true);
-  }
 
   const [manager, setManager] = useState({})
+  const [managerId, setManagerId] = useState({})
   const [once, setOnce] = useState(true)
   const [loading, setLoading] = useState(true)
   const [once1, setOnce1] = useState(true)
-  const [managerId, setManagerId] = useState('')
-  const [managerName, setManagerName] = useState('')
   const [teammateList, setTeammateList] = useState([])
-  const [teammateSet, setTeammateSet] = useState([])
-  const [allTasks, setAllTasks] = useState([])
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -46,8 +40,6 @@ export default function HomeBlock(props) {
             let data = snapshot.val()
             setManager(data)
             setManagerId(user.uid)
-            setManagerName(user.displayName)
-            setTeammateSet(data.teammates)
             if (data.teammates !== undefined) {
               getTeammates(data.teammates)
             }
@@ -65,43 +57,20 @@ export default function HomeBlock(props) {
 
   const getTeammates = (teamList) => {
     if (once1) {
-      setLoading(true)
-      teamList.forEach((teammate) => {
-        onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
-          if (snapshot.exists()) {
-            const data = snapshot.val()
-            setTeammateList((teammateList) => [
-              ...teammateList,
-              { data, teammate },
-            ])
-            setAllTasks((oldTasks) => {
-              return [...oldTasks, { tasks: data.tasks, teammateEmail: teammate, teammate: data.name, teammateDesignation: data.designation }]
-            })
-            setLoading(false);
-          } else {
-            console.log('No data available')
-            setLoading(false)
-          }
-        })
-      })
+      setTeammateList(teamList)
     }
     setOnce1(false)
   }
-
-
-
 
   const handleDeleteTask = (teammate, id, index) => {
     let list1 = teammate.tasks.slice(0, index);
     let list2 = teammate.tasks.slice(index + 1);
     let list = list1.concat(list2)
-    set(ref(db, `/teammate/${id}/tasks`), list)
+    set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${id}/data/tasks`), list)
       .catch((err) => {
         console.log(err);
       });
   }
-
-
 
   function dragStart(e, index, list, id) {
     fromTeammate.current.id = id;
@@ -110,29 +79,27 @@ export default function HomeBlock(props) {
   }
 
   function dragEnter(e, index, list, id) {
-    console.log(id);
     toTeammate.current.id = id;
     toTeammate.current.tasks = list;
     toTeammate.current.taskIndex = index;
   }
 
   function drop(e, index, list, id) {
-    console.log(list);
-    console.log(toTeammate);
     if (fromTeammate.current.id === toTeammate.current.id && fromTeammate.current.taskIndex === toTeammate.current.taskIndex) {
       return;
     }
     if (fromTeammate.current.id === toTeammate.current.id) {
+      console.log(fromTeammate.current)
+      console.log(toTeammate.current)
       let copyList = [...fromTeammate.current.tasks];
       const dragItemContent = copyList[fromTeammate.current.taskIndex];
       copyList.splice(fromTeammate.current.taskIndex, 1);
       copyList.splice(toTeammate.current.taskIndex, 0, dragItemContent);
       fromTeammate.current.taskIndex = null;
       toTeammate.current.taskIndex = null;
-      update(ref(db, `teammate/${fromTeammate.current.id}/`), {
+      update(ref(db, `/manager/${auth.currentUser.uid}/teammates/${fromTeammate.current.id}/data/`), {
         tasks: copyList,
       })
-      window.location.reload()
     }
     else {
       var today = new Date()
@@ -164,11 +131,11 @@ export default function HomeBlock(props) {
       }
 
       if (toTeammate.current.tasks) {
-        set(ref(db, `/teammate/${toTeammate.current.id}/tasks/${toTeammate.current.tasks.length || 0}`), newTask,)
+        set(ref(db, `manager/${auth.currentUser.uid}/teammates/${toTeammate.current.id}/data/tasks/${toTeammate.current.tasks.length || 0}`), newTask,)
         handleDeleteTask(fromTeammate.current, fromTeammate.current.id, fromTeammate.current.taskIndex)
       }
       else {
-        set(ref(db, `/teammate/${toTeammate.current.id}/tasks/0`), newTask,)
+        set(ref(db, `manager/${auth.currentUser.uid}/teammates/${toTeammate.current.id}/data/tasks/0`), newTask,)
         handleDeleteTask(fromTeammate.current, fromTeammate.current.id, fromTeammate.current.taskIndex)
       }
 
@@ -183,7 +150,9 @@ export default function HomeBlock(props) {
         user2="MANAGER"
         name={manager.name}
         role={manager.designation}
-      />{
+      />
+
+      {
         loading ? <Loader /> : <div id="main">
           <Container>
             <Row className="curve-box-homelist">
@@ -204,7 +173,7 @@ export default function HomeBlock(props) {
                       <div>
                         <FontAwesomeIcon
                           onClick={() => {
-                            navigate('/manager/home')
+                            navigate('/manager/home/list')
                           }}
                           icon="fa-solid fa-list"
                           style={{ paddingRight: "1em", fontSize: "20px" }}
@@ -224,7 +193,7 @@ export default function HomeBlock(props) {
                   </Row>
                 ) : (
                     teammateList
-                      .filter((info) => info.teammate === selected)
+                      .filter((info) => info.teammateId === selected)
                       .map((info) => {
                         return selected ? (
                           <Row>
@@ -242,7 +211,7 @@ export default function HomeBlock(props) {
                               <div>
                                 <FontAwesomeIcon
                                   onClick={() => {
-                                    handleViewChange();
+                                    navigate('/manager/home/list');
                                   }}
                                   icon="fa-solid fa-list"
                                   style={{ paddingRight: "1em", fontSize: "20px" }}
@@ -255,9 +224,12 @@ export default function HomeBlock(props) {
                                 />
                                 <NewTask
                                   name={info.data.name}
-                                  description={info.data.designation}
+                                  designation={info.data.designation}
                                   teammate={info.teammate}
+                                  teammateIndex={info.teammateIndex}
                                   tasks={info.data.tasks}
+                                  manager={manager}
+                                  managerId={managerId}
                                 />
                               </div>
                             </Col>
@@ -286,9 +258,9 @@ export default function HomeBlock(props) {
                               onClick={() => {
                                 localStorage.setItem(
                                   "teammateSelected",
-                                  JSON.stringify(info.teammate)
+                                  JSON.stringify(info.teammateId)
                                 );
-                                setSelected(info.teammate);
+                                setSelected(info.teammateId);
                               }}>
                               <div className="cards">
                                 <div className="heading bg-blue p-3 rounded-3">
@@ -308,17 +280,16 @@ export default function HomeBlock(props) {
                                     return (
                                       <div
                                         key={index}
-
                                         className="card-tasks">
                                         <Row draggable
                                           onDragStart={(e) => {
-                                            dragStart(e, index, info?.data?.tasks, info?.teammate)
+                                            dragStart(e, index, info?.data?.tasks, info?.teammateIndex)
                                           }}
                                           onDragEnter={(e) => {
-                                            dragEnter(e, index, info?.data?.tasks, info?.teammate)
+                                            dragEnter(e, index, info?.data?.tasks, info?.teammateIndex)
                                           }}
                                           onDragEnd={(e) => {
-                                            drop(e, index, info?.data?.tasks, info?.teammate)
+                                            drop(e, index, info?.data?.tasks, info?.teammateIndex)
                                           }}
                                         >
                                           <Col sm="8">
@@ -379,6 +350,7 @@ export default function HomeBlock(props) {
                                         </Row>
                                         <hr className="divider" />
                                       </div>
+
                                     );
                                   })
                                 )}
