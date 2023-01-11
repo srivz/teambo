@@ -267,8 +267,8 @@ export default function TeammateTable(props) {
                         return (
                             <>
                                 {!info.data.tasks ? (
-                                    <TableRow colSpan={7} align="center">
-                                        No tasks assigned
+                                    <TableRow>
+                                        <TableCell colSpan={8} align="center" > No tasks assigned</TableCell>
                                     </TableRow>
                                 ) : (
                                         info?.data?.tasks?.filter((info1) => {

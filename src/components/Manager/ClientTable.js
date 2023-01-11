@@ -87,15 +87,17 @@ export default function ClientTable(props) {
                             {props?.team
                                 .map((info) => {
                                     return (
-                                        <>{info?.data?.tasks?.filter((info1) => { return info1.client === props?.clientSelected }).filter((info1) => {
-                                            return props?.filter !== "All" ?
+                                        <>{info?.data?.tasks?.filter((info1) => { return info1.client === props?.clientSelected })
+                                            .filter((info1) => {
+                                                return props?.filter !== "All" ?
                                                 info1.updates[
                                                     0
                                                 ].status === props?.filter
                                                 : info1.updates[
                                                     0
                                                 ].status !== props?.filter
-                                        }).map((info1, index) => {
+                                            })
+                                            .map((info1, index) => {
                                             return (
                                                 <TableRow
                                                     key={index}

@@ -184,7 +184,6 @@ export default function Notifications(props) {
             >
                 <Button
                     variant="light"
-                    className="box-shadow"
                     style={
                         !props?.teammate?.notifications
                             ? {
@@ -200,9 +199,9 @@ export default function Notifications(props) {
                                 fontFamily: 'rockwen',
                                 fontWeight: 'bold',
                                 padding: '10px',
+                                paddingLeft: '1.2em',
                                 borderRadius: '15px',
                                 marginRight: '1em',
-                                paddingLeft: '1.2em',
                             }
                     }
                 >
