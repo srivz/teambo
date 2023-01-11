@@ -8,12 +8,12 @@ export default function ClientTable(props) {
         <div className="overflow-set-auto table-height1">
             <Row className="table-height1">
                 <Col>
-        <Table
+                    <Table
                         stickyHeader
-            style={{
-                userSelect: "none",
-                borderCollapse: 'separate',
-                borderSpacing: '0 10px',
+                        style={{
+                            userSelect: "none",
+                            borderCollapse: 'separate',
+                            borderSpacing: '0 10px',
                         }}>
                         <TableHead>
                             <TableRow>
@@ -271,7 +271,11 @@ export default function ClientTable(props) {
                                     )
                                 })}
                         </TableBody>
-                    </Table></Col></Row></div></>
+                    </Table>
+                </Col>
+            </Row>
+        </div>
+    </>
     )
 }
 
