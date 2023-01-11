@@ -254,7 +254,8 @@ export default function HomeList() {
                     }}
                     style={{ width: 'fit-content' }}
                 >
-                    <Tab eventKey="Teammate" title="Teammate">
+                    <Tab eventKey="Teammate" title="Teammate" tabClassName={tab !== "Company" ? "bg-blue" : "bg-normal"}
+                    >
                     <div className="task-box">
                       <OverlayTrigger
                         trigger="click"
@@ -398,7 +399,7 @@ export default function HomeList() {
                       </div>
                     </div>
                   </Tab>
-                    <Tab eventKey="Company" title="Company">
+                    <Tab eventKey="Company" title="Company" tabClassName={tab !== "Teammate" ? "bg-blue" : "bg-normal"}>
                       <div className="task-box">
                         <input
                           className="rounded-2 w-100"

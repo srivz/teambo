@@ -442,3 +442,25 @@ z-index: 11212;
     0%   { transform: translate(0, 0); }
     100% { transform: translate(-100%, 0); }
 }
+.bg-blue{
+  position: relative;
+  color:#fff !important;
+  background: blue !important;
+}
+.bg-normal{
+  color: #000000 !important;
+  background-color: #fff !important;
+}
+.bg-blue::before{
+  background-color: blue !important;
+  color: #fff !important;
+    content: "";
+  position: absolute;
+  display: block;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  left: 0px;
+  transform: skewX(-8deg);
+ z-index: -11;
+}
