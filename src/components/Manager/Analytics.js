@@ -40,6 +40,9 @@ export default function Analytics() {
                         user2="ANALYTICS"
                         name={manager.name}
                         role={manager.designation}
-                    /></div>)}</>
+                    />
+                </div>
+            )}
+        </>
     )
 }

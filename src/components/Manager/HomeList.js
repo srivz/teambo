@@ -513,7 +513,8 @@ export default function HomeList() {
                                   id="dropdown-basic"
                                   style={{ height: "45px" }}
                                   className="w-100  company-dropdown"
-                                >{filter}
+                                >
+                                  {filter}
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu
@@ -596,16 +597,22 @@ export default function HomeList() {
                             >
                               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
                                 <Dropdown
-                                  style={{ width: "200px" }}>
+                                  style={{
+                                    width: "200px"
+                                  }}>
                                   <Dropdown.Toggle
-                                    style={{ height: "45px" }}
+                                    style={{
+                                      height: "45px"
+                                    }}
                                     id="dropdown-basic"
                                     className="w-100  company-dropdown"
                                   >{filter}
                                   </Dropdown.Toggle>
 
                                   <Dropdown.Menu
-                                    style={{ width: "200px" }} className="company-dropdown-menu">
+                                    style={{
+                                      width: "200px"
+                                    }} className="company-dropdown-menu">
                                     <Dropdown.Item
                                       onClick={(e) => {
                                         setFilter("All")
