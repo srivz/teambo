@@ -216,6 +216,7 @@ export default function NewTask(props) {
           <div
             className="bg-white"
             style={{
+              zIndex: "5",
               padding: "1em",
               marginTop: "10px",
               marginLeft: "-50px",

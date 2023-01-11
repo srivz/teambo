@@ -279,6 +279,7 @@ export default function HomeList() {
                                     padding: '1em',
                                     marginTop: '10px',
                                     marginLeft: '-50px',
+                                    zIndex: "5",
                                     width: '400px',
                                     boxShadow: 'rgba(0, 0, 0, 0.15) 1px 3px 5px',
                                   }}
@@ -323,9 +324,10 @@ export default function HomeList() {
                             >
                               <FontAwesomeIcon
                                 title='Add Teammate'
+                                size='2xl'
                                 icon="fa-regular fa-square-plus"
                                 className='pointer'
-                                style={{ marginRight: '1.5em', marginTop: '.5em' }}
+                                style={{ marginLeft: "-10px", marginTop: "3px" }}
                               />
                             </OverlayTrigger>
                           </Col>
@@ -395,9 +397,9 @@ export default function HomeList() {
                         <input
                           className="rounded-2 w-100"
                           style={{
-                            marginTop: '1em',
-                            padding: '.4em',
-                            border: "2px solid #CDCDCD",
+                            padding: '.5em',
+                            paddingLeft: "1em",
+                            border: "1px solid #CDCDCD",
                             borderRadius: "25px",
                             outline: "none",
                           }}
@@ -495,7 +497,7 @@ export default function HomeList() {
                     .map((info, index) => {
                       return (
                         <Row key={index}>
-                          <Col sm={6} md={6} style={{ marginTop: '1em' }}>
+                          <Col sm={6} md={6} style={{ paddingLeft: '1.5em', marginTop: '1em' }}>
                             <h5 className="blue">{info.data.name}</h5>
                             <h6>{info.data.designation}</h6>
 
@@ -552,18 +554,20 @@ export default function HomeList() {
                                 </Dropdown.Menu>
                               </Dropdown>
                               <FontAwesomeIcon
+                                className="pointer"
                                 icon="fa-solid fa-list"
                                 color="#5f8fee"
                                 style={{
-                                  paddingRight: '1em', fontSize: "20px"
+                                  marginRight: '1em', fontSize: "20px"
                                 }}
                               />
                               <FontAwesomeIcon
+                                className="pointer"
                                 onClick={() => {
                                   navigate('/manager/home/block')
                                 }}
                                 icon="fa-solid fa-grip "
-                                style={{ paddingRight: '1em', fontSize: "20px" }}
+                                style={{ marginRight: '1em', fontSize: "20px" }}
                               />
                               <NewTask
                                 name={info.data.name}
@@ -583,7 +587,7 @@ export default function HomeList() {
                       .map((info) => {
                         return (
                           <Row>
-                            <Col sm={6} md={6} style={{ marginTop: '1.5em' }}>
+                            <Col sm={6} md={6} style={{ paddingLeft: '1.5em', marginTop: '1.5em' }}>
                               <h4 className="blue">{info}</h4>
                             </Col>
                             <Col

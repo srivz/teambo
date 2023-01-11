@@ -212,17 +212,19 @@ export default function HomeBlock(props) {
                               className="text-end">
                               <div>
                                 <FontAwesomeIcon
+                                  className="pointer"
                                   onClick={() => {
                                     navigate('/manager/home/list');
                                   }}
                                   icon="fa-solid fa-list"
-                                  style={{ paddingRight: "1em", fontSize: "20px" }}
+                                  style={{ marginRight: "1em", fontSize: "20px" }}
                                 />
 
                                 <FontAwesomeIcon
+                                  className="pointer"
                                   icon="fa-solid fa-grip "
                                   color="#5f8fee"
-                                  style={{ paddingRight: "1em", fontSize: "20px" }}
+                                  style={{ marginRight: "1em", fontSize: "20px" }}
                                 />
                                 <NewTask
                                   name={info.data.name}

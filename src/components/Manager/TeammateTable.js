@@ -185,6 +185,7 @@ export default function TeammateTable(props) {
                         style={{
                             borderCollapse: 'separate',
                             borderSpacing: '0 10px',
+                            paddingLeft: "10px",
                         }}>
                         <TableHead>
                             <TableRow>

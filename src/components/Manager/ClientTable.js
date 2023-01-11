@@ -14,6 +14,7 @@ export default function ClientTable(props) {
                             userSelect: "none",
                             borderCollapse: 'separate',
                             borderSpacing: '0 10px',
+                            paddingLeft: "10px",
                         }}>
                         <TableHead>
                             <TableRow>
@@ -107,9 +108,8 @@ export default function ClientTable(props) {
                                                             ].status !== 'Completed'
                                                                 ? '#fff'
                                                                 : '#f1f4fb',
-                                                        borderRadius: "15px",
-                                                        marginLeft: "5px",
-                                                        boxShadow: "0px 1px 18px #0000001A",
+                                                        boxShadow: "0px 3px 12px #0000001D",
+                                                        borderRadius: "15px"
                                                     }}
                                                 >
                                                     <TableCell

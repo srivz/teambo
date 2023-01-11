@@ -120,10 +120,10 @@ width: 100%;
   background-color: rgb(84, 128, 239);
 }
 .table-height {
-  max-height: 40vh;
+  max-height: 70vh;
 }
 .table-height1 {
-  max-height: 65vh;
+  max-height: 67vh;
 }
 .table-height2 {
   max-height: 70vh;
@@ -138,7 +138,7 @@ width: 100%;
 width:3px;
 background:rgba(0, 0, 0, 0.085);
 border: 3.5px solid white;
-margin-top: 1em;
+margin-top: 5em;
 margin-bottom: 1em;
 }
 .overflow-set-auto {
@@ -161,14 +161,14 @@ margin-bottom: 1em;
 width:3px;
 background:rgba(0, 0, 0, 0.085);
 border: 3.5px solid white;
-margin-top: 1em;
+margin-top: 3em;
 margin-bottom: 1em;
 }
 .curve-box-homelist::-webkit-scrollbar-track {
 width:3px;
 background:rgba(0, 0, 0, 0.085);
 border: 3.5px solid white;
-margin-top: 1em;
+margin-top: 2em;
 margin-bottom: 1em;
 }
 .curve-box-homelist ::-webkit-scrollbar-thumb {
