@@ -327,7 +327,8 @@ export default function Signup({ userid }) {
                 <div className="row">
                   <div className="col-sm-6 col-md-6">
                       <label htmlFor="pwd">Designation</label>
-                      <Dropdown
+                      {userid === "teammate" ?
+                        <Dropdown
                         drop={"up"}>
                         <Dropdown.Toggle
                           id="dropdown-basic"
@@ -339,7 +340,8 @@ export default function Signup({ userid }) {
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu className="company-dropdown-menu">
-                          <div className="add-new-company-input">
+
+                            <div className="add-new-company-input">
                             <input
                               type="text"
                               name="newDesignation"
@@ -350,6 +352,7 @@ export default function Signup({ userid }) {
                           </div>
                           <div className=" company-dropdown-menu-list company-dropdown-menu-height">
                             <Row className="company-dropdown-menu-height">
+
                               {designationNameList.length === 0 && newDesignation === ''
                                 ? prevDesignations?.map((designation, index) => {
                                   return (
@@ -385,6 +388,7 @@ export default function Signup({ userid }) {
                                     </Dropdown.Item>
                                   )
                                 })}
+
                             </Row>
                           </div>
                           <div className="add-new-input">
@@ -395,9 +399,35 @@ export default function Signup({ userid }) {
                             >
                               Add Designation
                             </button>
-                          </div>
+                            </div>
                         </Dropdown.Menu>
-                      </Dropdown>
+                        </Dropdown> :
+                        <Dropdown
+                          drop={"down"}>
+                          <Dropdown.Toggle
+                            id="dropdown-basic"
+                            className="w-100  company-dropdown"
+                          >
+                            {user.designation === ''
+                              ? 'Select Designation '
+                              : user.designation}
+                          </Dropdown.Toggle>
+
+                          <Dropdown.Menu className="company-dropdown-menu"><Dropdown.Item
+                            onClick={(e) => {
+                              setUser((old) => {
+                                return {
+                                  ...old,
+                                  designation: 'Manager',
+                                }
+                              })
+                            }}
+                          >
+                            Manager
+                          </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      }
                   </div>
                   <div className="col-sm-6 col-md-6">
                       <label htmlFor="pwd">Re-enter Password:</label>
