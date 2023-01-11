@@ -183,7 +183,7 @@ margin-bottom: 1em;
 .task-box {
   background-color: white;
   max-width: 450px;
-  box-shadow: rgba(0, 0, 0, 0.14) 0px 1px 3px;
+  box-shadow: rgba(0, 0, 0, 0.14) 0px 3px 13px;
   border-radius: 5px;
   padding: 10px;
 }

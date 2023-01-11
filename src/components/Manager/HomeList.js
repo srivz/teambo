@@ -242,10 +242,8 @@ export default function HomeList() {
                         'tabSelected',
                         JSON.stringify(e)
                       );
-                    }}
-                >
-                    <Tab eventKey="Teammate" title="Teammate"
-                    >
+                    }}>
+                    <Tab eventKey="Teammate" title="Teammate">
                       <div className="task-box">
                         <Row>
                           <Col sm={10} md={10}>
