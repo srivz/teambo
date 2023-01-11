@@ -246,90 +246,90 @@ export default function HomeList() {
                 >
                     <Tab eventKey="Teammate" title="Teammate"
                     >
-                    <div className="task-box">
-                      <OverlayTrigger
-                        trigger="click"
-                        key="auto"
-                        placement="auto"
-                        rootClose
-                        overlay={
-                          <div
-                            className="bg-white "
-                            style={{
-                              padding: '1em',
-                              marginTop: '10px',
-                              marginLeft: '-50px',
-                              width: '400px',
-                              boxShadow: 'rgba(0, 0, 0, 0.15) 1px 3px 5px',
-                            }}
-                          >
-                            <Row>
-                              <Col md={'10'}>
-                                <input
-                                  className="rounded-2 w-100"
+                      <div className="task-box">
+                        <Row>
+                          <Col sm={10} md={10}>
+                            <input
+                              className="rounded-2 w-100"
+                              style={{
+                                padding: '.4em',
+                                paddingLeft: '1em',
+                                border: "1px solid #CDCDCD",
+                                borderRadius: "25px",
+                                outline: "none",
+                              }}
+                              type="search"
+                              name="search"
+                              id="search"
+                              onChange={(e) => setSearchText(e.target.value)}
+                              placeholder="Search"
+                            />
+                          </Col>
+                          <Col sm={1} md={1}>
+                            <OverlayTrigger
+                              trigger="click"
+                              key="auto"
+                              placement="auto"
+                              rootClose
+                              overlay={
+                                <div
+                                  className="bg-white "
                                   style={{
-                                    marginTop: '.5em',
-                                    padding: '.25em',
-                                    borderRadius: '25px',
                                     border: '2px solid #e8e7e7',
-                                    paddingLeft: '20px',
+                                    padding: '1em',
+                                    marginTop: '10px',
+                                    marginLeft: '-50px',
+                                    width: '400px',
+                                    boxShadow: 'rgba(0, 0, 0, 0.15) 1px 3px 5px',
                                   }}
-                                  type="email"
-                                  name="email"
-                                  id="search"
-                                  placeholder="Teammate's Email"
-                                  onChange={(e) =>
-                                    setTeammateEmail(e.target.value)
-                                  }
-                                />
-                              </Col>
-                              <Col md={'2'}>
-                                <Button
-                                  style={{
-                                    marginTop: '.5em',
-                                    borderRadius: '25px',
-                                    border: '2px solid #e8e7e7',
-                                  }}
-                                  type="Button"
-                                  variant="light"
-                                  onClick={() => addTeammate()}
-                                  className="bg-white box-shadow rounded-4"
                                 >
-                                  <FontAwesomeIcon icon="fa-regular fa-square-plus" />
-                                </Button>
-                              </Col>
-                            </Row>
-                          </div>
-                        }
-                        >
-                        <Button
-                          type="Button"
-                          variant="light"
-                            className="bg-white box-shadow rounded-4"
-                          >
-                          <FontAwesomeIcon
-                            icon="fa-regular fa-square-plus"
-                              style={{ paddingRight: '.5em' }}
-                          />
-                          Add Teammate
-                        </Button>
-                      </OverlayTrigger>
-
-                      <input
-                        className="rounded-2 w-100"
-                        style={{
-                          marginTop: '1em',
-                          padding: '.4em',
-                          border: "2px solid #CDCDCD",
-                          borderRadius: "25px",
-                          outline: "none",
-                        }}
-                        type="search"
-                        name="search"
-                        id="search"
-                          onChange={(e) => setSearchText(e.target.value)}
-                          placeholder="Search"
-                        />
+                                  <Row>
+                                    <Col md={'10'}>
+                                      <input
+                                        className="rounded-2 w-100"
+                                        style={{
+                                          marginTop: '.5em',
+                                          padding: '.25em',
+                                          borderRadius: '25px',
+                                          border: '2px solid #e8e7e7',
+                                          paddingLeft: '20px',
+                                        }}
+                                        type="email"
+                                        name="email"
+                                        id="search"
+                                        placeholder="Teammate's Email"
+                                        onChange={(e) =>
+                                          setTeammateEmail(e.target.value)
+                                        }
+                                      />
+                                    </Col>
+                                    <Col md={'2'}>
+                                      <Button
+                                        style={{
+                                          marginTop: '.5em',
+                                          borderRadius: '25px',
+                                        }}
+                                        type="Button"
+                                        variant="light"
+                                        onClick={() => addTeammate()}
+                                        className="bg-white box-shadow rounded-4"
+                                      >
+                                        <FontAwesomeIcon icon="fa-regular fa-square-plus" />
+                                      </Button>
+                                    </Col>
+                                  </Row>
+                                </div>
+                              }
+                            >
+                              <FontAwesomeIcon
+                                title='Add Teammate'
+                                icon="fa-regular fa-square-plus"
+                                className='pointer'
+                                style={{ marginRight: '1.5em', marginTop: '.5em' }}
+                              />
+                            </OverlayTrigger>
+                          </Col>
+                        </Row>
                         <div className="overflow-set-auto table-height">
                         <Table
                             className="table-height"
@@ -387,7 +387,7 @@ export default function HomeList() {
                             )}
                           </TableBody>
                         </Table>
-                      </div>
+                        </div>
                     </div>
                   </Tab>
                     <Tab eventKey="Company" title="Company" >
@@ -642,72 +642,6 @@ export default function HomeList() {
                           </Row>)
                       }))
                   )}
-                  <Table>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell
-                          style={{
-                            fontFamily: 'rockwen',
-                          }}
-                          align="center"
-                        >
-                          {tab === "Company" ? "Teammate" : "Client"}
-                        </TableCell>
-                        <TableCell
-                          style={{
-                            fontFamily: 'rockwen',
-                          }}
-                          align="center"
-                        >
-                          Task
-                        </TableCell>
-                        <TableCell
-                          style={{
-                            fontFamily: 'rockwen',
-                          }}
-                          align="center"
-                        >
-                          Assigned
-                        </TableCell>
-                        <TableCell
-                          style={{
-                            fontFamily: 'rockwen',
-                          }}
-                          align="center"
-                        >
-                          Deadline
-                        </TableCell>
-                        <TableCell
-                          style={{
-                            fontFamily: 'rockwen',
-                          }}
-                          align="center"
-                        >
-                          Completed
-                        </TableCell>
-                        <TableCell
-                          style={{
-                            fontFamily: 'rockwen',
-                          }}
-                          align="center"
-                        >
-                          Corrections
-                        </TableCell>
-                        <TableCell
-                          style={{
-                            fontFamily: 'rockwen',
-                          }}
-                          align="center"
-                        >
-                          Status
-                        </TableCell>
-                        <TableCell></TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                <div className="overflow-set-auto table-height1">
-                  <Row className="table-height1">
-                      <Col>
                         {
                           teammateList && tab === "Teammate" ?
                             <TeammateTable
@@ -726,11 +660,7 @@ export default function HomeList() {
                             clientSelected={clientSelected}
                             dateFormatChange={dateFormatChange}
                             timeFormatChange={timeFormatChange} /> : <></>
-                        }
-
-                    </Col>
-                  </Row>
-                </div>
+                  }
               </Col>
             </Row>
           </Container>
