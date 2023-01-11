@@ -11,13 +11,17 @@ import { Row } from 'react-bootstrap'
 
 export default function Signup({ userid }) {
   const [newCompany, setNewCompany] = useState('')
+  const [newDesignation, setNewDesignation] = useState('')
+  const [designationNameList, setDesignationNameList] = useState([])
   const [companyNameList, setCompanyNameList] = useState([])
   const [isHide, setIsHide] = useState(false)
   const [isHide2, setIsHide2] = useState(false)
   const passwordRef = useRef()
   const passwordRef2 = useRef()
   const [prevCompanies, setPrevCompanies] = useState([])
+  const [prevDesignations, setPrevDesignations] = useState([])
   const [loading, setLoading] = useState(false)
+
   const searchCompany = (e) => {
     setNewCompany(e.target.value)
     const newFilter = prevCompanies.filter((val) => {
@@ -29,11 +33,33 @@ export default function Signup({ userid }) {
       setCompanyNameList(newFilter)
     }
   }
+  const searchDesignation = (e) => {
+    setNewDesignation(e.target.value)
+    const newFilter = prevDesignations.filter((val) => {
+      return val.toLowerCase().includes(e.target.value.toLowerCase())
+    })
+    if (e.target.value === '') {
+      setDesignationNameList(prevDesignations)
+    } else {
+      setDesignationNameList(newFilter)
+    }
+  }
   useEffect(() => {
     onValue(ref(db, `company/`), (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val()
         setPrevCompanies(data)
+      } else {
+        console.log('No data available')
+        setLoading(false)
+      }
+    })
+  }, [])
+  useEffect(() => {
+    onValue(ref(db, `designations/`), (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val()
+        setPrevDesignations(data)
       } else {
         console.log('No data available')
         setLoading(false)
@@ -49,8 +75,19 @@ export default function Signup({ userid }) {
       } else {
         const companies = [newCompany]
         set(ref(db, `company/`), companies)
-        alert(companies)
         setNewCompany('')
+      }
+  }
+  const addDesignation = () => {
+    if (newDesignation !== '')
+      if (prevDesignations) {
+        const designations = [...prevDesignations, newDesignation]
+        set(ref(db, `designations/`), designations)
+        setNewDesignation('')
+      } else {
+        const designations = [newDesignation]
+        set(ref(db, `designations/`), designations)
+        setNewDesignation('')
       }
   }
   const [user, setUser] = useState({
@@ -218,7 +255,7 @@ export default function Signup({ userid }) {
                                     <Dropdown.Item
                                       key={index}
                                       onClick={(e) => {
-                                        setNewCompany((old) => {
+                                        setUser((old) => {
                                           return {
                                             ...old,
                                             companyName: '' + company,
@@ -289,40 +326,78 @@ export default function Signup({ userid }) {
               <div className="form-group mb-4">
                 <div className="row">
                   <div className="col-sm-6 col-md-6">
-                    <label htmlFor="pwd">Designation</label>
-                    <select
-                      className="form-select"
-                      aria-label="Default select example"
-                      name="designation"
-                        onChange={handleChange}
-                      >
-                      <option
-                          selected={userid === 'teammate' ? true : false}
-                          hidden
+                      <label htmlFor="pwd">Designation</label>
+                      <Dropdown
+                        drop={"up"}>
+                        <Dropdown.Toggle
+                          id="dropdown-basic"
+                          className="w-100  company-dropdown"
                         >
-                        Select Designation
-                      </option>
-                        {userid === 'teammate' ? (
-                          <>
-                            <option value="Developer">Developer</option>
-                            <option value="Digital Artist">Digital Artist</option>
-                            <option value="Designer">Designer</option>
-                            <option value="Editor">Editor</option>
-                            <option value="Content writter">
-                              Content writter
-                            </option>
-                            <option value="Client Manager">Client Manager</option>
-                            <option value="Photographer">Photographer</option>
-                            <option value="Animator">Animator</option>
-                          </>
-                        ) : (
-                          <option
-                            value="Manager"
-                          >
-                            Manager
-                          </option>
-                        )}
-                    </select>
+                          {user.designation === ''
+                            ? 'Select Designation '
+                            : user.designation}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu className="company-dropdown-menu">
+                          <div className="add-new-company-input">
+                            <input
+                              type="text"
+                              name="newDesignation"
+                              placeholder="Search Designation"
+                              value={newDesignation}
+                              onChange={searchDesignation}
+                            />
+                          </div>
+                          <div className=" company-dropdown-menu-list company-dropdown-menu-height">
+                            <Row className="company-dropdown-menu-height">
+                              {designationNameList.length === 0 && newDesignation === ''
+                                ? prevDesignations?.map((designation, index) => {
+                                  return (
+                                    <Dropdown.Item
+                                      key={index}
+                                      onClick={(e) => {
+                                        setUser((old) => {
+                                          return {
+                                            ...old,
+                                            designation: '' + designation,
+                                          }
+                                        })
+                                      }}
+                                    >
+                                      {designation}
+                                    </Dropdown.Item>
+                                  )
+                                })
+                                : designationNameList.map((designation, index) => {
+                                  return (
+                                    <Dropdown.Item
+                                      key={index}
+                                      onClick={(e) => {
+                                        setUser((old) => {
+                                          return {
+                                            ...old,
+                                            designation: '' + designation,
+                                          }
+                                        })
+                                      }}
+                                    >
+                                      {designation}
+                                    </Dropdown.Item>
+                                  )
+                                })}
+                            </Row>
+                          </div>
+                          <div className="add-new-input">
+                            <button
+                              type="button"
+                              onClick={addDesignation}
+                              className="w-100"
+                            >
+                              Add Designation
+                            </button>
+                          </div>
+                        </Dropdown.Menu>
+                      </Dropdown>
                   </div>
                   <div className="col-sm-6 col-md-6">
                       <label htmlFor="pwd">Re-enter Password:</label>
