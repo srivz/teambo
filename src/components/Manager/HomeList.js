@@ -241,10 +241,9 @@ export default function HomeList() {
             <Container>
             <Row>
                 <Col sm={3} md={3} style={{ marginTop: '1em' }}>
-                <Tabs
-                    defaultActiveKey={tab}
-                  id="uncontrolled-tab-example"
-                    className="mt-3"
+                  <Tabs
+                    className="tabclass"
+                    activeKey={tab}
                     onSelect={(e) => {
                       setTab(e);
                       localStorage.setItem(
@@ -252,9 +251,8 @@ export default function HomeList() {
                         JSON.stringify(e)
                       );
                     }}
-                    style={{ width: 'fit-content' }}
                 >
-                    <Tab eventKey="Teammate" title="Teammate" tabClassName={tab !== "Company" ? "bg-blue" : "bg-normal"}
+                    <Tab eventKey="Teammate" title="Teammate"
                     >
                     <div className="task-box">
                       <OverlayTrigger
@@ -378,7 +376,6 @@ export default function HomeList() {
                                           selected === info.teammateId
                                             ? '#E2ECFF'
                                             : '#F9FBFF',
-                                        height: 'fit-content',
                                         borderRadius: '6px',
                                         borderBottom: "1px solid #fff",
                                         paddingTop: '.5em',
@@ -401,7 +398,7 @@ export default function HomeList() {
                       </div>
                     </div>
                   </Tab>
-                    <Tab eventKey="Company" title="Company" tabClassName={tab !== "Teammate" ? "bg-blue" : "bg-normal"}>
+                    <Tab eventKey="Company" title="Company" >
                       <div className="task-box">
                         <input
                           className="rounded-2 w-100"
