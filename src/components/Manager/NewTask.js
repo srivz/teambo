@@ -11,7 +11,7 @@ export default function NewTask(props) {
   var today = new Date();
   const [newClient,setNewClient]=useState("");
   const [clientList, setClientList] = useState([]);
-  const [teamRequest, setTeamRequest] = useState([])
+  const [teamRequest, setTeamRequest] = useState([]);
   const [newTask, setNewTask] = useState({
     client: "",
     task: "",
