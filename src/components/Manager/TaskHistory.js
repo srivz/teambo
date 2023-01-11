@@ -170,7 +170,7 @@ export default function TaskHistory(props) {
             </Button>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{ padding: "20px" }}>
+        <Modal.Body style={{ padding: "1.5em", marginLeft: "1.5em", marginRight: "1.5em" }}>
           <Row style={{ padding: "auto", margin: "auto" }}>
             <Col sm={6} md={6} style={{ marginTop: '1em' }}>
               <h5>{props?.name}</h5>
@@ -202,7 +202,7 @@ export default function TaskHistory(props) {
               </Form.Group>
             </Col>
           </Row>
-          <Row style={{ alignItems: "bottom" }}>
+          <Row style={{ paddingLeft: ".5em", alignItems: "bottom" }}>
             <Col sm={1} md={1} style={{ marginTop: '1em' }}>
               <h6>Client</h6>
             </Col>
@@ -268,7 +268,6 @@ export default function TaskHistory(props) {
                     width: '100px',
                     fontFamily: 'rockwen',
                   }}
-                  align="center"
                 >
                   Corrections
                 </TableCell>

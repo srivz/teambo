@@ -28,14 +28,14 @@ export default function NavBar({ user, user2, name, role }) {
             </span>
             <a style={user !== 'MANAGER' ? {
               display: "none",
-            } : user2 === "ANALYTICS" ? { backgroundColor: "#3975ea", color: "white" } : {}} href={user2 === "ANALYTICS" ? "/manager/home/list" : "/manager/analytics"} >
+            } : {}} href={user2 === "ANALYTICS" ? "/manager/home/list" : "/manager/analytics"} >
               <span style={{
                 marginLeft: "1.5em",
                 border: "2px black"
               }}>
                 <Button
                   variant="light"
-
+                  style={user2 === "ANALYTICS" ? { border: "2px solid #ebebeb", backgroundColor: "#3975ea", color: "white", borderRadius: "15px" } : { border: "2px solid #ebebeb", backgroundColor: "white", borderRadius: "15px" }}
                 >
                   <FontAwesomeIcon icon="fa-solid fa-chart-line" />
                 </Button></span></a>

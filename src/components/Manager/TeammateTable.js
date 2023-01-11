@@ -5,6 +5,7 @@ import emailjs from '@emailjs/browser';
 import React, { useRef, useState } from 'react'
 import {
     Button,
+    Col,
     OverlayTrigger,
     Popover,
     Row,
@@ -197,77 +198,90 @@ export default function TeammateTable(props) {
 
 
 
-    return (
-        <Table
-            style={{
-                borderCollapse: 'separate',
-                borderSpacing: '0 10px',
-            }}
-        >
-            <TableHead>
-                <TableRow>
-                    <TableCell
+    return (<>
+        <div className="overflow-set-auto table-height1">
+            <Row className="table-height1">
+                <Col>
+                    <Table
+                        stickyHeader
                         style={{
-                            fontFamily: 'rockwen',
-
-                        }}
-                        align="center"
-                    >
-                        Client
-                    </TableCell>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Task
-                    </TableCell>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Assigned
-                    </TableCell>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Deadline
-                    </TableCell>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Completed
-                    </TableCell>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Corrections
-                    </TableCell>
-                    <TableCell
-                        style={{
-                            fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                    >
-                        Status
-                    </TableCell>
-                    <TableCell></TableCell>
-                </TableRow>
-            </TableHead>
-
-
+                            borderCollapse: 'separate',
+                            borderSpacing: '0 10px',
+                            paddingLeft: "10px",
+                        }}>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell
+                                    style={{
+                                        fontFamily: 'rockwen',
+                                        width: "100px"
+                                    }}
+                                    align="center"
+                                >
+                                    Teammate
+                                </TableCell>
+                                <TableCell
+                                    style={{
+                                        fontFamily: 'rockwen',
+                                        width: "200px"
+                                    }}
+                                    align="center"
+                                >
+                                    Task
+                                </TableCell>
+                                <TableCell
+                                    style={{
+                                        fontFamily: 'rockwen',
+                                        width: "100px"
+                                    }}
+                                    align="center"
+                                >
+                                    Assigned
+                                </TableCell>
+                                <TableCell
+                                    style={{
+                                        fontFamily: 'rockwen',
+                                        width: "130px"
+                                    }}
+                                    align="center"
+                                >
+                                    Deadline
+                                </TableCell>
+                                <TableCell
+                                    style={{
+                                        fontFamily: 'rockwen',
+                                        width: "100px"
+                                    }}
+                                    align="center"
+                                >
+                                    Completed
+                                </TableCell>
+                                <TableCell
+                                    style={{
+                                        fontFamily: 'rockwen',
+                                        width: "100px"
+                                    }}
+                                    align="center"
+                                >
+                                    Corrections
+                                </TableCell>
+                                <TableCell
+                                    style={{
+                                        fontFamily: 'rockwen',
+                                        width: "100px"
+                                    }}
+                                    align="center"
+                                >
+                                    Status
+                                </TableCell>
+                                <TableCell
+                                    style={{
+                                        fontFamily: 'rockwen',
+                                        width: "60px"
+                                    }}
+                                    align="center"></TableCell>
+                            </TableRow>
+                        </TableHead>
             <TableBody className="curve-box-homelist" >
                 {props?.team
                     .filter((info) => info.teammateId === selected)
@@ -275,8 +289,8 @@ export default function TeammateTable(props) {
                         return (
                             <>
                                 {!info.data.tasks ? (
-                                    <TableRow colSpan={7} align="center">
-                                        No tasks assigned
+                                    <TableRow>
+                                        <TableCell colSpan={8} align="center" > No tasks assigned</TableCell>
                                     </TableRow>
                                 ) : (
                                         info?.data?.tasks?.filter((info1) => {
@@ -300,9 +314,11 @@ export default function TeammateTable(props) {
                                                         ].status !== 'Completed'
                                                             ? '#fff'
                                                             : '#f1f4fb',
-                                                    height: '70px'
+                                                    borderRadius: "15px",
+                                                    marginLeft: "5px",
+                                                    marginRight: "5px",
+                                                    boxShadow: "0px 1px 18px #0000001A",
                                                 }}
-                                                className="box-shadow"
                                                 draggable
                                                 onDragStart={(e) => {
                                                     dragStart(e, index)
@@ -322,10 +338,11 @@ export default function TeammateTable(props) {
                                                     }}
                                                     style={{
                                                         fontFamily: 'rockwen',
+                                                        width: "90px"
 
                                                     }}
                                                     align="center"
-                                                    className="tablecell"
+
                                                 >
                                                     {info1.client}
                                                 </TableCell>
@@ -336,12 +353,14 @@ export default function TeammateTable(props) {
                                                     }}
                                                     style={{
                                                         fontFamily: 'rockwen',
-
+                                                        width: "180px"
                                                     }}
                                                     align="center"
-                                                    className="tablecell"
+
                                                 >
-                                                    {info1.task}
+                                                    <div className={info1.task.length > 20 ? 'marquee' : ''}>
+                                                        <h6>{info1.task}</h6>
+                                                    </div>
                                                 </TableCell>
                                                 {info1.updates
                                                     .sort((a, b) =>
@@ -362,9 +381,10 @@ export default function TeammateTable(props) {
                                                                     }}
                                                                     style={{
                                                                         fontFamily: 'rockwen',
+                                                                        width: "150px"
                                                                     }}
                                                                     align="center"
-                                                                    className="tablecell"
+
                                                                 >
                                                                     {dateFormatChange(
                                                                         info1.updates[
@@ -385,9 +405,10 @@ export default function TeammateTable(props) {
                                                                     }}
                                                                     style={{
                                                                         fontFamily: 'rockwen',
+                                                                        width: "150px"
                                                                     }}
                                                                     align="center"
-                                                                    className="tablecell"
+
                                                                 >
                                                                     {dateFormatChange(
                                                                         info1.updates[
@@ -408,9 +429,10 @@ export default function TeammateTable(props) {
                                                                     }}
                                                                     style={{
                                                                         fontFamily: 'rockwen',
+                                                                        width: "100px"
                                                                     }}
                                                                     align="center"
-                                                                    className="tablecell"
+
                                                                 >
                                                                     {info1.updates[
                                                                         info1.updates.length - 1
@@ -423,7 +445,7 @@ export default function TeammateTable(props) {
                                                                                     .length - 1
                                                                             ].endDate,
                                                                         )
-                                                                        : ''}
+                                                                        : '--'}
                                                                     <br />
                                                                     {info1.updates[
                                                                         info1.updates.length - 1
@@ -436,7 +458,7 @@ export default function TeammateTable(props) {
                                                                                     .length - 1
                                                                             ].endTime,
                                                                         )
-                                                                        : ''}
+                                                                        : '--'}
                                                                 </TableCell>
                                                                 <TableCell
                                                                     onClick={() => {
@@ -445,9 +467,10 @@ export default function TeammateTable(props) {
                                                                     }}
                                                                     style={{
                                                                         fontFamily: 'rockwen',
+                                                                        width: "100px"
                                                                     }}
                                                                     align="center"
-                                                                    className="tablecell"
+
                                                                 >
                                                                     {info1.updates[
                                                                         info1.updates.length - 1
@@ -468,7 +491,7 @@ export default function TeammateTable(props) {
                                                                         setTaskSelected(index);
                                                                     }}
                                                                     align="center"
-                                                                    className="tablecell"
+
                                                                     style={
                                                                         (info1.updates[
                                                                             info1.updates.length - 1
@@ -476,6 +499,7 @@ export default function TeammateTable(props) {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#000000',
                                                                             fontWeight: 'bold',
+                                                                            width: "100px"
                                                                         }) ||
                                                                         (info1.updates[
                                                                             info1.updates.length - 1
@@ -484,6 +508,7 @@ export default function TeammateTable(props) {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#000000',
                                                                             fontWeight: 'bold',
+                                                                            width: "100px"
                                                                         }) ||
                                                                         (info1.updates[
                                                                             info1.updates.length - 1
@@ -492,6 +517,7 @@ export default function TeammateTable(props) {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#24A43A',
                                                                             fontWeight: 'bold',
+                                                                            width: "100px"
                                                                         }) ||
                                                                         (info1.updates[
                                                                             info1.updates.length - 1
@@ -499,6 +525,7 @@ export default function TeammateTable(props) {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#2972B2',
                                                                             fontWeight: 'bold',
+                                                                            width: "100px"
                                                                         }) ||
                                                                         (info1.updates[
                                                                             info1.updates.length - 1
@@ -507,6 +534,7 @@ export default function TeammateTable(props) {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#D1AE00',
                                                                             fontWeight: 'bold',
+                                                                            width: "100px"
                                                                         })
                                                                     }
                                                                 >
@@ -530,7 +558,7 @@ export default function TeammateTable(props) {
                                                     })}
                                                 <TableCell
                                                     align="center"
-                                                    className="text-end tablecell"
+                                                    className="text-end"
                                                 >
                                                     {filter === "All" ? <OverlayTrigger
                                                         trigger="click"
@@ -748,7 +776,6 @@ export default function TeammateTable(props) {
                             </>
                         )
                     })}
-            </TableBody>
-        </Table>
+                        </TableBody></Table></Col></Row></div></>
     )
 }

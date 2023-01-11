@@ -13,6 +13,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 import NavBar from "../Navs/NavBar";
 import { useNavigate } from "react-router";
 import Loader from "../Loader/Loader";
+import TaskHistory from "./TaskHistory";
 
 
 
@@ -24,12 +25,15 @@ export default function HomeBlock(props) {
     JSON.parse(localStorage.getItem("teammateSelected")) === undefined ? 0 : JSON.parse(localStorage.getItem("teammateSelected"))
   );
 
-  const [manager, setManager] = useState({})
-  const [managerId, setManagerId] = useState({})
-  const [once, setOnce] = useState(true)
-  const [loading, setLoading] = useState(true)
-  const [once1, setOnce1] = useState(true)
-  const [teammateList, setTeammateList] = useState([])
+  const [manager, setManager] = useState({});
+  const [managerId, setManagerId] = useState({});
+  const [once, setOnce] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [once1, setOnce1] = useState(true);
+  const [teammateList, setTeammateList] = useState([]);
+  const [taskSelected, setTaskSelected] = useState();
+  const [teammateSelected, setTeammateSelected] = useState();
+  const [modalShow, setModalShow] = useState(false);
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -89,8 +93,6 @@ export default function HomeBlock(props) {
       return;
     }
     if (fromTeammate.current.id === toTeammate.current.id) {
-      console.log(fromTeammate.current)
-      console.log(toTeammate.current)
       let copyList = [...fromTeammate.current.tasks];
       const dragItemContent = copyList[fromTeammate.current.taskIndex];
       copyList.splice(fromTeammate.current.taskIndex, 1);
@@ -210,17 +212,19 @@ export default function HomeBlock(props) {
                               className="text-end">
                               <div>
                                 <FontAwesomeIcon
+                                  className="pointer"
                                   onClick={() => {
                                     navigate('/manager/home/list');
                                   }}
                                   icon="fa-solid fa-list"
-                                  style={{ paddingRight: "1em", fontSize: "20px" }}
+                                  style={{ marginRight: "1em", fontSize: "20px" }}
                                 />
 
                                 <FontAwesomeIcon
+                                  className="pointer"
                                   icon="fa-solid fa-grip "
                                   color="#5f8fee"
-                                  style={{ paddingRight: "1em", fontSize: "20px" }}
+                                  style={{ marginRight: "1em", fontSize: "20px" }}
                                 />
                                 <NewTask
                                   name={info.data.name}
@@ -240,7 +244,7 @@ export default function HomeBlock(props) {
                       })
                 )}
               </Col>
-              <Container className="overflow-set-auto table-height1">
+              <Container className="overflow-set-auto table-height2">
                 <ResponsiveMasonry
                   columnsCountBreakPoints={{ 300: 1, 600: 2, 750: 3, 900: 4 }}>
                   <Masonry>
@@ -261,6 +265,7 @@ export default function HomeBlock(props) {
                                   JSON.stringify(info.teammateId)
                                 );
                                 setSelected(info.teammateId);
+                                setTeammateSelected(info.teammateIndex);
                               }}>
                               <div className="cards">
                                 <div className="heading bg-blue p-3 rounded-3">
@@ -280,6 +285,10 @@ export default function HomeBlock(props) {
                                     return (
                                       <div
                                         key={index}
+                                        onClick={() => {
+                                          setModalShow(true);
+                                          setTaskSelected(index);
+                                        }}
                                         className="card-tasks">
                                         <Row draggable
                                           onDragStart={(e) => {
@@ -348,13 +357,29 @@ export default function HomeBlock(props) {
                                             )}
                                           </Col>
                                         </Row>
-                                        <hr className="divider" />
+                                        <hr className="divider" style={{ marginBottom: "-22px" }} />
                                       </div>
 
                                     );
                                   })
                                 )}
                               </div>
+                              {teammateList[teammateSelected]?.data?.tasks !== undefined && taskSelected !== null && teammateSelected !== null ? (
+                                <>
+                                  <TaskHistory
+                                    show={modalShow}
+                                    id={teammateList[teammateSelected]?.teammateId}
+                                    onHide={() => { setModalShow(false); setTaskSelected(null); }}
+                                    indexselected={taskSelected}
+                                    teamtasks={teammateList[teammateSelected]?.data?.tasks}
+                                    name={teammateList[teammateSelected]?.data.name}
+                                    managerId={props?.managerId}
+                                    teammateIndex={teammateList[teammateSelected]?.teammateIndex}
+                                    designation={teammateList[teammateSelected]?.data.designation}
+                                  /></>
+                              ) : (
+                                <></>
+                              )}
                             </div>
                           );
                         })

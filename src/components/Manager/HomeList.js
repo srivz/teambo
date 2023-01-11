@@ -42,7 +42,6 @@ export default function HomeList() {
   const [teamRequest, setTeamRequest] = useState([])
   const [teammateList, setTeammateList] = useState([])
   const [teammateSet, setTeammateSet] = useState([])
-  const [allTasks, setAllTasks] = useState([])
 
   const navigate = useNavigate();
 
@@ -63,9 +62,9 @@ export default function HomeList() {
           } else {
             console.log('No data available')
           }
-          setLoading(false)
         })
         setOnce(false)
+        setLoading(false)
       }
     } else {
       window.location.href = '/'
@@ -75,15 +74,8 @@ export default function HomeList() {
   const getTeammates = (teamList) => {
     if (once1) {
       setTeammateList(teamList)
-      teamList.forEach((teammate1) => {
-        let data = teammate1.data;
-        let teammate = teammate1.teammateId;
-        setAllTasks((oldTasks) => {
-          return [...oldTasks, { tasks: data.tasks, teammateEmail: teammate, teammate: data.name, teammateDesignation: data.designation }]
-        })
-        })
     }
-      setOnce1(false)
+    setOnce1(false)
   }
 
   window.addEventListener('unload', (e) => { signOut(auth); localStorage.clear(); })
@@ -241,105 +233,103 @@ export default function HomeList() {
             <Container>
             <Row>
                 <Col sm={3} md={3} style={{ marginTop: '1em' }}>
-                <Tabs
-                    defaultActiveKey={tab}
-                  id="uncontrolled-tab-example"
-                    className="mt-3"
+                  <Tabs
+                    className="tabclass"
+                    activeKey={tab}
                     onSelect={(e) => {
                       setTab(e);
                       localStorage.setItem(
                         'tabSelected',
                         JSON.stringify(e)
                       );
-                    }}
-                    style={{ width: 'fit-content' }}
-                >
-                    <Tab eventKey="Teammate" title="Teammate" tabClassName={tab !== "Company" ? "bg-blue" : "bg-normal"}
-                    >
-                    <div className="task-box">
-                      <OverlayTrigger
-                        trigger="click"
-                        key="auto"
-                        placement="auto"
-                        rootClose
-                        overlay={
-                          <div
-                            className="bg-white "
-                            style={{
-                              padding: '1em',
-                              marginTop: '10px',
-                              marginLeft: '-50px',
-                              width: '400px',
-                              boxShadow: 'rgba(0, 0, 0, 0.15) 1px 3px 5px',
-                            }}
-                          >
-                            <Row>
-                              <Col md={'10'}>
-                                <input
-                                  className="rounded-2 w-100"
+                    }}>
+                    <Tab eventKey="Teammate" title="Teammate">
+                      <div className="task-box">
+                        <Row>
+                          <Col sm={10} md={10}>
+                            <input
+                              className="rounded-2 w-100"
+                              style={{
+                                padding: '.4em',
+                                paddingLeft: '1em',
+                                border: "1px solid #CDCDCD",
+                                borderRadius: "25px",
+                                outline: "none",
+                              }}
+                              type="search"
+                              name="search"
+                              id="search"
+                              onChange={(e) => setSearchText(e.target.value)}
+                              placeholder="Search"
+                            />
+                          </Col>
+                          <Col sm={1} md={1}>
+                            <OverlayTrigger
+                              trigger="click"
+                              key="auto"
+                              placement="auto"
+                              rootClose
+                              overlay={
+                                <div
+                                  className="bg-white "
                                   style={{
-                                    marginTop: '.5em',
-                                    padding: '.25em',
-                                    borderRadius: '25px',
                                     border: '2px solid #e8e7e7',
-                                    paddingLeft: '20px',
+                                    padding: '1em',
+                                    marginTop: '10px',
+                                    marginLeft: '-50px',
+                                    zIndex: "5",
+                                    width: '400px',
+                                    boxShadow: 'rgba(0, 0, 0, 0.15) 1px 3px 5px',
                                   }}
-                                  type="email"
-                                  name="email"
-                                  id="search"
-                                  placeholder="Teammate's Email"
-                                  onChange={(e) =>
-                                    setTeammateEmail(e.target.value)
-                                  }
-                                />
-                              </Col>
-                              <Col md={'2'}>
-                                <Button
-                                  style={{
-                                    marginTop: '.5em',
-                                    borderRadius: '25px',
-                                    border: '2px solid #e8e7e7',
-                                  }}
-                                  type="Button"
-                                  variant="light"
-                                  onClick={() => addTeammate()}
-                                  className="bg-white box-shadow rounded-4"
                                 >
-                                  <FontAwesomeIcon icon="fa-regular fa-square-plus" />
-                                </Button>
-                              </Col>
-                            </Row>
-                          </div>
-                        }
-                        >
-                        <Button
-                          type="Button"
-                          variant="light"
-                            className="bg-white box-shadow rounded-4"
-                          >
-                          <FontAwesomeIcon
-                            icon="fa-regular fa-square-plus"
-                              style={{ paddingRight: '.5em' }}
-                          />
-                          Add Teammate
-                        </Button>
-                      </OverlayTrigger>
-
-                      <input
-                        className="rounded-2 w-100"
-                        style={{
-                          marginTop: '1em',
-                          padding: '.4em',
-                          border: "2px solid #CDCDCD",
-                          borderRadius: "25px",
-                          outline: "none",
-                        }}
-                        type="search"
-                        name="search"
-                        id="search"
-                          onChange={(e) => setSearchText(e.target.value)}
-                          placeholder="Search"
-                        />
+                                  <Row>
+                                    <Col md={'10'}>
+                                      <input
+                                        className="rounded-2 w-100"
+                                        style={{
+                                          marginTop: '.5em',
+                                          padding: '.25em',
+                                          borderRadius: '25px',
+                                          border: '2px solid #e8e7e7',
+                                          paddingLeft: '20px',
+                                        }}
+                                        type="email"
+                                        name="email"
+                                        id="search"
+                                        placeholder="Teammate's Email"
+                                        onChange={(e) =>
+                                          setTeammateEmail(e.target.value)
+                                        }
+                                      />
+                                    </Col>
+                                    <Col md={'2'}>
+                                      <Button
+                                        style={{
+                                          marginTop: '.5em',
+                                          borderRadius: '25px',
+                                        }}
+                                        type="Button"
+                                        variant="light"
+                                        onClick={() => addTeammate()}
+                                        className="bg-white box-shadow rounded-4"
+                                      >
+                                        <FontAwesomeIcon icon="fa-regular fa-square-plus" />
+                                      </Button>
+                                    </Col>
+                                  </Row>
+                                </div>
+                              }
+                            >
+                              <FontAwesomeIcon
+                                title='Add Teammate'
+                                size='2xl'
+                                icon="fa-regular fa-square-plus"
+                                className='pointer'
+                                style={{ marginLeft: "-10px", marginTop: "3px" }}
+                              />
+                            </OverlayTrigger>
+                          </Col>
+                        </Row>
                         <div className="overflow-set-auto table-height">
                         <Table
                             className="table-height"
@@ -367,7 +357,7 @@ export default function HomeList() {
                                       localStorage.setItem(
                                         'teammateSelected',
                                         JSON.stringify(info.teammateId)
-                                      ); 
+                                      );
                                       setSelected(info.teammateId);
                                     }}
                                     style={{ backgroundColor: "#fff !important" }}
@@ -378,7 +368,6 @@ export default function HomeList() {
                                           selected === info.teammateId
                                             ? '#E2ECFF'
                                             : '#F9FBFF',
-                                        height: 'fit-content',
                                         borderRadius: '6px',
                                         borderBottom: "1px solid #fff",
                                         paddingTop: '.5em',
@@ -398,17 +387,17 @@ export default function HomeList() {
                             )}
                           </TableBody>
                         </Table>
-                      </div>
+                        </div>
                     </div>
                   </Tab>
-                    <Tab eventKey="Company" title="Company" tabClassName={tab !== "Teammate" ? "bg-blue" : "bg-normal"}>
+                    <Tab eventKey="Company" title="Company" >
                       <div className="task-box">
                         <input
                           className="rounded-2 w-100"
                           style={{
-                            marginTop: '1em',
-                            padding: '.4em',
-                            border: "2px solid #CDCDCD",
+                            padding: '.5em',
+                            paddingLeft: "1em",
+                            border: "1px solid #CDCDCD",
                             borderRadius: "25px",
                             outline: "none",
                           }}
@@ -477,7 +466,7 @@ export default function HomeList() {
                         </Table>
                       </div>
                     </div>
-                    </Tab> 
+                    </Tab>
                   </Tabs>
               </Col>
               <Col
@@ -506,7 +495,7 @@ export default function HomeList() {
                     .map((info, index) => {
                       return (
                         <Row key={index}>
-                          <Col sm={6} md={6} style={{ marginTop: '1em' }}>
+                          <Col sm={6} md={6} style={{ paddingLeft: '1.5em', marginTop: '1em' }}>
                             <h5 className="blue">{info.data.name}</h5>
                             <h6>{info.data.designation}</h6>
 
@@ -518,13 +507,14 @@ export default function HomeList() {
                             className="text-end"
                           >
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
-                              <Dropdown 
+                              <Dropdown
                                 style={{ width: "150px", marginRight: '1em' }}>
                                 <Dropdown.Toggle
                                   id="dropdown-basic"
                                   style={{ height: "45px" }}
                                   className="w-100  company-dropdown"
-                                >{filter}
+                                >
+                                  {filter}
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu
@@ -563,18 +553,20 @@ export default function HomeList() {
                                 </Dropdown.Menu>
                               </Dropdown>
                               <FontAwesomeIcon
+                                className="pointer"
                                 icon="fa-solid fa-list"
                                 color="#5f8fee"
                                 style={{
-                                  paddingRight: '1em', fontSize: "20px"
+                                  marginRight: '1em', fontSize: "20px"
                                 }}
                               />
                               <FontAwesomeIcon
+                                className="pointer"
                                 onClick={() => {
                                   navigate('/manager/home/block')
                                 }}
                                 icon="fa-solid fa-grip "
-                                style={{ paddingRight: '1em', fontSize: "20px" }}
+                                style={{ marginRight: '1em', fontSize: "20px" }}
                               />
                               <NewTask
                                 name={info.data.name}
@@ -594,7 +586,7 @@ export default function HomeList() {
                       .map((info) => {
                         return (
                           <Row>
-                            <Col sm={6} md={6} style={{ marginTop: '1.5em' }}>
+                            <Col sm={6} md={6} style={{ paddingLeft: '1.5em', marginTop: '1.5em' }}>
                               <h4 className="blue">{info}</h4>
                             </Col>
                             <Col
@@ -604,17 +596,23 @@ export default function HomeList() {
                               className="text-end"
                             >
                               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around" }}>
-                                <Dropdown 
-                                  style={{ width: "200px" }}>
+                                <Dropdown
+                                  style={{
+                                    width: "200px"
+                                  }}>
                                   <Dropdown.Toggle
-                                    style={{ height: "45px" }}
+                                    style={{
+                                      height: "45px"
+                                    }}
                                     id="dropdown-basic"
                                     className="w-100  company-dropdown"
                                   >{filter}
                                   </Dropdown.Toggle>
 
                                   <Dropdown.Menu
-                                    style={{ width: "200px" }} className="company-dropdown-menu">
+                                    style={{
+                                      width: "200px"
+                                    }} className="company-dropdown-menu">
                                     <Dropdown.Item
                                       onClick={(e) => {
                                         setFilter("All")
@@ -652,10 +650,7 @@ export default function HomeList() {
                             </Col>
                           </Row>)
                       }))
-                )}
-                <div className="overflow-set-auto table-height1">
-                  <Row className="table-height1">
-                      <Col>
+                  )}
                         {
                           teammateList && tab === "Teammate" ?
                             <TeammateTable
@@ -664,21 +659,17 @@ export default function HomeList() {
                               team={teammateList}
                               addTeammate={addTeammate}
                               manager={manager}
-                              managerId={managerId}
-                              allTasks={allTasks} />
+                              managerId={managerId} />
                             : <></>}
                         {
-                          allTasks && tab === "Company" ? <ClientTable
+                          teammateList && tab === "Company" ?
+                            <ClientTable
                             filter={filter}
-                            allTasks={allTasks}
+                              team={teammateList}
                             clientSelected={clientSelected}
                             dateFormatChange={dateFormatChange}
                             timeFormatChange={timeFormatChange} /> : <></>
-                        }
-
-                    </Col>
-                  </Row>
-                </div>
+                  }
               </Col>
             </Row>
           </Container>

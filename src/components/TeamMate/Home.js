@@ -422,9 +422,9 @@ export default function Home() {
 
                         <TableBody>
                           {!teammate.tasks ? (
-                              <TableRow colSpan={7} align="center">
-                              No tasks right now
-                            </TableRow>
+                              <TableRow>
+                                <TableCell colSpan={8} align="center" > No tasks assigned</TableCell>
+                              </TableRow>
                           ) : (
                             teammate.tasks
                                   .filter((info) => {
