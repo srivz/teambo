@@ -187,6 +187,7 @@ export default function TeammateTable(props) {
                     <TableCell
                         style={{
                             fontFamily: 'rockwen',
+
                         }}
                         align="center"
                     >
@@ -299,6 +300,7 @@ export default function TeammateTable(props) {
                                                     }}
                                                     style={{
                                                         fontFamily: 'rockwen',
+
                                                     }}
                                                     align="center"
                                                     className="tablecell"
@@ -312,6 +314,7 @@ export default function TeammateTable(props) {
                                                     }}
                                                     style={{
                                                         fontFamily: 'rockwen',
+
                                                     }}
                                                     align="center"
                                                     className="tablecell"

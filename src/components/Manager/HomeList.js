@@ -383,10 +383,12 @@ export default function HomeList() {
                                         borderBottom: "1px solid #fff",
                                         paddingTop: '.5em',
                                         paddingBottom: '0em',
+                                        height: "10px !important",
+                                        width: "100% !important"
                                       }}
                                     >
-                                      <h5>{info.data.name}</h5>
-                                      <p className="grey">
+                                      <h6>{info.data.name}</h6>
+                                      <p className="grey" style={{ fontSize: "12px" }}>
                                         {info.data.designation}
                                       </p>
                                     </TableCell>

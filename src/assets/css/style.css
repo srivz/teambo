@@ -78,7 +78,8 @@ body {
 .box-shadow {
   background: #FFFFFF 0% 0% no-repeat padding-box;
 box-shadow: 0px 3px 20px #fffcfc0d !important;
-border-radius: 6px !important;
+border-radius: 3px !important;
+width: 100%;
 
 }
 .curve-box-homelist tr {
