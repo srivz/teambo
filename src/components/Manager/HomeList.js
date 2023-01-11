@@ -42,7 +42,6 @@ export default function HomeList() {
   const [teamRequest, setTeamRequest] = useState([])
   const [teammateList, setTeammateList] = useState([])
   const [teammateSet, setTeammateSet] = useState([])
-  const [allTasks, setAllTasks] = useState([])
 
   const navigate = useNavigate();
 
@@ -75,13 +74,6 @@ export default function HomeList() {
   const getTeammates = (teamList) => {
     if (once1) {
       setTeammateList(teamList)
-      teamList.forEach((teammate1) => {
-        let data = teammate1.data;
-        let teammate = teammate1.teammateId;
-        setAllTasks((oldTasks) => {
-          return [...oldTasks, { tasks: data.tasks, teammateEmail: teammate, teammate: data.name, teammateDesignation: data.designation }]
-        })
-      })
     }
     setOnce1(false)
   }
@@ -724,14 +716,13 @@ export default function HomeList() {
                               team={teammateList}
                               addTeammate={addTeammate}
                               manager={manager}
-                              managerId={managerId}
-                              allTasks={allTasks} />
+                              managerId={managerId} />
                             : <></>}
                         {
-                          allTasks && tab === "Company" ?
+                          teammateList && tab === "Company" ?
                             <ClientTable
                             filter={filter}
-                            allTasks={allTasks}
+                              team={teammateList}
                             clientSelected={clientSelected}
                             dateFormatChange={dateFormatChange}
                             timeFormatChange={timeFormatChange} /> : <></>
