@@ -427,7 +427,7 @@ export default function HomeList() {
                               </TableRow>
                               ) : (
                                   manager?.clients?.filter((info) => {
-                                    return info.toLowerCase().includes(searchText2?.toLowerCase())
+                                    return info.name.toLowerCase().includes(searchText2?.toLowerCase())
                                   })
                                     ?.map((info) => {
                                       return (
@@ -445,7 +445,7 @@ export default function HomeList() {
                                           <TableCell
                                             style={{
                                               backgroundColor:
-                                                info === clientSelected
+                                                info.name === clientSelected
                                                   ? '#E2ECFF'
                                                   : '#F9FBFF',
                                               height: 'fit-content',
