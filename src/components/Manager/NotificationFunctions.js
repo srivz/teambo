@@ -88,3 +88,102 @@ export default function notifyNewTask(teamRequest, managerId, teammateIndex, new
         }
     }
 }
+
+// export function notifySwitchTask(teamRequest, managerId, teammateIndex, newTask) {
+
+//     if (teamRequest === undefined) {
+//         let newArr = { 0: { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) } }
+//         set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr)
+//     }
+//     else {
+//         let newArr = []
+//         let exists = false
+//         teamRequest.forEach((element) => {
+//             exists = true
+//             newArr.push(element)
+//         })
+//         if (exists) {
+//             let newArr2 = [...newArr, { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) }]
+//             set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr2)
+//         }
+//     }
+// }
+
+// export function notifyDeleteTask(teamRequest, managerId, teammateIndex, newTask) {
+
+//     if (teamRequest === undefined) {
+//         let newArr = { 0: { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) } }
+//         set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr)
+//     }
+//     else {
+//         let newArr = []
+//         let exists = false
+//         teamRequest.forEach((element) => {
+//             exists = true
+//             newArr.push(element)
+//         })
+//         if (exists) {
+//             let newArr2 = [...newArr, { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) }]
+//             set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr2)
+//         }
+//     }
+// }
+
+// export function notifyCompleteTask(teamRequest, managerId, teammateIndex, newTask) {
+
+//     if (teamRequest === undefined) {
+//         let newArr = { 0: { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) } }
+//         set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr)
+//     }
+//     else {
+//         let newArr = []
+//         let exists = false
+//         teamRequest.forEach((element) => {
+//             exists = true
+//             newArr.push(element)
+//         })
+//         if (exists) {
+//             let newArr2 = [...newArr, { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) }]
+//             set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr2)
+//         }
+//     }
+// }
+
+// export function notifyCorrectionTask(teamRequest, managerId, teammateIndex, newTask) {
+
+//     if (teamRequest === undefined) {
+//         let newArr = { 0: { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) } }
+//         set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr)
+//     }
+//     else {
+//         let newArr = []
+//         let exists = false
+//         teamRequest.forEach((element) => {
+//             exists = true
+//             newArr.push(element)
+//         })
+//         if (exists) {
+//             let newArr2 = [...newArr, { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) }]
+//             set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr2)
+//         }
+//     }
+// }
+// export function notifyAdditionalCorrectionTask(teamRequest, managerId, teammateIndex, newTask) {
+
+//     if (teamRequest === undefined) {
+//         let newArr = { 0: { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) } }
+//         set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr)
+//     }
+//     else {
+//         let newArr = []
+//         let exists = false
+//         teamRequest.forEach((element) => {
+//             exists = true
+//             newArr.push(element)
+//         })
+//         if (exists) {
+//             let newArr2 = [...newArr, { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) }]
+//             set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr2)
+//         }
+//     }
+// }

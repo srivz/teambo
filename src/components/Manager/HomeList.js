@@ -432,12 +432,12 @@ export default function HomeList() {
                                     ?.map((info) => {
                                       return (
                                         <TableRow
-                                          key={info}
+                                          key={info.name}
                                           onClick={() => {
-                                            setClientSelected(info);
+                                            setClientSelected(info.name);
                                             localStorage.setItem(
                                               'clientSelected',
-                                              JSON.stringify(info)
+                                              JSON.stringify(info.name)
                                             );
                                           }} style={{ backgroundColor: "#fff !important" }}
 
@@ -455,7 +455,7 @@ export default function HomeList() {
                                               paddingBottom: '0.5em',
                                               cursor: "pointer"
                                             }}>
-                                            <h5>{info}</h5>
+                                            <h5>{info.name}</h5>
                                           </TableCell>
                                         </TableRow>
                                       )
