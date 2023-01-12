@@ -175,7 +175,7 @@ export default function NewTask(props) {
         alert("Client Already Added")
       }
       else {
-        const clients = prevClient.concat({ name: newClient, taskCount: 0, clientNumber: props.manager.clients.length })
+        const clients = prevClient.concat([{ name: newClient, taskCount: 0, clientNumber: props.manager.clients.length }])
         update(ref(db, `manager/${props?.managerId}/clients`), clients);
       }
     }
