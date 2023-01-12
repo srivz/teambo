@@ -254,7 +254,6 @@ export default function ClientTable(props) {
                                                                     >
                                                                         {info2.status === 'Done' ? (
                                                                             <FontAwesomeIcon
-                                                                                className="pointer"
                                                                                 size="xl"
                                                                                 icon="fa-solid fa-circle-check"
                                                                             />
