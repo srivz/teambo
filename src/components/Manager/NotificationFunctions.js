@@ -72,12 +72,10 @@ const timeFormatChange = (time) => {
 export default function notifyNewTask(teamRequest, managerId, teammateIndex, newTask) {
 
     if (teamRequest === undefined) {
-        alert(managerId)
         let newArr = [newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
         set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications`), newArr)
     }
     else {
-        alert(managerId)
         let newArr = []
         let exists = false
         teamRequest.forEach((element) => {
