@@ -296,7 +296,6 @@ export default function NewTask(props) {
         }
       }
     } else {
-      setShow(false)
       alert("Fill all the required field!!")
     }
   };
