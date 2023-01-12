@@ -12,6 +12,7 @@ import { db } from '../../firebase-config'
 
 export default function Notifications(props) {
     const [once2, setOnce2] = useState(true)
+    const [show, setShow] = useState(true)
 
     const acceptChange = (managerId, managerTeam) => {
         if (managerTeam === undefined) {
@@ -67,7 +68,7 @@ export default function Notifications(props) {
                 key={'bottom'}
                 placement={'bottom'}
                 rootClose
-                overlay={
+                overlay={show ?
                     <div
                         className="bg-white"
                         style={{
@@ -75,23 +76,21 @@ export default function Notifications(props) {
                             marginTop: '2px',
                             marginLeft: '-50px',
                             width: '300px',
-                            boxShadow: 'rgba(0, 0, 0, 0.15) 1px 3px 5px',
+                            boxShadow: 'rgba(0, 0, 0, 0.55) 0px 1px 3px',
                         }}
                     >{!props?.teammate.notifications ? (<></>) : (<Row>
-                        <Col className='text-end'><span className='pointer' style={{ color: "#9b9b9b" }}
+                            <Col className='text-end'><span className='pointer' style={{ color: "#9b9b9b", fontSize: "small" }}
                             onClick={() => {
-                                clearAllNotifications()
+                                clearAllNotifications(); setShow(false);
                                 }}><FontAwesomeIcon size={"xs"} icon="fa-solprops?.id fa-x" /> Clear</span></Col>
                     </Row>)}
                         {!props?.teammate.notifications ? (
                             <Row
                                 style={{
-                                    boxShadow: 'rgba(0, 0, 0, 0.55) 0px 1px 3px',
                                     margin: '1px',
                                     color: 'black',
                                     padding: '.5em',
                                     fontFamily: 'rockwen',
-                                    border: '2px black',
                                 }}
                                 align="center"
                             >
@@ -120,7 +119,7 @@ export default function Notifications(props) {
                                                     <Badge
                                                         as="button"
                                                         onClick={() => {
-                                                            reject(index)
+                                                            reject(index); setShow(false);
                                                         }}
                                                         style={{
                                                             padding: '.5em',
@@ -142,7 +141,7 @@ export default function Notifications(props) {
                                                     <Badge
                                                         as="button"
                                                         onClick={() => {
-                                                            accept(info.managerId)
+                                                            accept(info.managerId); setShow(false);
                                                         }}
                                                         style={{
                                                             padding: '.5em',
@@ -168,25 +167,27 @@ export default function Notifications(props) {
                                 return (
                                     <><Row
                                         style={{
-                                            boxShadow: 'rgba(0, 0, 0, 0.55) 0px 1px 3px',
+                                            boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 1px',
                                             margin: '1px',
                                             color: 'black',
-                                            padding: '.5em',
+                                            padding: '.05em',
+                                            paddingBottom: '0em',
                                             fontFamily: 'rockwen',
-                                            border: '2px black',
                                         }}
                                         key={index}
-                                    >{info}</Row></>)
+                                    ><p><span className='blue'>{info.client}</span>{info.text}</p></Row></>)
                                 })
                         )}
-                    </div>
+                    </div> : <></>
                 }
             >
                 <Button
                     variant="light"
+                    onClick={() => { setShow(true) }}
                     style={
                         !props?.teammate?.notifications
                             ? {
+                                border: '2px solid #9b9b9b',
                                 color: 'black',
                                 fontFamily: 'rockwen',
                                 fontWeight: 'bold',
@@ -195,6 +196,7 @@ export default function Notifications(props) {
                                 marginRight: '1em',
                             }
                             : {
+                                border: '2px solid #9b9b9b',
                                 color: 'black',
                                 fontFamily: 'rockwen',
                                 fontWeight: 'bold',

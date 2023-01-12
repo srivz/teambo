@@ -5,6 +5,7 @@ import { Button, Row, Col, Form, OverlayTrigger } from "react-bootstrap";
 import { db } from "../../firebase-config";
 import moment from "moment";
 import Dropdown from 'react-bootstrap/Dropdown';
+import notifyNewTask from "./NotificationFunctions";
 
 
 export default function NewTask(props) {
@@ -56,73 +57,6 @@ export default function NewTask(props) {
     newTask.updates[0].deadlineTime = event.target.value;
   };
 
-  const dateFormatChange = (date) => {
-    if (date === '--' || !date) {
-      return '--'
-    }
-    let givenDate = date.split('/')
-    let months = [
-      '-',
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ]
-    let dateMonth = months[parseInt(givenDate[1])]
-    return dateMonth + ',' + givenDate[0] + ' ' + givenDate[2]
-  }
-
-  const timeFormatChange = (time) => {
-    if (time === '--' || !time) {
-      return '--'
-    }
-    let givenTime = time.split(':')
-    if (parseInt(givenTime[0]) === 0 || parseInt(givenTime[0]) === 24) {
-      let minute =
-        parseInt(givenTime[1]) > 9
-          ? parseInt(givenTime[1])
-          : '0' + parseInt(givenTime[1])
-      return '12:' + minute + ' am'
-    } else if (parseInt(givenTime[0]) === 12) {
-      let minute =
-        parseInt(givenTime[1]) > 9
-          ? parseInt(givenTime[1])
-          : '0' + parseInt(givenTime[1])
-
-      return "12:" + minute + ' pm'
-    } else if (parseInt(givenTime[0]) > 12) {
-      let hour =
-        parseInt(givenTime[0]) % 12 > 9
-          ? parseInt(givenTime[0]) % 12
-          : '0' + parseInt(givenTime[0] % 12)
-      let minute =
-        parseInt(givenTime[1]) > 9
-          ? parseInt(givenTime[1])
-          : '0' + parseInt(givenTime[1])
-
-      return hour + ':' + minute + ' pm'
-    } else if (parseInt(givenTime[0]) < 12) {
-      let hour =
-        parseInt(givenTime[0]) > 9
-          ? parseInt(givenTime[0])
-          : '0' + parseInt(givenTime[0])
-      let minute =
-        parseInt(givenTime[1]) > 9
-          ? parseInt(givenTime[1])
-          : '0' + parseInt(givenTime[1])
-
-      return hour + ':' + minute + ' am'
-    }
-  }
-
   const getTeammatesWithMail = () => {
     onValue(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), (snapshot) => {
       if (snapshot.exists()) {
@@ -149,120 +83,40 @@ export default function NewTask(props) {
       } else {
         getTeammatesWithMail()
         if (props?.tasks === undefined) {
-          if (teamRequest === undefined) {
-            let newArr = [newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
-            update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask], notifications: newArr }).then(() => {
-              setShow(false)
-              setNewTask({
-                client: "",
-                task: "",
-                clientEmail: "",
-                updates: {
-                  0: {
-                    description: { 0: "" },
-                    assignedDate:
-                      String(today.getDate()).padStart(2, "0") +
-                      "/" +
-                      String(today.getMonth() + 1).padStart(2, "0") +
-                      "/" +
-                      today.getFullYear(),
-                    assignedTime:
-                      today.getHours() +
-                      ":" +
-                      today.getMinutes() +
-                      ":" +
-                      today.getSeconds(),
-                    corrections: "0",
-                    deadlineDate: "--",
-                    deadlineTime: "--",
-                    status: "Assigned",
-                  },
+          notifyNewTask(teamRequest, props?.managerId, props?.teammateIndex, newTask);
+          update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask] }).then(() => {
+            setShow(false)
+            setNewTask({
+              client: "",
+              task: "",
+              clientEmail: "",
+              updates: {
+                0: {
+                  description: { 0: "" },
+                  assignedDate:
+                    String(today.getDate()).padStart(2, "0") +
+                    "/" +
+                    String(today.getMonth() + 1).padStart(2, "0") +
+                    "/" +
+                    today.getFullYear(),
+                  assignedTime:
+                    today.getHours() +
+                    ":" +
+                    today.getMinutes() +
+                    ":" +
+                    today.getSeconds(),
+                  corrections: "0",
+                  deadlineDate: "--",
+                  deadlineTime: "--",
+                  status: "Assigned",
                 },
-              })
+              },
             })
-          } else {
-            let newArr = []
-            let exists = false
-            teamRequest.forEach((element) => {
-              exists = true
-              newArr.push(element)
-            })
-            if (exists) {
-              let newArr2 = [...newArr, newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
-              update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask], notifications: newArr2 }).then(() => {
-                setShow(false)
-                setNewTask({
-                  client: "",
-                  task: "",
-                  clientEmail: "",
-                  updates: {
-                    0: {
-                      description: { 0: "" },
-                      assignedDate:
-                        String(today.getDate()).padStart(2, "0") +
-                        "/" +
-                        String(today.getMonth() + 1).padStart(2, "0") +
-                        "/" +
-                        today.getFullYear(),
-                      assignedTime:
-                        today.getHours() +
-                        ":" +
-                        today.getMinutes() +
-                        ":" +
-                        today.getSeconds(),
-                      corrections: "0",
-                      deadlineDate: "--",
-                      deadlineTime: "--",
-                      status: "Assigned",
-                    },
-                  },
-                })
-              })
-            }
-          }
+          })
         }
         else {
-          if (teamRequest === undefined) {
-            let newArr = [newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
-            update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask].concat(props?.tasks), notifications: newArr }).then(() => {
-              setShow(false)
-              setNewTask({
-                client: "",
-                task: "",
-                clientEmail: "",
-                updates: {
-                  0: {
-                    description: { 0: "" },
-                    assignedDate:
-                      String(today.getDate()).padStart(2, "0") +
-                      "/" +
-                      String(today.getMonth() + 1).padStart(2, "0") +
-                      "/" +
-                      today.getFullYear(),
-                    assignedTime:
-                      today.getHours() +
-                      ":" +
-                      today.getMinutes() +
-                      ":" +
-                      today.getSeconds(),
-                    corrections: "0",
-                    deadlineDate: "--",
-                    deadlineTime: "--",
-                    status: "Assigned",
-                  },
-                },
-              })
-            })
-          } else {
-            let newArr = []
-            let exists = false
-            teamRequest.forEach((element) => {
-              exists = true
-              newArr.push(element)
-            })
-            if (exists) {
-              let newArr2 = [...newArr, newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
-              update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask].concat(props?.tasks), notifications: newArr2 }).then(() => {
+          notifyNewTask(teamRequest, props?.managerId, props?.teammateIndex, newTask);
+          update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask].concat(props?.tasks) }).then(() => {
                 setShow(false);
                 setNewTask({
                   client: "",
@@ -290,9 +144,7 @@ export default function NewTask(props) {
                     },
                   },
                 })
-              })
-            }
-          }
+          })
         }
       }
     } else {

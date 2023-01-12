@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { ref, set, update } from 'firebase/database'
-import emailjs from '@emailjs/browser';
 import React, { useRef, useState } from 'react'
 import {
     Button,
@@ -21,7 +20,6 @@ export default function TeammateTable(props) {
     const [show, setShow] = useState(false);
     const [taskSelected, setTaskSelected] = useState();
     const [modalShow, setModalShow] = useState(false);
-    // const [teammateEmail, setTeammateEmail] = useState('');
     const [switchTask, setSwitchTask] = useState()
     const [prevTeammateId, setPrevTeammateId] = useState("");
     const [prevTeammateIndex, setPrevTeammateIndex] = useState("");
@@ -44,24 +42,6 @@ export default function TeammateTable(props) {
             });
     }
     const handleCompleteTask = async (teammate, id, index, latest) => {
-        {
-        // const info = {
-        //     to_name: teammate.name,
-        //     from_name: props?.manager.name,
-        //     message: `Your task ${teammate.tasks[index].task} from client ${teammate.tasks[index].client} has been approved by your manager ${props?.manager.name}`,
-        //     from_email: props?.manager.email,
-        //     to_email: teammate.email
-        // }
-
-        // emailjs.send("service_8babtb3", "template_3e3kpdk", info, "E1o2OcJneKcoyHqxA").then((res) => {
-        //     alert("Email send Successfully");
-        //     set(ref(db, `/manager/${props?.managerId}/teammates/${props?.team.teammateIndex}/data/tasks/${index}/updates/${latest}/status`), "Completed")
-        //         .catch((err) => {
-        //             console.log(err);
-        //         });
-            // }).catch((err) => console.log(err));
-        }
-
         const subject = `
     <h4> Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}</h4>
     <br />
@@ -749,6 +729,8 @@ export default function TeammateTable(props) {
                                                     >
                                                         <FontAwesomeIcon
                                                             className="pointer"
+                                                            size='xl'
+                                                            color='#3975ea'
                                                             icon="fa-solid fa-ellipsis-vertical"
                                                             onClick={() => { setShow(true) }}
                                                         />
