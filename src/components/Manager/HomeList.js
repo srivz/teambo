@@ -581,7 +581,7 @@ export default function HomeList() {
                         </Row>
                       )
                     }) : (manager?.clients
-                          ?.filter((info) => info.name === clientSelected)
+                          .filter((info) => info.name === clientSelected)
                       .map((info) => {
                         return (
                           <Row>
