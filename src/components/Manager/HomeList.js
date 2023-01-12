@@ -346,7 +346,7 @@ export default function HomeList() {
                                 No teammate right now
                               </TableRow>
                               ) : (teammateList?.filter((info) => {
-                                return info.data?.name.toLowerCase().includes(searchText?.toLowerCase())
+                                return info.data?.name?.toLowerCase().includes(searchText?.toLowerCase())
                               })?.map((info) => {
                                 return (
                                   <TableRow
