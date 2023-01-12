@@ -2,8 +2,10 @@ const functions = require('firebase-functions')
 const admin = require('firebase-admin')
 const cors = require('cors')({ origin: true });
 const nodemailer = require('nodemailer')
+const accountSid = "ACf1001e4cc2eb8e4528606becf3f8c306";
+const authToken = "bd81bff631bb8d56c877f09f735210db";
+const client = require('twilio')(accountSid, authToken);
 
-admin.initializeApp();
 
 
 // // Create and deploy your first functions
@@ -11,7 +13,7 @@ admin.initializeApp();
 //
 exports.taskCompleted = functions.https.onRequest(async (req, res) => {
     cors(req, res, () => { });
-    const { toEmail, fromEmail, subject, name } = req.body;
+    const { toEmail, fromEmail, subject, name, text } = req.body;
     try {
         const output = subject;
 
@@ -34,10 +36,29 @@ exports.taskCompleted = functions.https.onRequest(async (req, res) => {
         // send mail with defined transport object
         transporter.sendMail(mailOption, (error, info) => {
             if (error) {
-                res.json({ error, mailOption, toEmail });
+                client.messages
+                    .create({
+                        from: 'whatsapp:+14155238886',
+                        body: text,
+                        to: 'whatsapp:+916295610296'
+                    })
+                    .then(message => {
+                        res.status(200).json({ msg: "Success", data });
+                    }).catch((err) => {
+                        res.status(422).json({ error, err });
+                    })
             } else {
-                const data = info.messageId;
-                res.status(200).json({ msg: "Success", data });
+                client.messages
+                    .create({
+                        from: 'whatsapp:+14155238886',
+                        body: text,
+                        to: 'whatsapp:+916295610296'
+                    })
+                    .then(message => {
+                        res.status(200).json({ msg: "Success", data });
+                    }).catch((err) => {
+                        res.status(422).json({ err });
+                    })
             }
         });
     } catch (err) {

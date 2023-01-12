@@ -18,6 +18,7 @@ import axios from 'axios';
 export default function TeammateTable(props) {
     const selected = props?.teammateselected
     const filter = props?.filterTeammate;
+    const [show, setShow] = useState(false);
     const [taskSelected, setTaskSelected] = useState();
     const [modalShow, setModalShow] = useState(false);
     // const [teammateEmail, setTeammateEmail] = useState('');
@@ -66,18 +67,16 @@ export default function TeammateTable(props) {
     <br />
     <p>Thank you</p>
    `
+        const text = `Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}`
 
         try {
             const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-                fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name
+                fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text:text
             });
             if (res.status === 200) {
 
-                console.log(props)
-                //********** This line please check ********
-               // set(ref(db, `/manager/${props?.managerId}/teammates/${props?.team.teammateIndex}/data/tasks/${index}/updates/${latest}/status`), "Completed")
-
-                alert("Email sent");
+                alert("Notification Sent Successfully!");
+               set(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}/status`), "Completed")
             }
             else {
                 alert("Something went wrong");
@@ -345,7 +344,7 @@ export default function TeammateTable(props) {
                                                     }}
                                                     style={{
                                                         fontFamily: 'rockwen',
-                                                        width: "90px"
+                                                        width: "150px"
 
                                                     }}
                                                     align="center"
@@ -572,7 +571,7 @@ export default function TeammateTable(props) {
                                                         key="bottom"
                                                         placement="auto"
                                                         rootClose
-                                                        overlay={
+                                                        overlay={show ?
                                                             <Popover
                                                                 id={`popover-positioned-bottom`}
                                                             >
@@ -590,9 +589,11 @@ export default function TeammateTable(props) {
                                                                             onClick={() => {
                                                                                 handleCompleteTask(
                                                                                     info.data,
-                                                                                    info.teammate,
-                                                                                    index, info1.updates.length - 1
-                                                                                )
+                                                                                    info.teammateIndex,
+                                                                                    index,
+                                                                                    info1.updates.length - 1
+                                                                                );
+                                                                                setShow(false);
                                                                             }}
                                                                             variant="light"
                                                                             style={{
@@ -624,7 +625,8 @@ export default function TeammateTable(props) {
                                                                                     info.data.tasks,
                                                                                     info.data.tasks
                                                                                         .length,
-                                                                                )
+                                                                                );
+                                                                                setShow(false);
                                                                             }}
                                                                             variant="light"
                                                                             style={{
@@ -657,7 +659,8 @@ export default function TeammateTable(props) {
                                                                                     info.data.tasks,
                                                                                     info.data.tasks
                                                                                         .length,
-                                                                                )
+                                                                                );
+                                                                                setShow(false);
                                                                             }}
                                                                             variant="light"
                                                                             style={{
@@ -689,10 +692,11 @@ export default function TeammateTable(props) {
                                                                             textAlign: 'left',
                                                                         }}
                                                                         onClick={(e) => {
-                                                                            setPrevTeammateId(info.teammateId)
-                                                                            setPrevTeammateIndex(info.teammateIndex)
-                                                                            setPrevTaskIndex(index)
-                                                                            setSwitchTask(info1)
+                                                                            setPrevTeammateId(info.teammateId);
+                                                                            setPrevTeammateIndex(info.teammateIndex);
+                                                                            setPrevTaskIndex(index);
+                                                                            setSwitchTask(info1);
+                                                                            setShow(false);
 
                                                                         }}
                                                                     >
@@ -719,7 +723,8 @@ export default function TeammateTable(props) {
                                                                                     info.data,
                                                                                     info.teammateIndex,
                                                                                     index,
-                                                                                )
+                                                                                );
+                                                                                setShow(false);
                                                                             }}
                                                                             variant="light"
                                                                             style={{
@@ -739,12 +744,13 @@ export default function TeammateTable(props) {
                                                                         </Button>
                                                                     </Row>
                                                                 </Popover.Body>
-                                                            </Popover>
+                                                            </Popover> : <></>
                                                         }
                                                     >
                                                         <FontAwesomeIcon
                                                             className="pointer"
                                                             icon="fa-solid fa-ellipsis-vertical"
+                                                            onClick={() => { setShow(true) }}
                                                         />
                                                     </OverlayTrigger> : <></>}
                                                 </TableCell>
