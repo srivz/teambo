@@ -78,7 +78,7 @@ export default function Notifications(props) {
                             boxShadow: 'rgba(0, 0, 0, 0.15) 1px 3px 5px',
                         }}
                     >{!props?.teammate.notifications ? (<></>) : (<Row>
-                        <Col className='text-end'><span className='pointer' style={{ color: "#9b9b9b" }}
+                            <Col className='text-end'><span className='pointer' style={{ color: "#9b9b9b", fontSize: "small" }}
                             onClick={() => {
                                 clearAllNotifications()
                                 }}><FontAwesomeIcon size={"xs"} icon="fa-solprops?.id fa-x" /> Clear</span></Col>
@@ -168,15 +168,15 @@ export default function Notifications(props) {
                                 return (
                                     <><Row
                                         style={{
-                                            boxShadow: 'rgba(0, 0, 0, 0.55) 0px 1px 3px',
+                                            boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 1px',
                                             margin: '1px',
                                             color: 'black',
-                                            padding: '.5em',
+                                            padding: '.05em',
+                                            paddingBottom: '0em',
                                             fontFamily: 'rockwen',
-                                            border: '2px black',
                                         }}
                                         key={index}
-                                    >{info}</Row></>)
+                                    ><p><span className='blue'>{info.client}</span>{info.text}</p></Row></>)
                                 })
                         )}
                     </div>

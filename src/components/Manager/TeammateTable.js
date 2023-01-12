@@ -744,6 +744,8 @@ export default function TeammateTable(props) {
                                                     >
                                                         <FontAwesomeIcon
                                                             className="pointer"
+                                                            size='xl'
+                                                            color='#3975ea'
                                                             icon="fa-solid fa-ellipsis-vertical"
                                                             onClick={() => { setShow(true) }}
                                                         />
