@@ -197,6 +197,7 @@ export default function NewTask(props) {
         update(ref(db, `manager/${props?.managerId}/`), {
           clients,
         });
+        setNewClient("")
       }
   }else{
     const clients = [newClient];
@@ -245,6 +246,7 @@ export default function NewTask(props) {
                         type="text"
                         name="newClient"
                         placeholder="&#xf002;    Search"
+                        value={newClient}
                         onChange={searchClient}
                       />
                       <button onClick={() => { addClient(); }} >Add</button>
