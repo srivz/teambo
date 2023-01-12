@@ -427,14 +427,14 @@ export default function HomeList() {
                               </TableRow>
                               ) : (
                                   manager?.clients?.filter((info) => {
-                                    return info.toLowerCase().includes(searchText2?.toLowerCase())
+                                    return info.name.toLowerCase().includes(searchText2?.toLowerCase())
                                   })
-                                    ?.map((info) => {
+                                    ?.map((info, index) => {
                                       return (
                                         <TableRow
-                                          key={info}
+                                          key={index}
                                           onClick={() => {
-                                            setClientSelected(info);
+                                            setClientSelected(info.name);
                                             localStorage.setItem(
                                               'clientSelected',
                                               JSON.stringify(info)
@@ -455,7 +455,7 @@ export default function HomeList() {
                                               paddingBottom: '0.5em',
                                               cursor: "pointer"
                                             }}>
-                                            <h5>{info}</h5>
+                                            <h5>{info.name}</h5>
                                           </TableCell>
                                         </TableRow>
                                       )
