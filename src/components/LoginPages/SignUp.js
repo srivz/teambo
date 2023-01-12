@@ -94,6 +94,7 @@ export default function Signup({ userid }) {
     name: '',
     companyName: '',
     designation: '',
+    whatsAppNo: ''
   })
   const [userLog, setUserLog] = useState({
     email: '',
@@ -116,6 +117,7 @@ export default function Signup({ userid }) {
         designation: user.designation,
         name: user.name,
         email: userLog.email,
+        whatsAppNo: user.whatsAppNo,
         teammates: [],
         clients: [],
       }).then(() => (window.location.href = '/signUp/response'))
@@ -127,6 +129,7 @@ export default function Signup({ userid }) {
           designation: user.designation,
           name: user.name,
           email: userLog.email,
+          whatsAppNo: user.whatsAppNo,
         },
       ).then(() => (window.location.href = '/signUp/response'))
     }
@@ -182,7 +185,7 @@ export default function Signup({ userid }) {
             <form onSubmit={handleSubmit}>
               <div className="form-group mb-4 ">
                 <div className="row">
-                  <div className="col-sm-6 col-md-6">
+                    <div className="col-sm-4 col-md-4">
                     <label htmlFor="name">Name</label>
                     <input
                       className="form-control rounded-3"
@@ -193,17 +196,28 @@ export default function Signup({ userid }) {
                       onChange={handleChange}
                     />
                   </div>
-                  <div className="col-sm-6 col-md-6">
-                    <label htmlFor="email">Email</label>
-                    <input
-                      className="form-control"
-                      name="email"
-                      id="email"
-                      type="email"
-                      placeholder="Email"
-                      onChange={handleChangeLog}
-                    />
-                  </div>
+                    <div className="col-sm-4 col-md-4">
+                      <label htmlFor="email">Email</label>
+                      <input
+                        className="form-control"
+                        name="email"
+                        id="email"
+                        type="email"
+                        placeholder="Email"
+                        onChange={handleChangeLog}
+                      />
+                    </div>
+                    <div className="col-sm-4 col-md-4">
+                      <label htmlFor="What's app no">What's app no</label>
+                      <input
+                        className="form-control"
+                        name="whatsAppNo"
+                        id="What's app no"
+                        type="text"
+                        placeholder="What's app no"
+                        onChange={handleChange}
+                      />
+                    </div>
                 </div>
               </div>
               <div className="form-group mb-4">

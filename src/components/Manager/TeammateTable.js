@@ -68,21 +68,21 @@ export default function TeammateTable(props) {
     <p>Thank you</p>
    `
         const text = `Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}`
-
         try {
             const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-                fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text:text
+                fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
             });
+            console.log(res)
             if (res.status === 200) {
-
+                set(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}/status`), "Completed")
                 alert("Notification Sent Successfully!");
-               set(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}/status`), "Completed")
             }
             else {
                 alert("Something went wrong");
             }
 
         } catch (err) {
+            alert("error")
             console.log(err)
         }
 

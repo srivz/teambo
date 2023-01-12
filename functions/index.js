@@ -13,7 +13,7 @@ const client = require('twilio')(accountSid, authToken);
 //
 exports.taskCompleted = functions.https.onRequest(async (req, res) => {
     cors(req, res, () => { });
-    const { toEmail, fromEmail, subject, name, text } = req.body;
+    const { toEmail, fromEmail, subject, name, text, whatsAppNo } = req.body;
     try {
         const output = subject;
 
@@ -40,25 +40,21 @@ exports.taskCompleted = functions.https.onRequest(async (req, res) => {
                     .create({
                         from: 'whatsapp:+14155238886',
                         body: text,
-                        to: 'whatsapp:+916295610296'
+                        to: `whatsapp:+91${whatsAppNo}`
                     })
                     .then(message => {
-                        res.status(200).json({ msg: "Success", data });
-                    }).catch((err) => {
-                        res.status(422).json({ error, err });
+                        res.status(200).json({ msg: "Success" });
                     })
             } else {
                 client.messages
                     .create({
                         from: 'whatsapp:+14155238886',
                         body: text,
-                        to: 'whatsapp:+916295610296'
+                        to: `whatsapp:+91${whatsAppNo}`
                     })
                     .then(message => {
-                        res.status(200).json({ msg: "Success", data });
-                    }).catch((err) => {
-                        res.status(422).json({ err });
-                    })
+                        res.status(200).json({ msg: "Success" });
+                    });
             }
         });
     } catch (err) {
