@@ -426,13 +426,13 @@ export default function HomeList() {
                                   No Clients right now
                               </TableRow>
                               ) : (
-                                  manager?.clients?.filter((info) => {
+                                  manager?.clients.filter((info) => {
                                     return info.name.toLowerCase().includes(searchText2?.toLowerCase())
                                   })
                                     .map((info) => {
                                       return (
                                         <TableRow
-                                          key={info.name}
+                                          key={info.clientNumber}
                                           onClick={() => {
                                             setClientSelected(info.name);
                                             localStorage.setItem(
@@ -580,9 +580,7 @@ export default function HomeList() {
                           </Col>
                         </Row>
                       )
-                    }) : (manager?.clients
-                          .filter((info) => info.name === clientSelected)
-                      .map((info) => {
+                    }) : (manager?.clients?.filter((info) => info.name === clientSelected)?.map((info) => {
                         return (
                           <Row>
                             <Col sm={6} md={6} style={{ paddingLeft: '1.5em', marginTop: '1.5em' }}>
