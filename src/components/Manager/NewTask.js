@@ -9,6 +9,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 export default function NewTask(props) {
   var today = new Date();
+  const [show, setShow] = useState(false);
   const [newClient,setNewClient]=useState("");
   const [clientList, setClientList] = useState([]);
   const [teamRequest, setTeamRequest] = useState([]);
@@ -134,47 +135,169 @@ export default function NewTask(props) {
     })
   }
 
-  const handleNewTask = (id, allTasks) => {
-    if (props?.name === "No Teammate") {
-      alert("Select a Teammate first")
-    } else {
-      getTeammatesWithMail()
-      if (allTasks === undefined) {
-        if (teamRequest === undefined) {
-          let newArr = [newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
-          update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask], notifications: newArr })
-        } else {
-          let newArr = []
-          let exists = false
-          teamRequest.forEach((element) => {
-            exists = true
-            newArr.push(element)
-          })
-          if (exists) {
-            let newArr2 = [...newArr, newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
-            update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask], notifications: newArr2 })
-          }
-        }
-      }
-      else {
-        if (teamRequest === undefined) {
-          let newArr = [newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
-          update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask].concat(allTasks), notifications: newArr })
-        } else {
-          let newArr = []
-          let exists = false
-          teamRequest.forEach((element) => {
-            exists = true
-            newArr.push(element)
-          })
-          if (exists) {
-            let newArr2 = [...newArr, newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
-            update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask].concat(allTasks), notifications: newArr2 })
-          }
-        }
-      }
+  const validateForm = () => {
+    if (newTask.client === '' || newTask.clientEmail === '' || newTask.task === '' || newTask.updates[0].description === '') {
+      return false
     }
+    else { return true }
+  }
 
+  const handleNewTask = () => {
+    if (validateForm()) {
+      if (props?.name === "No Teammate") {
+        alert("Select a Teammate first")
+      } else {
+        getTeammatesWithMail()
+        if (props?.tasks === undefined) {
+          if (teamRequest === undefined) {
+            let newArr = [newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
+            update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask], notifications: newArr }).then(() => {
+              setShow(false)
+              setNewTask({
+                client: "",
+                task: "",
+                clientEmail: "",
+                updates: {
+                  0: {
+                    description: { 0: "" },
+                    assignedDate:
+                      String(today.getDate()).padStart(2, "0") +
+                      "/" +
+                      String(today.getMonth() + 1).padStart(2, "0") +
+                      "/" +
+                      today.getFullYear(),
+                    assignedTime:
+                      today.getHours() +
+                      ":" +
+                      today.getMinutes() +
+                      ":" +
+                      today.getSeconds(),
+                    corrections: "0",
+                    deadlineDate: "--",
+                    deadlineTime: "--",
+                    status: "Assigned",
+                  },
+                },
+              })
+            })
+          } else {
+            let newArr = []
+            let exists = false
+            teamRequest.forEach((element) => {
+              exists = true
+              newArr.push(element)
+            })
+            if (exists) {
+              let newArr2 = [...newArr, newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
+              update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask], notifications: newArr2 }).then(() => {
+                setShow(false)
+                setNewTask({
+                  client: "",
+                  task: "",
+                  clientEmail: "",
+                  updates: {
+                    0: {
+                      description: { 0: "" },
+                      assignedDate:
+                        String(today.getDate()).padStart(2, "0") +
+                        "/" +
+                        String(today.getMonth() + 1).padStart(2, "0") +
+                        "/" +
+                        today.getFullYear(),
+                      assignedTime:
+                        today.getHours() +
+                        ":" +
+                        today.getMinutes() +
+                        ":" +
+                        today.getSeconds(),
+                      corrections: "0",
+                      deadlineDate: "--",
+                      deadlineTime: "--",
+                      status: "Assigned",
+                    },
+                  },
+                })
+              })
+            }
+          }
+        }
+        else {
+          if (teamRequest === undefined) {
+            let newArr = [newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
+            update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask].concat(props?.tasks), notifications: newArr }).then(() => {
+              setShow(false)
+              setNewTask({
+                client: "",
+                task: "",
+                clientEmail: "",
+                updates: {
+                  0: {
+                    description: { 0: "" },
+                    assignedDate:
+                      String(today.getDate()).padStart(2, "0") +
+                      "/" +
+                      String(today.getMonth() + 1).padStart(2, "0") +
+                      "/" +
+                      today.getFullYear(),
+                    assignedTime:
+                      today.getHours() +
+                      ":" +
+                      today.getMinutes() +
+                      ":" +
+                      today.getSeconds(),
+                    corrections: "0",
+                    deadlineDate: "--",
+                    deadlineTime: "--",
+                    status: "Assigned",
+                  },
+                },
+              })
+            })
+          } else {
+            let newArr = []
+            let exists = false
+            teamRequest.forEach((element) => {
+              exists = true
+              newArr.push(element)
+            })
+            if (exists) {
+              let newArr2 = [...newArr, newTask.client + " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime)]
+              update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask].concat(props?.tasks), notifications: newArr2 }).then(() => {
+                setShow(false);
+                setNewTask({
+                  client: "",
+                  task: "",
+                  clientEmail: "",
+                  updates: {
+                    0: {
+                      description: { 0: "" },
+                      assignedDate:
+                        String(today.getDate()).padStart(2, "0") +
+                        "/" +
+                        String(today.getMonth() + 1).padStart(2, "0") +
+                        "/" +
+                        today.getFullYear(),
+                      assignedTime:
+                        today.getHours() +
+                        ":" +
+                        today.getMinutes() +
+                        ":" +
+                        today.getSeconds(),
+                      corrections: "0",
+                      deadlineDate: "--",
+                      deadlineTime: "--",
+                      status: "Assigned",
+                    },
+                  },
+                })
+              })
+            }
+          }
+        }
+      }
+    } else {
+      alert("Fill all the required field!!")
+    }
   };
 
  const searchClient=(e)=>{
@@ -192,17 +315,17 @@ export default function NewTask(props) {
     if (props?.manager?.clients) {
       if (props?.manager.clients.includes(newClient)) {
         alert("Client Already Added")
-      } else {
-        const clients = [...props.manager.clients, newClient];
-        update(ref(db, `manager/${props?.managerId}/`), {
-          clients,
-        });
       }
-  }else{
+      else {
+        const clients = [...props.manager.clients, newClient];
+        update(ref(db, `manager/${props?.managerId}/`), { clients });
+      }
+      setNewClient('')
+    }
+    else {
     const clients = [newClient];
-      update(ref(db, `manager/${props?.managerId}/`), {
-    clients
-     });
+      update(ref(db, `manager/${props?.managerId}/`), { clients });
+      setNewClient('')
     } 
   }
   return (
@@ -212,7 +335,7 @@ export default function NewTask(props) {
         key="bottom"
         placement="bottom"
         rootClose
-        overlay={
+        overlay={show ?
           <div
             className="bg-white"
             style={{
@@ -245,6 +368,7 @@ export default function NewTask(props) {
                         type="text"
                         name="newClient"
                         placeholder="&#xf002;    Search"
+                        value={newClient}
                         onChange={searchClient}
                       />
                       <button onClick={() => { addClient(); }} >Add</button>
@@ -353,10 +477,7 @@ export default function NewTask(props) {
               <Button
                 variant="primary"
                 onClick={() => {
-                  handleNewTask(
-                    props?.teammate,
-                    props?.tasks
-                  );
+                  handleNewTask();
                 }}
                 style={{
                   textAlign: "center",
@@ -366,13 +487,14 @@ export default function NewTask(props) {
                 Assign
               </Button>
             </div>
-          </div>
+          </div> : <></>
         }
       >
         <Button
           type="Button"
           variant="light"
           className="add-task-button"
+          onClick={setShow}
         >
           <FontAwesomeIcon
             icon="fa-regular fa-square-plus"

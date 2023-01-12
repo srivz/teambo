@@ -17,6 +17,7 @@ import { db } from '../../firebase-config';
 export default function TeammateTable(props) {
     const selected = props?.teammateselected
     const filter = props?.filterTeammate;
+    const [show, setShow] = useState(false);
     const [taskSelected, setTaskSelected] = useState();
     const [modalShow, setModalShow] = useState(false);
     // const [teammateEmail, setTeammateEmail] = useState('');
@@ -316,7 +317,7 @@ export default function TeammateTable(props) {
                                                     }}
                                                     style={{
                                                         fontFamily: 'rockwen',
-                                                        width: "90px"
+                                                        width: "150px"
 
                                                     }}
                                                     align="center"
@@ -543,7 +544,7 @@ export default function TeammateTable(props) {
                                                         key="bottom"
                                                         placement="auto"
                                                         rootClose
-                                                        overlay={
+                                                        overlay={show ?
                                                             <Popover
                                                                 id={`popover-positioned-bottom`}
                                                             >
@@ -563,7 +564,8 @@ export default function TeammateTable(props) {
                                                                                     info.data,
                                                                                     info.teammate,
                                                                                     index, info1.updates.length - 1
-                                                                                )
+                                                                                );
+                                                                                setShow(false);
                                                                             }}
                                                                             variant="light"
                                                                             style={{
@@ -595,7 +597,8 @@ export default function TeammateTable(props) {
                                                                                     info.data.tasks,
                                                                                     info.data.tasks
                                                                                         .length,
-                                                                                )
+                                                                                );
+                                                                                setShow(false);
                                                                             }}
                                                                             variant="light"
                                                                             style={{
@@ -628,7 +631,8 @@ export default function TeammateTable(props) {
                                                                                     info.data.tasks,
                                                                                     info.data.tasks
                                                                                         .length,
-                                                                                )
+                                                                                );
+                                                                                setShow(false);
                                                                             }}
                                                                             variant="light"
                                                                             style={{
@@ -660,10 +664,11 @@ export default function TeammateTable(props) {
                                                                             textAlign: 'left',
                                                                         }}
                                                                         onClick={(e) => {
-                                                                            setPrevTeammateId(info.teammateId)
-                                                                            setPrevTeammateIndex(info.teammateIndex)
-                                                                            setPrevTaskIndex(index)
-                                                                            setSwitchTask(info1)
+                                                                            setPrevTeammateId(info.teammateId);
+                                                                            setPrevTeammateIndex(info.teammateIndex);
+                                                                            setPrevTaskIndex(index);
+                                                                            setSwitchTask(info1);
+                                                                            setShow(false);
 
                                                                         }}
                                                                     >
@@ -690,7 +695,8 @@ export default function TeammateTable(props) {
                                                                                     info.data,
                                                                                     info.teammateIndex,
                                                                                     index,
-                                                                                )
+                                                                                );
+                                                                                setShow(false);
                                                                             }}
                                                                             variant="light"
                                                                             style={{
@@ -710,12 +716,13 @@ export default function TeammateTable(props) {
                                                                         </Button>
                                                                     </Row>
                                                                 </Popover.Body>
-                                                            </Popover>
+                                                            </Popover> : <></>
                                                         }
                                                     >
                                                         <FontAwesomeIcon
                                                             className="pointer"
                                                             icon="fa-solid fa-ellipsis-vertical"
+                                                            onClick={() => { setShow(true) }}
                                                         />
                                                     </OverlayTrigger> : <></>}
                                                 </TableCell>
