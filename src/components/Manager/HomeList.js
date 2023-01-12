@@ -426,13 +426,13 @@ export default function HomeList() {
                                   No Clients right now
                               </TableRow>
                               ) : (
-                                  manager?.clients.filter((info) => {
+                                  manager?.clients?.filter((info) => {
                                     return info.name.toLowerCase().includes(searchText2?.toLowerCase())
                                   })
-                                    .map((info) => {
+                                    ?.map((info, index) => {
                                       return (
                                         <TableRow
-                                          key={info.clientNumber}
+                                          key={index}
                                           onClick={() => {
                                             setClientSelected(info.name);
                                             localStorage.setItem(
