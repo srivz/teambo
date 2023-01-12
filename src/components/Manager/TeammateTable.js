@@ -13,6 +13,7 @@ import {
 import TaskHistory from './TaskHistory'
 import SwitchTask from './SwitchTask';
 import { db } from '../../firebase-config';
+import axios from 'axios';
 
 export default function TeammateTable(props) {
     const selected = props?.teammateselected
@@ -41,44 +42,50 @@ export default function TeammateTable(props) {
                 console.log(err);
             });
     }
-    const handleCompleteTask = (teammate, id, index, latest) => {
-        const info = {
-            to_name: teammate.name,
-            from_name: props?.manager.name,
-            message: `Your task ${teammate.tasks[index].task} from client ${teammate.tasks[index].client} has been approved by your manager ${props?.manager.name}`,
-            from_email: props?.manager.email,
-            to_email: teammate.email
+    const handleCompleteTask = async (teammate, id, index, latest) => {
+        {
+        // const info = {
+        //     to_name: teammate.name,
+        //     from_name: props?.manager.name,
+        //     message: `Your task ${teammate.tasks[index].task} from client ${teammate.tasks[index].client} has been approved by your manager ${props?.manager.name}`,
+        //     from_email: props?.manager.email,
+        //     to_email: teammate.email
+        // }
+
+        // emailjs.send("service_8babtb3", "template_3e3kpdk", info, "E1o2OcJneKcoyHqxA").then((res) => {
+        //     alert("Email send Successfully");
+        //     set(ref(db, `/manager/${props?.managerId}/teammates/${props?.team.teammateIndex}/data/tasks/${index}/updates/${latest}/status`), "Completed")
+        //         .catch((err) => {
+        //             console.log(err);
+        //         });
+            // }).catch((err) => console.log(err));
         }
 
-        emailjs.send("service_8babtb3", "template_3e3kpdk", info, "E1o2OcJneKcoyHqxA").then((res) => {
-            alert("Email send Successfully");
-            set(ref(db, `/manager/${props?.managerId}/teammates/${props?.team.teammateIndex}/data/tasks/${index}/updates/${latest}/status`), "Completed")
-                .catch((err) => {
-                    console.log(err);
-                });
-        }).catch((err) => console.log(err));
+        const subject = `
+    <h4> Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}</h4>
+    <br />
+    <p>Thank you</p>
+   `
 
-//         const subject = `
-//     <h4> Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}</h4>
-//     <br />
-//     <p>Thank you</p>
-//    `
+        try {
+            const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+                fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name
+            });
+            if (res.status === 200) {
 
-//         const requestOptions = {
-//             method: 'POST',
-//             headers: { 'Content-Type': 'application/json' },
-//             body: JSON.stringify({ fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name })
-//         };
-//         fetch('https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted', requestOptions)
-//             .then(response => response.json())
-//             .then(data => {
-//                 if (data.status === 200) {
-//                     alert("Email Sent");
-//                 }
-//             })
-//             .catch((err) => {
-//                 console.log(err)
-//             });
+                console.log(props)
+                //********** This line please check ********
+                // set(ref(db, `/manager/${props?.managerId}/teammates/${props?.team.teammateIndex}/data/tasks/${index}/updates/${latest}/status`), "Completed")
+
+                alert("Email sent");
+            }
+            else {
+                alert("Something went wrong");
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
 
     }
     function swap(arr, from, to) {
