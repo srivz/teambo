@@ -59,6 +59,28 @@ export default function TeammateTable(props) {
                 });
         }).catch((err) => console.log(err));
 
+//         const subject = `
+//     <h4> Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}</h4>
+//     <br />
+//     <p>Thank you</p>
+//    `
+
+//         const requestOptions = {
+//             method: 'POST',
+//             headers: { 'Content-Type': 'application/json' },
+//             body: JSON.stringify({ fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name })
+//         };
+//         fetch('https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted', requestOptions)
+//             .then(response => response.json())
+//             .then(data => {
+//                 if (data.status === 200) {
+//                     alert("Email Sent");
+//                 }
+//             })
+//             .catch((err) => {
+//                 console.log(err)
+//             });
+
     }
     function swap(arr, from, to) {
         let temp = arr[from]

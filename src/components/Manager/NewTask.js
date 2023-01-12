@@ -315,11 +315,12 @@ export default function NewTask(props) {
   const addClient = () => {
     if (props?.manager?.clients) {
       if (props?.manager.clients.includes(newClient)) {
-        alert("Client Already Added")
+        alert("Client Already Added!!")
       }
       else {
         const clients = [...props.manager.clients, newClient];
         update(ref(db, `manager/${props?.managerId}/`), { clients });
+        setNewClient("")
       }
       setNewClient('')
     }
