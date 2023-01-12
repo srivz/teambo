@@ -52,8 +52,8 @@ export default function TeammateTable(props) {
         }
 
         emailjs.send("service_8babtb3", "template_3e3kpdk", info, "E1o2OcJneKcoyHqxA").then((res) => {
-            alert("Email send Successfully");
-            set(ref(db, `/manager/${props?.managerId}/teammates/${props?.team.teammateIndex}/data/tasks/${index}/updates/${latest}/status`), "Completed")
+            alert("Email Sent Successfully!");
+            set(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}/status`), "Completed")
                 .catch((err) => {
                     console.log(err);
                 });
@@ -584,8 +584,9 @@ export default function TeammateTable(props) {
                                                                             onClick={() => {
                                                                                 handleCompleteTask(
                                                                                     info.data,
-                                                                                    info.teammate,
-                                                                                    index, info1.updates.length - 1
+                                                                                    info.teammateIndex,
+                                                                                    index,
+                                                                                    info1.updates.length - 1
                                                                                 );
                                                                                 setShow(false);
                                                                             }}
