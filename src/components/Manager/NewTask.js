@@ -315,20 +315,18 @@ export default function NewTask(props) {
   const addClient = () => {
     if (props?.manager?.clients) {
       if (props?.manager.clients.includes(newClient)) {
-        alert("Client Already Added!!")
+        alert("Client Already Added")
       }
       else {
         const clients = [...props.manager.clients, newClient];
         update(ref(db, `manager/${props?.managerId}/`), { clients });
-        setNewClient("")
       }
-      setNewClient('')
     }
     else {
     const clients = [newClient];
       update(ref(db, `manager/${props?.managerId}/`), { clients });
-      setNewClient('')
-    } 
+    }
+    setNewClient('')
   }
   return (
     <>
@@ -480,6 +478,7 @@ export default function NewTask(props) {
                 variant="primary"
                 onClick={() => {
                   handleNewTask();
+                  setShow(false);
                 }}
                 style={{
                   textAlign: "center",
@@ -496,7 +495,7 @@ export default function NewTask(props) {
           type="Button"
           variant="light"
           className="add-task-button"
-          onClick={setShow}
+          onClick={() => { setShow(true); }}
         >
           <FontAwesomeIcon
             icon="fa-regular fa-square-plus"
