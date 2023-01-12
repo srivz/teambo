@@ -166,21 +166,19 @@ export default function NewTask(props) {
   const addClient = () => {
     if (props?.manager?.clients) {
       let clientAvailable = false
-      let prevClient = []
       props?.manager?.clients.forEach((client) => {
         if (newClient === client.name) clientAvailable = true
-        prevClient.push(client)
       })
       if (clientAvailable) {
         alert("Client Already Added")
       }
       else {
-        const clients = prevClient.concat([{ name: newClient, taskCount: 0, clientNumber: props.manager.clients.length }])
+        const clients = [...props.manager.clients, { name: newClient, taskCount: 0, clientNumber: props.manager.clients.length }];
         update(ref(db, `manager/${props?.managerId}/clients`), clients);
       }
     }
     else {
-      const clients = { 0: { name: newClient, taskCount: 0, clientNumber: 0 } };
+      const clients = [{ name: newClient, taskCount: 0, clientNumber: 0 }];
       update(ref(db, `manager/${props?.managerId}/clients`), clients);
     }
     setNewClient('')
