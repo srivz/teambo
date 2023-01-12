@@ -429,7 +429,7 @@ export default function HomeList() {
                                   manager?.clients?.filter((info) => {
                                     return info.name.toLowerCase().includes(searchText2?.toLowerCase())
                                   })
-                                    ?.map((info) => {
+                                    .map((info) => {
                                       return (
                                         <TableRow
                                           key={info.name}
@@ -581,12 +581,12 @@ export default function HomeList() {
                         </Row>
                       )
                     }) : (manager?.clients
-                          ?.filter((info) => info === clientSelected)
+                          ?.filter((info) => info.name === clientSelected)
                       .map((info) => {
                         return (
                           <Row>
                             <Col sm={6} md={6} style={{ paddingLeft: '1.5em', marginTop: '1.5em' }}>
-                              <h4 className="blue">{info}</h4>
+                              <h4 className="blue">{info.name}</h4>
                             </Col>
                             <Col
                               sm={6}
