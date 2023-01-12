@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
+import { ButtonGroup, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import React, { useState } from 'react'
 import {
   Button,
@@ -42,6 +42,7 @@ export default function HomeList() {
   const [teamRequest, setTeamRequest] = useState([])
   const [teammateList, setTeammateList] = useState([])
   const [teammateSet, setTeammateSet] = useState([])
+  const [show, setShow] = useState(false);
 
   const navigate = useNavigate();
 
@@ -259,7 +260,7 @@ export default function HomeList() {
                               type="search"
                               name="search"
                               id="search"
-                              onChange={(e) => setSearchText(e.target.value)}
+                              onChange={(e) => { setSearchText(e.target.value); }}
                               placeholder="Search"
                             />
                           </Col>
@@ -269,21 +270,20 @@ export default function HomeList() {
                               key="auto"
                               placement="auto"
                               rootClose
-                              overlay={
+                              overlay={show ?
                                 <div
                                   className="bg-white "
                                   style={{
                                     border: '2px solid #e8e7e7',
                                     padding: '1em',
                                     marginTop: '10px',
-                                    marginLeft: '-50px',
+                                    marginLeft: '-150px',
                                     zIndex: "5",
-                                    width: '400px',
                                     boxShadow: 'rgba(0, 0, 0, 0.15) 1px 3px 5px',
                                   }}
                                 >
                                   <Row>
-                                    <Col md={'10'}>
+                                    <Col md={10}>
                                       <input
                                         className="rounded-2 w-100"
                                         style={{
@@ -302,22 +302,21 @@ export default function HomeList() {
                                         }
                                       />
                                     </Col>
-                                    <Col md={'2'}>
-                                      <Button
+                                    <Col md={1}>
+                                      <FontAwesomeIcon
                                         style={{
-                                          marginTop: '.5em',
-                                          borderRadius: '25px',
+                                          marginTop: '.275em',
                                         }}
-                                        type="Button"
-                                        variant="light"
-                                        onClick={() => addTeammate()}
-                                        className="bg-white box-shadow rounded-4"
-                                      >
-                                        <FontAwesomeIcon icon="fa-regular fa-square-plus" />
-                                      </Button>
+                                        size="2xl"
+                                        className="pointer"
+                                        onClick={() => {
+                                          addTeammate();
+                                          setShow(false)
+                                        }}
+                                        icon="fa-regular fa-square-plus" />
                                     </Col>
                                   </Row>
-                                </div>
+                                </div> : <></>
                               }
                             >
                               <FontAwesomeIcon
@@ -326,6 +325,7 @@ export default function HomeList() {
                                 icon="fa-regular fa-square-plus"
                                 className='pointer'
                                 style={{ marginLeft: "-10px", marginTop: "3px" }}
+                                onClick={() => { setShow(true) }}
                               />
                             </OverlayTrigger>
                           </Col>
