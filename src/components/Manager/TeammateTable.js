@@ -75,7 +75,7 @@ export default function TeammateTable(props) {
 
                 console.log(props)
                 //********** This line please check ********
-                // set(ref(db, `/manager/${props?.managerId}/teammates/${props?.team.teammateIndex}/data/tasks/${index}/updates/${latest}/status`), "Completed")
+               // set(ref(db, `/manager/${props?.managerId}/teammates/${props?.team.teammateIndex}/data/tasks/${index}/updates/${latest}/status`), "Completed")
 
                 alert("Email sent");
             }
