@@ -29,7 +29,6 @@ export default function HomeBlock(props) {
   const [managerId, setManagerId] = useState({});
   const [once, setOnce] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [once1, setOnce1] = useState(true);
   const [teammateList, setTeammateList] = useState([]);
   const [taskSelected, setTaskSelected] = useState();
   const [teammateSelected, setTeammateSelected] = useState();
@@ -44,9 +43,7 @@ export default function HomeBlock(props) {
             let data = snapshot.val()
             setManager(data)
             setManagerId(user.uid)
-            if (data.teammates !== undefined) {
-              getTeammates(data.teammates)
-            }
+            setTeammateList(data.teammates)
           } else {
             console.log('No data available')
           }
@@ -59,18 +56,11 @@ export default function HomeBlock(props) {
     }
   })
 
-  const getTeammates = (teamList) => {
-    if (once1) {
-      setTeammateList(teamList)
-    }
-    setOnce1(false)
-  }
-
   const handleDeleteTask = (teammate, id, index) => {
     let list1 = teammate.tasks.slice(0, index);
     let list2 = teammate.tasks.slice(index + 1);
     let list = list1.concat(list2)
-    set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${id}/data/tasks`), list)
+    set(ref(db, `/manager/${managerId}/teammates/${id}/data/tasks`), list)
       .catch((err) => {
         console.log(err);
       });
@@ -80,12 +70,14 @@ export default function HomeBlock(props) {
     fromTeammate.current.id = id;
     fromTeammate.current.tasks = list;
     fromTeammate.current.taskIndex = index;
+    console.log(id + " " + list + " " + index)
   }
 
   function dragEnter(e, index, list, id) {
     toTeammate.current.id = id;
     toTeammate.current.tasks = list;
     toTeammate.current.taskIndex = index;
+    console.log(id + " " + list + " " + index)
   }
 
   function drop(e, index, list, id) {
@@ -99,7 +91,7 @@ export default function HomeBlock(props) {
       copyList.splice(toTeammate.current.taskIndex, 0, dragItemContent);
       fromTeammate.current.taskIndex = null;
       toTeammate.current.taskIndex = null;
-      update(ref(db, `/manager/${auth.currentUser.uid}/teammates/${fromTeammate.current.id}/data/`), {
+      update(ref(db, `/manager/${managerId}/teammates/${fromTeammate.current.id}/data/`), {
         tasks: copyList,
       })
     }
@@ -110,6 +102,7 @@ export default function HomeBlock(props) {
       const newTask = {
         client: dragItemContent?.client,
         task: dragItemContent?.task,
+        clientIndex: dragItemContent?.clientIndex,
         clientEmail: dragItemContent?.clientEmail,
         updates: dragItemContent?.updates.concat({
           description: ['This task was switched to you.'],
@@ -133,11 +126,11 @@ export default function HomeBlock(props) {
       }
 
       if (toTeammate.current.tasks) {
-        set(ref(db, `manager/${auth.currentUser.uid}/teammates/${toTeammate.current.id}/data/tasks/${toTeammate.current.tasks.length || 0}`), newTask,)
+        set(ref(db, `manager/${managerId}/teammates/${toTeammate.current.id}/data/tasks/${toTeammate.current.tasks.length || 0}`), newTask,)
         handleDeleteTask(fromTeammate.current, fromTeammate.current.id, fromTeammate.current.taskIndex)
       }
       else {
-        set(ref(db, `manager/${auth.currentUser.uid}/teammates/${toTeammate.current.id}/data/tasks/0`), newTask,)
+        set(ref(db, `manager/${managerId}/teammates/${toTeammate.current.id}/data/tasks/0`), newTask,)
         handleDeleteTask(fromTeammate.current, fromTeammate.current.id, fromTeammate.current.taskIndex)
       }
 
@@ -276,7 +269,15 @@ export default function HomeBlock(props) {
                                   <div className="card-tasks">
                                     <Row
                                       colSpan={7}
-                                      align="center">
+                                      align="center"
+
+                                      onDragEnter={(e) => {
+                                        dragEnter(e, 0, info?.data?.tasks, info?.teammateIndex)
+                                      }}
+                                      onDragEnd={(e) => {
+                                        drop(e, 0, info?.data?.tasks, info?.teammateIndex)
+                                      }}
+                                    >
                                       No tasks assigned
                                     </Row>
                                   </div>
