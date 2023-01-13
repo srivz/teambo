@@ -89,26 +89,44 @@ export default function notifyNewTask(teamRequest, managerId, teammateIndex, new
     }
 }
 
-// export function notifySwitchTask(teamRequest, managerId, teammateIndex, newTask) {
+export function notifySwitchToTask(teamRequest, managerId, teammateIndex, newTask) {
 
-//     if (teamRequest === undefined) {
-//         let newArr = { 0: { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) } }
-//         set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr)
-//     }
-//     else {
-//         let newArr = []
-//         let exists = false
-//         teamRequest.forEach((element) => {
-//             exists = true
-//             newArr.push(element)
-//         })
-//         if (exists) {
-//             let newArr2 = [...newArr, { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) }]
-//             set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr2)
-//         }
-//     }
-// }
+    if (teamRequest === undefined) {
+        let newArr = { 0: { type: "switchTo", client: newTask.client, text: " Task is switched to you on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) } }
+        set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr)
+    }
+    else {
+        let newArr = []
+        let exists = false
+        teamRequest.forEach((element) => {
+            exists = true
+            newArr.push(element)
+        })
+        if (exists) {
+            let newArr2 = [...newArr, { type: "switchTo", client: newTask.client, text: " Task is switched to you on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) }]
+            set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr2)
+        }
+    }
+}
+export function notifySwitchFromTask(teamRequest, managerId, teammateIndex, newTask) {
 
+    if (teamRequest === undefined) {
+        let newArr = { 0: { type: "switchFrom", client: newTask.client, text: " Task is assigned to someone else." } }
+        set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr)
+    }
+    else {
+        let newArr = []
+        let exists = false
+        teamRequest.forEach((element) => {
+            exists = true
+            newArr.push(element)
+        })
+        if (exists) {
+            let newArr2 = [...newArr, { type: "switchFrom", client: newTask.client, text: " Task is assigned to someone else." }]
+            set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr2)
+        }
+    }
+}
 // export function notifyDeleteTask(teamRequest, managerId, teammateIndex, newTask) {
 
 //     if (teamRequest === undefined) {

@@ -66,7 +66,6 @@ export default function TeammateTable(props) {
             console.log(res)
             if (res.status === 200) {
                 set(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}/status`), "Completed")
-                alert("Notification Sent Successfully!");
             }
             else {
                 alert("Something went wrong");

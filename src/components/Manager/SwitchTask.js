@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Row, Col, Form } from 'react-bootstrap'
 import { db } from '../../firebase-config'
 import Dropdown from 'react-bootstrap/Dropdown'
+import { notifySwitchFromTask, notifySwitchToTask } from './NotificationFunctions'
 
 export default function SwitchTask(props) {
     const [newClient, setNewClient] = useState('')
@@ -12,6 +13,8 @@ export default function SwitchTask(props) {
     const [prevTasks, setPrevTasks] = useState([])
     const [teammateList, setTeammateList] = useState([])
     const [newTask, setNewTask] = useState()
+    const [teamRequest, setTeamRequest] = useState([]);
+    const [teamRequest1, setTeamRequest1] = useState([]);
     const close = () => { props?.setSwitchTask(''); }
 
     useEffect(() => {
@@ -47,6 +50,15 @@ export default function SwitchTask(props) {
             if (snapshot.exists()) {
                 const data = snapshot.val()
                 setPrevTasks(data.tasks)
+                setTeamRequest(data.notifications)
+                return true
+            } else {
+            }
+        })
+        onValue(ref(db, `/manager/${props?.managerId}/teammates/${props?.prevTeammateIndex}/data`), (snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val()
+                setTeamRequest1(data.notifications)
                 return true
             } else {
             }
@@ -57,6 +69,8 @@ export default function SwitchTask(props) {
             alert('First Select a teammate')
         } else {
             if (!prevTasks) {
+                notifySwitchToTask(teamRequest, props?.managerId, teammateId, newTask);
+                notifySwitchFromTask(teamRequest1, props?.managerId, props?.prevTeammateIndex, props?.prevTaskList);
                 set(ref(db, `/manager/${props?.managerId}/teammates/${teammateId}/data/tasks`), newTask,)
                     .then(() => {
                         props?.handleDeleteTask(props?.prevTaskList, props?.prevTeammateIndex, props?.prevTaskIndex)
@@ -75,6 +89,8 @@ export default function SwitchTask(props) {
                 if (!exists) {
                 } else {
                     let newArr2 = newTask.concat(newArr)
+                    notifySwitchToTask(teamRequest, props?.managerId, teammateId, newTask);
+                    notifySwitchFromTask(teamRequest1, props?.managerId, props?.prevTeammateIndex, props?.prevTaskList);
                     set(ref(db, `/manager/${props?.managerId}/teammates/${teammateId}/data/tasks`), newArr2,)
                         .then(() => {
                             props?.handleDeleteTask(props?.prevTaskList, props?.prevTeammateIndex, props?.prevTaskIndex)
