@@ -508,7 +508,7 @@ export default function TeammateTable(props) {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#24A43A',
                                                                             fontWeight: 'bold',
-                                                                            width: '150px'
+                                                                            width: '105px'
                                                                         }) ||
                                                                         (info1.updates[
                                                                             info1.updates.length - 1
