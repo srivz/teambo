@@ -27,6 +27,7 @@ export default function Home() {
   const [managerId, setManagerId] = useState('')
   const [teammateIndex, setTeammateIndex] = useState(null)
   const [modalShow, setModalShow] = useState(false)
+  const [otherNotifications, setOtherNotifications] = useState()
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -36,8 +37,10 @@ export default function Home() {
           let newId = id.join('_')
           onValue(ref(db, `/teammate/${newId}`), (snapshot) => {
             if (snapshot.exists()) {
-              setTeammate(snapshot.val())
               setId(newId)
+              if (snapshot.val().notifications) {
+                setOtherNotifications(snapshot.val().notifications)
+              }
               if (snapshot.val().link) {
                 setManagerId(snapshot.val().link.managerId)
                 setTeammateIndex(snapshot.val().link.index)
@@ -253,7 +256,7 @@ export default function Home() {
               user2="TEAMMATE"
             name={teammate.name}
             role={teammate.designation}
-            />{console.log(teammate)}
+            />
             <Container>
             <Container>
               <Row>
@@ -278,8 +281,10 @@ export default function Home() {
                         <Notifications
                           teammate={teammate}
                           id={id}
+                          otherNotifications={otherNotifications}
                         managerId={managerId}
-                        teammateIndex={teammateIndex} />
+                          teammateIndex={teammateIndex} />
+
                         <Dropdown style={{ width: '200px' }}>
                           <Dropdown.Toggle
                             style={{ height: '45px' }}

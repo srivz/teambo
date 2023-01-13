@@ -56,10 +56,10 @@ export default function Notifications(props) {
         }
     }
     const clearAllNotifications = () => {
-        remove(ref(db, `manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/notifications/`))
+        remove(ref(db, `manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/notifications/`)).then(() => { setShow(false); })
     }
     const reject = (index) => {
-        remove(ref(db, `teammate/${props?.id}/notifications/requests/${index}`))
+        remove(ref(db, `teammate/${props?.id}/notifications/requests/${index}`)).then(() => { setShow(false); })
     }
     return (
         <>
@@ -68,7 +68,8 @@ export default function Notifications(props) {
                 key={'bottom'}
                 placement={'bottom'}
                 rootClose
-                overlay={show ?
+                overlay={
+                    show ?
                     <div
                         className="bg-white"
                         style={{
@@ -78,26 +79,25 @@ export default function Notifications(props) {
                             width: '300px',
                             boxShadow: 'rgba(0, 0, 0, 0.55) 0px 1px 3px',
                         }}
-                    >{!props?.teammate.notifications ? (<></>) : (<Row>
-                            <Col className='text-end'><span className='pointer' style={{ color: "#9b9b9b", fontSize: "small" }}
-                            onClick={() => {
-                                clearAllNotifications(); setShow(false);
-                                }}><FontAwesomeIcon size={"xs"} icon="fa-solprops?.id fa-x" /> Clear</span></Col>
-                    </Row>)}
-                        {!props?.teammate.notifications ? (
-                            <Row
-                                style={{
-                                    margin: '1px',
-                                    color: 'black',
-                                    padding: '.5em',
-                                    fontFamily: 'rockwen',
-                                }}
-                                align="center"
-                            >
-                                No Notifications Available
+                        >
+                            {!props?.teammate.notifications ? (
+                                <Col className='text-end'>
+                                    <span className='pointer' style={{ color: "#9b9b9b", fontSize: "small" }}>
+                                        <FontAwesomeIcon size={"xs"} icon="fa-solprops?.id fa-x" /> Clear
+                                    </span>
+                                </Col>
+                            ) : (
+                                <Row>
+                                    <Col className='text-end'>
+                                        <span className='pointer' style={{ color: "#9b9b9b", fontSize: "small" }}
+                                            onClick={() => { clearAllNotifications(); }}>
+                                            <FontAwesomeIcon size={"xs"} icon="fa-solprops?.id fa-x" /> Clear
+                                        </span>
+                                    </Col>
                             </Row>
-                        ) : (props?.teammate?.notifications?.requests ?
-                            props?.teammate?.notifications?.requests.map((info, index) => {
+                            )}
+                            {props?.otherNotifications?.requests || props?.teammate?.notifications ?
+                                props?.otherNotifications?.requests ? props?.otherNotifications?.requests.map((info, index) => {
                                     return (
                                         <>
                                             <Row
@@ -112,14 +112,14 @@ export default function Notifications(props) {
                                                 key={index}
                                             >
                                                 <Col md={8} sm={8}>
-                                                            {' '}
-                                                            {info.managerName}{' '}
+                                                    {' '}
+                                                    {info.managerName}{' '}
                                                 </Col>
                                                 <Col md={2} sm={2}>
                                                     <Badge
                                                         as="button"
                                                         onClick={() => {
-                                                            reject(index); setShow(false);
+                                                            reject(index);
                                                         }}
                                                         style={{
                                                             padding: '.5em',
@@ -129,12 +129,12 @@ export default function Notifications(props) {
                                                             borderRadius: '25px',
                                                         }}
                                                         bg="light"
-                                                            >
-                                                                <FontAwesomeIcon
+                                                    >
+                                                        <FontAwesomeIcon
                                                             className="pointer"
                                                             size="2xl"
                                                             icon="fa-solprops?.id fa-circle-xmark"
-                                                                />
+                                                        />
                                                     </Badge>
                                                 </Col>
                                                 <Col md={2} sm={2}>
@@ -151,19 +151,20 @@ export default function Notifications(props) {
                                                             borderRadius: '25px',
                                                         }}
                                                         bg="light"
-                                                            >
-                                                                <FontAwesomeIcon
+                                                    >
+                                                        <FontAwesomeIcon
                                                             className="pointer"
                                                             size="2xl"
                                                             icon="fa-solprops?.id fa-circle-check"
                                                         />
                                                     </Badge>
-                                                        </Col>
+                                                </Col>
                                             </Row>
                                             <br />
                                         </>
                                     )
-                            }) : props?.teammate?.notifications.map((info, index) => {
+                                }) : <></> &&
+                                    props?.teammate?.notifications ? props?.teammate?.notifications.map((info, index) => {
                                 return (
                                     <><Row
                                         style={{
@@ -175,9 +176,21 @@ export default function Notifications(props) {
                                             fontFamily: 'rockwen',
                                         }}
                                         key={index}
-                                    ><p><span className='blue'>{info.client}</span>{info.text}</p></Row></>)
-                                })
-                        )}
+                                            ><p><span className='blue'>{info.client}</span>{info.text}</p></Row></>
+                                        )
+                                    }) : <></>
+                                :
+                                <Row
+                                    style={{
+                                        margin: '1px',
+                                        color: 'black',
+                                        padding: '.5em',
+                                        fontFamily: 'rockwen',
+                                    }}
+                                    align="center"
+                                >
+                                    No Notifications Available
+                                </Row>}
                     </div> : <></>
                 }
             >
@@ -185,13 +198,14 @@ export default function Notifications(props) {
                     variant="light"
                     onClick={() => { setShow(true) }}
                     style={
-                        !props?.teammate?.notifications
+                        props?.teammate?.notifications || props?.otherNotifications
                             ? {
                                 border: '2px solid #9b9b9b',
                                 color: 'black',
                                 fontFamily: 'rockwen',
                                 fontWeight: 'bold',
                                 padding: '10px',
+                                paddingLeft: '1.2em',
                                 borderRadius: '15px',
                                 marginRight: '1em',
                             }
@@ -201,7 +215,6 @@ export default function Notifications(props) {
                                 fontFamily: 'rockwen',
                                 fontWeight: 'bold',
                                 padding: '10px',
-                                paddingLeft: '1.2em',
                                 borderRadius: '15px',
                                 marginRight: '1em',
                             }
@@ -212,10 +225,10 @@ export default function Notifications(props) {
                         size="xl"
                         icon="fa-regular fa-bell"
                     />
-                    {!props?.teammate?.notifications ? (
-                        <></>
-                    ) : (
+                    {props?.teammate?.notifications || props?.otherNotifications ? (
                         <div class="notification-dot"></div>
+                    ) : (
+                        <></>
                     )}
                 </Button>
             </OverlayTrigger>
