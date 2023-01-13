@@ -215,7 +215,7 @@ export default function TeammateTable(props) {
                                     }}
                                     align="center"
                                 >
-                                    Teammate
+                                    Client
                                 </TableCell>
                                 <TableCell
                                     style={{
