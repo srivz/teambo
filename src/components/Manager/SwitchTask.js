@@ -20,6 +20,7 @@ export default function SwitchTask(props) {
             client: props?.switchTask?.client,
             task: props?.switchTask?.task,
             clientEmail: props?.switchTask?.clientEmail,
+            clientIndex: props?.switchTask?.clientIndex,
             updates: props?.switchTask?.updates.concat({
                 description: ['This task was switched to you.'],
                 assignedDate:
