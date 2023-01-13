@@ -55,6 +55,8 @@ export default function SwitchTask(props) {
             } else {
             }
         })
+    }, [props, teammateId])
+    useEffect(() => {
         onValue(ref(db, `/manager/${props?.managerId}/teammates/${props?.prevTeammateIndex}/data`), (snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val()
@@ -63,14 +65,14 @@ export default function SwitchTask(props) {
             } else {
             }
         })
-    }, [props, teammateId])
+    }, [props])
     const handleNewTask = () => {
         if (teammateId === '') {
             alert('First Select a teammate')
         } else {
             if (!prevTasks) {
-                notifySwitchToTask(teamRequest, props?.managerId, teammateId, newTask);
-                notifySwitchFromTask(teamRequest1, props?.managerId, props?.prevTeammateIndex, props?.prevTaskList);
+                notifySwitchToTask(teamRequest, props?.managerId, teammateId, props?.switchTask?.client);
+                notifySwitchFromTask(teamRequest1, props?.managerId, props?.prevTeammateIndex, props?.switchTask?.client);
                 set(ref(db, `/manager/${props?.managerId}/teammates/${teammateId}/data/tasks`), newTask,)
                     .then(() => {
                         props?.handleDeleteTask(props?.prevTaskList, props?.prevTeammateIndex, props?.prevTaskIndex)
@@ -89,8 +91,8 @@ export default function SwitchTask(props) {
                 if (!exists) {
                 } else {
                     let newArr2 = newTask.concat(newArr)
-                    notifySwitchToTask(teamRequest, props?.managerId, teammateId, newTask);
-                    notifySwitchFromTask(teamRequest1, props?.managerId, props?.prevTeammateIndex, props?.prevTaskList);
+                    notifySwitchToTask(teamRequest, props?.managerId, teammateId, props?.switchTask?.client);
+                    notifySwitchFromTask(teamRequest1, props?.managerId, props?.prevTeammateIndex, props?.switchTask?.client);
                     set(ref(db, `/manager/${props?.managerId}/teammates/${teammateId}/data/tasks`), newArr2,)
                         .then(() => {
                             props?.handleDeleteTask(props?.prevTaskList, props?.prevTeammateIndex, props?.prevTaskIndex)

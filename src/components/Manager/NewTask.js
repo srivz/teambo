@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { onValue, ref, update } from "firebase/database";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Row, Col, Form, OverlayTrigger } from "react-bootstrap";
 import { db } from "../../firebase-config";
 import moment from "moment";
@@ -59,7 +59,7 @@ export default function NewTask(props) {
     newTask.updates[0].deadlineTime = event.target.value;
   };
 
-  const getTeammatesWithMail = () => {
+  useEffect(() => {
     onValue(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val()
@@ -69,7 +69,7 @@ export default function NewTask(props) {
         alert('User not available')
       }
     })
-  }
+  }, [props])
 
   const validateForm = () => {
     if (newTask.client === '' || newTask.clientEmail === '' || newTask.task === '' || newTask.updates[0].description === '') {
@@ -83,7 +83,6 @@ export default function NewTask(props) {
       if (props?.name === "No Teammate") {
         alert("Select a Teammate first")
       } else {
-        getTeammatesWithMail()
         if (props?.tasks === undefined) {
           notifyNewTask(teamRequest, props?.managerId, props?.teammateIndex, newTask);
           clientTaskAdd(props?.managerId, newTask.clientIndex, props?.manager?.clients[newTask.clientIndex].taskCount)
