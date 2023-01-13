@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { onValue, ref, set } from 'firebase/database'
 import React, { useEffect, useState } from 'react'
 import { Button, Row, Col, Form } from 'react-bootstrap'
-import { auth, db } from '../../firebase-config'
+import { db } from '../../firebase-config'
 import Dropdown from 'react-bootstrap/Dropdown'
 
 export default function SwitchTask(props) {
@@ -12,6 +12,8 @@ export default function SwitchTask(props) {
     const [prevTasks, setPrevTasks] = useState([])
     const [teammateList, setTeammateList] = useState([])
     const [newTask, setNewTask] = useState()
+    const close = () => { props?.setSwitchTask(''); }
+
     useEffect(() => {
         var today = new Date()
         setNewTask([{
@@ -39,26 +41,25 @@ export default function SwitchTask(props) {
             },),
         }])
     }, [props])
-    const getTeammatesWithMail = () => {
-        onValue(ref(db, `/manager/${auth.currentUser.uid}/teammates/${teammateId}/data`), (snapshot) => {
+    useEffect(() => {
+        onValue(ref(db, `/manager/${props?.managerId}/teammates/${teammateId}/data`), (snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val()
                 setPrevTasks(data.tasks)
                 return true
             } else {
-                alert('User not available')
             }
         })
-    }
+    }, [props, teammateId])
     const handleNewTask = () => {
         if (teammateId === '') {
             alert('First Select a teammate')
         } else {
-            getTeammatesWithMail()
             if (!prevTasks) {
-                set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${teammateId}/data/tasks`), newTask,)
+                set(ref(db, `/manager/${props?.managerId}/teammates/${teammateId}/data/tasks`), newTask,)
                     .then(() => {
                         props?.handleDeleteTask(props?.prevTaskList, props?.prevTeammateIndex, props?.prevTaskIndex)
+                        close()
                     })
                     .catch((err) => {
                         console.log(err)
@@ -72,12 +73,11 @@ export default function SwitchTask(props) {
                 })
                 if (!exists) {
                 } else {
-                    console.log(newArr)
                     let newArr2 = newTask.concat(newArr)
-                    console.log(newArr2)
-                    set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${teammateId}/data/tasks`), newArr2,)
+                    set(ref(db, `/manager/${props?.managerId}/teammates/${teammateId}/data/tasks`), newArr2,)
                         .then(() => {
                             props?.handleDeleteTask(props?.prevTaskList, props?.prevTeammateIndex, props?.prevTaskIndex)
+                            close()
                         })
                         .catch((err) => {
                             console.log(err)
@@ -109,13 +109,12 @@ export default function SwitchTask(props) {
             setTeammateList(newFilter)
         }
     }
-
-    return (
+    return (props?.show ?
         <div className="bg-white switch-task-box" style={{}}>
             <Button
                 variant="light"
                 onClick={(e) => {
-                    props.setSwitchTask('')
+                    close()
                 }}
                 className="mb-3"
             >
@@ -124,7 +123,7 @@ export default function SwitchTask(props) {
             <h5 className="blue">Move Task To.. </h5>
             <Form.Group as={Row} className="mb-3" controlId="formPlaintext1">
                 <Form.Label column sm="4" md="4">
-                    Teammate-
+                    Teammate
                 </Form.Label>
                 <Col sm="8">
                     <Dropdown>
@@ -150,7 +149,7 @@ export default function SwitchTask(props) {
                                 {teammateList.length === 0 && newClient === ''
                                     ? props?.props?.team
                                         .filter((client) => {
-                                            return client.teammate !== props.prevTeammateId
+                                            return client.teammateIndex !== props.prevTeammateIndex
                                         })
                                         .map((client, index) => {
                                             return (
@@ -165,7 +164,11 @@ export default function SwitchTask(props) {
                                                 </Dropdown.Item>
                                             )
                                         })
-                                    : teammateList.map((client, index) => {
+                                    : teammateList
+                                        .filter((client) => {
+                                            return client.teammateIndex !== props.prevTeammateIndex
+                                        })
+                                        .map((client, index) => {
                                         return (
                                             <Dropdown.Item
                                                 key={index}
@@ -192,7 +195,9 @@ export default function SwitchTask(props) {
             >
                 <Button
                     variant="primary"
-                    onClick={handleNewTask}
+                    onClick={() => {
+                        handleNewTask();
+                    }}
                     style={{
                         textAlign: 'center',
                     }}
@@ -201,6 +206,6 @@ export default function SwitchTask(props) {
                     Switch
                 </Button>
             </div>
-        </div>
+        </div> : <></>
     )
 }

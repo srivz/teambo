@@ -13,6 +13,7 @@ import TaskHistory from './TaskHistory'
 import SwitchTask from './SwitchTask';
 import { db } from '../../firebase-config';
 import axios from 'axios';
+import { clientTaskDelete } from './ClientTaskCount';
 
 export default function TeammateTable(props) {
     const selected = props?.teammateselected
@@ -31,11 +32,20 @@ export default function TeammateTable(props) {
 
 
 
-    const handleDeleteTask = (teammate, id, index) => {
+    const handleDeleteTask = (teammate, id, index, clientIndex) => {
         let list1 = teammate.tasks.slice(0, index);
         let list2 = teammate.tasks.slice(index + 1);
         let list = list1.concat(list2)
-
+        clientTaskDelete(props?.managerId, clientIndex, props?.manager?.clients[clientIndex].taskCount)
+        set(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks`), list)
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+    const handleDeleteSwitchTask = (teammate, id, index) => {
+        let list1 = teammate.tasks.slice(0, index);
+        let list2 = teammate.tasks.slice(index + 1);
+        let list = list1.concat(list2)
         set(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks`), list)
             .catch((err) => {
                 console.log(err);
@@ -356,7 +366,7 @@ export default function TeammateTable(props) {
                                                             : -1,
                                                     )
                                                     .filter(
-                                                        (info2, index) => index === 0,
+                                                        (info2, index1) => index1 === 0,
                                                     )
                                                     .map((info2) => {
                                                         return (
@@ -704,6 +714,7 @@ export default function TeammateTable(props) {
                                                                                     info.data,
                                                                                     info.teammateIndex,
                                                                                     index,
+                                                                                    info1.clientIndex
                                                                                 );
                                                                                 setShow(false);
                                                                             }}
@@ -760,11 +771,13 @@ export default function TeammateTable(props) {
                                 )}
                                 {switchTask &&
                                     <SwitchTask
+                                    show={true}
                                     setSwitchTask={setSwitchTask}
                                     prevTaskList={info.data}
                                     props={props}
-                                        switchTask={switchTask}
-                                    handleDeleteTask={handleDeleteTask}
+                                    managerId={props?.managerId}
+                                    switchTask={switchTask}
+                                    handleDeleteTask={handleDeleteSwitchTask}
                                     prevTeammateIndex={prevTeammateIndex}
                                     prevTeammateId={prevTeammateId}
                                         prevTaskIndex={prevTaskIndex}

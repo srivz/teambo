@@ -427,6 +427,8 @@ export default function HomeList() {
                               </TableRow>
                               ) : (
                                   manager?.clients?.filter((info) => {
+                                    return info.taskCount !== 0
+                                  }).filter((info) => {
                                     return info.name.toLowerCase().includes(searchText2?.toLowerCase())
                                   })
                                     ?.map((info, index) => {

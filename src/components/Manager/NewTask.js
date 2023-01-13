@@ -6,16 +6,18 @@ import { db } from "../../firebase-config";
 import moment from "moment";
 import Dropdown from 'react-bootstrap/Dropdown';
 import notifyNewTask from "./NotificationFunctions";
+import clientTaskAdd from "./ClientTaskCount";
 
 
 export default function NewTask(props) {
   var today = new Date();
   const [show, setShow] = useState(false);
-  const [newClient,setNewClient]=useState("");
-  const [clientList, setClientList] = useState([]);
+  const [newClient, setNewClient] = useState("");
+  const [clientList, setClientList] = useState(props?.manager?.clients);
   const [teamRequest, setTeamRequest] = useState([]);
   const [newTask, setNewTask] = useState({
     client: "",
+    clientIndex: "",
     task: "",
     clientEmail: "",
     updates: {
@@ -84,6 +86,7 @@ export default function NewTask(props) {
         getTeammatesWithMail()
         if (props?.tasks === undefined) {
           notifyNewTask(teamRequest, props?.managerId, props?.teammateIndex, newTask);
+          clientTaskAdd(props?.managerId, newTask.clientIndex, props?.manager?.clients[newTask.clientIndex].taskCount)
           update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask] }).then(() => {
             setShow(false)
             setNewTask({
@@ -116,6 +119,7 @@ export default function NewTask(props) {
         }
         else {
           notifyNewTask(teamRequest, props?.managerId, props?.teammateIndex, newTask);
+          clientTaskAdd(props?.managerId, newTask.clientIndex, props?.manager?.clients[newTask.clientIndex].taskCount)
           update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask].concat(props?.tasks) }).then(() => {
                 setShow(false);
                 setNewTask({
@@ -155,7 +159,7 @@ export default function NewTask(props) {
  const searchClient=(e)=>{
   setNewClient(e.target.value)
    const newFilter = props?.manager?.clients.filter((val) => {
-      return val.toLowerCase().includes(e.target.value.toLowerCase());
+     return val.name.toLowerCase().includes(e.target.value.toLowerCase());
     });
     if (e.target.value === "") {
       setClientList(props?.manager?.clients);
@@ -163,23 +167,24 @@ export default function NewTask(props) {
       setClientList(newFilter);
     }
  }
+
   const addClient = () => {
     if (props?.manager?.clients) {
       let clientAvailable = false
-      props?.manager?.clients.forEach((client) => {
+      props?.manager?.clients?.forEach((client) => {
         if (newClient === client.name) clientAvailable = true
       })
       if (clientAvailable) {
         alert("Client Already Added")
       }
       else {
-        const clients = [...props.manager.clients, { name: newClient, taskCount: 0, clientNumber: props.manager.clients.length }];
-        update(ref(db, `manager/${props?.managerId}/clients`), clients);
+        const clients = [...props?.manager?.clients, { name: newClient, taskCount: 0, clientNumber: props?.manager?.clients.length }];
+        update(ref(db, `manager/${props?.managerId}/`), { clients });
       }
     }
     else {
       const clients = [{ name: newClient, taskCount: 0, clientNumber: 0 }];
-      update(ref(db, `manager/${props?.managerId}/clients`), clients);
+      update(ref(db, `manager/${props?.managerId}/`), { clients });
     }
     setNewClient('')
   }
@@ -231,18 +236,18 @@ export default function NewTask(props) {
                     <div className=" client-dropdown-menu-list client-dropdown-menu-height">
                       <Row className="client-dropdown-menu-height">
                         {
-                          props?.manager ? clientList?.length === 0 && newClient === "" ?
+                          props?.manager?.clients ? clientList?.length === 0 && newClient === "" ?
                             props?.manager?.clients?.map((client, index) => {
                               return (
                                 <Dropdown.Item
                                   key={index}
                                   onClick={(e) => {
                                     setNewTask((oldTask) => {
-                                      return { ...oldTask, client };
+                                      return { ...oldTask, client: client.name, clientIndex: client.clientNumber };
                                     });
                                   }}
                                 >
-                                  {client}
+                                  {client.name}
                                 </Dropdown.Item>
                               );
                             }) :
@@ -252,11 +257,11 @@ export default function NewTask(props) {
                                   key={index}
                                   onClick={(e) => {
                                     setNewTask((oldTask) => {
-                                      return { ...oldTask, client };
+                                      return { ...oldTask, client: client.name, clientIndex: client.clientNumber };
                                     });
                                   }}
                                 >
-                                  {client}
+                                  {client.name}
                                 </Dropdown.Item>
                               );
                             }) : <></>
