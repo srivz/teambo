@@ -70,14 +70,12 @@ export default function HomeBlock(props) {
     fromTeammate.current.id = id;
     fromTeammate.current.tasks = list;
     fromTeammate.current.taskIndex = index;
-    console.log(id + " " + list + " " + index)
   }
 
   function dragEnter(e, index, list, id) {
     toTeammate.current.id = id;
     toTeammate.current.tasks = list;
     toTeammate.current.taskIndex = index;
-    console.log(id + " " + list + " " + index)
   }
 
   function drop(e, index, list, id) {
