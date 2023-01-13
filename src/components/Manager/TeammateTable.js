@@ -335,7 +335,6 @@ export default function TeammateTable(props) {
                                                     }}
                                                     style={{
                                                         fontFamily: 'rockwen',
-                                                        width: "150px"
 
                                                     }}
                                                     align="center"
@@ -349,8 +348,7 @@ export default function TeammateTable(props) {
                                                         setTaskSelected(index);
                                                     }}
                                                     style={{
-                                                        fontFamily: 'rockwen',
-                                                        width: "180px"
+                                                        fontFamily: 'rockwen'
                                                     }}
                                                     align="center"
 
@@ -378,7 +376,7 @@ export default function TeammateTable(props) {
                                                                     }}
                                                                     style={{
                                                                         fontFamily: 'rockwen',
-                                                                        width: "150px"
+                                                                        width: "120px"
                                                                     }}
                                                                     align="center"
 
@@ -402,7 +400,7 @@ export default function TeammateTable(props) {
                                                                     }}
                                                                     style={{
                                                                         fontFamily: 'rockwen',
-                                                                        width: "150px"
+                                                                        width: "120px"
                                                                     }}
                                                                     align="center"
 
@@ -426,7 +424,6 @@ export default function TeammateTable(props) {
                                                                     }}
                                                                     style={{
                                                                         fontFamily: 'rockwen',
-                                                                        width: "100px"
                                                                     }}
                                                                     align="center"
 
@@ -464,7 +461,6 @@ export default function TeammateTable(props) {
                                                                     }}
                                                                     style={{
                                                                         fontFamily: 'rockwen',
-                                                                        width: "100px"
                                                                     }}
                                                                     align="center"
 
@@ -496,7 +492,6 @@ export default function TeammateTable(props) {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#000000',
                                                                             fontWeight: 'bold',
-                                                                            width: "100px"
                                                                         }) ||
                                                                         (info1.updates[
                                                                             info1.updates.length - 1
@@ -505,7 +500,6 @@ export default function TeammateTable(props) {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#000000',
                                                                             fontWeight: 'bold',
-                                                                            width: "100px"
                                                                         }) ||
                                                                         (info1.updates[
                                                                             info1.updates.length - 1
@@ -514,7 +508,7 @@ export default function TeammateTable(props) {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#24A43A',
                                                                             fontWeight: 'bold',
-                                                                            width: "100px"
+                                                                            width: '150px'
                                                                         }) ||
                                                                         (info1.updates[
                                                                             info1.updates.length - 1
@@ -522,7 +516,6 @@ export default function TeammateTable(props) {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#2972B2',
                                                                             fontWeight: 'bold',
-                                                                            width: "100px"
                                                                         }) ||
                                                                         (info1.updates[
                                                                             info1.updates.length - 1
@@ -531,7 +524,6 @@ export default function TeammateTable(props) {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#D1AE00',
                                                                             fontWeight: 'bold',
-                                                                            width: "100px"
                                                                         })
                                                                     }
                                                                 >

@@ -101,13 +101,13 @@ export default function Notifications(props) {
                                     return (
                                         <>
                                             <Row
-                                                    style={{
-                                                        boxShadow: 'rgba(0, 0, 0, 0.55) 0px 1px 3px',
+                                                style={{
+                                                    boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 1px',
                                                     margin: '1px',
-                                                        color: 'black',
-                                                        padding: '.5em',
+                                                    color: 'black',
+                                                    padding: '.05em',
+                                                    paddingBottom: '0em',
                                                     fontFamily: 'rockwen',
-                                                    border: '2px black',
                                                 }}
                                                 key={index}
                                             >
@@ -132,7 +132,7 @@ export default function Notifications(props) {
                                                             >
                                                                 <FontAwesomeIcon
                                                             className="pointer"
-                                                            size="xl"
+                                                            size="2xl"
                                                             icon="fa-solprops?.id fa-circle-xmark"
                                                                 />
                                                     </Badge>
@@ -154,7 +154,7 @@ export default function Notifications(props) {
                                                             >
                                                                 <FontAwesomeIcon
                                                             className="pointer"
-                                                            size="xl"
+                                                            size="2xl"
                                                             icon="fa-solprops?.id fa-circle-check"
                                                         />
                                                     </Badge>
