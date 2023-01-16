@@ -14,7 +14,7 @@ const client = require('twilio')(accountSid, authToken);
 //
 exports.taskCompleted = functions.https.onRequest((req, res) => {
     cors(req, res, () => { });
-    const { toEmail, fromEmail, subject, name, text, whatsAppNo } = req.body;
+    const { heading, toEmail, fromEmail, subject, name, text, whatsAppNo } = req.body;
 
     const output = subject;
 
@@ -30,40 +30,17 @@ exports.taskCompleted = functions.https.onRequest((req, res) => {
     let mailOption = {
         from: `Teambo <teambo@app.com>`, // sender address
         to: toEmail, // list of receivers
-        subject: "Task Approval", // Subject line
+        subject: heading, // Subject line
         html: output, // html body
     };
 
     // send mail with defined transport object
     transporter.sendMail(mailOption, (error, info) => {
-        if (error) {
-            client.messages
-                .create({
-                    from: 'whatsapp:+14155238886',
-                    body: text,
-                    to: `whatsapp:+91${whatsAppNo}`
-                }).then((res) => {
-                    res.status(200).json({ msg: "Success" })
-                })
-                .catch((err) => {
-                    res.status(422).json({ msg: "Fail1" })
-                })
-
+        if (error) {   
+            res.status(422).json({ msg: "Fail1" })
         }
         else {
-            console.log(info);
-            client.messages
-                .create({
-                    from: 'whatsapp:+14155238886',
-                    body: text,
-                    to: `whatsapp:+91${whatsAppNo}`
-                })
-                .then((res) => {
-                    res.status(200).json({ msg: "Success" })
-                })
-                .catch(err => res.status(422).json({ msg: "Fail2" }))
-
-
+            res.status(200).json({ msg: "Success" })
         }
     });
 

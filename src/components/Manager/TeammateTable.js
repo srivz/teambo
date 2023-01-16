@@ -32,7 +32,7 @@ export default function TeammateTable(props) {
 
 
 
-    const handleDeleteTask = (teammate, id, index, clientIndex) => {
+    const handleDeleteTask = async (teammate, id, index, clientIndex) => {
         let list1 = teammate.tasks.slice(0, index);
         let list2 = teammate.tasks.slice(index + 1);
         let list = list1.concat(list2)
@@ -41,8 +41,31 @@ export default function TeammateTable(props) {
             .catch((err) => {
                 console.log(err);
             });
+        const subject = `
+                    <h4> Your Task ${teammate.tasks[index].task} has been Removed By manager ${props?.manager.name}</h4>
+                    <br />
+                    <p>Thank you</p>
+                `
+        const heading = "Task Removed";
+        const text = `Your Task ${teammate.tasks[index].task} has been Removed By manger ${props?.manager.name}`
+        try {
+            const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+                heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
+            });
+            console.log(res)
+            if (res.status === 200) {
+                alert("Email sent")
+            }
+            else {
+                alert("Something went wrong");
+            }
+
+        } catch (err) {
+            alert("error")
+            console.log(err)
+        }
     }
-    const handleDeleteSwitchTask = (teammate, id, index) => {
+    const handleDeleteSwitchTask = async (teammate, id, index) => {
         let list1 = teammate.tasks.slice(0, index);
         let list2 = teammate.tasks.slice(index + 1);
         let list = list1.concat(list2)
@@ -50,6 +73,29 @@ export default function TeammateTable(props) {
             .catch((err) => {
                 console.log(err);
             });
+        const subject = `
+                    <h4> Your Task ${teammate.tasks[index].task} has been Switched to another teammate By manager ${props?.manager.name}</h4>
+                    <br />
+                    <p>Thank you</p>
+                `
+        const heading = "Task Switched";
+        const text = `Your Task ${teammate.tasks[index].task} has been Removed By manger ${props?.manager.name}`
+        try {
+            const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+                heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
+            });
+            console.log(res)
+            if (res.status === 200) {
+                alert("Email sent")
+            }
+            else {
+                alert("Something went wrong");
+            }
+
+        } catch (err) {
+            alert("error")
+            console.log(err)
+        }
     }
     const handleCompleteTask = async (teammate, id, index, latest) => {
         const subject = `
@@ -57,11 +103,12 @@ export default function TeammateTable(props) {
     <br />
     <p>Thank you</p>
    `
+        const heading = "Task Approved"
         const text = `Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}`
         console.log(subject, text)
         try {
             const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-                fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
+                heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
             });
             console.log(res)
             if (res.status === 200) {

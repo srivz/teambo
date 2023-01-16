@@ -217,7 +217,7 @@ export default function HomeList() {
       }
     }
   };
-
+  console.log(teammateList);
   return (
     <>
       {loading ? (
@@ -572,7 +572,7 @@ export default function HomeList() {
                               <NewTask
                                 name={info.data.name}
                                 designation={info.data.designation}
-                                teammate={info.teammate}
+                                teammate={info.data}
                                 teammateIndex={info.teammateIndex}
                                 tasks={info.data.tasks}
                                 manager={manager}
