@@ -7,6 +7,7 @@ import moment from "moment";
 import Dropdown from 'react-bootstrap/Dropdown';
 import notifyNewTask from "./NotificationFunctions";
 import clientTaskAdd from "./ClientTaskCount";
+import axios from "axios";
 
 
 export default function NewTask(props) {
@@ -77,7 +78,7 @@ export default function NewTask(props) {
     }
     else { return true }
   }
-
+  console.log(props)
   const handleNewTask = () => {
     if (validateForm()) {
       if (props?.name === "No Teammate") {
@@ -86,8 +87,32 @@ export default function NewTask(props) {
         if (props?.tasks === undefined) {
           notifyNewTask(teamRequest, props?.managerId, props?.teammateIndex, newTask);
           clientTaskAdd(props?.managerId, newTask.clientIndex, props?.manager?.clients[newTask.clientIndex].taskCount)
-          update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask] }).then(() => {
+          update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask] }).then(async () => {
             setShow(false)
+            const subject = `
+                  <h4> New Task ${newTask.task} from client ${newTask.client} has been Assigned to you By manager ${props?.manager.name}</h4>
+                  <br />
+                  <p>Thank you</p>
+                `
+            const heading = "Task Assigned"
+            const text = `New Task ${newTask.task} has been Assigned to you By manager ${props?.manager.name}`
+            console.log(subject, text)
+            try {
+              const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+                heading, fromEmail: props?.manager.email, toEmail: props?.teammate.email, subject: subject, name: props?.teammate.name, text: text, whatsAppNo: props?.teammate?.whatsAppNo
+              });
+              console.log(res)
+              if (res.status === 200) {
+                alert("Email sent")
+              }
+              else {
+                alert("Something went wrong");
+              }
+
+            } catch (err) {
+              alert("error")
+              console.log(err)
+            }
             setNewTask({
               client: "",
               task: "",
@@ -115,12 +140,37 @@ export default function NewTask(props) {
               },
             })
           })
+
         }
         else {
           notifyNewTask(teamRequest, props?.managerId, props?.teammateIndex, newTask);
           clientTaskAdd(props?.managerId, newTask.clientIndex, props?.manager?.clients[newTask.clientIndex].taskCount)
-          update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask].concat(props?.tasks) }).then(() => {
-                setShow(false);
+          update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask].concat(props?.tasks) }).then(async () => {
+            setShow(false);
+            const subject = `
+                  <h4> New Task ${newTask.task} from client ${newTask.client} has been Assigned to you By manager ${props?.manager.name}</h4>
+                  <br />
+                  <p>Thank you</p>
+                `
+            const heading = "Task Assigned"
+            const text = `New Task ${newTask.task} has been Assigned to you By manager ${props?.manager.name}`
+            console.log(subject, text)
+            try {
+              const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+                heading, fromEmail: props?.manager.email, toEmail: props?.teammate.email, subject: subject, name: props?.teammate.name, text: text, whatsAppNo: props?.teammate?.whatsAppNo
+              });
+              console.log(res)
+              if (res.status === 200) {
+                alert("Email sent")
+              }
+              else {
+                alert("Something went wrong");
+              }
+
+            } catch (err) {
+              alert("error")
+              console.log(err)
+            }
                 setNewTask({
                   client: "",
                   task: "",
