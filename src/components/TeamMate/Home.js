@@ -282,6 +282,7 @@ export default function Home() {
                         <Notifications
                           teammate={teammate}
                           id={id}
+
                           otherNotifications={otherNotifications}
                         managerId={managerId}
                           teammateIndex={teammateIndex} />
