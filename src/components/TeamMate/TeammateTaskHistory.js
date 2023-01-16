@@ -89,6 +89,9 @@ export default function TeammateTaskHistory(props) {
               <FontAwesomeIcon icon="fa-solid fa-chevron-left" />{" "}
               Close
             </Button>
+            <Button variant="light" style={{ position: "absolute", right: "1em" }}>
+              <FontAwesomeIcon icon="fa-solid fa-pen-to-square" />{" "}
+            </Button>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ padding: "20px" }}>

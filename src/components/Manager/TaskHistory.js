@@ -168,6 +168,9 @@ export default function TaskHistory(props) {
               <FontAwesomeIcon icon="fa-solid fa-chevron-left" />{" "}
               Close
             </Button>
+            <Button variant="light" style={{ position: "absolute", right: "1em" }}>
+              <FontAwesomeIcon icon="fa-solid fa-square-envelope" />{" "}
+            </Button>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ padding: "1.5em", marginLeft: "1.5em", marginRight: "1.5em" }}>
