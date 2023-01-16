@@ -14,11 +14,11 @@ export default function Notifications(props) {
     const [once2, setOnce2] = useState(true)
     const [show, setShow] = useState(true)
 
-    const acceptChange = (managerId, managerTeam) => {
+    const acceptChange = (managerId, managerTeam, newTeammate) => {
         if (managerTeam === undefined) {
             set(ref(db, `teammate/${props?.id}/link/`), { index: 0, managerId: managerId })
             set(ref(db, `manager/${managerId}/teammates/`), [{
-                data: props?.teammate, teammateId: props?.id, teammateIndex: 0
+                data: newTeammate, teammateId: props?.id, teammateIndex: 0
             }])
             remove(ref(db, `manager/${managerId}/teammates/0/data/notifications/`))
 
@@ -34,9 +34,10 @@ export default function Notifications(props) {
             if (exists) {
             } else {
                 set(ref(db, `teammate/${props?.id}/link/`), { index: newArr.length, managerId: managerId })
-                let newArr2 = [...newArr, { data: props?.teammate, teammateId: props?.id, teammateIndex: newArr.length }]
-                set(ref(db, `manager/${managerId}/teammates/`), newArr2)
-                remove(ref(db, `manager/${managerId}/teammates/${newArr.length}/data/notifications/`))
+                let newArr2 = [...newArr, { data: newTeammate, teammateId: props?.id, teammateIndex: newArr.length }]
+                set(ref(db, `manager/${managerId}/teammates/`), newArr2).then(() => {
+                    remove(ref(db, `manager/${managerId}/teammates/${newArr.length}/data/notifications/`))
+                })
 
             }
         }
@@ -47,7 +48,8 @@ export default function Notifications(props) {
                 if (snapshot.exists()) {
                     let data = snapshot.val()
                     remove(ref(db, `teammate/${props?.id}/notifications`))
-                    acceptChange(managerId, data.teammates)
+                    acceptChange(managerId, data.teammates, props?.teammate);
+                    setShow(false);
                 } else {
                     alert('No manager found')
                 }
@@ -141,7 +143,7 @@ export default function Notifications(props) {
                                                     <Badge
                                                         as="button"
                                                         onClick={() => {
-                                                            accept(info.managerId); setShow(false);
+                                                            accept(info.managerId); 
                                                         }}
                                                         style={{
                                                             padding: '.5em',
