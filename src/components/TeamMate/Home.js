@@ -41,6 +41,7 @@ export default function Home() {
               if (snapshot.val().notifications) {
                 setOtherNotifications(snapshot.val().notifications)
               }
+              setTeammate(snapshot.val())
               if (snapshot.val().link) {
                 setManagerId(snapshot.val().link.managerId)
                 setTeammateIndex(snapshot.val().link.index)
