@@ -1,9 +1,7 @@
 import React from 'react'
-import Table from 'react-bootstrap/Table';
-import { Space, Tooltip } from 'antd';
-import { Button, } from 'antd';
-import { DownOutlined, UserOutlined, SearchOutlined } from '@ant-design/icons';
+import { Table, Button, Col, Row } from 'react-bootstrap';
 import { Dropdown, message, } from 'antd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const handleMenuClick = (e) => {
     message.info('Click on menu item.');
@@ -13,35 +11,29 @@ const items = [
     {
         label: 'Today',
         key: '1',
-        icon: <UserOutlined />,
     },
     {
         label: 'This Week',
         key: '2',
-        icon: <UserOutlined />,
     },
     {
         label: 'This Month',
         key: '3',
-        icon: <UserOutlined />,
 
     },
     {
         label: 'This Year',
         key: '4',
-        icon: <UserOutlined />,
 
     },
     {
         label: 'All Time',
         key: '4',
-        icon: <UserOutlined />,
 
     },
     {
         label: 'Custom',
         key: '4',
-        icon: <UserOutlined />,
 
     },
 ];
@@ -52,28 +44,54 @@ const menuProps = {
 export default function AnalyticsCompanyTable() {
     return (
         <div className="container">
-            <Space wrap style={{ margin: "0rem 58rem" }}>
-                <Dropdown menu={menuProps} >
-                    <Button>
-                        <Space>
-                            This Year
-                            <DownOutlined />
-                        </Space>
-                    </Button>
-                </Dropdown>
-            </Space>
-            <Space direction="vertical">
+            <div>
+                <Row>
+                    <Col md={10}>
+                        <Row>
+                            <input
+                                style={{
+                                    width: '200px',
+                                    padding: '.4em',
+                                    paddingLeft: '1em',
+                                    margin: '5px',
+                                    border: "1px solid #CBCBCB",
+                                    borderRadius: "100px",
+                                }}
+                                type="search"
+                                name="search"
+                                id="search"
+                                // onChange={(e) => { setSearchText(e.target.value); }}
+                                placeholder="Search"
+                            />
+                            <Button variant='light'
+                                style={{
+                                    margin: '10px',
+                                    width: 'fit-content',
+                                    paddingLeft: '.65em',
+                                    paddingRight: '.65em',
+                                    borderRadius: "100%",
+                                    border: "1px solid #CDCDCD",
+                                }}
+                                type="dashed"
+                                shape="circle"
+                            ><FontAwesomeIcon
+                                    style={{
+                                        fontWeight: "bolder"
+                                    }}
+                                    icon="fa-solid fa-magnifying-glass" />
+                            </Button>
 
-                <Space wrap>
-
-                    <Button style={{ width: "10rem" }}>Search</Button>
-                    <Tooltip title="search" >
-                        <Button type="dashed" shape="circle" icon={<SearchOutlined />} />
-                    </Tooltip>
-
-
-                </Space>
-            </Space>
+                        </Row>
+                    </Col>
+                    <Col md={2}>
+                        <Dropdown menu={menuProps} >
+                            <Button variant='light'>
+                                This Year{" "}<FontAwesomeIcon icon="fa-solid fa-caret-down" />
+                            </Button>
+                        </Dropdown>
+                    </Col>
+                </Row>
+            </div >
             <Table variant="Hex #FFFFFF" size="sm">
                 <thead>
                     <tr>

@@ -1,8 +1,8 @@
 import React from 'react'
-import Table from 'react-bootstrap/Table';
-import { Button, Space } from 'antd';
-import { DownOutlined, UserOutlined } from '@ant-design/icons';
-import { Dropdown, message, } from 'antd';
+import { Table, Button } from 'react-bootstrap';
+import { message, Dropdown } from 'antd';
+import { Col, Row } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const handleMenuClick = (e) => {
     message.info('Click on menu item.');
@@ -12,35 +12,29 @@ const items = [
     {
         label: 'Today',
         key: '1',
-        icon: <UserOutlined />,
     },
     {
         label: 'This Week',
         key: '2',
-        icon: <UserOutlined />,
     },
     {
         label: 'This Month',
         key: '3',
-        icon: <UserOutlined />,
 
     },
     {
         label: 'This Year',
         key: '4',
-        icon: <UserOutlined />,
 
     },
     {
         label: 'All Time',
-        key: '4',
-        icon: <UserOutlined />,
+        key: '5',
 
     },
     {
         label: 'Custom',
-        key: '4',
-        icon: <UserOutlined />,
+        key: '6',
 
     },
 ];
@@ -52,17 +46,22 @@ const menuProps = {
 export default function AnalyticsClientTable() {
     return (
         <div className="container">
-            <Space wrap style={{ margin: "0rem 58rem" }}>
-                <Dropdown menu={menuProps} >
-                    <Button>
-                        <Space>
-                            This Year
-                            <DownOutlined />
-                        </Space>
-                    </Button>
-                </Dropdown>
-            </Space>
+            <div>
+                <Row>
+                    <Col md={10}>
+                        <Row>
 
+                        </Row>
+                    </Col>
+                    <Col md={2}>
+                        <Dropdown menu={menuProps} >
+                            <Button variant='light'>
+                                This Year{" "}<FontAwesomeIcon icon="fa-solid fa-caret-down" />
+                            </Button>
+                        </Dropdown>
+                    </Col>
+                </Row>
+            </div>
             <Table backgroundColor="#fff" size="sm">
                 <thead>
                     <tr>
