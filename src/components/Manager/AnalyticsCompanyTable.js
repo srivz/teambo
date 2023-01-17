@@ -93,9 +93,9 @@ export default function AnalyticsCompanyTable() {
                 <thead>
                     <tr>
                         <th>Employee</th>
-                        <th>Task<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
-                        <th>Live Task<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
-                        <th>Man hours<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
+                        <th>Task{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
+                        <th>Live Task{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
+                        <th>Man hours{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
                     </tr>
                 </thead>
                 <tbody>

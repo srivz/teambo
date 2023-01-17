@@ -80,9 +80,9 @@ export default function AnalyticsClientTable() {
 
                                                     <th>Task</th>
                                                     <th>Teammate</th>
-                                                    <th>Assigned<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
-                                                    <th>Corrections<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
-                                                    <th>Man hours<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
+                                                    <th>Assigned{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
+                                                    <th>Corrections{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
+                                                    <th>Man hours{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -180,9 +180,9 @@ export default function AnalyticsClientTable() {
 
                                                     <th>Task</th>
                                                     <th>Teammate</th>
-                                                    <th>Assigned</th>
-                                                    <th>Corrections</th>
-                                                    <th>Man hours</th>
+                                                    <th>Assigned{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
+                                                    <th>Corrections{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
+                                                    <th>Man hours{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
