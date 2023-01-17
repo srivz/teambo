@@ -55,13 +55,13 @@ export default function Analytics() {
                                 <Col sm={3}>
                                     <Nav variant="pills" className="flex-column">
                                         <Nav.Item>
-                                            <Nav.Link eventKey="Company" style={{ width: "7rem", margin: "0px 107px" }}>Company</Nav.Link>
+                                            <Nav.Link eventKey="Company" style={{ width: "7rem", margin: "0px 107px", color: "black" }}>Company</Nav.Link>
                                         </Nav.Item>
                                         <Nav.Item>
-                                            <Nav.Link eventKey="Client" style={{ width: "7rem", margin: "0px 107px" }}>Client</Nav.Link>
+                                            <Nav.Link eventKey="Client" style={{ width: "7rem", margin: "0px 107px", color: "black" }}>Client</Nav.Link>
                                         </Nav.Item>
                                         <Nav.Item>
-                                            <Nav.Link eventKey="Employee" style={{ width: "7rem", margin: "0px 107px" }}>Employee</Nav.Link>
+                                            <Nav.Link eventKey="Employee" style={{ width: "7rem", margin: "0px 107px", color: "black" }}>Employee</Nav.Link>
                                         </Nav.Item>
                                     </Nav>
                                 </Col>

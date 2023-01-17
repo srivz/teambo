@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Button, Container } from 'react-bootstrap';
+import { Table, Button, Container, Tab, Nav } from 'react-bootstrap';
 import { message, Dropdown } from 'antd';
 import { Col, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -46,120 +46,239 @@ const menuProps = {
 export default function AnalyticsClientTable() {
     return (
         <Container>
-            <div>
-                <Row>
-                    <Col md={10}>
+            <Row>
+                <Col md={10}>
+                </Col>
+                <Col md={2}>
+                    <Dropdown menu={menuProps} >
+                        <Button variant='light'>
+                            This Year{" "}<FontAwesomeIcon icon="fa-solid fa-caret-down" />
+                        </Button>
+                    </Dropdown>
+                </Col>
+            </Row>
+            <Row>
+                <Container>
+                    <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                         <Row>
+                            <Col sm={4} style={{ margin: "-20px -100px" }}>
+                                <Nav variant="pills" className="flex-column">
+                                    <Nav.Item>
+                                        <Nav.Link className="ab" eventKey="ChaiCup" style={{ width: "7rem", }}>ChaiCup</Nav.Link>
+                                    </Nav.Item>
+                                    <Nav.Item>
+                                        <Nav.Link className="ab" eventKey="Vit bhopal" style={{ width: "7rem", }}>Vit bhopal</Nav.Link>
+                                    </Nav.Item>
+                                </Nav>
+                            </Col>
+                            <Col sm={9} style={{ margin: "-80px -50px" }}>
+                                <Tab.Content>
+                                    <Tab.Pane eventKey="ChaiCup">
+                                        <Table backgroundColor="#fff" size="sm">
+                                            <thead>
+                                                <tr>
 
+                                                    <th>Task</th>
+                                                    <th>Teammate</th>
+                                                    <th>Assigned</th>
+                                                    <th>Corrections</th>
+                                                    <th>Man hours</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+
+                                                    <td>Logo Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Logo Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Logo Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Logo Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Logo Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Logo Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Logo Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Logo Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Logo Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+
+                                                </tr> <tr>
+                                                    <td>Logo Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Logo Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+
+                                                </tr>
+                                            </tbody>
+                                        </Table>
+                                    </Tab.Pane>
+                                    <Tab.Pane eventKey="Vit bhopal">
+                                        <Table backgroundColor="#fff" size="sm">
+                                            <thead>
+                                                <tr>
+
+                                                    <th>Task</th>
+                                                    <th>Teammate</th>
+                                                    <th>Assigned</th>
+                                                    <th>Corrections</th>
+                                                    <th>Man hours</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+
+                                                    <td>asd Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>asd Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>asd Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>asd Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>asd Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>asd Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>asd Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>asd Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>asd Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+
+                                                </tr> <tr>
+                                                    <td>asd Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>asd Corrections</td>
+                                                    <td>Suriya</td>
+                                                    <td>jan,20 2023</td>
+                                                    <td>+25</td>
+                                                    <td>02 hrs</td>
+
+                                                </tr>
+                                            </tbody>
+                                        </Table>
+                                    </Tab.Pane>
+                                </Tab.Content>
+                            </Col>
                         </Row>
-                    </Col>
-                    <Col md={2}>
-                        <Dropdown menu={menuProps} >
-                            <Button variant='light'>
-                                This Year{" "}<FontAwesomeIcon icon="fa-solid fa-caret-down" />
-                            </Button>
-                        </Dropdown>
-                    </Col>
-                </Row>
-            </div>
-            <Table backgroundColor="#fff" size="sm">
-                <thead>
-                    <tr>
-
-                        <th>Task</th>
-                        <th>Teammate</th>
-                        <th>Assigned</th>
-                        <th>Corrections</th>
-                        <th>Man hours</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-
-                        <td>Logo Corrections</td>
-                        <td>Suriya</td>
-                        <td>jan,20 2023</td>
-                        <td>+25</td>
-                        <td>02 hrs</td>
-                    </tr>
-                    <tr>
-                        <td>Logo Corrections</td>
-                        <td>Suriya</td>
-                        <td>jan,20 2023</td>
-                        <td>+25</td>
-                        <td>02 hrs</td>
-                    </tr>
-                    <tr>
-                        <td>Logo Corrections</td>
-                        <td>Suriya</td>
-                        <td>jan,20 2023</td>
-                        <td>+25</td>
-                        <td>02 hrs</td>
-                    </tr>
-                    <tr>
-                        <td>Logo Corrections</td>
-                        <td>Suriya</td>
-                        <td>jan,20 2023</td>
-                        <td>+25</td>
-                        <td>02 hrs</td>
-
-                    </tr>
-                    <tr>
-                        <td>Logo Corrections</td>
-                        <td>Suriya</td>
-                        <td>jan,20 2023</td>
-                        <td>+25</td>
-                        <td>02 hrs</td>
-
-                    </tr>
-                    <tr>
-                        <td>Logo Corrections</td>
-                        <td>Suriya</td>
-                        <td>jan,20 2023</td>
-                        <td>+25</td>
-                        <td>02 hrs</td>
-                    </tr>
-                    <tr>
-                        <td>Logo Corrections</td>
-                        <td>Suriya</td>
-                        <td>jan,20 2023</td>
-                        <td>+25</td>
-                        <td>02 hrs</td>
-
-                    </tr>
-                    <tr>
-                        <td>Logo Corrections</td>
-                        <td>Suriya</td>
-                        <td>jan,20 2023</td>
-                        <td>+25</td>
-                        <td>02 hrs</td>
-
-                    </tr>
-                    <tr>
-                        <td>Logo Corrections</td>
-                        <td>Suriya</td>
-                        <td>jan,20 2023</td>
-                        <td>+25</td>
-                        <td>02 hrs</td>
-
-                    </tr> <tr>
-                        <td>Logo Corrections</td>
-                        <td>Suriya</td>
-                        <td>jan,20 2023</td>
-                        <td>+25</td>
-                        <td>02 hrs</td>
-
-                    </tr>
-                    <tr>
-                        <td>Logo Corrections</td>
-                        <td>Suriya</td>
-                        <td>jan,20 2023</td>
-                        <td>+25</td>
-                        <td>02 hrs</td>
-
-                    </tr>
-                </tbody>
-            </Table>
+                    </Tab.Container>
+                </Container>
+            </Row>
         </Container>
     )
 }
