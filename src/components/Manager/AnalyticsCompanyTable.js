@@ -45,13 +45,15 @@ export default function AnalyticsCompanyTable() {
     return (
         <div className="container">
             <div>
-                <Row style={{ marginTop: "-50px" }}>
+                <Row style={{ marginTop: "-85px" }}>
                     <Col md={10}>
                         <Row>
                             <input
                                 style={{
                                     width: '200px',
-                                    padding: '.4em',
+                                    padding: '1em',
+                                    height: "2em",
+                                    fontSize: "medium",
                                     paddingLeft: '1em',
                                     margin: '5px',
                                     border: "1px solid #CBCBCB",
@@ -64,22 +66,18 @@ export default function AnalyticsCompanyTable() {
                             />
                             <Button variant='light'
                                 style={{
-                                    margin: '10px',
+                                    margin: '5px',
+                                    height: "2em",
                                     width: 'fit-content',
-                                    paddingLeft: '.65em',
-                                    paddingRight: '.65em',
-                                    borderRadius: "25px",
-                                    border: "1px solid #CDCDCD",
+                                    paddingLeft: '.5em',
+                                    paddingTop: '5px',
+                                    paddingRight: '.5em',
+                                    borderRadius: "100px",
+                                    border: "1px solid #CDCDCD"
                                 }}
-                                type="dashed"
-                                shape="circle"
-                            ><FontAwesomeIcon
-                                    style={{
-                                        fontWeight: "bolder"
-                                    }}
-                                    icon="fa-solid fa-magnifying-glass" />
+                            >
+                                <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" />
                             </Button>
-
                         </Row>
                     </Col>
                     <Col md={2}>
@@ -91,10 +89,9 @@ export default function AnalyticsCompanyTable() {
                     </Col>
                 </Row>
             </div >
-            <Table variant="Hex #FFFFFF" size="sm">
+            <Table variant="Hex #FFFFFF" size="sm" style={{ marginTop: "-20px" }}>
                 <thead>
                     <tr>
-
                         <th>Employee</th>
                         <th>Task</th>
                         <th>Live Task</th>
@@ -103,21 +100,6 @@ export default function AnalyticsCompanyTable() {
                 </thead>
                 <tbody>
                     <tr>
-
-                        <td>Vit bhopal</td>
-                        <td>65</td>
-                        <td>02</td>
-                        <td>1.2k hrs</td>
-                    </tr>
-                    <tr>
-
-                        <td>Vit bhopal</td>
-                        <td>65</td>
-                        <td>02</td>
-                        <td>1.2k hrs</td>
-                    </tr>
-                    <tr>
-
                         <td>Vit bhopal</td>
                         <td>65</td>
                         <td>02</td>
@@ -128,55 +110,60 @@ export default function AnalyticsCompanyTable() {
                         <td>65</td>
                         <td>02</td>
                         <td>1.2k hrs</td>
-
                     </tr>
                     <tr>
                         <td>Vit bhopal</td>
                         <td>65</td>
                         <td>02</td>
                         <td>1.2k hrs</td>
-
                     </tr>
                     <tr>
                         <td>Vit bhopal</td>
                         <td>65</td>
                         <td>02</td>
                         <td>1.2k hrs</td>
-
                     </tr>
                     <tr>
                         <td>Vit bhopal</td>
                         <td>65</td>
                         <td>02</td>
                         <td>1.2k hrs</td>
-
                     </tr>
                     <tr>
                         <td>Vit bhopal</td>
                         <td>65</td>
                         <td>02</td>
                         <td>1.2k hrs</td>
-
                     </tr>
                     <tr>
                         <td>Vit bhopal</td>
                         <td>65</td>
                         <td>02</td>
                         <td>1.2k hrs</td>
-
-                    </tr> <tr>
-                        <td>Vit bhopal</td>
-                        <td>65</td>
-                        <td>02</td>
-                        <td>1.2k hrs</td>
-
                     </tr>
                     <tr>
                         <td>Vit bhopal</td>
                         <td>65</td>
                         <td>02</td>
                         <td>1.2k hrs</td>
-
+                    </tr>
+                    <tr>
+                        <td>Vit bhopal</td>
+                        <td>65</td>
+                        <td>02</td>
+                        <td>1.2k hrs</td>
+                    </tr>
+                    <tr>
+                        <td>Vit bhopal</td>
+                        <td>65</td>
+                        <td>02</td>
+                        <td>1.2k hrs</td>
+                    </tr>
+                    <tr>
+                        <td>Vit bhopal</td>
+                        <td>65</td>
+                        <td>02</td>
+                        <td>1.2k hrs</td>
                     </tr>
                 </tbody>
             </Table>

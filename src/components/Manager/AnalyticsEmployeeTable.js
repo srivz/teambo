@@ -45,43 +45,39 @@ export default function AnalyticsEmployeeTable() {
     return (
         <div className="container">
             <div>
-                <Row>
-                    <Col md={10}>
-                        <Row>
-                            <input
-                                style={{
-                                    width: '200px',
-                                    padding: '.4em',
-                                    paddingLeft: '1em',
-                                    margin: '5px',
-                                    border: "1px solid #CBCBCB",
-                                    borderRadius: "100px",
-                                }}
-                                type="search"
-                                name="search"
-                                id="search"
-                                // onChange={(e) => { setSearchText(e.target.value); }}
-                                placeholder="Search"
-                            />
-                            <Button variant='light'
-                                style={{
-                                    margin: '10px',
-                                    width: 'fit-content',
-                                    paddingLeft: '.65em',
-                                    paddingRight: '.65em',
-                                    borderRadius: "100%",
-                                    border: "1px solid #CDCDCD",
-                                }}
-                                type="dashed"
-                                shape="circle"
-                            ><FontAwesomeIcon
-                                    style={{
-                                        fontWeight: "bolder"
-                                    }}
-                                    icon="fa-solid fa-magnifying-glass" />
-                            </Button>
-
-                        </Row>
+                <Row style={{ marginTop: "-85px" }}>
+                    <Col md={10}><Row>
+                        <input
+                            style={{
+                                width: '200px',
+                                padding: '1em',
+                                height: "2em",
+                                fontSize: "medium",
+                                paddingLeft: '1em',
+                                margin: '5px',
+                                border: "1px solid #CBCBCB",
+                                borderRadius: "100px",
+                            }}
+                            type="search"
+                            name="search"
+                            id="search"
+                        // onChange={(e) => { setSearchText(e.target.value); }}
+                        />
+                        <Button variant='light'
+                            style={{
+                                marginTop: '5px',
+                                height: "2em",
+                                width: 'fit-content',
+                                paddingLeft: '.5em',
+                                paddingTop: '5px',
+                                paddingRight: '.5em',
+                                borderRadius: "100px",
+                                border: "1px solid #CDCDCD"
+                            }}
+                        ><FontAwesomeIcon
+                                icon="fa-solid fa-magnifying-glass" />
+                        </Button>
+                    </Row>
                     </Col>
                     <Col md={2}>
                         <Dropdown menu={menuProps} >
@@ -92,7 +88,7 @@ export default function AnalyticsEmployeeTable() {
                     </Col>
                 </Row>
             </div>
-            <Table variant="Hex #FFFFFF" size="sm">
+            <Table variant="Hex #FFFFFF" size="sm" style={{ marginTop: "-20px" }}>
                 <thead>
                     <tr>
 

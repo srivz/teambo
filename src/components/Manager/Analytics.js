@@ -17,6 +17,7 @@ export default function Analytics() {
     const [manager, setManager] = useState({})
     const [once, setOnce] = useState(true)
     const [loading, setLoading] = useState(true)
+    const [key, setKey] = useState("Company");
 
     onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -53,21 +54,21 @@ export default function Analytics() {
                         <br />
                         <Container>
                             <Container>
-                                <h3 style={{ color: "#3975e9" }}><FontAwesomeIcon style={{ marginRight: ".5em" }} icon="fa-regular fa-circle-left" />{" "}Analytics</h3>
+                                <h4 style={{ color: "#3975e9" }}><FontAwesomeIcon style={{ marginRight: ".5em" }} icon="fa-regular fa-circle-left" />{" "}Analytics</h4>
                             </Container>
                         </Container>
-                        <Tab.Container id="left-tabs-example" defaultActiveKey="Company">
+                        <Tab.Container id="left-tabs-example" onSelect={key => setKey(key)} activeKey={key}>
                             <Row>
                                 <Col sm={3}>
                                     <Nav variant="pills" className="flex-column">
                                         <Nav.Item>
-                                            <Nav.Link eventKey="Company" style={{ width: "10rem", margin: "0px 107px", color: "black" }}>Company</Nav.Link>
+                                            <Nav.Link eventKey="Company" style={key === "Company" ? { width: "8rem", margin: "0px 107px", color: "white", backgroundColor: "#3975e9", marginBottom: "1em" } : { width: "8rem", margin: "0px 107px", color: "black", backgroundColor: "#f1f4fb", marginBottom: "1em" }}>Company</Nav.Link>
                                         </Nav.Item>
                                         <Nav.Item>
-                                            <Nav.Link eventKey="Client" style={{ width: "10rem", margin: "0px 107px", color: "black" }}>Client</Nav.Link>
+                                            <Nav.Link eventKey="Client" style={key === "Client" ? { width: "8rem", margin: "0px 107px", color: "white", backgroundColor: "#3975e9", marginBottom: "1em" } : { width: "8rem", margin: "0px 107px", color: "black", backgroundColor: "#f1f4fb", marginBottom: "1em" }}>Client</Nav.Link>
                                         </Nav.Item>
                                         <Nav.Item>
-                                            <Nav.Link eventKey="Employee" style={{ width: "10rem", margin: "0px 107px", color: "black" }}>Employee</Nav.Link>
+                                            <Nav.Link eventKey="Employee" style={key === "Employee" ? { width: "8rem", margin: "0px 107px", color: "white", backgroundColor: "#3975e9", marginBottom: "1em" } : { width: "8rem", margin: "0px 107px", color: "black", backgroundColor: "#f1f4fb", marginBottom: "1em" }}>Employee</Nav.Link>
                                         </Nav.Item>
                                     </Nav>
                                 </Col>
