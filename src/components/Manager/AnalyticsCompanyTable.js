@@ -45,7 +45,7 @@ export default function AnalyticsCompanyTable() {
     return (
         <div className="container">
             <div>
-                <Row style={{ marginTop: "-85px" }}>
+                <Row style={{ marginTop: "-85px", marginRight: "80px" }}>
                     <Col md={10}>
                         <Row>
                             <input
@@ -81,7 +81,7 @@ export default function AnalyticsCompanyTable() {
                         </Row>
                     </Col>
                     <Col md={2}>
-                        <Dropdown menu={menuProps} >
+                        <Dropdown menu={menuProps} style={{ marginRight: "80px" }} >
                             <Button variant='light'>
                                 This Year{" "}<FontAwesomeIcon icon="fa-solid fa-caret-down" />
                             </Button>

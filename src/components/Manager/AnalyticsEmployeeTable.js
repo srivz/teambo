@@ -80,7 +80,7 @@ export default function AnalyticsEmployeeTable() {
                     </Row>
                     </Col>
                     <Col md={2}>
-                        <Dropdown menu={menuProps} >
+                        <Dropdown menu={menuProps} style={{ marginRight: "80px" }} >
                             <Button variant='light'>
                                 This Year{" "}<FontAwesomeIcon icon="fa-solid fa-caret-down" />
                             </Button>
