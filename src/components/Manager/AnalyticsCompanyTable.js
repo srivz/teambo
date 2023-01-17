@@ -45,7 +45,7 @@ export default function AnalyticsCompanyTable() {
     return (
         <div className="container">
             <div>
-                <Row>
+                <Row style={{ marginTop: "-50px" }}>
                     <Col md={10}>
                         <Row>
                             <input
@@ -61,7 +61,6 @@ export default function AnalyticsCompanyTable() {
                                 name="search"
                                 id="search"
                                 // onChange={(e) => { setSearchText(e.target.value); }}
-                                placeholder="Search"
                             />
                             <Button variant='light'
                                 style={{
@@ -69,7 +68,7 @@ export default function AnalyticsCompanyTable() {
                                     width: 'fit-content',
                                     paddingLeft: '.65em',
                                     paddingRight: '.65em',
-                                    borderRadius: "100%",
+                                    borderRadius: "25px",
                                     border: "1px solid #CDCDCD",
                                 }}
                                 type="dashed"

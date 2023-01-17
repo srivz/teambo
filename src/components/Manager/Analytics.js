@@ -1,7 +1,8 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { onAuthStateChanged } from 'firebase/auth'
 import { onValue, ref } from 'firebase/database'
 import React, { useState } from 'react'
-import { Col } from 'react-bootstrap'
+import { Col, Container } from 'react-bootstrap'
 import { Nav } from 'react-bootstrap'
 import { Tab } from 'react-bootstrap'
 import { Row } from 'react-bootstrap'
@@ -50,18 +51,23 @@ export default function Analytics() {
                         />
                         <br />
                         <br />
-                        <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+                        <Container>
+                            <Container>
+                                <h3 style={{ color: "#3975e9" }}><FontAwesomeIcon style={{ marginRight: ".5em" }} icon="fa-regular fa-circle-left" />{" "}Analytics</h3>
+                            </Container>
+                        </Container>
+                        <Tab.Container id="left-tabs-example" defaultActiveKey="Company">
                             <Row>
                                 <Col sm={3}>
                                     <Nav variant="pills" className="flex-column">
                                         <Nav.Item>
-                                            <Nav.Link eventKey="Company" style={{ width: "7rem", margin: "0px 107px", color: "black" }}>Company</Nav.Link>
+                                            <Nav.Link eventKey="Company" style={{ width: "10rem", margin: "0px 107px", color: "black" }}>Company</Nav.Link>
                                         </Nav.Item>
                                         <Nav.Item>
-                                            <Nav.Link eventKey="Client" style={{ width: "7rem", margin: "0px 107px", color: "black" }}>Client</Nav.Link>
+                                            <Nav.Link eventKey="Client" style={{ width: "10rem", margin: "0px 107px", color: "black" }}>Client</Nav.Link>
                                         </Nav.Item>
                                         <Nav.Item>
-                                            <Nav.Link eventKey="Employee" style={{ width: "7rem", margin: "0px 107px", color: "black" }}>Employee</Nav.Link>
+                                            <Nav.Link eventKey="Employee" style={{ width: "10rem", margin: "0px 107px", color: "black" }}>Employee</Nav.Link>
                                         </Nav.Item>
                                     </Nav>
                                 </Col>

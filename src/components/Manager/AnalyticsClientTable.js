@@ -61,7 +61,7 @@ export default function AnalyticsClientTable() {
                 <Container>
                     <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                         <Row>
-                            <Col sm={4} style={{ margin: "-20px -100px" }}>
+                            <Col sm={4} style={{ margin: "-20px -50px" }}>
                                 <Nav variant="pills" className="flex-column">
                                     <Nav.Item>
                                         <Nav.Link className="ab" eventKey="ChaiCup" style={{ width: "7rem", }}>ChaiCup</Nav.Link>
@@ -71,7 +71,7 @@ export default function AnalyticsClientTable() {
                                     </Nav.Item>
                                 </Nav>
                             </Col>
-                            <Col sm={9} style={{ margin: "-80px -50px" }}>
+                            <Col sm={9} style={{ margin: "-80px -120px" }}>
                                 <Tab.Content>
                                     <Tab.Pane eventKey="ChaiCup">
                                         <Table backgroundColor="#fff" size="sm">
