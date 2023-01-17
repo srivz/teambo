@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Container } from 'react-bootstrap';
 import { message, Dropdown } from 'antd';
 import { Col, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -45,7 +45,7 @@ const menuProps = {
 
 export default function AnalyticsClientTable() {
     return (
-        <div className="container">
+        <Container>
             <div>
                 <Row>
                     <Col md={10}>
@@ -160,7 +160,7 @@ export default function AnalyticsClientTable() {
                     </tr>
                 </tbody>
             </Table>
-        </div>
+        </Container>
     )
 }
 
