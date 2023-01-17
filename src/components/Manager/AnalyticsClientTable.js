@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { Table, Button, Container, Tab, Nav } from 'react-bootstrap';
+import { Table, Button, Container, Tab, Nav, Col, Row } from 'react-bootstrap';
 import { message, Dropdown } from 'antd';
-import { Col, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const handleMenuClick = (e) => {
@@ -81,9 +80,9 @@ export default function AnalyticsClientTable() {
 
                                                     <th>Task</th>
                                                     <th>Teammate</th>
-                                                    <th>Assigned</th>
-                                                    <th>Corrections</th>
-                                                    <th>Man hours</th>
+                                                    <th>Assigned<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
+                                                    <th>Corrections<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
+                                                    <th>Man hours<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
