@@ -96,8 +96,8 @@ export default function AnalyticsClientTable(props) {
                                                                     {info1?.data?.tasks?.filter((info2) => { return info2.client === key })
                                                                         .map((info2, index2) => {
                                                                             return (
-                                                                                <TableRow key={index2}>{console.log(info2)}
-                                                                                    <TableCell align="center">{info2.task}</TableCell>
+                                                                                <TableRow key={index2}>
+                                                                                    <TableCell align="center"><div style={{ width: "8rem" }} className={info2.task.length > 16 ? 'marquee' : ''}><h6>{info2.task}</h6></div></TableCell>
                                                                                     <TableCell align="center">{info1.data.name}</TableCell>
                                                                                     {info2.updates?.sort((a, b) =>
                                                                                         a.corrections > b.corrections
