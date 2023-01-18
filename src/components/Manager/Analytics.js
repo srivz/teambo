@@ -51,7 +51,7 @@ export default function Analytics() {
                         <br />
                         <div>
                             <h4 style={{ color: "#3975e9", margin: "0px 107px", marginBottom: "1em" }}>
-                                <FontAwesomeIcon style={{ marginRight: ".5em" }} icon="fa-regular fa-circle-left" />{" "}Analytics
+                                <a href="/manager/home/list"><FontAwesomeIcon style={{ marginRight: ".5em" }} icon="fa-regular fa-circle-left" /></a>{" "}Analytics
                             </h4>
                         <Tab.Container id="left-tabs-example" onSelect={key => setKey(key)} activeKey={key}>
                             <Row>

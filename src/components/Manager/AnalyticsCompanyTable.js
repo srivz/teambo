@@ -103,7 +103,7 @@ export default function AnalyticsCompanyTable(props) {
                     {props?.manager?.clients.map((info, index) => {
                         return (
                             <TableRow key={index}>
-                                <TableCell><div className={info.name.length > 20 ? 'marquee' : ''}><h6>{info.name}</h6></div></TableCell>
+                                <TableCell title={info.name}>{info.name.length < 23 ? info.name : info.name.slice(0, 20) + "..."}</TableCell>
                                 <TableCell align="center">{info.totalTaskCount}</TableCell>
                                 <TableCell align="center">{info.taskCount === 0 ? "--" : info.taskCount}</TableCell>
                                 <TableCell align="center">{info.manHours} hrs</TableCell>
