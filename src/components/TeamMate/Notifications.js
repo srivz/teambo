@@ -47,9 +47,10 @@ export default function Notifications(props) {
             onValue(ref(db, `manager/${managerId}`), (snapshot) => {
                 if (snapshot.exists()) {
                     let data = snapshot.val()
-                    remove(ref(db, `teammate/${props?.id}/notifications`))
                     acceptChange(managerId, data.teammates, props?.teammate);
+                    remove(ref(db, `teammate/${props?.id}/notifications`));
                     setShow(false);
+                    props.otherNotifications = "";
                 } else {
                     alert('No manager found')
                 }

@@ -47,7 +47,7 @@ export default function AnalyticsClientTable(props) {
     const [key, setKey] = useState();
     return (
         <Container>
-            <Row style={{ marginTop: "-80px", marginRight: "80px" }}>
+            <Row style={{ marginTop: "-100px", marginRight: "80px" }}>
                 <Col md={10}>
                 </Col>
                 <Col md={2}>
@@ -58,7 +58,7 @@ export default function AnalyticsClientTable(props) {
                     </Dropdown>
                 </Col>
             </Row>
-            <Row style={{ marginTop: "100px" }}>
+            <Row style={{ marginTop: "80px" }}>
                 <Container>
                     <Tab.Container id="left-tabs-example" onSelect={key => setKey(key)} activeKey={key}>
                         <Row>
@@ -82,9 +82,9 @@ export default function AnalyticsClientTable(props) {
                                                 <Table backgroundColor="#fff" size="sm">
                                                     <TableHead>
                                                         <TableRow>
-                                                            <TableCell align="center" style={{ fontWeight: "bold" }} >Task</TableCell>
-                                                            <TableCell align="center" style={{ fontWeight: "bold" }} >Teammate</TableCell>
-                                                            <TableCell align="center" style={{ fontWeight: "bold" }} >Assigned{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
+                                                            <TableCell style={{ fontWeight: "bold" }} >Task</TableCell>
+                                                            <TableCell style={{ fontWeight: "bold" }} >Teammate</TableCell>
+                                                            <TableCell style={{ fontWeight: "bold" }} >Assigned{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
                                                             <TableCell align="center" style={{ fontWeight: "bold" }} >Corrections{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
                                                             <TableCell align="center" style={{ fontWeight: "bold" }} >Man hours{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
                                                         </TableRow>
@@ -97,8 +97,8 @@ export default function AnalyticsClientTable(props) {
                                                                         .map((info2, index2) => {
                                                                             return (
                                                                                 <TableRow key={index2}>
-                                                                                    <TableCell align="center"><div style={{ width: "8rem" }} className={info2.task.length > 16 ? 'marquee' : ''}><h6>{info2.task}</h6></div></TableCell>
-                                                                                    <TableCell align="center">{info1.data.name}</TableCell>
+                                                                                    <TableCell title={info2.task}>{info2.task.length < 23 ? info2.task : info2.task.slice(0, 20) + "..."}</TableCell>
+                                                                                    <TableCell >{info1.data.name}</TableCell>
                                                                                     {info2.updates?.sort((a, b) =>
                                                                                         a.corrections > b.corrections
                                                                                             ? -1
@@ -110,7 +110,7 @@ export default function AnalyticsClientTable(props) {
                                                                                         .map((info3) => {
                                                                                             return (
                                                                                                 <>
-                                                                                                    <TableCell align="center">{info3.assignedDate}</TableCell>
+                                                                                                    <TableCell>{info3.assignedDate}</TableCell>
                                                                                                     <TableCell align="center">{info3.corrections === "0" ? "0" : "+" + info3.corrections}</TableCell>
                                                                                                     <TableCell align="center">{(info3.totalTimeInMs)} hrs</TableCell>
                                                                                                 </>)
