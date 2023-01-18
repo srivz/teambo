@@ -106,7 +106,7 @@ export default function AnalyticsCompanyTable(props) {
                                 <td>{info.totalTaskCount}</td>
                                 <td>{info.taskCount}</td>
                                 <td>{info.manHours} hrs</td>
-                    </tr>
+                            </tr>
                         )
                     })}
                 </tbody>

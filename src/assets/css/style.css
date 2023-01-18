@@ -471,3 +471,9 @@ z-index: 11212;
   color: #fff;
 	background-color: #3975e9;
 }
+
+.ab.arrow::after{
+ transform: rotate(45deg);
+}
+
+
