@@ -115,7 +115,7 @@ export default function AnalyticsCompanyTable(props) {
                                     sortBasis === "currentTaskCountD" ? (a.taskCount < b.taskCount ? -1 : 1) :
                                         sortBasis === "manHoursA" ? (a.manHours > b.manHours ? -1 : 1) :
                                             sortBasis === "manHoursD" ? (a.manHours < b.manHours ? -1 : 1) :
-                                                (a.name < b.name ? -1 : 1)
+                                                (a.clientNumber < b.clientNumber ? -1 : 1)
                     )
                         .map((info, index) => {
                             return (
