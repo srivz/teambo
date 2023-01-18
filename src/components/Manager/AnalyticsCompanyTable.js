@@ -2,6 +2,7 @@ import React from 'react'
 import { Table, Button, Col, Row } from 'react-bootstrap';
 import { Dropdown, message, } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { TableBody, TableHead, TableRow } from '@mui/material';
 
 const handleMenuClick = (e) => {
     message.info('Click on menu item.');
@@ -89,27 +90,27 @@ export default function AnalyticsCompanyTable(props) {
                     </Col>
                 </Row>
             </div >
-            <Table variant="Hex #FFFFFF" size="sm" style={{ marginTop: "-20px" }}>
-                <thead>
-                    <tr>
+            <Table style={{ marginTop: "-20px" }}>
+                <TableHead>
+                    <TableRow>
                         <th>Employee</th>
                         <th>Task{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
                         <th>Live Task{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
                         <th>Man hours{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
-                    </tr>
-                </thead>
-                <tbody>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
                     {props?.manager?.clients.map((info, index) => {
                         return (
-                            <tr key={index}>
+                            <TableRow key={index}>
                                 <td>{info.name}</td>
                                 <td>{info.totalTaskCount}</td>
                                 <td>{info.taskCount}</td>
                                 <td>{info.manHours} hrs</td>
-                            </tr>
+                            </TableRow>
                         )
                     })}
-                </tbody>
+                </TableBody>
             </Table>
         </div>
     )
