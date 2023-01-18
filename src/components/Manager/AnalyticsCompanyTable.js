@@ -124,10 +124,10 @@ export default function AnalyticsCompanyTable(props) {
                                         {info.name.length < 23 ? info.name : info.name.slice(0, 20) + "..."}
                                     </TableCell>
                                     <TableCell style={{ fontWeight: "bold" }} align="center">
-                                        {info.totalTaskCount}
+                                        {info.totalTaskCount === 0 ? 0 : info.totalTaskCount < 10 ? "0" + info.totalTaskCount : info.totalTaskCount}
                                     </TableCell>
                                     <TableCell align="center" style={info.taskCount === 0 ? { color: "#000", fontWeight: "bold" } : { color: "#3975e9", fontWeight: "bold" }}>
-                                        {info.taskCount === 0 ? "--" : info.taskCount}
+                                        {info.taskCount === 0 ? "--" : info.taskCount < 10 ? "0" + info.taskCount : info.taskCount}
                                     </TableCell>
                                     <TableCell style={{ fontWeight: "bold" }} align="center">
                                         {info.manHours} hrs
