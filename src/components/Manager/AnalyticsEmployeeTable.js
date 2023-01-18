@@ -87,7 +87,7 @@ export default function AnalyticsEmployeeTable(props) {
                                         sortBasis === "currentTaskCountD" ? (a.data.liveTasks < b.data.liveTasks ? -1 : 1) :
                                             // sortBasis === "manHoursA" ? (a.manHours > b.manHours ? -1 : 1) :
                                             //     sortBasis === "manHoursD" ? (a.manHours < b.manHours ? -1 : 1) :
-                                            (a.data.name < b.data.name ? -1 : 1)
+                                            (a.teammateIndex > b.teammateIndex ? -1 : 1)
                         ).map((teammate) => {
                             return (<TableRow>
                                 <TableCell style={{ fontWeight: "bold" }}>{teammate.data.name}</TableCell>
