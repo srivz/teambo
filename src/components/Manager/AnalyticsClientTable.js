@@ -68,7 +68,7 @@ export default function AnalyticsClientTable(props) {
                                     {props?.manager?.clients.map((info, index) => {
                                         return (
                                             <Nav.Item key={index}>
-                                                <Nav.Link className="ab" eventKey={info.name} style={key === info.name ? { width: "8rem", color: "white", backgroundColor: "#3975e9", marginBottom: ".5em" } : { width: "8rem", color: "black", backgroundColor: "#f1f4fb", marginBottom: ".5em" }}>{info.name}</Nav.Link>
+                                                <Nav.Link className="ab" eventKey={info.name} style={key === info.name ? { width: "8rem", color: "white", backgroundColor: "#3975e9", marginBottom: ".5em" } : { width: "8rem", color: "black", backgroundColor: "#f1f4fb", marginBottom: ".5em" }}><div style={{ width: "6rem" }} className={info.name.length > 20 ? 'marquee' : ''}><h6>{info.name}</h6></div></Nav.Link>
                                             </Nav.Item>
                                         )
                                     })}

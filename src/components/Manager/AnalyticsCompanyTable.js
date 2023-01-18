@@ -105,7 +105,7 @@ export default function AnalyticsCompanyTable(props) {
                             <TableRow key={index}>
                                 <TableCell><div className={info.name.length > 20 ? 'marquee' : ''}><h6>{info.name}</h6></div></TableCell>
                                 <TableCell align="center">{info.totalTaskCount}</TableCell>
-                                <TableCell align="center">{info.taskCount}</TableCell>
+                                <TableCell align="center">{info.taskCount === 0 ? "--" : info.taskCount}</TableCell>
                                 <TableCell align="center">{info.manHours} hrs</TableCell>
                             </TableRow>
                         )
