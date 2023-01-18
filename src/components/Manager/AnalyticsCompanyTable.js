@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Table, Button, Col, Row, Container } from 'react-bootstrap';
 import { Dropdown, message, } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -43,6 +43,8 @@ const menuProps = {
     onClick: handleMenuClick,
 };
 export default function AnalyticsCompanyTable(props) {
+    const [sortBasis, setSortBasis] = useState("")
+    const [companyList, setCompanyList] = useState(props?.manager?.clients)
     return (
         <Container>
             <div>
@@ -63,7 +65,7 @@ export default function AnalyticsCompanyTable(props) {
                                 type="search"
                                 name="search"
                                 id="search"
-                                // onChange={(e) => { setSearchText(e.target.value); }}
+                            // onChange={(e) => { setSearchText(e.target.value); }}
                             />
                             <Button variant='light'
                                 style={{
@@ -81,7 +83,7 @@ export default function AnalyticsCompanyTable(props) {
                             </Button>
                         </Row>
                     </Col>
-                    <Col md={2} style={{ marginLeft: "-100px" }} >
+                    <Col md={2} style={{ marginLeft: "-50px" }} >
                         <Dropdown menu={menuProps}>
                             <Button variant='light'>
                                 This Year{" "}<FontAwesomeIcon icon="fa-solid fa-caret-down" />
@@ -94,22 +96,45 @@ export default function AnalyticsCompanyTable(props) {
                 <TableHead>
                     <TableRow>
                         <TableCell style={{ width: "200px", fontWeight: "bold" }}>Client Name</TableCell>
-                        <TableCell style={{ fontWeight: "bold" }} align="center">Task{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
-                        <TableCell style={{ fontWeight: "bold" }} align="center">Live Task{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
-                        <TableCell style={{ fontWeight: "bold" }} align="center">Man hours{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
+                        <TableCell style={{ fontWeight: "bold" }} align="center">
+                            Task{" "}<FontAwesomeIcon className='pointer' icon="fa-solid fa-sort" onClick={() => { sortBasis === "totalTaskCountD" ? setSortBasis("totalTaskCountA") : sortBasis === "totalTaskCountA" ? setSortBasis("totalTaskCountD") : setSortBasis("totalTaskCountA") }} />
+                        </TableCell>
+                        <TableCell style={{ fontWeight: "bold" }} align="center">
+                            Live Task{" "}<FontAwesomeIcon className='pointer' icon="fa-solid fa-sort" onClick={() => { sortBasis === "currentTaskCountD" ? setSortBasis("currentTaskCountA") : sortBasis === "currentTaskCountA" ? setSortBasis("currentTaskCountD") : setSortBasis("currentTaskCountA") }} />
+                        </TableCell>
+                        <TableCell style={{ fontWeight: "bold" }} align="center">
+                            Man hours{" "}<FontAwesomeIcon className='pointer' icon="fa-solid fa-sort" onClick={() => { sortBasis === "manHoursD" ? setSortBasis("manHoursA") : sortBasis === "manHoursA" ? setSortBasis("manHoursD") : setSortBasis("manHoursA") }} />
+                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {props?.manager?.clients.map((info, index) => {
-                        return (
-                            <TableRow key={index}>
-                                <TableCell title={info.name}>{info.name.length < 23 ? info.name : info.name.slice(0, 20) + "..."}</TableCell>
-                                <TableCell align="center">{info.totalTaskCount}</TableCell>
-                                <TableCell align="center">{info.taskCount === 0 ? "--" : info.taskCount}</TableCell>
-                                <TableCell align="center">{info.manHours} hrs</TableCell>
-                            </TableRow>
-                        )
-                    })}
+                    {companyList.sort((a, b) =>
+                        sortBasis === "totalTaskCountD" ? (a.totalTaskCount > b.totalTaskCount ? -1 : 1) :
+                            sortBasis === "totalTaskCountA" ? (a.totalTaskCount < b.totalTaskCount ? -1 : 1) :
+                                sortBasis === "currentTaskCountA" ? (a.taskCount > b.taskCount ? -1 : 1) :
+                                    sortBasis === "currentTaskCountD" ? (a.taskCount < b.taskCount ? -1 : 1) :
+                                        sortBasis === "manHoursA" ? (a.manHours > b.manHours ? -1 : 1) :
+                                            sortBasis === "manHoursD" ? (a.manHours < b.manHours ? -1 : 1) :
+                                                null
+                    )
+                        .map((info, index) => {
+                            return (
+                                <TableRow key={index}>
+                                    <TableCell style={{ fontWeight: "bold" }} title={info.name}>
+                                        {info.name.length < 23 ? info.name : info.name.slice(0, 20) + "..."}
+                                    </TableCell>
+                                    <TableCell style={{ fontWeight: "bold" }} align="center">
+                                        {info.totalTaskCount}
+                                    </TableCell>
+                                    <TableCell align="center" style={info.taskCount === 0 ? { color: "#000", fontWeight: "bold" } : { color: "#3975e9", fontWeight: "bold" }}>
+                                        {info.taskCount === 0 ? "--" : info.taskCount}
+                                    </TableCell>
+                                    <TableCell style={{ fontWeight: "bold" }} align="center">
+                                        {info.manHours} hrs
+                                    </TableCell>
+                                </TableRow>
+                            )
+                        })}
                 </TableBody>
             </Table>
         </Container>

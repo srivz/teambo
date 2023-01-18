@@ -47,7 +47,7 @@ export default function AnalyticsClientTable(props) {
     const [key, setKey] = useState();
     return (
         <Container>
-            <Row style={{ marginTop: "-100px", marginRight: "80px" }}>
+            <Row style={{ marginTop: "-80px", marginRight: "50px" }}>
                 <Col md={10}>
                 </Col>
                 <Col md={2}>

@@ -40,7 +40,7 @@ export default function Analytics() {
             {loading ? (
                 <Loader />
             ) : (
-                    <>
+                    <div className='main'>
                     <NavBar
                         user="MANAGER"
                         user2="ANALYTICS"
@@ -85,7 +85,7 @@ export default function Analytics() {
                             </Row>
                             </Tab.Container>
                         </div>
-                    </>
+                    </div>
             )}
         </>
     )
