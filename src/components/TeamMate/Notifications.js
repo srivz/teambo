@@ -18,7 +18,7 @@ export default function Notifications(props) {
         if (managerTeam === undefined) {
             set(ref(db, `teammate/${props?.id}/link/`), { index: 0, managerId: managerId })
             set(ref(db, `manager/${managerId}/teammates/`), [{
-                data: newTeammate, teammateId: props?.id, teammateIndex: 0
+                data: { ...newTeammate, manHours: 0, totalNumberOfTasks: 0 }, teammateId: props?.id, teammateIndex: 0
             }])
             remove(ref(db, `manager/${managerId}/teammates/0/data/notifications/`))
 
@@ -34,7 +34,7 @@ export default function Notifications(props) {
             if (exists) {
             } else {
                 set(ref(db, `teammate/${props?.id}/link/`), { index: newArr.length, managerId: managerId })
-                let newArr2 = [...newArr, { data: newTeammate, teammateId: props?.id, teammateIndex: newArr.length }]
+                let newArr2 = [...newArr, { data: { ...newTeammate, manHours: 0, totalNumberOfTasks: 0, liveTasks: 0 }, teammateId: props?.id, teammateIndex: newArr.length }]
                 set(ref(db, `manager/${managerId}/teammates/`), newArr2).then(() => {
                     remove(ref(db, `manager/${managerId}/teammates/${newArr.length}/data/notifications/`))
                 })

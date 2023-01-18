@@ -41,7 +41,7 @@ const menuProps = {
     items,
     onClick: handleMenuClick,
 };
-export default function AnalyticsEmployeeTable() {
+export default function AnalyticsEmployeeTable(props) {
     return (
         <div className="container">
             <div>
@@ -99,92 +99,21 @@ export default function AnalyticsEmployeeTable() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
 
-                        <td>Logo Corrections</td>
-                        <td>Surya</td>
-                        <td>jan,20 2023</td>
+                    {
+                        props?.manager?.teammates?.map((teammate) => {
+                            return <tr>
 
-                        <td>16 hrs</td>
-                    </tr>
-                    <tr>
+                                <td>{teammate.data.name}</td>
+                                <td>{teammate.data.totalNumberOfTasks || 0}</td>
+                                <td>{teammate.data.liveTasks || 0}</td>
 
-                        <td>Logo Corrections</td>
-                        <td>Surya</td>
-                        <td>jan,20 2023</td>
+                                <td>16 hrs</td>
+                            </tr>
+                        })
+                    }
 
-                        <td>16 hrs</td>
-                    </tr>
-                    <tr>
 
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <td>Logo Corrections</td>
-                        <td>Surya</td>
-                        <td>jan,20 2023</td>
-
-                        <td>16 hrs</td>
-
-                    </tr>
-                    <tr>
-                        <td>Logo Corrections</td>
-                        <td>Surya</td>
-                        <td>jan,20 2023</td>
-
-                        <td>16 hrs</td>
-
-                    </tr>
-                    <tr>
-                        <td>Logo Corrections</td>
-                        <td>Surya</td>
-                        <td>jan,20 2023</td>
-
-                        <td>16 hrs</td>
-
-                    </tr>
-                    <tr>
-                        <td>Logo Corrections</td>
-                        <td>Surya</td>
-                        <td>jan,20 2023</td>
-
-                        <td>16 hrs</td>
-
-                    </tr>
-                    <tr>
-                        <td>Logo Corrections</td>
-                        <td>Surya</td>
-                        <td>jan,20 2023</td>
-
-                        <td>16 hrs</td>
-
-                    </tr>
-                    <tr>
-                        <td>Logo Corrections</td>
-                        <td>Surya</td>
-                        <td>jan,20 2023</td>
-
-                        <td>16 hrs</td>
-
-                    </tr> <tr>
-                        <td>Logo Corrections</td>
-                        <td>Surya</td>
-                        <td>jan,20 2023</td>
-
-                        <td>16 hrs</td>
-
-                    </tr>
-                    <tr>
-                        <td>Logo Corrections</td>
-                        <td>Surya</td>
-                        <td>jan,20 2023</td>
-
-                        <td>16 hrs</td>
-
-                    </tr>
                 </tbody>
             </Table>
         </div>

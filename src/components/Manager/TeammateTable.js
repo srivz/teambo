@@ -54,7 +54,9 @@ export default function TeammateTable(props) {
             });
             console.log(res)
             if (res.status === 200) {
-                alert("Email sent")
+                alert("Email Sent")
+                const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
+                update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
             }
             else {
                 alert("Something went wrong");
@@ -87,6 +89,8 @@ export default function TeammateTable(props) {
             console.log(res)
             if (res.status === 200) {
                 alert("Email sent")
+                const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
+                update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
             }
             else {
                 alert("Something went wrong");
@@ -112,7 +116,9 @@ export default function TeammateTable(props) {
             });
             console.log(res)
             if (res.status === 200) {
+                const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
                 set(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}/status`), "Completed")
+                update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
             }
             else {
                 alert("Something went wrong");
