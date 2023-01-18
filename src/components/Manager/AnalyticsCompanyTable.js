@@ -41,7 +41,7 @@ const menuProps = {
     items,
     onClick: handleMenuClick,
 };
-export default function AnalyticsCompanyTable() {
+export default function AnalyticsCompanyTable(props) {
     return (
         <div className="container">
             <div>
@@ -99,72 +99,16 @@ export default function AnalyticsCompanyTable() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Vit bhopal</td>
-                        <td>65</td>
-                        <td>02</td>
-                        <td>1.2k hrs</td>
+                    {props?.manager?.clients.map((info, index) => {
+                        return (
+                            <tr key={index}>
+                                <td>{info.name}</td>
+                                <td>{info.totalTaskCount}</td>
+                                <td>{info.taskCount}</td>
+                                <td>{info.manHours} hrs</td>
                     </tr>
-                    <tr>
-                        <td>Vit bhopal</td>
-                        <td>65</td>
-                        <td>02</td>
-                        <td>1.2k hrs</td>
-                    </tr>
-                    <tr>
-                        <td>Vit bhopal</td>
-                        <td>65</td>
-                        <td>02</td>
-                        <td>1.2k hrs</td>
-                    </tr>
-                    <tr>
-                        <td>Vit bhopal</td>
-                        <td>65</td>
-                        <td>02</td>
-                        <td>1.2k hrs</td>
-                    </tr>
-                    <tr>
-                        <td>Vit bhopal</td>
-                        <td>65</td>
-                        <td>02</td>
-                        <td>1.2k hrs</td>
-                    </tr>
-                    <tr>
-                        <td>Vit bhopal</td>
-                        <td>65</td>
-                        <td>02</td>
-                        <td>1.2k hrs</td>
-                    </tr>
-                    <tr>
-                        <td>Vit bhopal</td>
-                        <td>65</td>
-                        <td>02</td>
-                        <td>1.2k hrs</td>
-                    </tr>
-                    <tr>
-                        <td>Vit bhopal</td>
-                        <td>65</td>
-                        <td>02</td>
-                        <td>1.2k hrs</td>
-                    </tr>
-                    <tr>
-                        <td>Vit bhopal</td>
-                        <td>65</td>
-                        <td>02</td>
-                        <td>1.2k hrs</td>
-                    </tr>
-                    <tr>
-                        <td>Vit bhopal</td>
-                        <td>65</td>
-                        <td>02</td>
-                        <td>1.2k hrs</td>
-                    </tr>
-                    <tr>
-                        <td>Vit bhopal</td>
-                        <td>65</td>
-                        <td>02</td>
-                        <td>1.2k hrs</td>
-                    </tr>
+                        )
+                    })}
                 </tbody>
             </Table>
         </div>

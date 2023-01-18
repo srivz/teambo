@@ -86,7 +86,7 @@ export default function NewTask(props) {
       } else {
         if (props?.tasks === undefined) {
           notifyNewTask(teamRequest, props?.managerId, props?.teammateIndex, newTask);
-          clientTaskAdd(props?.managerId, newTask.clientIndex, props?.manager?.clients[newTask.clientIndex].taskCount)
+          clientTaskAdd(props?.managerId, newTask.clientIndex, props?.manager?.clients[newTask.clientIndex].taskCount, props?.manager?.clients[newTask.clientIndex].totalTaskCount)
           update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask] }).then(async () => {
             setShow(false)
             const subject = `
@@ -96,7 +96,6 @@ export default function NewTask(props) {
                 `
             const heading = "Task Assigned"
             const text = `New Task ${newTask.task} has been Assigned to you By manager ${props?.manager.name}`
-            console.log(subject, text)
             try {
               const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
                 heading, fromEmail: props?.manager.email, toEmail: props?.teammate.email, subject: subject, name: props?.teammate.name, text: text, whatsAppNo: props?.teammate?.whatsAppNo
@@ -144,7 +143,7 @@ export default function NewTask(props) {
         }
         else {
           notifyNewTask(teamRequest, props?.managerId, props?.teammateIndex, newTask);
-          clientTaskAdd(props?.managerId, newTask.clientIndex, props?.manager?.clients[newTask.clientIndex].taskCount)
+          clientTaskAdd(props?.managerId, newTask.clientIndex, props?.manager?.clients[newTask.clientIndex].taskCount, props?.manager?.clients[newTask.clientIndex].totalTaskCount)
           update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask].concat(props?.tasks) }).then(async () => {
             setShow(false);
             const subject = `
@@ -227,12 +226,12 @@ export default function NewTask(props) {
         alert("Client Already Added")
       }
       else {
-        const clients = [...props?.manager?.clients, { name: newClient, taskCount: 0, clientNumber: props?.manager?.clients.length }];
+        const clients = [...props?.manager?.clients, { name: newClient, taskCount: 0, totalTaskCount: 0, manHours: 0, clientNumber: props?.manager?.clients.length }];
         update(ref(db, `manager/${props?.managerId}/`), { clients });
       }
     }
     else {
-      const clients = [{ name: newClient, taskCount: 0, clientNumber: 0 }];
+      const clients = [{ name: newClient, taskCount: 0, totalTaskCount: 0, manHours: 0, clientNumber: 0 }];
       update(ref(db, `manager/${props?.managerId}/`), { clients });
     }
     setNewClient('')

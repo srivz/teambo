@@ -75,13 +75,13 @@ export default function Analytics() {
                                 <Col sm={9}>
                                     <Tab.Content>
                                         <Tab.Pane eventKey="Company">
-                                            <AnalyticsCompanyTable />
+                                            <AnalyticsCompanyTable manager={manager} />
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="Client">
-                                            <AnalyticsClientTable />
+                                            <AnalyticsClientTable manager={manager} />
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="Employee">
-                                            <AnalyticsEmployeeTable />
+                                            <AnalyticsEmployeeTable manager={manager} />
                                         </Tab.Pane>
                                     </Tab.Content>
                                 </Col>
