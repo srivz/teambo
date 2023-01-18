@@ -43,7 +43,7 @@ const menuProps = {
     onClick: handleMenuClick,
 };
 export default function AnalyticsCompanyTable(props) {
-    const [sortBasis, setSortBasis] = useState("")
+    const [sortBasis, setSortBasis] = useState()
     const [companyList, setCompanyList] = useState(props?.manager?.clients)
     return (
         <Container>
@@ -115,7 +115,7 @@ export default function AnalyticsCompanyTable(props) {
                                     sortBasis === "currentTaskCountD" ? (a.taskCount < b.taskCount ? -1 : 1) :
                                         sortBasis === "manHoursA" ? (a.manHours > b.manHours ? -1 : 1) :
                                             sortBasis === "manHoursD" ? (a.manHours < b.manHours ? -1 : 1) :
-                                                null
+                                                (a.name < b.name ? -1 : 1)
                     )
                         .map((info, index) => {
                             return (

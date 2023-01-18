@@ -45,6 +45,7 @@ const menuProps = {
 
 export default function AnalyticsClientTable(props) {
     const [key, setKey] = useState();
+    const [clientList, setClientList] = useState(props.manager.clients);
     return (
         <Container>
             <Row style={{ marginTop: "-80px", marginRight: "50px" }}>
@@ -65,7 +66,7 @@ export default function AnalyticsClientTable(props) {
                             <Col sm={4} style={{ margin: "-30px -50px" }}>
                                 <Nav variant="pills" className="flex-column">
 
-                                    {props?.manager?.clients.map((info, index) => {
+                                    {clientList.sort((a, b) => a.name > b.name ? 1 : -1).map((info, index) => {
                                         return (
                                             <Nav.Item key={index}>
                                                 <Nav.Link className="ab" eventKey={info.name} style={key === info.name ? { width: "8rem", color: "white", backgroundColor: "#3975e9", marginBottom: ".5em" } : { width: "8rem", color: "black", backgroundColor: "#f1f4fb", marginBottom: ".5em" }} title={info.name}>{info.name.length < 13 ? info.name : info.name.slice(0, 10) + "..."}</Nav.Link>
@@ -76,7 +77,7 @@ export default function AnalyticsClientTable(props) {
                             </Col>
                             <Col sm={9} style={{ margin: "-90px -120px" }}>
                                 <Tab.Content>
-                                    {key && props?.manager?.clients.map((info, index) => {
+                                    {key && clientList.map((info, index) => {
                                         return (
                                             <Tab.Pane eventKey={info.name}>
                                                 <Table backgroundColor="#fff" size="sm">
@@ -97,8 +98,8 @@ export default function AnalyticsClientTable(props) {
                                                                         .map((info2, index2) => {
                                                                             return (
                                                                                 <TableRow key={index2}>
-                                                                                    <TableCell title={info2.task}>{info2.task.length < 23 ? info2.task : info2.task.slice(0, 20) + "..."}</TableCell>
-                                                                                    <TableCell >{info1.data.name}</TableCell>
+                                                                                    <TableCell title={info2.task} style={{ fontWeight: "bold" }}>{info2.task.length < 23 ? info2.task : info2.task.slice(0, 20) + "..."}</TableCell>
+                                                                                    <TableCell style={{ fontWeight: "bold" }}>{info1.data.name}</TableCell>
                                                                                     {info2.updates?.sort((a, b) =>
                                                                                         a.corrections > b.corrections
                                                                                             ? -1
@@ -110,9 +111,9 @@ export default function AnalyticsClientTable(props) {
                                                                                         .map((info3) => {
                                                                                             return (
                                                                                                 <>
-                                                                                                    <TableCell>{info3.assignedDate}</TableCell>
-                                                                                                    <TableCell align="center">{info3.corrections === "0" ? "0" : "+" + info3.corrections}</TableCell>
-                                                                                                    <TableCell align="center">{(info3.totalTimeInMs)} hrs</TableCell>
+                                                                                                    <TableCell style={{ fontWeight: "bold" }}>{info3.assignedDate}</TableCell>
+                                                                                                    <TableCell style={{ fontWeight: "bold" }} align="center">{info3.corrections === "0" ? "0" : "+" + info3.corrections}</TableCell>
+                                                                                                    <TableCell style={{ fontWeight: "bold" }} align="center">{(info3.totalTimeInMs)} hrs</TableCell>
                                                                                                 </>)
                                                                                         })}
                                                                                 </TableRow>

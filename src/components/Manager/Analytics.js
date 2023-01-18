@@ -51,13 +51,14 @@ export default function Analytics() {
                         <br />
                         <div>
                             <h4 style={{ color: "#3975e9", margin: "0px 107px", marginBottom: "1em" }}>
-                                <a href="/manager/home/list"><FontAwesomeIcon style={{ marginRight: ".5em" }} icon="fa-regular fa-circle-left" /></a>{" "}Analytics
+                                <a href="/manager/home/list">
+                                    <FontAwesomeIcon style={{ marginRight: ".5em" }} icon="fa-regular fa-circle-left" />
+                                </a>{" "}Analytics
                             </h4>
                         <Tab.Container id="left-tabs-example" onSelect={key => setKey(key)} activeKey={key}>
                             <Row>
                                 <Col sm={3}>
-                                    <Nav variant="pills" className="flex-column">
-
+                                        <Nav variant="pills" className="flex-column">
                                         <Nav.Item>
                                             <Nav.Link eventKey="Company" style={key === "Company" ? { width: "8rem", margin: "0px 107px", color: "white", backgroundColor: "#3975e9", marginBottom: "1em" } : { width: "8rem", margin: "0px 107px", color: "black", backgroundColor: "#f1f4fb", marginBottom: "1em" }}>Company</Nav.Link>
                                         </Nav.Item>
@@ -67,7 +68,7 @@ export default function Analytics() {
                                         <Nav.Item>
                                             <Nav.Link eventKey="Employee" style={key === "Employee" ? { width: "8rem", margin: "0px 107px", color: "white", backgroundColor: "#3975e9", marginBottom: "1em" } : { width: "8rem", margin: "0px 107px", color: "black", backgroundColor: "#f1f4fb", marginBottom: "1em" }}>Employee</Nav.Link>
                                         </Nav.Item>
-                                    </Nav>
+                                        </Nav>
                                 </Col>
                                 <Col sm={9}>
                                     <Tab.Content>
