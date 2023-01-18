@@ -87,8 +87,10 @@ export default function NewTask(props) {
       } else {
         if (props?.tasks === undefined) {
           notifyNewTask(teamRequest, props?.managerId, props?.teammateIndex, newTask);
+          const newTaskCount = props?.manager.teammates[props?.teammateIndex].data.totalNumberOfTasks + 1
+          const newLiveTaskCount = props?.manager.teammates[props?.teammateIndex].data.liveTasks + 1
           clientTaskAdd(props?.managerId, newTask.clientIndex, props?.manager?.clients[newTask.clientIndex].taskCount, props?.manager?.clients[newTask.clientIndex].totalTaskCount)
-          update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask] }).then(async () => {
+          update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask], totalNumberOfTasks: newTaskCount, liveTasks: newLiveTaskCount }).then(async () => {
             setShow(false)
             const subject = `
                   <h4> New Task ${newTask.task} from client ${newTask.client} has been Assigned to you By manager ${props?.manager.name}</h4>
@@ -147,7 +149,9 @@ export default function NewTask(props) {
         else {
           notifyNewTask(teamRequest, props?.managerId, props?.teammateIndex, newTask);
           clientTaskAdd(props?.managerId, newTask.clientIndex, props?.manager?.clients[newTask.clientIndex].taskCount, props?.manager?.clients[newTask.clientIndex].totalTaskCount)
-          update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask].concat(props?.tasks) }).then(async () => {
+          const newTaskCount = props?.manager.teammates[props?.teammateIndex].data.totalNumberOfTasks + 1
+          const newLiveTaskCount = props?.manager.teammates[props?.teammateIndex].data.liveTasks + 1
+          update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask].concat(props?.tasks), totalNumberOfTasks: newTaskCount, liveTasks: newLiveTaskCount }).then(async () => {
             setShow(false);
             const subject = `
                   <h4> New Task ${newTask.task} from client ${newTask.client} has been Assigned to you By manager ${props?.manager.name}</h4>
