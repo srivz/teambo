@@ -68,14 +68,16 @@ export default function AnalyticsClientTable(props) {
 
                                     {clientList.sort((a, b) => a.name > b.name ? 1 : -1).map((info, index) => {
                                         return (
-                                            <Nav.Item key={index}>
-                                                <Nav.Link className="ab" eventKey={info.name} style={key === info.name ? { width: "8rem", color: "white", backgroundColor: "#3975e9", marginBottom: ".5em" } : { width: "8rem", color: "black", backgroundColor: "#f1f4fb", marginBottom: ".5em" }} title={info.name}>{info.name.length < 13 ? info.name : info.name.slice(0, 10) + "..."}</Nav.Link>
-                                            </Nav.Item>
+                                            <div style={{ position: "relative" }}>
+                                                <Nav.Item key={index} className={key === info.name ? "ab" : ""}>
+                                                    <Nav.Link eventKey={info.name} style={key === info.name ? { width: "11rem", color: "white", backgroundColor: "#3975e9", marginBottom: ".5em" } : { width: "12rem", color: "black", marginBottom: ".5em" }} title={info.name}>{info.name.length < 20 ? info.name : info.name.slice(0, 17) + "..."}</Nav.Link>
+                                                </Nav.Item>
+                                            </div>
                                         )
                                     })}
                                 </Nav>
                             </Col>
-                            <Col sm={9} style={{ margin: "-90px -120px" }}>
+                            <Col sm={9} style={{ margin: "-90px -50px" }}>
                                 <Tab.Content>
                                     {key && clientList.map((info, index) => {
                                         return (

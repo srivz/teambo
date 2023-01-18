@@ -59,7 +59,7 @@ export default function AnalyticsEmployeeTable(props) {
                     </Col>
                 </Row>
             </div>
-            <Table variant="Hex #FFFFFF" size="sm" style={{ marginTop: "-20px", width: "60%" }}>
+            <Table variant="Hex #FFFFFF" size="sm" style={{ marginTop: "-20px", width: "60%", marginLeft: "-50px" }}>
                 <TableHead>
                     <TableRow>
                         <TableCell style={{ fontWeight: "bold" }}>Employee</TableCell>
