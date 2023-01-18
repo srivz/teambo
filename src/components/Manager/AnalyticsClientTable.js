@@ -111,7 +111,7 @@ export default function AnalyticsClientTable(props) {
                                                                                             return (
                                                                                                 <>
                                                                                                     <TableCell align="center">{info3.assignedDate}</TableCell>
-                                                                                                    <TableCell align="center">{info3.corrections}</TableCell>
+                                                                                                    <TableCell align="center">{info3.corrections === "0" ? "0" : "+" + info3.corrections}</TableCell>
                                                                                                     <TableCell align="center">{(info3.totalTimeInMs)} hrs</TableCell>
                                                                                                 </>)
                                                                                         })}
