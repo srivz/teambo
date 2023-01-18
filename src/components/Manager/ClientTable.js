@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { Col, Row } from 'react-bootstrap'
 export default function ClientTable(props) {
-
     return (<>
         <div className="overflow-set-auto table-height1">
             <Row className="table-height1">

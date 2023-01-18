@@ -1,8 +1,8 @@
 import React from 'react'
-import { Table, Button, Col, Row } from 'react-bootstrap';
+import { Table, Button, Col, Row, Container } from 'react-bootstrap';
 import { Dropdown, message, } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { TableBody, TableHead, TableRow } from '@mui/material';
+import { TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 
 const handleMenuClick = (e) => {
     message.info('Click on menu item.');
@@ -44,9 +44,9 @@ const menuProps = {
 };
 export default function AnalyticsCompanyTable(props) {
     return (
-        <div className="container">
+        <Container>
             <div>
-                <Row style={{ marginTop: "-85px", marginRight: "80px" }}>
+                <Row style={{ marginTop: "-85px", marginLeft: "-50px" }}>
                     <Col md={10}>
                         <Row>
                             <input
@@ -81,8 +81,8 @@ export default function AnalyticsCompanyTable(props) {
                             </Button>
                         </Row>
                     </Col>
-                    <Col md={2}>
-                        <Dropdown menu={menuProps} style={{ marginRight: "80px" }} >
+                    <Col md={2} style={{ marginLeft: "-100px" }} >
+                        <Dropdown menu={menuProps}>
                             <Button variant='light'>
                                 This Year{" "}<FontAwesomeIcon icon="fa-solid fa-caret-down" />
                             </Button>
@@ -90,29 +90,29 @@ export default function AnalyticsCompanyTable(props) {
                     </Col>
                 </Row>
             </div >
-            <Table style={{ marginTop: "-20px" }}>
+            <Table style={{ marginTop: "-20px", width: "60%", marginLeft: "-50px" }}>
                 <TableHead>
                     <TableRow>
-                        <th>Employee</th>
-                        <th>Task{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
-                        <th>Live Task{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
-                        <th>Man hours{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
+                        <TableCell style={{ width: "200px", fontWeight: "bold" }}>Client Name</TableCell>
+                        <TableCell style={{ fontWeight: "bold" }} align="center">Task{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
+                        <TableCell style={{ fontWeight: "bold" }} align="center">Live Task{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
+                        <TableCell style={{ fontWeight: "bold" }} align="center">Man hours{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {props?.manager?.clients.map((info, index) => {
                         return (
                             <TableRow key={index}>
-                                <td>{info.name}</td>
-                                <td>{info.totalTaskCount}</td>
-                                <td>{info.taskCount}</td>
-                                <td>{info.manHours} hrs</td>
+                                <TableCell><div className={info.name.length > 20 ? 'marquee' : ''}><h6>{info.name}</h6></div></TableCell>
+                                <TableCell align="center">{info.totalTaskCount}</TableCell>
+                                <TableCell align="center">{info.taskCount}</TableCell>
+                                <TableCell align="center">{info.manHours} hrs</TableCell>
                             </TableRow>
                         )
                     })}
                 </TableBody>
             </Table>
-        </div>
+        </Container>
     )
 }
 

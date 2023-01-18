@@ -399,7 +399,7 @@ export default function TeammateTable(props) {
                                                     align="center"
 
                                                 >
-                                                    <div className={info1.task.length > 20 ? 'marquee' : ''}>
+                                                    <div className={info1.task.length > 16 ? 'marquee' : ''}>
                                                         <h6>{info1.task}</h6>
                                                     </div>
                                                 </TableCell>

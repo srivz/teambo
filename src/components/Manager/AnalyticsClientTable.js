@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Table, Button, Container, Tab, Nav, Col, Row } from 'react-bootstrap';
 import { message, Dropdown } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 
 const handleMenuClick = (e) => {
     message.info('Click on menu item.');
@@ -42,7 +43,7 @@ const menuProps = {
     onClick: handleMenuClick,
 };
 
-export default function AnalyticsClientTable() {
+export default function AnalyticsClientTable(props) {
     const [key, setKey] = useState();
     return (
         <Container>
@@ -63,216 +64,69 @@ export default function AnalyticsClientTable() {
                         <Row>
                             <Col sm={4} style={{ margin: "-30px -50px" }}>
                                 <Nav variant="pills" className="flex-column">
-                                    <Nav.Item>
-                                        <Nav.Link className="ab" eventKey="ChaiCup" style={key === "ChaiCup" ? { width: "8rem", color: "white", backgroundColor: "#3975e9", marginBottom: ".5em" } : { width: "8rem", color: "black", backgroundColor: "#f1f4fb", marginBottom: ".5em" }}>ChaiCup</Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link className="ab" eventKey="Vit bhopal" style={key === "Vit bhopal" ? { width: "8rem", color: "white", backgroundColor: "#3975e9", marginBottom: ".5em" } : { width: "8rem", color: "black", backgroundColor: "#f1f4fb", marginBottom: ".5em" }}>Vit bhopal</Nav.Link>
-                                    </Nav.Item>
+
+                                    {props?.manager?.clients.map((info, index) => {
+                                        return (
+                                            <Nav.Item key={index}>
+                                                <Nav.Link className="ab" eventKey={info.name} style={key === info.name ? { width: "8rem", color: "white", backgroundColor: "#3975e9", marginBottom: ".5em" } : { width: "8rem", color: "black", backgroundColor: "#f1f4fb", marginBottom: ".5em" }}>{info.name}</Nav.Link>
+                                            </Nav.Item>
+                                        )
+                                    })}
                                 </Nav>
                             </Col>
                             <Col sm={9} style={{ margin: "-90px -120px" }}>
                                 <Tab.Content>
-                                    <Tab.Pane eventKey="ChaiCup">
-                                        <Table backgroundColor="#fff" size="sm">
-                                            <thead>
-                                                <tr>
+                                    {key && props?.manager?.clients.map((info, index) => {
+                                        return (
+                                            <Tab.Pane eventKey={info.name}>
+                                                <Table backgroundColor="#fff" size="sm">
+                                                    <TableHead>
+                                                        <TableRow>
+                                                            <TableCell align="center" style={{ fontWeight: "bold" }} >Task</TableCell>
+                                                            <TableCell align="center" style={{ fontWeight: "bold" }} >Teammate</TableCell>
+                                                            <TableCell align="center" style={{ fontWeight: "bold" }} >Assigned{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
+                                                            <TableCell align="center" style={{ fontWeight: "bold" }} >Corrections{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
+                                                            <TableCell align="center" style={{ fontWeight: "bold" }} >Man hours{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
+                                                        </TableRow>
+                                                    </TableHead>
+                                                    <TableBody>
+                                                        {props?.manager?.teammates?.map((info1) => {
+                                                            return (
+                                                                <>
+                                                                    {info1?.data?.tasks?.filter((info2) => { return info2.client === key })
+                                                                        .map((info2, index2) => {
+                                                                            return (
+                                                                                <TableRow key={index2}>{console.log(info2)}
+                                                                                    <TableCell align="center">{info2.task}</TableCell>
+                                                                                    <TableCell align="center">{info1.data.name}</TableCell>
+                                                                                    {info2.updates?.sort((a, b) =>
+                                                                                        a.corrections > b.corrections
+                                                                                            ? -1
+                                                                                            : 1,
+                                                                                    )
+                                                                                        .filter(
+                                                                                            (info3, index3) => index3 === 0,
+                                                                                        )
+                                                                                        .map((info3) => {
+                                                                                            return (
+                                                                                                <>
+                                                                                                    <TableCell align="center">{info3.assignedDate}</TableCell>
+                                                                                                    <TableCell align="center">{info3.corrections}</TableCell>
+                                                                                                    <TableCell align="center">{(info3.totalTimeInMs)} hrs</TableCell>
+                                                                                                </>)
+                                                                                        })}
+                                                                                </TableRow>
+                                                                            )
+                                                                        })} </>
+                                                            )
+                                                        })}
 
-                                                    <th>Task</th>
-                                                    <th>Teammate</th>
-                                                    <th>Assigned{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
-                                                    <th>Corrections{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
-                                                    <th>Man hours{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
 
-                                                    <td>Logo Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Logo Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Logo Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Logo Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-
-                                                </tr>
-                                                <tr>
-                                                    <td>Logo Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-
-                                                </tr>
-                                                <tr>
-                                                    <td>Logo Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Logo Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-
-                                                </tr>
-                                                <tr>
-                                                    <td>Logo Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-
-                                                </tr>
-                                                <tr>
-                                                    <td>Logo Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-
-                                                </tr> <tr>
-                                                    <td>Logo Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-
-                                                </tr>
-                                                <tr>
-                                                    <td>Logo Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-
-                                                </tr>
-                                            </tbody>
-                                        </Table>
-                                    </Tab.Pane>
-                                    <Tab.Pane eventKey="Vit bhopal">
-                                        <Table backgroundColor="#fff" size="sm">
-                                            <thead>
-                                                <tr>
-
-                                                    <th>Task</th>
-                                                    <th>Teammate</th>
-                                                    <th>Assigned{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
-                                                    <th>Corrections{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
-                                                    <th>Man hours{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-
-                                                    <td>asd Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>asd Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>asd Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>asd Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-
-                                                </tr>
-                                                <tr>
-                                                    <td>asd Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-
-                                                </tr>
-                                                <tr>
-                                                    <td>asd Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>asd Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-
-                                                </tr>
-                                                <tr>
-                                                    <td>asd Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-
-                                                </tr>
-                                                <tr>
-                                                    <td>asd Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-
-                                                </tr> <tr>
-                                                    <td>asd Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-
-                                                </tr>
-                                                <tr>
-                                                    <td>asd Corrections</td>
-                                                    <td>Suriya</td>
-                                                    <td>jan,20 2023</td>
-                                                    <td>+25</td>
-                                                    <td>02 hrs</td>
-
-                                                </tr>
-                                            </tbody>
-                                        </Table>
-                                    </Tab.Pane>
+                                                    </TableBody>
+                                                </Table>
+                                            </Tab.Pane>
+                                        )
+                                    })}
                                 </Tab.Content>
                             </Col>
                         </Row>

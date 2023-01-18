@@ -39,6 +39,8 @@ export default function NewTask(props) {
         corrections: "0",
         deadlineDate: "--",
         deadlineTime: "--",
+        totalTime: "00:0:0",
+        totalTimeInMs: "0",
         status: "Assigned",
       },
     },
@@ -78,7 +80,6 @@ export default function NewTask(props) {
     }
     else { return true }
   }
-  console.log(props)
   const handleNewTask = () => {
     if (validateForm()) {
       if (props?.name === "No Teammate") {
@@ -134,6 +135,8 @@ export default function NewTask(props) {
                   corrections: "0",
                   deadlineDate: "--",
                   deadlineTime: "--",
+                  totalTime: "00:0:0",
+                  totalTimeInMs: "0",
                   status: "Assigned",
                 },
               },
@@ -192,6 +195,8 @@ export default function NewTask(props) {
                       corrections: "0",
                       deadlineDate: "--",
                       deadlineTime: "--",
+                      totalTime: "00:0:0",
+                      totalTimeInMs: "0",
                       status: "Assigned",
                     },
                   },

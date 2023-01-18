@@ -2,10 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { onAuthStateChanged } from 'firebase/auth'
 import { onValue, ref } from 'firebase/database'
 import React, { useState } from 'react'
-import { Col, Container } from 'react-bootstrap'
-import { Nav } from 'react-bootstrap'
-import { Tab } from 'react-bootstrap'
-import { Row } from 'react-bootstrap'
+import { Col, Nav, Tab, Row } from 'react-bootstrap'
 import { auth, db } from '../../firebase-config'
 import Loader from '../Loader/Loader'
 import NavBar from '../Navs/NavBar'
@@ -43,7 +40,7 @@ export default function Analytics() {
             {loading ? (
                 <Loader />
             ) : (
-                <div>
+                    <>
                     <NavBar
                         user="MANAGER"
                         user2="ANALYTICS"
@@ -52,15 +49,15 @@ export default function Analytics() {
                         />
                         <br />
                         <br />
-                        <Container>
-                            <Container>
-                                <h4 style={{ color: "#3975e9" }}><FontAwesomeIcon style={{ marginRight: ".5em" }} icon="fa-regular fa-circle-left" />{" "}Analytics</h4>
-                            </Container>
-                        </Container>
+                        <div>
+                            <h4 style={{ color: "#3975e9", margin: "0px 107px", marginBottom: "1em" }}>
+                                <FontAwesomeIcon style={{ marginRight: ".5em" }} icon="fa-regular fa-circle-left" />{" "}Analytics
+                            </h4>
                         <Tab.Container id="left-tabs-example" onSelect={key => setKey(key)} activeKey={key}>
                             <Row>
                                 <Col sm={3}>
                                     <Nav variant="pills" className="flex-column">
+
                                         <Nav.Item>
                                             <Nav.Link eventKey="Company" style={key === "Company" ? { width: "8rem", margin: "0px 107px", color: "white", backgroundColor: "#3975e9", marginBottom: "1em" } : { width: "8rem", margin: "0px 107px", color: "black", backgroundColor: "#f1f4fb", marginBottom: "1em" }}>Company</Nav.Link>
                                         </Nav.Item>
@@ -86,8 +83,9 @@ export default function Analytics() {
                                     </Tab.Content>
                                 </Col>
                             </Row>
-                        </Tab.Container>
-                </div>
+                            </Tab.Container>
+                        </div>
+                    </>
             )}
         </>
     )
