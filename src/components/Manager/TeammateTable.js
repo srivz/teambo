@@ -415,7 +415,14 @@ export default function TeammateTable(props) {
                                                     align="center"
                                                     title={info1.task}
                                                 >{info1.task.length < 16 ? info1.task : info1.task.slice(0, 13) + "..."}
-
+                                                    {info1.query ?
+                                                        (
+                                                            <div style={{ marginLeft: ".8em" }} class="notification-dot"></div>
+                                                        ) :
+                                                        (
+                                                            <></>
+                                                        )
+                                                    }
                                                 </TableCell>
                                                 {info1.updates
                                                     .sort((a, b) =>
@@ -537,6 +544,7 @@ export default function TeammateTable(props) {
                                                                             info1.updates.length -
                                                                             1
                                                                         ].corrections}
+
                                                                 </TableCell>
                                                                 <TableCell
                                                                     onClick={() => {

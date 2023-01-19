@@ -129,11 +129,9 @@ export default function ClientTable(props) {
                                                             width: "200px"
                                                         }}
                                                         align="center"
-
+                                                        title={info1.task}
                                                     >
-                                                        <div className={info1.task.length > 20 ? 'marquee' : ''}>
-                                                            <h6>{info1.task}</h6>
-                                                        </div>
+                                                        {info1.task.length < 16 ? info1.task : info1.task.slice(0, 13) + "..."}
                                                     </TableCell>
                                                     {info1.updates
                                                         .sort((a, b) =>

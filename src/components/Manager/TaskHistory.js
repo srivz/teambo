@@ -189,7 +189,7 @@ export default function TaskHistory(props) {
                     fontFamily: 'rockwen',
                     fontWeight: 'bold',
                     padding: '.5em',
-                    paddingLeft: '1.2em',
+                    paddingLeft: '1.5em',
                     borderRadius: '15px',
                     position: "absolute",
                     right: "1em"
@@ -207,12 +207,11 @@ export default function TaskHistory(props) {
               }>
               <FontAwesomeIcon
                 className="pointer"
-                style={{ backgroundColor: "" }}
-                icon="fa-solid fa-square-envelope"
+                icon="fa-regular fa-envelope"
                 size="2xl" />
               {props?.teamtasks[props?.indexselected]?.query ?
                 (
-                  <div class="notification-dot"></div>
+                  <div style={{ marginBottom: "5px", marginLeft: "5px" }} class="notification-dot"></div>
                 ) :
                 (
                   <></>
@@ -299,7 +298,8 @@ export default function TaskHistory(props) {
             <Col sm={1} md={1} style={{ marginTop: '1em' }}>
               <h6>Status</h6>
             </Col>
-            <Col sm={3} md={3} style={{ marginTop: '.75em' }}>{props?.teamtasks[props?.indexselected]?.updates
+            <Col sm={3} md={3} style={{ marginTop: '.75em' }}>
+              {props?.teamtasks[props?.indexselected]?.updates
               .sort((a, b) => (a.corrections > b.corrections ? -1 : 1))
               .filter((info, index) => { return (index === 0) })
               .map((info) => {
