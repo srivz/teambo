@@ -45,7 +45,6 @@ const menuProps = {
 
 export default function AnalyticsClientTable(props) {
     const [key, setKey] = useState();
-    const [clientList, setClientList] = useState(props.manager.clients);
     return (
         <Container>
             <Row style={{ marginTop: "-80px", marginRight: "50px" }}>
@@ -66,7 +65,7 @@ export default function AnalyticsClientTable(props) {
                             <Col sm={4} style={{ margin: "-30px -50px" }}>
                                 <Nav variant="pills" className="flex-column">
 
-                                    {clientList.sort((a, b) => a.name > b.name ? 1 : -1).map((info, index) => {
+                                    {props.manager.clients.sort((a, b) => a.name > b.name ? 1 : -1).map((info, index) => {
                                         return (
                                             <div style={{ position: "relative" }}>
                                                 <Nav.Item key={index} className={key === info.name ? "ab" : ""}>
@@ -79,17 +78,27 @@ export default function AnalyticsClientTable(props) {
                             </Col>
                             <Col sm={9} style={{ margin: "-90px -50px" }}>
                                 <Tab.Content>
-                                    {key && clientList.map((info, index) => {
+                                    {key && props.manager.clients.map((info, index) => {
                                         return (
                                             <Tab.Pane eventKey={info.name}>
                                                 <Table backgroundColor="#fff" size="sm">
                                                     <TableHead>
                                                         <TableRow>
-                                                            <TableCell style={{ fontWeight: "bold" }} >Task</TableCell>
-                                                            <TableCell style={{ fontWeight: "bold" }} >Teammate</TableCell>
-                                                            <TableCell style={{ fontWeight: "bold" }} >Assigned{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
-                                                            <TableCell align="center" style={{ fontWeight: "bold" }} >Corrections{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
-                                                            <TableCell align="center" style={{ fontWeight: "bold" }} >Man hours{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
+                                                            <TableCell style={{
+                                                                fontFamily: 'rockwen', fontWeight: "bold"
+                                                            }} >Task</TableCell>
+                                                            <TableCell style={{
+                                                                fontFamily: 'rockwen', fontWeight: "bold"
+                                                            }} >Teammate</TableCell>
+                                                            <TableCell style={{
+                                                                fontFamily: 'rockwen', fontWeight: "bold"
+                                                            }} >Assigned{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
+                                                            <TableCell align="center" style={{
+                                                                fontFamily: 'rockwen', fontWeight: "bold"
+                                                            }} >Corrections{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
+                                                            <TableCell align="center" style={{
+                                                                fontFamily: 'rockwen', fontWeight: "bold"
+                                                            }} >Man hours{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
@@ -100,8 +109,12 @@ export default function AnalyticsClientTable(props) {
                                                                         .map((info2, index2) => {
                                                                             return (
                                                                                 <TableRow key={index2}>
-                                                                                    <TableCell title={info2.task} style={{ fontWeight: "bold" }}>{info2.task.length < 23 ? info2.task : info2.task.slice(0, 20) + "..."}</TableCell>
-                                                                                    <TableCell style={{ fontWeight: "bold" }}>{info1.data.name}</TableCell>
+                                                                                    <TableCell title={info2.task} style={{
+                                                                                        fontFamily: 'rockwen', fontWeight: "bold"
+                                                                                    }}>{info2.task.length < 23 ? info2.task : info2.task.slice(0, 20) + "..."}</TableCell>
+                                                                                    <TableCell style={{
+                                                                                        fontFamily: 'rockwen', fontWeight: "bold"
+                                                                                    }}>{info1.data.name}</TableCell>
                                                                                     {info2.updates?.sort((a, b) =>
                                                                                         a.corrections > b.corrections
                                                                                             ? -1
@@ -113,9 +126,15 @@ export default function AnalyticsClientTable(props) {
                                                                                         .map((info3) => {
                                                                                             return (
                                                                                                 <>
-                                                                                                    <TableCell style={{ fontWeight: "bold" }}>{info3.assignedDate}</TableCell>
-                                                                                                    <TableCell style={{ fontWeight: "bold" }} align="center">{info3.corrections === "0" ? "0" : "+" + info3.corrections}</TableCell>
-                                                                                                    <TableCell style={{ fontWeight: "bold" }} align="center">{(info3.totalTimeInMs)} hrs</TableCell>
+                                                                                                    <TableCell style={{
+                                                                                                        fontFamily: 'rockwen', fontWeight: "bold"
+                                                                                                    }}>{info3.assignedDate}</TableCell>
+                                                                                                    <TableCell style={{
+                                                                                                        fontFamily: 'rockwen', fontWeight: "bold"
+                                                                                                    }} align="center">{info3.corrections === "0" ? "0" : "+" + info3.corrections}</TableCell>
+                                                                                                    <TableCell style={{
+                                                                                                        fontFamily: 'rockwen', fontWeight: "bold"
+                                                                                                    }} align="center">{(info3.totalTimeInMs)} hrs</TableCell>
                                                                                                 </>)
                                                                                         })}
                                                                                 </TableRow>

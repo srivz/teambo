@@ -44,7 +44,6 @@ const menuProps = {
 };
 export default function AnalyticsCompanyTable(props) {
     const [sortBasis, setSortBasis] = useState()
-    const [companyList, setCompanyList] = useState(props?.manager?.clients)
     return (
         <Container>
             <div>
@@ -95,20 +94,20 @@ export default function AnalyticsCompanyTable(props) {
             <Table style={{ marginTop: "-20px", width: "60%", marginLeft: "-50px" }}>
                 <TableHead>
                     <TableRow>
-                        <TableCell style={{ width: "200px", fontWeight: "bold" }}>Client Name</TableCell>
-                        <TableCell style={{ fontWeight: "bold" }} align="center">
+                        <TableCell style={{ fontFamily: 'rockwen', width: "200px", fontWeight: "bold" }}>Client Name</TableCell>
+                        <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }} align="center">
                             Task{" "}<FontAwesomeIcon className='pointer' icon="fa-solid fa-sort" onClick={() => { sortBasis === "totalTaskCountD" ? setSortBasis("totalTaskCountA") : sortBasis === "totalTaskCountA" ? setSortBasis("totalTaskCountD") : setSortBasis("totalTaskCountA") }} />
                         </TableCell>
-                        <TableCell style={{ fontWeight: "bold" }} align="center">
+                        <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }} align="center">
                             Live Task{" "}<FontAwesomeIcon className='pointer' icon="fa-solid fa-sort" onClick={() => { sortBasis === "currentTaskCountD" ? setSortBasis("currentTaskCountA") : sortBasis === "currentTaskCountA" ? setSortBasis("currentTaskCountD") : setSortBasis("currentTaskCountA") }} />
                         </TableCell>
-                        <TableCell style={{ fontWeight: "bold" }} align="center">
+                        <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }} align="center">
                             Man hours{" "}<FontAwesomeIcon className='pointer' icon="fa-solid fa-sort" onClick={() => { sortBasis === "manHoursD" ? setSortBasis("manHoursA") : sortBasis === "manHoursA" ? setSortBasis("manHoursD") : setSortBasis("manHoursA") }} />
                         </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {companyList.sort((a, b) =>
+                    {props?.manager?.clients.sort((a, b) =>
                         sortBasis === "totalTaskCountD" ? (a.totalTaskCount > b.totalTaskCount ? -1 : 1) :
                             sortBasis === "totalTaskCountA" ? (a.totalTaskCount < b.totalTaskCount ? -1 : 1) :
                                 sortBasis === "currentTaskCountA" ? (a.taskCount > b.taskCount ? -1 : 1) :
@@ -120,16 +119,16 @@ export default function AnalyticsCompanyTable(props) {
                         .map((info, index) => {
                             return (
                                 <TableRow key={index}>
-                                    <TableCell style={{ fontWeight: "bold" }} title={info.name}>
+                                    <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }} title={info.name}>
                                         {info.name.length < 23 ? info.name : info.name.slice(0, 20) + "..."}
                                     </TableCell>
-                                    <TableCell style={{ fontWeight: "bold" }} align="center">
+                                    <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }} align="center">
                                         {info.totalTaskCount === 0 ? 0 : info.totalTaskCount < 10 ? "0" + info.totalTaskCount : info.totalTaskCount}
                                     </TableCell>
-                                    <TableCell align="center" style={info.taskCount === 0 ? { color: "#000", fontWeight: "bold" } : { color: "#3975e9", fontWeight: "bold" }}>
+                                    <TableCell align="center" style={info.taskCount === 0 ? { fontFamily: 'rockwen', color: "#000", fontWeight: "bold" } : { fontFamily: 'rockwen', color: "#3975e9", fontWeight: "bold" }}>
                                         {info.taskCount === 0 ? "--" : info.taskCount < 10 ? "0" + info.taskCount : info.taskCount}
                                     </TableCell>
-                                    <TableCell style={{ fontWeight: "bold" }} align="center">
+                                    <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }} align="center">
                                         {info.manHours} hrs
                                     </TableCell>
                                 </TableRow>

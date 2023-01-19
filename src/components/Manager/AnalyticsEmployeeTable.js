@@ -62,16 +62,16 @@ export default function AnalyticsEmployeeTable(props) {
             <Table variant="Hex #FFFFFF" size="sm" style={{ marginTop: "-20px", width: "60%", marginLeft: "-50px" }}>
                 <TableHead>
                     <TableRow>
-                        <TableCell style={{ fontWeight: "bold" }}>Employee</TableCell>
-                        <TableCell style={{ fontWeight: "bold" }} align='center'>
+                        <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>Employee</TableCell>
+                        <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }} align='center'>
                             Task{" "}
                             <FontAwesomeIcon icon="fa-solid fa-sort" className='pointer' onClick={() => { sortBasis === "totalTaskCountD" ? setSortBasis("totalTaskCountA") : sortBasis === "totalTaskCountA" ? setSortBasis("totalTaskCountD") : setSortBasis("totalTaskCountA") }} />
                         </TableCell>
-                        <TableCell style={{ fontWeight: "bold" }} align='center'>
+                        <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }} align='center'>
                             Live Task{" "}
                             <FontAwesomeIcon icon="fa-solid fa-sort" className='pointer' onClick={() => { sortBasis === "currentTaskCountD" ? setSortBasis("currentTaskCountA") : sortBasis === "currentTaskCountA" ? setSortBasis("currentTaskCountD") : setSortBasis("currentTaskCountA") }} />
                         </TableCell>
-                        <TableCell style={{ fontWeight: "bold" }} align='center'>
+                        <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }} align='center'>
                             Man hours{" "}
                             {/* <FontAwesomeIcon icon="fa-solid fa-sort" className='pointer'  onClick={() => { sortBasis === "manHoursD" ? setSortBasis("manHoursA") : sortBasis === "manHoursA" ? setSortBasis("manHoursD") : setSortBasis("manHoursA") }} /> */}
                         </TableCell>
@@ -90,10 +90,10 @@ export default function AnalyticsEmployeeTable(props) {
                                             (a.teammateIndex < b.teammateIndex ? -1 : 1)
                         ).map((teammate) => {
                             return (<TableRow>
-                                <TableCell style={{ fontWeight: "bold" }}>{teammate.data.name}</TableCell>
-                                <TableCell align='center' style={{ fontWeight: "bold" }}>{teammate.data.totalNumberOfTasks === 0 ? 0 : teammate.data.totalNumberOfTasks < 10 ? "0" + teammate.data.totalNumberOfTasks : teammate.data.totalNumberOfTasks}</TableCell>
-                                <TableCell align='center' style={teammate.data.liveTasks === 0 ? { color: "#000", fontWeight: "bold" } : { color: "#3975e9", fontWeight: "bold" }}>{teammate.data.liveTasks === 0 ? "--" : teammate.data.liveTasks < 10 ? "0" + teammate.data.liveTasks : teammate.data.liveTasks}</TableCell>
-                                <TableCell align='center' style={{ fontWeight: "bold" }}>{teammate.data.manHours || 0}</TableCell>
+                                <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.name}</TableCell>
+                                <TableCell align='center' style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.totalNumberOfTasks === 0 ? 0 : teammate.data.totalNumberOfTasks < 10 ? "0" + teammate.data.totalNumberOfTasks : teammate.data.totalNumberOfTasks}</TableCell>
+                                <TableCell align='center' style={teammate.data.liveTasks === 0 ? { fontFamily: 'rockwen', color: "#000", fontWeight: "bold" } : { color: "#3975e9", fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.liveTasks === 0 ? "--" : teammate.data.liveTasks < 10 ? "0" + teammate.data.liveTasks : teammate.data.liveTasks}</TableCell>
+                                <TableCell align='center' style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.manHours || 0}</TableCell>
                             </TableRow>)
                         })
                     }
