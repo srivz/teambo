@@ -122,8 +122,8 @@ export default function Home() {
     var today = new Date()
     var timeInMs = today.getTime()
     var stTime =
-      teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
-        .startTimeInMs
+      parseInt(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
+        .startTimeInMs)
     var totTime = timeInMs - stTime
     if (
       teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
@@ -131,15 +131,13 @@ export default function Home() {
     ) {
       totTime =
         totTime +
-        teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
-          .totalTimeInMs
+      parseInt(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
+        .totalTimeInMs)
     }
     var timeGapInMs = totTime
     var timeGap = getHourFormatFromMilliSeconds(totTime)
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), {
       status: 'Paused',
-      startTime: 0,
-      startTimeInMs: 0,
       totalTime: timeGap,
       totalTimeInMs: timeGapInMs,
     })
@@ -149,8 +147,9 @@ export default function Home() {
     var today = new Date()
     var timeInMs = today.getTime()
     var stTime =
-      teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
-        .startTimeInMs
+      parseInt(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
+        .startTimeInMs)
+    console.log(stTime);
     var totTime = timeInMs - stTime
     if (
       teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
@@ -158,8 +157,8 @@ export default function Home() {
     ) {
       totTime =
         totTime +
-        teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
-          .totalTimeInMs
+      parseInt(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
+        .totalTimeInMs)
     }
     var timeGapInMs = totTime
     var timeGap = getHourFormatFromMilliSeconds(totTime)

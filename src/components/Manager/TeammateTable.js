@@ -56,6 +56,9 @@ export default function TeammateTable(props) {
             if (res.status === 200) {
                 alert("Email Sent")
                 const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
+                if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status !== 'Completed')
+                    update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
+                if (teammate.tasks.length === 1 && teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status !== 'Completed')
                 update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
             }
             else {
@@ -90,7 +93,10 @@ export default function TeammateTable(props) {
             if (res.status === 200) {
                 alert("Email sent")
                 const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
-                update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
+                if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status !== 'Completed')
+                    update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
+                if (teammate.tasks.length === 1 && teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status !== 'Completed')
+                    update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
             }
             else {
                 alert("Something went wrong");
@@ -117,8 +123,12 @@ export default function TeammateTable(props) {
             console.log(res)
             if (res.status === 200) {
                 const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
+                const oldManHours = parseInt(props?.manager.teammates[id].data.manHours);
+                const timeInMs = teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].totalTimeInMs;
+                const hours = (timeInMs / (1000 * 60 * 60)).toFixed(2);
+                const newManHours = oldManHours + hours;
                 set(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}/status`), "Completed")
-                update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
+                update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount, manHours: newManHours })
             }
             else {
                 alert("Something went wrong");
@@ -809,6 +819,7 @@ export default function TeammateTable(props) {
                                         managerId={props?.managerId}
                                         teammateIndex={info.teammateIndex}
                                         designation={info.data.designation}
+
                                     />
                                 ) : (
                                     <></>
