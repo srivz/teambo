@@ -14,6 +14,7 @@ import SwitchTask from './SwitchTask';
 import { db } from '../../firebase-config';
 import axios from 'axios';
 import { clientTaskDelete } from './ClientTaskCount';
+import { notifyDeleteTask } from './NotificationFunctions';
 
 export default function TeammateTable(props) {
     const selected = props?.teammateselected
@@ -36,6 +37,7 @@ export default function TeammateTable(props) {
         let list1 = teammate.tasks.slice(0, index);
         let list2 = teammate.tasks.slice(index + 1);
         let list = list1.concat(list2)
+        notifyDeleteTask(teammate.notifications, props?.managerId, id, props?.manager?.clients[clientIndex].name)
         clientTaskDelete(props?.managerId, clientIndex, props?.manager?.clients[clientIndex].taskCount)
         set(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks`), list)
             .catch((err) => {
