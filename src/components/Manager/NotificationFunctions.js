@@ -126,9 +126,8 @@ export function notifySwitchFromTask(teamRequest, managerId, teammateIndex, newT
     }
 }
 export function notifyDeleteTask(teamRequest, managerId, teammateIndex, newTask) {
-
     if (teamRequest === undefined) {
-        let newArr = { 0: { type: "deleted", client: newTask.client, text: " Task is deleted. " } }
+        let newArr = { 0: { type: "deleted", client: newTask, text: " Task is deleted. " } }
         set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr)
     }
     else {
@@ -139,7 +138,7 @@ export function notifyDeleteTask(teamRequest, managerId, teammateIndex, newTask)
             newArr.push(element)
         })
         if (exists) {
-            let newArr2 = [...newArr, { type: "deleted", client: newTask.client, text: " Task is deleted. " }]
+            let newArr2 = [...newArr, { type: "deleted", client: newTask, text: " Task is deleted. " }]
             set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr2)
         }
     }
