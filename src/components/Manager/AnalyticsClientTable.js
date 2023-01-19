@@ -65,7 +65,7 @@ export default function AnalyticsClientTable(props) {
                             <Col sm={4} style={{ margin: "-30px -50px" }}>
                                 <Nav variant="pills" className="flex-column">
 
-                                    {props.manager.clients.sort((a, b) => a.name > b.name ? 1 : -1).map((info, index) => {
+                                    {props.manager.clients.sort((a, b) => a.name > b.name ? 1 : -1).filter((info) => { return (info.taskCount !== 0) }).map((info, index) => {
                                         return (
                                             <div style={{ position: "relative" }}>
                                                 <Nav.Item key={index} className={key === info.name ? "ab" : ""}>

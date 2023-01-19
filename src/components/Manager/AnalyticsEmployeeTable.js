@@ -93,7 +93,7 @@ export default function AnalyticsEmployeeTable(props) {
                                 <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.name}</TableCell>
                                 <TableCell align='center' style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.totalNumberOfTasks === 0 ? 0 : teammate.data.totalNumberOfTasks < 10 ? "0" + teammate.data.totalNumberOfTasks : teammate.data.totalNumberOfTasks}</TableCell>
                                 <TableCell align='center' style={teammate.data.liveTasks === 0 ? { fontFamily: 'rockwen', color: "#000", fontWeight: "bold" } : { color: "#3975e9", fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.liveTasks === 0 ? "--" : teammate.data.liveTasks < 10 ? "0" + teammate.data.liveTasks : teammate.data.liveTasks}</TableCell>
-                                <TableCell align='center' style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.manHours || 0}</TableCell>
+                                <TableCell align='center' style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.manHours === 0 ? 0 : teammate.data.manHours < 10 ? "0" + teammate.data.manHours : teammate.data.manHours || 0} hrs</TableCell>
                             </TableRow>)
                         })
                     }
