@@ -106,7 +106,8 @@ export default function TeammateTaskHistory(props) {
             </Button>
             <Button variant="light" onClick={() => { handleShow() }} style={{ position: "absolute", right: "1em" }}>
               <FontAwesomeIcon icon="fa-solid fa-pen-to-square" />{" "}
-            </Button><Modal show={showDoubt}
+            </Button>
+            <Modal show={showDoubt}
               backdrop="static" onHide={() => { handleClose() }}>
               <Modal.Header closeButton></Modal.Header>
               <Modal.Body>

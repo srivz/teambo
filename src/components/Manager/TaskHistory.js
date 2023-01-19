@@ -8,6 +8,9 @@ import moment from 'moment'
 
 export default function TaskHistory(props) {
   var today = new Date()
+  const [showDoubt, setShowDoubt] = useState(false)
+  const handleClose = () => setShowDoubt(false);
+  const handleShow = () => setShowDoubt(true);
   const [updateTaskForm, setUpdateTaskForm] = useState(false)
   const [updateAdditionalTaskForm, setUpdateAdditionalTaskForm] = useState(false)
   const [taskUpdate, setTaskUpdate] = useState({
@@ -138,7 +141,16 @@ export default function TaskHistory(props) {
     setUpdateTaskForm(false)
     setUpdateAdditionalTaskForm(false)
   }
-
+  const handleAdditionalTaskCorrection1 = (id, index, correction) => {
+    set(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/tasks/${index}/updates/${correction - 1}/description/`),
+      [taskUpdate.description].concat(props?.teamtasks[props?.indexselected]?.updates[0].description))
+      .then(() => {
+        set(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/tasks/${index}/query/`), null)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
   const handleDateChange = (event) => {
     let date = event.target.value.split('-')
     taskUpdate.deadlineDate = date[2] + '/' + date[1] + '/' + date[0]
@@ -168,9 +180,75 @@ export default function TaskHistory(props) {
               <FontAwesomeIcon icon="fa-solid fa-chevron-left" />{" "}
               Close
             </Button>
-            <Button variant="light" style={{ position: "absolute", right: "1em" }}>
-              <FontAwesomeIcon icon="fa-solid fa-square-envelope" />{" "}
+            <Button variant="light" onClick={() => { handleShow() }}
+              style={
+                props?.teamtasks[props?.indexselected]?.query
+                  ? {
+                    border: '1px solid #9b9b9b',
+                    color: 'black',
+                    fontFamily: 'rockwen',
+                    fontWeight: 'bold',
+                    padding: '.5em',
+                    paddingLeft: '1.2em',
+                    borderRadius: '15px',
+                    position: "absolute",
+                    right: "1em"
+                  }
+                  : {
+                    border: '1px solid #9b9b9b',
+                    color: 'black',
+                    fontFamily: 'rockwen',
+                    fontWeight: 'bold',
+                    padding: '.5em',
+                    borderRadius: '15px',
+                    position: "absolute",
+                    right: "1em"
+                  }
+              }>
+              <FontAwesomeIcon
+                className="pointer"
+                style={{ backgroundColor: "" }}
+                icon="fa-solid fa-square-envelope"
+                size="2xl" />
+              {props?.teamtasks[props?.indexselected]?.query ?
+                (
+                  <div class="notification-dot"></div>
+                ) :
+                (
+                  <></>
+                )
+              }
             </Button>
+            <Modal show={showDoubt}
+              backdrop="static" onHide={() => { handleClose() }}>
+              <Modal.Header closeButton></Modal.Header>
+              <Modal.Body>
+                {props?.teamtasks[props?.indexselected]?.query ?
+                  <Form>
+                    <Form.Group
+                      className="mb-3"
+                      controlId="exampleForm.ControlTextarea1"
+                    >
+                      <Form.Label>Teammate has a query:<br />"{props?.teamtasks[props?.indexselected]?.query}"</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        name="description"
+                        onChange={handleChange1}
+                        rows={3} />
+                    </Form.Group>
+                    <Button variant="primary" onClick={() => {
+                      handleAdditionalTaskCorrection1(
+                        props?.id,
+                        props?.indexselected,
+                        props?.teamtasks[props?.indexselected]?.updates?.length,
+                      )
+                    }}>
+                      Send
+                    </Button>
+                  </Form>
+                  : <>No Queries From The Teammate</>}
+              </Modal.Body>
+            </Modal>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ padding: "1.5em", marginLeft: "1.5em", marginRight: "1.5em" }}>

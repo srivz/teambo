@@ -413,11 +413,9 @@ export default function TeammateTable(props) {
                                                         fontFamily: 'rockwen'
                                                     }}
                                                     align="center"
+                                                    title={info1.task}
+                                                >{info1.task.length < 16 ? info1.task : info1.task.slice(0, 13) + "..."}
 
-                                                >
-                                                    <div className={info1.task.length > 16 ? 'marquee' : ''}>
-                                                        <h6>{info1.task}</h6>
-                                                    </div>
                                                 </TableCell>
                                                 {info1.updates
                                                     .sort((a, b) =>
