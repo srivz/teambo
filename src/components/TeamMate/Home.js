@@ -715,6 +715,8 @@ export default function Home() {
                                           setModalShow(false)
                                           setTaskSelected(null)
                                         }}
+                                              managerId={managerId}
+                                              teammateIndex={teammateIndex}
                                         indexselected={taskSelected}
                                         teamtasks={teammate.tasks}
                                               name={teammate.name}

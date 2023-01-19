@@ -39,7 +39,7 @@ export default function NewTask(props) {
         corrections: "0",
         deadlineDate: "--",
         deadlineTime: "--",
-        totalTime: "00:0:0",
+        totalTime: "00:0:00",
         totalTimeInMs: "0",
         status: "Assigned",
       },

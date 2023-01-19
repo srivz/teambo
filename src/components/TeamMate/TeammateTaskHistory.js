@@ -1,9 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import React from 'react'
-import { Button, Col, Modal, Row, Table } from 'react-bootstrap'
+import { ref, set } from 'firebase/database'
+import React, { useState } from 'react'
+import { Button, Col, Form, Modal, Row, Table } from 'react-bootstrap'
+import { db } from '../../firebase-config'
 
 export default function TeammateTaskHistory(props) {
+  const [showDoubt, setShowDoubt] = useState(false)
+  const [query, setQuery] = useState(false)
+  const handleClose = () => setShowDoubt(false);
+  const handleShow = () => setShowDoubt(true);
   const dateFormatChange = (date) => {
     if (date === '--') {
       return '--'
@@ -70,7 +76,12 @@ export default function TeammateTaskHistory(props) {
       return hour + ':' + minute + ' am'
     }
   }
-
+  const handleChange = (event) => {
+    setQuery(event.target.value)
+  }
+  const handleSend = () => {
+    set(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/tasks/${props?.indexselected}/query/`), query)
+  }
 
   const descriptionList = (array) => {
     return <p>{array}<br /></p>
@@ -89,9 +100,26 @@ export default function TeammateTaskHistory(props) {
               <FontAwesomeIcon icon="fa-solid fa-chevron-left" />{" "}
               Close
             </Button>
-            <Button variant="light" style={{ position: "absolute", right: "1em" }}>
+            <Button variant="light" onClick={() => { handleShow() }} style={{ position: "absolute", right: "1em" }}>
               <FontAwesomeIcon icon="fa-solid fa-pen-to-square" />{" "}
-            </Button>
+            </Button><Modal show={showDoubt}
+              backdrop="static" onHide={() => { handleClose() }}>
+              <Modal.Header closeButton></Modal.Header>
+              <Modal.Body>
+                <Form>
+                  <Form.Group
+                    className="mb-3"
+                    controlId="exampleForm.ControlTextarea1"
+                  >
+                    <Form.Label>Write your query to manager here:</Form.Label>
+                    <Form.Control as="textarea" onChange={handleChange} rows={3} />
+                  </Form.Group>
+                  <Button variant="primary" onClick={() => { handleSend() }}>
+                    Send
+                  </Button>
+                </Form>
+              </Modal.Body>
+            </Modal>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ padding: "20px" }}>
