@@ -103,7 +103,6 @@ export default function NewTask(props) {
               const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
                 heading, fromEmail: props?.manager.email, toEmail: props?.teammate.email, subject: subject, name: props?.teammate.name, text: text, whatsAppNo: props?.teammate?.whatsAppNo
               });
-              console.log(res)
               if (res.status === 200) {
                 alert("Email sent")
               }
@@ -160,7 +159,6 @@ export default function NewTask(props) {
                 `
             const heading = "Task Assigned"
             const text = `New Task ${newTask.task} has been Assigned to you By manager ${props?.manager.name}`
-            console.log(subject, text)
             try {
               const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
                 heading, fromEmail: props?.manager.email, toEmail: props?.teammate.email, subject: subject, name: props?.teammate.name, text: text, whatsAppNo: props?.teammate?.whatsAppNo
@@ -395,7 +393,6 @@ export default function NewTask(props) {
                 variant="primary"
                 onClick={() => {
                   handleNewTask();
-                  setShow(false);
                 }}
                 style={{
                   textAlign: "center",
