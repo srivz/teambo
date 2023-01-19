@@ -79,8 +79,12 @@ export default function TeammateTaskHistory(props) {
   const handleChange = (event) => {
     setQuery(event.target.value)
   }
+  const handleExtraChange = (event) => {
+    setQuery(props?.teamtasks[props?.indexselected]?.query + " " + event.target.value)
+  }
   const handleSend = () => {
     set(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/tasks/${props?.indexselected}/query/`), query)
+    handleClose();
   }
 
   const descriptionList = (array) => {
@@ -106,18 +110,32 @@ export default function TeammateTaskHistory(props) {
               backdrop="static" onHide={() => { handleClose() }}>
               <Modal.Header closeButton></Modal.Header>
               <Modal.Body>
-                <Form>
-                  <Form.Group
-                    className="mb-3"
-                    controlId="exampleForm.ControlTextarea1"
-                  >
-                    <Form.Label>Write your query to manager here:</Form.Label>
-                    <Form.Control as="textarea" onChange={handleChange} rows={3} />
-                  </Form.Group>
-                  <Button variant="primary" onClick={() => { handleSend() }}>
-                    Send
-                  </Button>
-                </Form>
+                {!props?.teamtasks[props?.indexselected]?.query ?
+                  <Form>
+                    <Form.Group
+                      className="mb-3"
+                      controlId="exampleForm.ControlTextarea1"
+                    >
+                      <Form.Label>Write your query to manager here:</Form.Label>
+                      <Form.Control as="textarea" onChange={handleChange} rows={3} />
+                    </Form.Group>
+                    <Button variant="primary" onClick={() => { handleSend() }}>
+                      Send
+                    </Button>
+                  </Form> :
+                  <Form>
+                    <Form.Group
+                      className="mb-3"
+                      controlId="exampleForm.ControlTextarea1"
+                    >
+                      <Form.Label>Do you want to add something else to your previous query:<br />"{props?.teamtasks[props?.indexselected]?.query}...</Form.Label>
+                      <Form.Control as="textarea" onChange={handleExtraChange} rows={3} />
+                    </Form.Group>
+                    <Button variant="primary" onClick={() => { handleSend() }}>
+                      Send
+                    </Button>
+                  </Form>
+                }
               </Modal.Body>
             </Modal>
           </Modal.Title>
