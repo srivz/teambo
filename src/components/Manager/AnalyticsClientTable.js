@@ -45,6 +45,26 @@ const menuProps = {
 
 export default function AnalyticsClientTable(props) {
     const [key, setKey] = useState();
+    const hoursInFullFormat = (decimalHour) => {
+        var decimalTimeString = String(decimalHour);
+        var decimalTime = parseFloat(decimalTimeString);
+        decimalTime = decimalTime * 60 * 60;
+        var hours = Math.floor((decimalTime / (60 * 60)));
+        decimalTime = decimalTime - (hours * 60 * 60);
+        var minutes = Math.floor((decimalTime / 60));
+        decimalTime = decimalTime - (minutes * 60);
+        var seconds = Math.round(decimalTime);
+        if (hours < 10) {
+            hours = "0" + hours;
+        }
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
+        return ("" + hours + ":" + minutes + ":" + seconds);
+    }
     return (
         <Container>
             <Row style={{ marginTop: "-80px", marginRight: "50px" }}>
@@ -65,7 +85,7 @@ export default function AnalyticsClientTable(props) {
                             <Col sm={4} style={{ margin: "-30px -50px" }}>
                                 <Nav variant="pills" className="flex-column">
 
-                                    {props.manager.clients.sort((a, b) => a.name > b.name ? 1 : -1).filter((info) => { return (info.taskCount !== 0) }).map((info, index) => {
+                                    {props.manager.clients.sort((a, b) => a.name > b.name ? 1 : -1).map((info, index) => {
                                         return (
                                             <div style={{ position: "relative" }}>
                                                 <Nav.Item key={index} className={key === info.name ? "ab" : ""}>
@@ -102,7 +122,7 @@ export default function AnalyticsClientTable(props) {
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
-                                                        {props?.manager?.teammates?.map((info1) => {
+                                                        {info.totalTaskCount !== 0 ? props?.manager?.teammates?.map((info1) => {
                                                             return (
                                                                 <>
                                                                     {info1?.data?.tasks?.filter((info2) => { return info2.client === key })
@@ -134,14 +154,14 @@ export default function AnalyticsClientTable(props) {
                                                                                                     }} align="center">{info3.corrections === "0" ? "0" : "+" + info3.corrections}</TableCell>
                                                                                                     <TableCell style={{
                                                                                                         fontFamily: 'rockwen', fontWeight: "bold"
-                                                                                                    }} align="center">{(info3.totalTimeInMs)} hrs</TableCell>
+                                                                                                    }} align="center">{hoursInFullFormat(info2.manHours)}</TableCell>
                                                                                                 </>)
                                                                                         })}
                                                                                 </TableRow>
                                                                             )
                                                                         })} </>
                                                             )
-                                                        })}
+                                                        }) : <TableCell colSpan={5} align="center">No Tasks Assigned Yet</TableCell>}
 
 
                                                     </TableBody>

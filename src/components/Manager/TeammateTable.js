@@ -13,7 +13,7 @@ import TaskHistory from './TaskHistory'
 import SwitchTask from './SwitchTask';
 import { db } from '../../firebase-config';
 import axios from 'axios';
-import { clientTaskDelete } from './ClientTaskCount';
+import { clientTaskComplete, clientTaskDelete } from './ClientTaskCount';
 import { notifyCompleteTask, notifyDeleteTask } from './NotificationFunctions';
 
 export default function TeammateTable(props) {
@@ -103,7 +103,6 @@ export default function TeammateTable(props) {
     }
     const handleCompleteTask = async (teammate, id, index, latest) => {
         notifyCompleteTask(teammate.notifications, props?.managerId, id, teammate.tasks[index].client)
-        clientTaskDelete(props?.managerId, teammate.tasks[index].clientIndex, props?.manager?.clients[teammate.tasks[index].clientIndex].taskCount)
         const subject = `
     <h4> Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}</h4>
     <br />
@@ -111,20 +110,17 @@ export default function TeammateTable(props) {
    `
         const heading = "Task Approved"
         const text = `Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}`
-        console.log(subject, text)
+
         try {
             const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
                 heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
             });
-            console.log(res)
             if (res.status === 200) {
                 const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
-                const oldManHours = parseInt(props?.manager.teammates[id].data.manHours);
-                const timeInMs = teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].totalTimeInMs;
-                const hours = (timeInMs / (1000 * 60 * 60)).toFixed(2);
-                const newManHours = oldManHours + hours;
+                let manHour = props?.manager.teammates[id].data.tasks[index].manHours
+                clientTaskComplete(props?.managerId, teammate.tasks[index].clientIndex, props?.manager?.clients[teammate.tasks[index].clientIndex].taskCount, props?.manager?.clients[teammate.tasks[index].clientIndex].manHours + manHour)
                 set(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}/status`), "Completed")
-                update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount, manHours: newManHours })
+                update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
             }
             else {
                 alert("Something went wrong");

@@ -20,6 +20,7 @@ export default function NewTask(props) {
     client: "",
     clientIndex: "",
     task: "",
+    manHours: 0,
     clientEmail: "",
     updates: {
       0: {
@@ -39,8 +40,7 @@ export default function NewTask(props) {
         corrections: "0",
         deadlineDate: "--",
         deadlineTime: "--",
-        totalTime: "00:0:00",
-        totalTimeInMs: "0",
+        totalTime: 0,
         status: "Assigned",
       },
     },
@@ -117,6 +117,7 @@ export default function NewTask(props) {
               client: "",
               task: "",
               clientEmail: "",
+              manHours: 0,
               updates: {
                 0: {
                   description: { 0: "" },
@@ -135,8 +136,7 @@ export default function NewTask(props) {
                   corrections: "0",
                   deadlineDate: "--",
                   deadlineTime: "--",
-                  totalTime: "00:0:0",
-                  totalTimeInMs: "0",
+                  totalTime: 0,
                   status: "Assigned",
                 },
               },
@@ -177,6 +177,7 @@ export default function NewTask(props) {
                   client: "",
                   task: "",
                   clientEmail: "",
+                  manHours: 0,
                   updates: {
                     0: {
                       description: { 0: "" },
@@ -195,8 +196,7 @@ export default function NewTask(props) {
                       corrections: "0",
                       deadlineDate: "--",
                       deadlineTime: "--",
-                      totalTime: "00:0:0",
-                      totalTimeInMs: "0",
+                      totalTime: 0,
                       status: "Assigned",
                     },
                   },

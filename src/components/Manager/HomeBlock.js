@@ -280,7 +280,11 @@ export default function HomeBlock(props) {
                                     </Row>
                                   </div>
                                 ) : (
-                                  info.data.tasks.map((info1, index) => {
+                                    info.data.tasks.filter((info1) => {
+                                      return info1.updates[
+                                        info1.updates.length - 1
+                                      ].status !== "Completed"
+                                    }).map((info1, index) => {
                                     return (
                                       <div
                                         key={index}

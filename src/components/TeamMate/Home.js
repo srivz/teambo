@@ -76,98 +76,51 @@ export default function Home() {
     }
   }
 
+  const diff_hours = (dt2, dt1) => {
+    var diff = (new Date("" + dt2).getTime() - new Date("" + dt1).getTime()) / 1000;
+    diff /= (60 * 60);
+    return Math.abs(diff);
+
+  }
   const playTask = (e, index, length) => {
     var now = new Date()
-    var timeInMs = now.getTime()
-    var time =
-      now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds()
     teammate.tasks.forEach((task, i) => {
       if (i === index) {
         update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${length - 1}`), {
           status: 'On Going',
-          startTime: time,
-          startTimeInMs: timeInMs,
+          startTimeStamp: now,
         })
       } else if (task.updates[task.updates.length - 1].status === 'On Going') {
-        pauseTask(e, i, length)
+        pauseTask(e, i)
       }
     })
   }
 
-  function getHourFormatFromMilliSeconds(millisec) {
-    var seconds = (millisec / 1000).toFixed(0)
-    var minutes = Math.floor(Number(seconds) / 60).toString()
-    let hours
-    if (Number(minutes) > 59) {
-      hours = Math.floor(Number(minutes) / 60)
-      hours = hours >= 10 ? hours : '0' + hours
-      minutes = (Number(minutes) - hours * 60).toString()
-      minutes = Number(minutes) >= 10 ? minutes : '0' + minutes
-    }
-    seconds = Math.floor(Number(seconds) % 60).toString()
-    seconds = Number(seconds) >= 10 ? seconds : '0' + seconds
-    if (!hours) {
-      hours = '00'
-    }
-    if (!minutes) {
-      minutes = '00'
-    }
-    if (!seconds) {
-      seconds = '00'
-    }
-    return hours + ':' + minutes + ':' + seconds
-  }
-
   const pauseTask = (e, index, length) => {
     var today = new Date()
-    var timeInMs = today.getTime()
-    var stTime =
-      parseInt(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
-        .startTimeInMs)
-    var totTime = timeInMs - stTime
-    if (
-      teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
-        .totalTimeInMs
-    ) {
-      totTime =
-        totTime +
-      parseInt(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
-        .totalTimeInMs)
-    }
-    var timeGapInMs = totTime
-    var timeGap = getHourFormatFromMilliSeconds(totTime)
+    let now = parseFloat(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].totalTime) + diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
+      .startTimeStamp)
+    alert(now)
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), {
       status: 'Paused',
-      totalTime: timeGap,
-      totalTimeInMs: timeGapInMs,
+      startTimeStamp: null,
+      totalTime: now,
     })
   }
 
   const completeTask = (e, index, length) => {
     var today = new Date()
-    var timeInMs = today.getTime()
-    var stTime =
-      parseInt(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
-        .startTimeInMs)
-    console.log(stTime);
-    var totTime = timeInMs - stTime
-    if (
-      teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
-        .totalTimeInMs
-    ) {
-      totTime =
-        totTime +
-      parseInt(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
-        .totalTimeInMs)
-    }
-    var timeGapInMs = totTime
-    var timeGap = getHourFormatFromMilliSeconds(totTime)
+    let now = parseFloat(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].totalTime) + teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
+      .startTimeStamp === "null" ? 0 : diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
+        .startTimeStamp)
+    let manHour = teammate.tasks[index].manHours + now
+    let manHour1 = teammate.manHours + now
+    update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/`), { manHours: manHour1 })
+    update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/`), { manHours: manHour })
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${length - 1}`), {
       status: 'Done',
-      totalTime: timeGap,
-      totalTimeInMs: timeGapInMs,
-      startTime: null,
-      startTimeInMs: null,
+      totalTime: now,
+      startTimeStamp: null,
       endDate:
         String(today.getDate()).padStart(2, '0') +
         '/' +
@@ -178,6 +131,7 @@ export default function Home() {
         today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds(),
     })
   }
+
   const doNothing = () => { }
   const dateFormatChange = (date) => {
     if (date === '--' || date === undefined) {

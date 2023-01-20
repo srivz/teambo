@@ -545,11 +545,6 @@ export default function HomeList() {
                                       setFilter("Done")
                                     }}
                                   >Done
-                                  </Dropdown.Item><Dropdown.Item
-                                    onClick={(e) => {
-                                      setFilter("Completed")
-                                    }}
-                                  >Completed
                                   </Dropdown.Item>
                                 </Dropdown.Menu>
                               </Dropdown>
@@ -637,11 +632,6 @@ export default function HomeList() {
                                         setFilter("Done")
                                       }}
                                     >Done
-                                    </Dropdown.Item><Dropdown.Item
-                                      onClick={(e) => {
-                                        setFilter("Completed")
-                                      }}
-                                    >Completed
                                     </Dropdown.Item>
                                   </Dropdown.Menu>
                                 </Dropdown>

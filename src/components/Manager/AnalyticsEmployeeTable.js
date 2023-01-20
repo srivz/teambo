@@ -44,6 +44,26 @@ const menuProps = {
 };
 export default function AnalyticsEmployeeTable(props) {
     const [sortBasis, setSortBasis] = useState()
+    const hoursInFullFormat = (decimalHour) => {
+        var decimalTimeString = String(decimalHour);
+        var decimalTime = parseFloat(decimalTimeString);
+        decimalTime = decimalTime * 60 * 60;
+        var hours = Math.floor((decimalTime / (60 * 60)));
+        decimalTime = decimalTime - (hours * 60 * 60);
+        var minutes = Math.floor((decimalTime / 60));
+        decimalTime = decimalTime - (minutes * 60);
+        var seconds = Math.round(decimalTime);
+        if (hours < 10) {
+            hours = "0" + hours;
+        }
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
+        return ("" + hours + ":" + minutes + ":" + seconds);
+    }
     return (
         <div className="container">
             <div>
@@ -93,7 +113,7 @@ export default function AnalyticsEmployeeTable(props) {
                                 <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.name}</TableCell>
                                 <TableCell align='center' style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.totalNumberOfTasks === 0 ? 0 : teammate.data.totalNumberOfTasks < 10 ? "0" + teammate.data.totalNumberOfTasks : teammate.data.totalNumberOfTasks}</TableCell>
                                 <TableCell align='center' style={teammate.data.liveTasks === 0 ? { fontFamily: 'rockwen', color: "#000", fontWeight: "bold" } : { color: "#3975e9", fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.liveTasks === 0 ? "--" : teammate.data.liveTasks < 10 ? "0" + teammate.data.liveTasks : teammate.data.liveTasks}</TableCell>
-                                <TableCell align='center' style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.manHours === 0 ? 0 : teammate.data.manHours < 10 ? "0" + teammate.data.manHours : teammate.data.manHours || 0} hrs</TableCell>
+                                <TableCell align='center' style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>{hoursInFullFormat(teammate.data.manHours)}</TableCell>
                             </TableRow>)
                         })
                     }
