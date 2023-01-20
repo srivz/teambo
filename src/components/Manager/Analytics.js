@@ -55,8 +55,8 @@ export default function Analytics() {
                                     <FontAwesomeIcon style={{ marginRight: ".5em" }} icon="fa-regular fa-circle-left" />
                                 </a>{" "}Analytics
                             </h4>
-                        <Tab.Container id="left-tabs-example" onSelect={key => setKey(key)} activeKey={key}>
-                            <Row>
+                            <Tab.Container id="left-tabs-example" onSelect={key => setKey(key)} activeKey={key}>
+                                <Row>
                                 <Col sm={3}>
                                         <Nav variant="pills" className="flex-column">
                                         <Nav.Item>

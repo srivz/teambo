@@ -83,24 +83,32 @@ export default function AnalyticsClientTable(props) {
                     <Tab.Container id="left-tabs-example" onSelect={key => setKey(key)} activeKey={key}>
                         <Row>
                             <Col sm={4} style={{ margin: "-30px -50px" }}>
-                                <Nav variant="pills" className="flex-column">
-
+                                <div className="analytics21-set-auto analytics21-menu-height">
+                                    <Nav variant="pills" className="flex-column">
                                     {props.manager?.clients?.sort((a, b) => a.name > b.name ? 1 : -1).map((info, index) => {
                                         return (
                                             <div style={{ position: "relative" }}>
                                                 <Nav.Item key={index} className={key === info.name ? "ab" : ""}>
-                                                    <Nav.Link eventKey={info.name} style={key === info.name ? { width: "11rem", color: "white", backgroundColor: "#3975e9", marginBottom: ".5em" } : { width: "12rem", color: "black", marginBottom: ".5em" }} title={info.name}>{info.name.length < 20 ? info.name : info.name.slice(0, 17) + "..."}</Nav.Link>
+                                                    <Nav.Link eventKey={info.name}
+                                                        style={key === info.name ?
+                                                            { width: "11rem", color: "white", backgroundColor: "#3975e9", marginBottom: ".5em" } :
+                                                            { width: "12rem", color: "black", marginBottom: ".5em" }} title={info.name}>
+                                                        {info.name.length < 20 ? info.name : info.name.slice(0, 17) + "..."}
+                                                    </Nav.Link>
                                                 </Nav.Item>
                                             </div>
                                         )
                                     })}
-                                </Nav>
+                                    </Nav></div>
                             </Col>
                             <Col sm={9} style={{ margin: "-90px -50px" }}>
                                 <Tab.Content>
                                     {key && props.manager?.clients?.map((info, index) => {
                                         return (
                                             <Tab.Pane eventKey={info.name}>
+                                                <div className="analytics2-set-auto analytics2-menu-height">
+                                                    <Row>
+                                                        <Col>
                                                 <Table backgroundColor="#fff" size="sm">
                                                     <TableHead>
                                                         <TableRow>
@@ -121,7 +129,7 @@ export default function AnalyticsClientTable(props) {
                                                             }} >Man hours{" "}<FontAwesomeIcon icon="fa-solid fa-sort" /></TableCell>
                                                         </TableRow>
                                                     </TableHead>
-                                                    <TableBody>
+                                                                <TableBody>
                                                         {info.totalTaskCount !== 0 ? props?.manager?.teammates?.map((info1) => {
                                                             return (
                                                                 <>
@@ -161,11 +169,15 @@ export default function AnalyticsClientTable(props) {
                                                                             )
                                                                         })} </>
                                                             )
-                                                        }) : <TableCell colSpan={5} align="center">No Tasks Assigned Yet</TableCell>}
-
+                                                        }) :
+                                                                        <TableCell colSpan={5} align="center">No Tasks Assigned Yet</TableCell>
+                                                                    }
 
                                                     </TableBody>
-                                                </Table>
+                                                            </Table>
+                                                        </Col>
+                                                    </Row>
+                                                </div>
                                             </Tab.Pane>
                                         )
                                     })}

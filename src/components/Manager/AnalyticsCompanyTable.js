@@ -111,7 +111,10 @@ export default function AnalyticsCompanyTable(props) {
                     </Col>
                 </Row>
             </div >
-            <Table style={{ marginTop: "-20px", width: "60%", marginLeft: "-50px" }}>
+            <div className="analytics-set-auto analytics-menu-height">
+                <Row>
+                    <Col>
+                        <Table style={{ marginTop: "-20px", width: "60%" }}>
                 <TableHead>
                     <TableRow>
                         <TableCell style={{ fontFamily: 'rockwen', width: "200px", fontWeight: "bold" }}>Client Name</TableCell>
@@ -126,7 +129,7 @@ export default function AnalyticsCompanyTable(props) {
                         </TableCell>
                     </TableRow>
                 </TableHead>
-                <TableBody>
+                            <TableBody>
                     {props?.manager?.clients?.sort((a, b) =>
                         sortBasis === "totalTaskCountD" ? (a.totalTaskCount > b.totalTaskCount ? -1 : 1) :
                             sortBasis === "totalTaskCountA" ? (a.totalTaskCount < b.totalTaskCount ? -1 : 1) :
@@ -155,7 +158,9 @@ export default function AnalyticsCompanyTable(props) {
                             )
                         })}
                 </TableBody>
-            </Table>
+                        </Table></Col>
+                </Row >
+            </div >
         </Container>
     )
 }

@@ -79,7 +79,10 @@ export default function AnalyticsEmployeeTable(props) {
                     </Col>
                 </Row>
             </div>
-            <Table variant="Hex #FFFFFF" size="sm" style={{ marginTop: "-20px", width: "60%", marginLeft: "-50px" }}>
+            <div className="analytics3-set-auto analytics3-menu-height">
+                <Row>
+                    <Col>
+                        <Table variant="Hex #FFFFFF" size="sm" style={{ marginTop: "-20px", width: "60%" }}>
                 <TableHead>
                     <TableRow>
                         <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>Employee</TableCell>
@@ -97,8 +100,7 @@ export default function AnalyticsEmployeeTable(props) {
                         </TableCell>
                     </TableRow>
                 </TableHead>
-                <TableBody>
-
+                            <TableBody>
                     {
                         props?.manager?.teammates?.sort((a, b) =>
                             sortBasis === "totalTaskCountD" ? (a.data.totalNumberOfTasks > b.data.totalNumberOfTasks ? -1 : 1) :
@@ -120,7 +122,10 @@ export default function AnalyticsEmployeeTable(props) {
 
 
                 </TableBody>
-            </Table>
+                        </Table>
+                    </Col>
+                </Row>
+            </div>
         </div>
     )
 }

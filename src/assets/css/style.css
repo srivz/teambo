@@ -512,3 +512,101 @@ overflow-x: hidden;
 .notification-dropdown-menu-height {
 max-height: 300px;
 }
+
+.analytics-set-auto::-webkit-scrollbar-thumb {
+  height: 10px !important;
+  background: #fff;
+  border: 2px solid var(--blue);
+}
+.analytics-set-auto::-webkit-scrollbar-track {
+  width:3px;
+  background:rgba(0, 0, 0, 0.085);
+  border: 3.5px solid white;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+.analytics-set-auto {
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-left: -50px;
+  overflow-x: hidden;
+}
+.analytics-set-auto::-webkit-scrollbar {
+  width: 0px;
+}
+.analytics-menu-height{
+  max-height: 75vh;
+}
+
+.analytics2-set-auto::-webkit-scrollbar-thumb {
+  height: 10px !important;
+  background: #fff;
+  border: 2px solid var(--blue);
+}
+.analytics2-set-auto::-webkit-scrollbar-track {
+  width:3px;
+  background:rgba(0, 0, 0, 0.085);
+  border: 3.5px solid white;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+.analytics2-set-auto {
+  overflow-y: auto;
+  padding-right: 10px;
+  overflow-x: hidden;
+}
+.analytics2-set-auto::-webkit-scrollbar {
+  width: 8px;
+}
+.analytics2-menu-height{
+  max-height: 80vh;
+}
+
+.analytics21-set-auto::-webkit-scrollbar-thumb {
+  height: 10px !important;
+  background: #fff;
+  border: 2px solid var(--blue);
+}
+.analytics21-set-auto::-webkit-scrollbar-track {
+  width:3px;
+  background:rgba(0, 0, 0, 0.085);
+  border: 3.5px solid white;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+.analytics21-set-auto {
+  overflow-y: auto;
+  padding-right: 10px;
+  overflow-x: hidden;
+}
+.analytics21-set-auto::-webkit-scrollbar {
+  width: 0px;
+}
+.analytics21-menu-height{
+  max-height: 65vh;
+}
+
+.analytics3-set-auto::-webkit-scrollbar-thumb {
+  height: 10px !important;
+  background: #fff;
+  border: 2px solid var(--blue);
+}
+.analytics3-set-auto::-webkit-scrollbar-track {
+  width:3px;
+  background:rgba(0, 0, 0, 0.085);
+  border: 3.5px solid white;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+.analytics3-set-auto {
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-left: -50px;
+  overflow-x: hidden;
+}
+.analytics3-set-auto::-webkit-scrollbar {
+  width: 0px;
+}
+.analytics3-menu-height{
+  max-height: 70vh;
+}
