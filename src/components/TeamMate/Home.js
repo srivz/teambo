@@ -437,7 +437,9 @@ export default function Home() {
                                       ? info.updates[info.updates.length - 1]
                                         ?.status === filter
                                       : info.updates[info.updates.length - 1]
-                                        ?.status !== filter
+                                        ?.status !== filter && info.updates[
+                                          info.updates.length - 1
+                                        ].status !== "Completed"
                                   })
                                   .map((info, index) => {
                                     return (

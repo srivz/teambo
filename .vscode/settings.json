@@ -8,5 +8,8 @@
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "git.ignoreLimitWarning": true,
-  "editor.formatOnType": true
+  "editor.formatOnType": true,
+  "[css]": {
+    "editor.defaultFormatter": "SimonSiefke.prettier-vscode"
+  }
 }

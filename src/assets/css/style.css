@@ -485,4 +485,30 @@ z-index: 11212;
 	border-bottom: 20px solid transparent;
 }
 
-
+.notification-dropdown-menu{
+padding-right: 5px;
+  background-color: #fff;
+  border: 1px solid #000000;
+}
+.notification-dropdown-menu-list::-webkit-scrollbar-track {
+width:3px;
+background:rgba(0, 0, 0, 0.085);
+border: 3.5px solid white;
+margin-top: 3em;
+margin-bottom: 2em;
+}
+.notification-dropdown-menu-list{
+overflow-y: auto;
+overflow-x: hidden;
+}
+.notification-dropdown-menu ::-webkit-scrollbar-thumb {
+  height: 50px !important;
+  background: #fff;
+  border: 2px solid var(--blue);
+}
+.notification-dropdown-menu ::-webkit-scrollbar {
+  width: 8px;
+}
+.notification-dropdown-menu-height {
+max-height: 300px;
+}

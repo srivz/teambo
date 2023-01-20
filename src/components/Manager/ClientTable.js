@@ -94,7 +94,9 @@ export default function ClientTable(props) {
                                                 ].status === props?.filter
                                                 : info1.updates[
                                                     0
-                                                ].status !== props?.filter
+                                                    ].status !== props?.filter && info1.updates[
+                                                        0
+                                                    ].status !== "Completed"
                                             })
                                             .map((info1, index) => {
                                             return (

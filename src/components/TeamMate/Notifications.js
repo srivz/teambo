@@ -48,9 +48,9 @@ export default function Notifications(props) {
                 if (snapshot.exists()) {
                     let data = snapshot.val()
                     acceptChange(managerId, data.teammates, props?.teammate);
-                    remove(ref(db, `teammate/${props?.id}/notifications`));
+                    remove(ref(db, `teammate/${props?.id}/notifications`)).then(() => { window.location.reload() });
                     setShow(false);
-                    props.otherNotifications = "";
+
                 } else {
                     alert('No manager found')
                 }
@@ -73,128 +73,129 @@ export default function Notifications(props) {
                 rootClose
                 overlay={
                     show ?
-                    <div
-                        className="bg-white"
-                        style={{
-                            padding: '1em',
-                            marginTop: '2px',
-                            marginLeft: '-50px',
-                            width: '300px',
-                            boxShadow: 'rgba(0, 0, 0, 0.55) 0px 1px 3px',
-                        }}
-                        >
-                            {!props?.teammate.notifications ? (
-                                <Col className='text-end'>
-                                    <span className='pointer' style={{ color: "#9b9b9b", fontSize: "small" }}>
-                                        <FontAwesomeIcon size={"xs"} icon="fa-solprops?.id fa-x" /> Clear
-                                    </span>
-                                </Col>
-                            ) : (
-                                <Row>
-                                    <Col className='text-end'>
-                                        <span className='pointer' style={{ color: "#9b9b9b", fontSize: "small" }}
-                                            onClick={() => { clearAllNotifications(); }}>
-                                            <FontAwesomeIcon size={"xs"} icon="fa-solprops?.id fa-x" /> Clear
-                                        </span>
-                                    </Col>
-                            </Row>
-                            )}
-                            {props?.otherNotifications?.requests || props?.teammate?.notifications ?
-                                props?.otherNotifications?.requests ? props?.otherNotifications?.requests.map((info, index) => {
-                                    return (
-                                        <>
-                                            <Row
-                                                style={{
-                                                    boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 1px',
-                                                    margin: '1px',
-                                                    color: 'black',
-                                                    padding: '.05em',
-                                                    paddingBottom: '0em',
-                                                    fontFamily: 'rockwen',
-                                                }}
-                                                key={index}
-                                            >
-                                                <Col md={8} sm={8}>
-                                                    {' '}
-                                                    {info.managerName}{' '}
-                                                </Col>
-                                                <Col md={2} sm={2}>
-                                                    <Badge
-                                                        as="button"
-                                                        onClick={() => {
-                                                            reject(index);
-                                                        }}
-                                                        style={{
-                                                            padding: '.5em',
-                                                            color: 'black',
-                                                            fontFamily: 'rockwen',
-                                                            fontWeight: 'bold',
-                                                            borderRadius: '25px',
-                                                        }}
-                                                        bg="light"
-                                                    >
-                                                        <FontAwesomeIcon
-                                                            className="pointer"
-                                                            size="2xl"
-                                                            icon="fa-solprops?.id fa-circle-xmark"
-                                                        />
-                                                    </Badge>
-                                                </Col>
-                                                <Col md={2} sm={2}>
-                                                    <Badge
-                                                        as="button"
-                                                        onClick={() => {
-                                                            accept(info.managerId); 
-                                                        }}
-                                                        style={{
-                                                            padding: '.5em',
-                                                            color: 'black',
-                                                            fontFamily: 'rockwen',
-                                                            fontWeight: 'bold',
-                                                            borderRadius: '25px',
-                                                        }}
-                                                        bg="light"
-                                                    >
-                                                        <FontAwesomeIcon
-                                                            className="pointer"
-                                                            size="2xl"
-                                                            icon="fa-solprops?.id fa-circle-check"
-                                                        />
-                                                    </Badge>
+                        <div className='notification-dropdown-menu'>
+                            <div className='notification-dropdown-menu-list notification-dropdown-menu-height'>
+                                <Row className='notification-dropdown-menu-height'>
+                                    <div
+                                        className="bg-white"
+                                        style={{
+                                            padding: '1em',
+                                            width: '300px',
+                                            boxShadow: 'rgba(0, 0, 0, 0.55) 0px 1px 3px',
+                                        }}
+                                    >
+                                        {!props?.teammate.notifications ? (
+                                            <Col className='text-end'>
+                                                <span className='pointer' style={{ color: "#9b9b9b", fontSize: "small", paddingBottom: ".5em" }}>
+                                                    <FontAwesomeIcon size={"xs"} icon="fa-solprops?.id fa-x" /> Clear
+                                                </span>
+                                            </Col>
+                                        ) : (
+                                            <Row>
+                                                <Col className='text-end'>
+                                                    <span className='pointer' style={{ color: "#9b9b9b", fontSize: "small", paddingBottom: ".5em" }}
+                                                        onClick={() => { clearAllNotifications(); }}>
+                                                        <FontAwesomeIcon size={"xs"} icon="fa-solprops?.id fa-x" /> Clear
+                                                    </span>
                                                 </Col>
                                             </Row>
-                                            <br />
-                                        </>
-                                    )
-                                }) : <></> &&
-                                    props?.teammate?.notifications ? props?.teammate?.notifications.map((info, index) => {
-                                return (
-                                    <><Row
-                                        style={{
-                                            boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 1px',
-                                            margin: '1px',
-                                            color: 'black',
-                                            padding: '.05em',
-                                            paddingBottom: '0em',
-                                            fontFamily: 'rockwen',
-                                        }}
-                                        key={index}
-                                            ><p><span className='blue'>{info.client}</span>{info.text}</p></Row></>
-                                        )
-                                    }) : <></>
-                                :
-                                <Row
-                                    style={{
-                                        margin: '1px',
-                                        color: 'black',
-                                        padding: '.5em',
-                                        fontFamily: 'rockwen',
-                                    }}
-                                    align="center"
-                                >
-                                    No Notifications Available
-                                </Row>}
-                    </div> : <></>
+                                        )}
+                                        {props?.otherNotifications?.requests || props?.teammate?.notifications ?
+                                            props?.otherNotifications?.requests ? props?.otherNotifications?.requests.map((info, index) => {
+                                                return (
+                                                    <>
+                                                        <Row
+                                                            style={{
+                                                                boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 1px',
+                                                                margin: '1px',
+                                                                color: 'black',
+                                                                padding: '.05em',
+                                                                paddingBottom: '0em',
+                                                                fontFamily: 'rockwen',
+                                                            }}
+                                                            key={index}
+                                                        >
+                                                            <Col md={8} sm={8}>
+                                                                {' '}
+                                                                {info.managerName}{' '}
+                                                            </Col>
+                                                            <Col md={2} sm={2}>
+                                                                <Badge
+                                                                    as="button"
+                                                                    onClick={() => {
+                                                                        reject(index);
+                                                                    }}
+                                                                    style={{
+                                                                        padding: '.5em',
+                                                                        color: 'black',
+                                                                        fontFamily: 'rockwen',
+                                                                        fontWeight: 'bold',
+                                                                        borderRadius: '25px',
+                                                                    }}
+                                                                    bg="light"
+                                                                >
+                                                                    <FontAwesomeIcon
+                                                                        className="pointer"
+                                                                        size="2xl"
+                                                                        icon="fa-solprops?.id fa-circle-xmark"
+                                                                    />
+                                                                </Badge>
+                                                            </Col>
+                                                            <Col md={2} sm={2}>
+                                                                <Badge
+                                                                    as="button"
+                                                                    onClick={() => {
+                                                                        accept(info.managerId);
+                                                                    }}
+                                                                    style={{
+                                                                        padding: '.5em',
+                                                                        color: 'black',
+                                                                        fontFamily: 'rockwen',
+                                                                        fontWeight: 'bold',
+                                                                        borderRadius: '25px',
+                                                                    }}
+                                                                    bg="light"
+                                                                >
+                                                                    <FontAwesomeIcon
+                                                                        className="pointer"
+                                                                        size="2xl"
+                                                                        icon="fa-solprops?.id fa-circle-check"
+                                                                    />
+                                                                </Badge>
+                                                            </Col>
+                                                        </Row>
+                                                        <br />
+                                                    </>
+                                                )
+                                            }) : <></> &&
+                                                props?.teammate?.notifications ? props?.teammate?.notifications.map((info, index) => {
+                                                    return (
+                                                        <><Row
+                                                            style={{
+                                                                boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 1px',
+                                                                margin: '1px',
+                                                                color: 'black',
+                                                                padding: '.05em',
+                                                                paddingBottom: '0em',
+                                                                fontFamily: 'rockwen',
+                                                            }}
+                                                            key={index}
+                                                        ><p><span className='blue'>{info.client}</span>{info.text}</p></Row></>
+                                                    )
+                                                }) : <></>
+                                            :
+                                            <Row
+                                                style={{
+                                                    margin: '1px',
+                                                    color: 'black',
+                                                    padding: '.5em',
+                                                    fontFamily: 'rockwen',
+                                                }}
+                                                align="center"
+                                            >
+                                                No Notifications Available
+                                            </Row>}
+                                    </div></Row></div></div> : <></>
                 }
             >
                 <Button

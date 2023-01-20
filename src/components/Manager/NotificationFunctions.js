@@ -82,7 +82,7 @@ export default function notifyNewTask(teamRequest, managerId, teammateIndex, new
             newArr.push(element)
         })
         if (exists) {
-            let newArr2 = [...newArr, { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) }]
+            let newArr2 = [{ type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) }, ...newArr]
             set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr2)
         }
     }
@@ -101,7 +101,7 @@ export function notifySwitchToTask(teamRequest, managerId, teammateIndex, newTas
             newArr.push(element)
         })
         if (exists) {
-            let newArr2 = [...newArr, { type: "switchTo", client: newTask, text: " Task is switched to you!!" }]
+            let newArr2 = [{ type: "switchTo", client: newTask, text: " Task is switched to you!!" }, ...newArr]
             set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr2)
         }
     }
@@ -138,36 +138,36 @@ export function notifyDeleteTask(teamRequest, managerId, teammateIndex, newTask)
             newArr.push(element)
         })
         if (exists) {
-            let newArr2 = [...newArr, { type: "deleted", client: newTask, text: " Task is deleted. " }]
+            let newArr2 = [{ type: "deleted", client: newTask, text: " Task is deleted. " }, ...newArr]
             set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr2)
         }
     }
 }
 
-// export function notifyCompleteTask(teamRequest, managerId, teammateIndex, newTask) {
+export function notifyCompleteTask(teamRequest, managerId, teammateIndex, newTask) {
 
-//     if (teamRequest === undefined) {
-//         let newArr = { 0: { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) } }
-//         set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr)
-//     }
-//     else {
-//         let newArr = []
-//         let exists = false
-//         teamRequest.forEach((element) => {
-//             exists = true
-//             newArr.push(element)
-//         })
-//         if (exists) {
-//             let newArr2 = [...newArr, { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) }]
-//             set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr2)
-//         }
-//     }
-// }
+    if (teamRequest === undefined) {
+        let newArr = { 0: { type: "new", client: newTask, text: " Task is marked complete." } }
+        set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr)
+    }
+    else {
+        let newArr = []
+        let exists = false
+        teamRequest.forEach((element) => {
+            exists = true
+            newArr.push(element)
+        })
+        if (exists) {
+            let newArr2 = [{ type: "new", client: newTask, text: " Task is marked complete." }, ...newArr]
+            set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr2)
+        }
+    }
+}
 
 // export function notifyCorrectionTask(teamRequest, managerId, teammateIndex, newTask) {
 
 //     if (teamRequest === undefined) {
-//         let newArr = { 0: { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) } }
+//         let newArr = { 0: { type: "new", client: newTask.client, text: " Task has a new correction" } }
 //         set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr)
 //     }
 //     else {
@@ -178,7 +178,7 @@ export function notifyDeleteTask(teamRequest, managerId, teammateIndex, newTask)
 //             newArr.push(element)
 //         })
 //         if (exists) {
-//             let newArr2 = [...newArr, { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) }]
+//             let newArr2 = [{ type: "new", client: newTask.client, text: " Task has a new correction"}, ...newArr]
 //             set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr2)
 //         }
 //     }
@@ -186,7 +186,7 @@ export function notifyDeleteTask(teamRequest, managerId, teammateIndex, newTask)
 // export function notifyAdditionalCorrectionTask(teamRequest, managerId, teammateIndex, newTask) {
 
 //     if (teamRequest === undefined) {
-//         let newArr = { 0: { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) } }
+//         let newArr = { 0: { type: "new", client: newTask.client, text: " Task has an additional correction"} }
 //         set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr)
 //     }
 //     else {
@@ -197,7 +197,7 @@ export function notifyDeleteTask(teamRequest, managerId, teammateIndex, newTask)
 //             newArr.push(element)
 //         })
 //         if (exists) {
-//             let newArr2 = [...newArr, { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) }]
+//             let newArr2 = [{ type: "new", client: newTask.client, text: "  Task has an additional correction"}, ...newArr]
 //             set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr2)
 //         }
 //     }

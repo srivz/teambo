@@ -75,7 +75,7 @@ export default function NewTask(props) {
   }, [props])
 
   const validateForm = () => {
-    if (newTask.client === '' || newTask.clientEmail === '' || newTask.task === '' || newTask.updates[0].description === '') {
+    if (newTask.client === '' || newTask.task === '' || newTask.updates[0].description === '') {
       return false
     }
     else { return true }
@@ -104,7 +104,6 @@ export default function NewTask(props) {
                 heading, fromEmail: props?.manager.email, toEmail: props?.teammate.email, subject: subject, name: props?.teammate.name, text: text, whatsAppNo: props?.teammate?.whatsAppNo
               });
               if (res.status === 200) {
-                alert("Email sent")
               }
               else {
                 alert("Something went wrong");
@@ -165,7 +164,6 @@ export default function NewTask(props) {
               });
               console.log(res)
               if (res.status === 200) {
-                alert("Email sent")
               }
               else {
                 alert("Something went wrong");
@@ -373,7 +371,7 @@ export default function NewTask(props) {
             </Form.Group>
             <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
               <Form.Label column md="4" sm="4">
-                Client Email*
+                Client Email
               </Form.Label>
               <Col sm="8">
                 <Form.Control
