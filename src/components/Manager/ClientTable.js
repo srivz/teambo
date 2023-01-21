@@ -249,6 +249,15 @@ export default function ClientTable(props) {
                                                                                 fontWeight: 'bold',
                                                                                 width: "150px"
                                                                             })
+                                                                            ||
+                                                                            (info1.updates[
+                                                                                info1.updates.length - 1
+                                                                            ].status ===
+                                                                                'Archive' && {
+                                                                                fontFamily: 'rockwen',
+                                                                                color: '#000',
+                                                                                fontWeight: 'bold',
+                                                                            }) 
                                                                         }
                                                                     >
                                                                         {info2.status === 'Done' ? (
