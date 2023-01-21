@@ -44,6 +44,7 @@ const menuProps = {
 };
 export default function AnalyticsCompanyTable(props) {
     const [sortBasis, setSortBasis] = useState()
+    const [searchText, setSearchText] = useState("");
     const hoursInFullFormat = (decimalHour) => {
         var decimalTimeString = String(decimalHour);
         var decimalTime = parseFloat(decimalTimeString);
@@ -84,7 +85,7 @@ export default function AnalyticsCompanyTable(props) {
                                 type="search"
                                 name="search"
                                 id="search"
-                            // onChange={(e) => { setSearchText(e.target.value); }}
+                                onChange={(e) => { setSearchText(e.target.value); }}
                             />
                             <Button variant='light'
                                 style={{
@@ -138,7 +139,10 @@ export default function AnalyticsCompanyTable(props) {
                                         sortBasis === "manHoursA" ? (a.manHours > b.manHours ? -1 : 1) :
                                             sortBasis === "manHoursD" ? (a.manHours < b.manHours ? -1 : 1) :
                                                 (a.clientNumber < b.clientNumber ? -1 : 1)
-                    )
+                    )  
+                        .filter((info) => {
+                            return info.name?.toLowerCase().includes(searchText?.toLowerCase())
+                        })
                         .map((info, index) => {
                             return (
                                 <TableRow key={index}>
