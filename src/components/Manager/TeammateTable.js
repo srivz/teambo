@@ -30,12 +30,12 @@ export default function TeammateTable(props) {
     const dragOverItem = useRef();
 
     const handleDeleteTask = async (teammate, id, index, clientIndex) => {
-        let list1 = teammate.tasks.slice(0, index);
-        let list2 = teammate.tasks.slice(index + 1);
-        let list = list1.concat(list2)
+        //let list1 = teammate.tasks.slice(0, index);
+        //let list2 = teammate.tasks.slice(index + 1);
+        //let list = list1.concat(list2)
         notifyDeleteTask(teammate.notifications, props?.managerId, id, props?.manager?.clients[clientIndex].name)
-        clientTaskDelete(props?.managerId, clientIndex, props?.manager?.clients[clientIndex].taskCount)
-        set(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks`), list)
+        //clientTaskDelete(props?.managerId, clientIndex, props?.manager?.clients[clientIndex].taskCount)
+        update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), { status: "Archive" })
             .catch((err) => {
                 console.log(err);
             });
@@ -408,7 +408,7 @@ export default function TeammateTable(props) {
                                                     }}
                                                     align="center"
                                                     title={info1.task}
-                                                >{info1.task.length < 16 ? info1.task : info1.task.slice(0, 13) + "..."}
+                                                >{info1?.task?.length < 16 ? info1.task : info1?.task?.slice(0, 13) + "..."}
                                                     {info1.query ?
                                                         (
                                                             <div style={{ marginLeft: ".8em" }} class="notification-dot"></div>
@@ -586,7 +586,15 @@ export default function TeammateTable(props) {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#D1AE00',
                                                                             fontWeight: 'bold',
-                                                                        })
+                                                                        }) ||
+                                                                        (info1.updates[
+                                                                            info1.updates.length - 1
+                                                                        ].status ===
+                                                                            'Archive' && {
+                                                                            fontFamily: 'rockwen',
+                                                                            color: '#000',
+                                                                            fontWeight: 'bold',
+                                                                        }) 
                                                                     }
                                                                 >
                                                                     {info1.updates[
