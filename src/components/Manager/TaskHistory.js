@@ -326,6 +326,12 @@ export default function TaskHistory(props) {
                         fontFamily: 'rockwen',
                         color: '#D1AE00',
                       })
+                      ||
+                      (info.status ===
+                        'Archive' && {
+                        fontFamily: 'rockwen',
+                        color: '#000',
+                      }) 
                     }
                   >
                     {
