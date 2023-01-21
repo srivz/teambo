@@ -185,6 +185,10 @@ export default function TeammateTaskHistory(props) {
                       (info.status === 'Assigned' && {
                         fontFamily: 'rockwen',
                         color: '#D1AE00',
+                      }) ||
+                      (info.status === 'Archive' && {
+                        fontFamily: 'rockwen',
+                        color: '#000',
                       })
                     }
                   >
