@@ -100,7 +100,6 @@ export default function Home() {
     var today = new Date()
     let now = parseFloat(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].totalTime) + diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
       .startTimeStamp)
-    alert(now)
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), {
       status: 'Paused',
       startTimeStamp: null,

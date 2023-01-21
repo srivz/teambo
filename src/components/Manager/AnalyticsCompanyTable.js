@@ -127,7 +127,7 @@ export default function AnalyticsCompanyTable(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {props?.manager?.clients.sort((a, b) =>
+                    {props?.manager?.clients?.sort((a, b) =>
                         sortBasis === "totalTaskCountD" ? (a.totalTaskCount > b.totalTaskCount ? -1 : 1) :
                             sortBasis === "totalTaskCountA" ? (a.totalTaskCount < b.totalTaskCount ? -1 : 1) :
                                 sortBasis === "currentTaskCountA" ? (a.taskCount > b.taskCount ? -1 : 1) :

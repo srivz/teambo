@@ -304,7 +304,7 @@ export default function NewTask(props) {
                                 </Dropdown.Item>
                               );
                             }) :
-                            clientList.map((client, index) => {
+                            clientList?.map((client, index) => {
                               return (
                                 <Dropdown.Item
                                   key={index}
