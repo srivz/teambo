@@ -283,7 +283,9 @@ export default function HomeBlock(props) {
                                     info.data.tasks.filter((info1) => {
                                       return info1.updates[
                                         info1.updates.length - 1
-                                      ].status !== "Completed"
+                                      ].status !== "Completed" && info1.updates[
+                                        info1.updates.length - 1
+                                      ].status !== "Archive"
                                     }).map((info1, index) => {
                                     return (
                                       <div

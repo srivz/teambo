@@ -217,7 +217,6 @@ export default function HomeList() {
       }
     }
   };
-  console.log(teammateList);
   return (
     <>
       {loading ? (

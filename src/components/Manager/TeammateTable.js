@@ -29,13 +29,27 @@ export default function TeammateTable(props) {
     const dragItem = useRef();
     const dragOverItem = useRef();
 
+
+    const diff_hours = (dt2, dt1) => {
+        var diff = (new Date("" + dt2).getTime() - new Date("" + dt1).getTime()) / 1000;
+        diff /= (60 * 60);
+        return Math.abs(diff);
+    }
+
     const handleDeleteTask = async (teammate, id, index, clientIndex) => {
-        //let list1 = teammate.tasks.slice(0, index);
-        //let list2 = teammate.tasks.slice(index + 1);
-        //let list = list1.concat(list2)
+        var today = new Date()
+        let now = parseFloat(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].totalTime) + teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
+            .startTimeStamp === undefined ? 0 : diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
+                .startTimeStamp)
+        let manHour = teammate.tasks[index].manHours + now
+        let manHour1 = teammate.manHours + now
         notifyDeleteTask(teammate.notifications, props?.managerId, id, props?.manager?.clients[clientIndex].name)
-        //clientTaskDelete(props?.managerId, clientIndex, props?.manager?.clients[clientIndex].taskCount)
-        update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), { status: "Archive" })
+        clientTaskDelete(props?.managerId, clientIndex, props?.manager?.clients[clientIndex].taskCount, manHour)
+        update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), { status: "Archive" }).then(() => {
+            update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/`), { manHours: manHour }).then(() => {
+                update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/`), { manHours: manHour1 })
+            })
+        })
             .catch((err) => {
                 console.log(err);
             });
@@ -55,7 +69,7 @@ export default function TeammateTable(props) {
                 if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status !== 'Completed')
                     update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
                 if (teammate.tasks.length === 1 && teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status !== 'Completed')
-                update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
+                    update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
             }
             else {
                 alert("Something went wrong");
@@ -265,7 +279,7 @@ export default function TeammateTable(props) {
                                 <TableCell
                                     style={{
                                         fontFamily: 'rockwen',
-                                        width: "100px"
+                                        width: "200px"
                                     }}
                                     align="center"
                                 >
@@ -353,7 +367,9 @@ export default function TeammateTable(props) {
                                                 info1.updates.length - 1
                                             ].status !== filter && info1.updates[
                                                 info1.updates.length - 1
-                                            ].status !== "Completed"
+                                            ].status !== "Completed" && info1.updates[
+                                                info1.updates.length - 1
+                                            ].status !== "Archive"
                                     }).map((info1, index) => {
                                         return (
                                             <TableRow
@@ -391,12 +407,13 @@ export default function TeammateTable(props) {
                                                     }}
                                                     style={{
                                                         fontFamily: 'rockwen',
+                                                        width: "200px"
 
                                                     }}
                                                     align="center"
-
+                                                    title={info1.client}
                                                 >
-                                                    {info1.client}
+                                                    {info1.client.length > 15 ? info1.client.slice(0, 12) + "..." : info1.client}
                                                 </TableCell>
                                                 <TableCell
                                                     onClick={() => {

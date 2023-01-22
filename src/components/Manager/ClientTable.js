@@ -20,7 +20,7 @@ export default function ClientTable(props) {
                                 <TableCell
                                     style={{
                                         fontFamily: 'rockwen',
-                                        width: "100px"
+                                        width: "150px"
                                     }}
                                     align="center"
                                 >
@@ -96,7 +96,9 @@ export default function ClientTable(props) {
                                                     0
                                                     ].status !== props?.filter && info1.updates[
                                                         0
-                                                    ].status !== "Completed"
+                                                    ].status !== "Completed" && info1.updates[
+                                                        info1.updates.length - 1
+                                                    ].status !== "Archive"
                                             })
                                             .map((info1, index) => {
                                             return (
@@ -118,12 +120,13 @@ export default function ClientTable(props) {
                                                     <TableCell
                                                         style={{
                                                             fontFamily: 'rockwen',
-                                                            width: "130px"
+                                                            width: "150px"
                                                         }}
                                                         align="center"
-
+                                                        title={info.data.name}
                                                     >
-                                                        {info.data.name}
+                                                        {info.data.name.length > 10 ? info.data.name.slice(0, 7) + "..." : info.data.name}
+
                                                     </TableCell>
                                                     <TableCell
                                                         style={{

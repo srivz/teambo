@@ -75,6 +75,7 @@ export default function SwitchTask(props) {
                 notifySwitchFromTask(teamRequest1, props?.managerId, props?.prevTeammateIndex, props?.switchTask?.client);
                 set(ref(db, `/manager/${props?.managerId}/teammates/${teammateId}/data/tasks`), newTask,)
                     .then(() => {
+
                         props?.handleDeleteTask(props?.prevTaskList, props?.prevTeammateIndex, props?.prevTaskIndex)
                         close()
                     })

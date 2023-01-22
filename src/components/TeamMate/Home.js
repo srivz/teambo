@@ -80,7 +80,6 @@ export default function Home() {
     var diff = (new Date("" + dt2).getTime() - new Date("" + dt1).getTime()) / 1000;
     diff /= (60 * 60);
     return Math.abs(diff);
-
   }
   const playTask = (e, index, length) => {
     var now = new Date()
@@ -102,18 +101,22 @@ export default function Home() {
       .startTimeStamp)
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), {
       status: 'Paused',
-      startTimeStamp: null,
+      startTimeStamp: "0",
       totalTime: now,
     })
   }
 
   const completeTask = (e, index, length) => {
     var today = new Date()
-    let now = parseFloat(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].totalTime) + teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
-      .startTimeStamp === "null" ? 0 : diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
-        .startTimeStamp)
-    let manHour = teammate.tasks[index].manHours + now
-    let manHour1 = teammate.manHours + now
+    let now = parseFloat(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].totalTime)
+    alert(now)
+    if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status === "Assigned") {
+      now = now + diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].startTimeStamp)
+    }
+    alert(now)
+    let manHour = parseFloat(teammate.tasks[index].manHours) + now
+    let manHour1 = parseFloat(teammate.manHours) + now
+    alert(manHour)
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/`), { manHours: manHour1 })
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/`), { manHours: manHour })
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${length - 1}`), {
@@ -392,7 +395,9 @@ export default function Home() {
                                       : info.updates[info.updates.length - 1]
                                         ?.status !== filter && info.updates[
                                           info.updates.length - 1
-                                        ].status !== "Completed"
+                                      ].status !== "Completed" && info.updates[
+                                        info.updates.length - 1
+                                      ].status !== "Archive"
                                   })
                                   .map((info, index) => {
                                     return (
