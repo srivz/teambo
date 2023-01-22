@@ -97,31 +97,29 @@ export default function Home() {
 
   const pauseTask = (e, index, length) => {
     var today = new Date()
-    let now = parseFloat(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].totalTime) + diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
+    let now = diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
       .startTimeStamp)
+    let manHour = parseFloat(teammate.tasks[index].manHours) + now
+    let manHour1 = parseFloat(teammate.manHours) + now
+    update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/`), { manHours: manHour1 })
+    update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/`), { manHours: manHour })
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), {
       status: 'Paused',
       startTimeStamp: "0",
-      totalTime: now,
     })
   }
 
   const completeTask = (e, index, length) => {
     var today = new Date()
-    let now = parseFloat(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].totalTime)
-    alert(now)
-    if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status === "Assigned") {
-      now = now + diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].startTimeStamp)
-    }
-    alert(now)
+    let now = diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].startTimeStamp)
+    if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status === "On Going")
+      now = diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].startTimeStamp)
     let manHour = parseFloat(teammate.tasks[index].manHours) + now
     let manHour1 = parseFloat(teammate.manHours) + now
-    alert(manHour)
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/`), { manHours: manHour1 })
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/`), { manHours: manHour })
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${length - 1}`), {
       status: 'Done',
-      totalTime: now,
       startTimeStamp: null,
       endDate:
         String(today.getDate()).padStart(2, '0') +
@@ -289,13 +287,6 @@ export default function Home() {
                             >
                               Done
                             </Dropdown.Item>
-                            <Dropdown.Item
-                              onClick={(e) => {
-                                setFilter('Completed')
-                              }}
-                            >
-                              Completed
-                            </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
                       </Col>
@@ -397,7 +388,7 @@ export default function Home() {
                                           info.updates.length - 1
                                       ].status !== "Completed" && info.updates[
                                         info.updates.length - 1
-                                      ].status !== "Archive"
+                                      ].status !== "Archived"
                                   })
                                   .map((info, index) => {
                                     return (
@@ -422,9 +413,9 @@ export default function Home() {
                                         style={{
                                           fontFamily: 'rockwen',
                                         }}
-                                        align="center"
+                                            align="center" title={info.client}
                                       >
-                                        {info.client}
+                                            {info.client.length > 23 ? info.client.slice(0, 20) + "..." : info.client}
                                       </TableCell>
                                       <TableCell
                                         onClick={() => {
@@ -458,15 +449,11 @@ export default function Home() {
                                                 }}
                                                 align="center"
                                               >{dateFormatChange(
-                                                info.updates[
-                                                  info.updates.length - 1
-                                                ].assignedDate,
+                                                info2.assignedDate,
                                               )}
                                                 <br />
                                                 {timeFormatChange(
-                                                  info.updates[
-                                                    info.updates.length - 1
-                                                  ].assignedTime,
+                                                  info2.assignedTime,
                                                 )}
                                               </TableCell>
                                               <TableCell
@@ -479,15 +466,11 @@ export default function Home() {
                                                 }}
                                                 align="center"
                                               > {dateFormatChange(
-                                                info.updates[
-                                                  info.updates.length - 1
-                                                ].deadlineDate,
+                                                info2.deadlineDate,
                                               )}
                                                 <br />
                                                 {timeFormatChange(
-                                                  info.updates[
-                                                    info.updates.length - 1
-                                                  ].deadlineTime,
+                                                  info2.deadlineTime,
                                                 )}
                                               </TableCell>
                                               <TableCell
@@ -502,9 +485,7 @@ export default function Home() {
                                               >
                                                 +
                                                 {
-                                                  info.updates[
-                                                    info.updates.length - 1
-                                                  ].corrections
+                                                  info2.corrections
                                                 }
                                               </TableCell>
                                               <TableCell
@@ -514,33 +495,19 @@ export default function Home() {
                                                 }}
                                                 align="center"
                                                 style={
-                                                  info.updates[
-                                                    info.updates.length - 1
-                                                  ].status === 'Done'
+                                                  info2.status === 'Done'
                                                     ? {
                                                       color: '#000000',
                                                       fontFamily: 'rockwen',
                                                       fontWeight: 'bold',
                                                     }
-                                                    : info.updates[
-                                                      info.updates.length - 1
-                                                    ].status === 'Completed'
-                                                      ? {
-                                                        color: '#000000',
-                                                        fontFamily: 'rockwen',
-                                                        fontWeight: 'bold',
-                                                      }
-                                                      : info.updates[
-                                                        info.updates.length - 1
-                                                      ].status === 'On Going'
+                                                    : info2.status === 'On Going'
                                                         ? {
                                                           color: '#24A43A',
                                                           fontFamily: 'rockwen',
                                                           fontWeight: 'bold',
                                                         }
-                                                        : info.updates[
-                                                          info.updates.length - 1
-                                                        ].status === 'Paused'
+                                                      : info2.status === 'Paused'
                                                           ? {
                                                             color: '#2972B2',
                                                             fontFamily: 'rockwen',
@@ -553,9 +520,7 @@ export default function Home() {
                                                           }
                                                 }
                                               >
-                                                {info.updates[
-                                                  info.updates.length - 1
-                                                ].status === 'Done' ? (
+                                                {info2.status === 'Done' ? (
                                                   <FontAwesomeIcon
                                                     icon="fa-solid fa-circle-check"
                                                     size="2xl"
@@ -565,17 +530,13 @@ export default function Home() {
                                                     }}
                                                   />
                                                 ) : (
-                                                  info.updates[
-                                                    info.updates.length - 1
-                                                  ].status
+                                                    info2.status
                                                 )}
                                               </TableCell>
                                               <TableCell align="center">
                                                 <img
                                                   src={
-                                                    info.updates[
-                                                      info.updates.length - 1
-                                                    ].status === 'On Going'
+                                                    info2.status === 'On Going'
                                                       ? paused
                                                       : pause
                                                   }
@@ -590,12 +551,7 @@ export default function Home() {
                                                   }}
                                                   style={{
                                                     display:
-                                                      info.updates[
-                                                        info.updates.length - 1
-                                                      ].status === 'Done' ||
-                                                        info.updates[
-                                                          info.updates.length - 1
-                                                        ].status === 'Completed'
+                                                      info2.status === 'Done'
                                                         ? 'none'
                                                         : '',
                                                     margin: '.5em',
@@ -604,29 +560,23 @@ export default function Home() {
                                                 />
                                                 <img
                                                   src={
-                                                    info.updates[
-                                                      info.updates.length - 1
-                                                    ].status === 'Paused'
+                                                    info2.status === 'Paused'
                                                       ? played
                                                       : play
                                                   }
                                                   alt="pause"
                                                   width={30}
                                                   onClick={(e) => {
+                                                    info2.status === 'On Going' ?
                                                     pauseTask(
                                                       e,
                                                       index,
                                                       info.updates.length,
-                                                    )
+                                                      ) : doNothing()
                                                   }}
                                                   style={{
                                                     display:
-                                                      info.updates[
-                                                        info.updates.length - 1
-                                                      ].status === 'Done' ||
-                                                        info.updates[
-                                                          info.updates.length - 1
-                                                        ].status === 'Completed'
+                                                      info2.status === 'Done'
                                                         ? 'none'
                                                         : '',
                                                     margin: '.5em',
@@ -638,9 +588,7 @@ export default function Home() {
                                                   alt="done"
                                                   width={30}
                                                   onClick={(e) => {
-                                                    info.updates[
-                                                      info.updates.length - 1
-                                                    ].status !== 'Assigned' ?
+                                                    info2.status !== 'Assigned' ?
                                                       completeTask(
                                                         e,
                                                         index,
@@ -649,12 +597,7 @@ export default function Home() {
                                                   }}
                                                   style={{
                                                     display:
-                                                      info.updates[
-                                                        info.updates.length - 1
-                                                      ].status === 'Done' ||
-                                                        info.updates[
-                                                          info.updates.length - 1
-                                                        ].status === 'Completed'
+                                                      info2.status === 'Done'
                                                         ? 'none'
                                                         : '',
                                                     margin: '.5em',
@@ -674,8 +617,8 @@ export default function Home() {
                                           setModalShow(false)
                                           setTaskSelected(null)
                                         }}
-                                              managerId={managerId}
-                                              teammateIndex={teammateIndex}
+                                              managerid={managerId}
+                                              teammateindex={teammateIndex}
                                         indexselected={taskSelected}
                                         teamtasks={teammate.tasks}
                                               name={teammate.name}

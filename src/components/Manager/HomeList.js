@@ -217,6 +217,7 @@ export default function HomeList() {
       }
     }
   };
+
   return (
     <>
       {loading ? (
@@ -349,7 +350,7 @@ export default function HomeList() {
                               })?.map((info) => {
                                 return (
                                   <TableRow
-                                    key={info.teammate}
+                                    key={info.teammateId}
                                     className="box-shadow"
                                     onClick={() => {
                                       localStorage.setItem(

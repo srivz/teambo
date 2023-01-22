@@ -38,14 +38,14 @@ export default function TeammateTable(props) {
 
     const handleDeleteTask = async (teammate, id, index, clientIndex) => {
         var today = new Date()
-        let now = parseFloat(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].totalTime) + teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
-            .startTimeStamp === undefined ? 0 : diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
-                .startTimeStamp)
+        let now = 0
+        if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status === "Assigned")
+            now = diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].startTimeStamp)
         let manHour = teammate.tasks[index].manHours + now
         let manHour1 = teammate.manHours + now
         notifyDeleteTask(teammate.notifications, props?.managerId, id, props?.manager?.clients[clientIndex].name)
-        clientTaskDelete(props?.managerId, clientIndex, props?.manager?.clients[clientIndex].taskCount, manHour)
-        update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), { status: "Archive" }).then(() => {
+        clientTaskDelete(props?.managerId, clientIndex, props?.manager?.clients[clientIndex].taskCount, props?.manager?.clients[teammate.tasks[index].clientIndex].manHours + manHour)
+        update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), { status: "Archived" }).then(() => {
             update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/`), { manHours: manHour }).then(() => {
                 update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/`), { manHours: manHour1 })
             })
@@ -53,32 +53,32 @@ export default function TeammateTable(props) {
             .catch((err) => {
                 console.log(err);
             });
-        const subject = `
-                    <h4> Your Task ${teammate.tasks[index].task} has been Removed By manager ${props?.manager.name}</h4>
-                    <br />
-                    <p>Thank you</p>
-                `
-        const heading = "Task Removed";
-        const text = `Your Task ${teammate.tasks[index].task} has been Removed By manger ${props?.manager.name}`
-        try {
-            const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-                heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
-            });
-            if (res.status === 200) {
+        // const subject = `
+        //             <h4> Your Task ${teammate.tasks[index].task} has been Removed By manager ${props?.manager.name}</h4>
+        //             <br />
+        //             <p>Thank you</p>
+        //         `
+        // const heading = "Task Removed";
+        // const text = `Your Task ${teammate.tasks[index].task} has been Removed By manger ${props?.manager.name}`
+        // try {
+        //     const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+        //         heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
+        //     });
+        //     if (res.status === 200) {
                 const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
                 if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status !== 'Completed')
                     update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
                 if (teammate.tasks.length === 1 && teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status !== 'Completed')
                     update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
-            }
-            else {
-                alert("Something went wrong");
-            }
+        //     }
+        //     else {
+        //         alert("Something went wrong");
+        //     }
 
-        } catch (err) {
-            alert("error")
-            console.log(err)
-        }
+        // } catch (err) {
+        //     alert("error")
+        //     console.log(err)
+        // }
     }
     const handleDeleteSwitchTask = async (teammate, id, index) => {
         let list1 = teammate.tasks.slice(0, index);
@@ -88,62 +88,62 @@ export default function TeammateTable(props) {
             .catch((err) => {
                 console.log(err);
             });
-        const subject = `
-                    <h4> Your Task ${teammate.tasks[index].task} has been Switched to another teammate By manager ${props?.manager.name}</h4>
-                    <br />
-                    <p>Thank you</p>
-                `
-        const heading = "Task Switched";
-        const text = `Your Task ${teammate.tasks[index].task} has been Removed By manger ${props?.manager.name}`
-        try {
-            const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-                heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
-            });
-            if (res.status === 200) {
+        // const subject = `
+        //             <h4> Your Task ${teammate.tasks[index].task} has been Switched to another teammate By manager ${props?.manager.name}</h4>
+        //             <br />
+        //             <p>Thank you</p>
+        //         `
+        // const heading = "Task Switched";
+        // const text = `Your Task ${teammate.tasks[index].task} has been Removed By manger ${props?.manager.name}`
+        // try {
+        //     const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+        //         heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
+        //     });
+        //     if (res.status === 200) {
                 const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
                 if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status !== 'Completed')
                     update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
                 if (teammate.tasks.length === 1 && teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status !== 'Completed')
                     update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
-            }
-            else {
-                alert("Something went wrong");
-            }
+        //     }
+        //     else {
+        //         alert("Something went wrong");
+        //     }
 
-        } catch (err) {
-            alert("error")
-            console.log(err)
-        }
+        // } catch (err) {
+        //     alert("error")
+        //     console.log(err)
+        // }
     }
     const handleCompleteTask = async (teammate, id, index, latest) => {
         notifyCompleteTask(teammate.notifications, props?.managerId, id, teammate.tasks[index].client)
-        const subject = `
-    <h4> Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}</h4>
-    <br />
-    <p>Thank you</p>
-   `
-        const heading = "Task Approved"
-        const text = `Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}`
+//         const subject = `
+//     <h4> Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}</h4>
+//     <br />
+//     <p>Thank you</p>
+//    `
+//         const heading = "Task Approved"
+//         const text = `Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}`
 
-        try {
-            const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-                heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
-            });
-            if (res.status === 200) {
+//         try {
+//             const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+//                 heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
+//             });
+//             if (res.status === 200) {
                 const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
                 let manHour = props?.manager.teammates[id].data.tasks[index].manHours
                 clientTaskComplete(props?.managerId, teammate.tasks[index].clientIndex, props?.manager?.clients[teammate.tasks[index].clientIndex].taskCount, props?.manager?.clients[teammate.tasks[index].clientIndex].manHours + manHour)
-                set(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}/status`), "Completed")
+        update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}`), { status: "Completed" })
                 update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
-            }
-            else {
-                alert("Something went wrong");
-            }
+        //     }
+        //     else {
+        //         alert("Something went wrong");
+        //     }
 
-        } catch (err) {
-            alert("error")
-            console.log(err)
-        }
+        // } catch (err) {
+        //     alert("error")
+        //     console.log(err)
+        // }
 
     }
     function swap(arr, from, to) {
@@ -369,7 +369,7 @@ export default function TeammateTable(props) {
                                                 info1.updates.length - 1
                                             ].status !== "Completed" && info1.updates[
                                                 info1.updates.length - 1
-                                            ].status !== "Archive"
+                                            ].status !== "Archived"
                                     }).map((info1, index) => {
                                         return (
                                             <TableRow
@@ -378,9 +378,7 @@ export default function TeammateTable(props) {
                                                     backgroundColor:
                                                         info1.updates[
                                                             info1.updates.length - 1
-                                                        ].status !== 'Done' || info1.updates[
-                                                            info1.updates.length - 1
-                                                        ].status !== 'Completed'
+                                                        ].status !== 'Done' 
                                                             ? '#fff'
                                                             : '#f1f4fb',
                                                     borderRadius: "15px",
@@ -508,9 +506,7 @@ export default function TeammateTable(props) {
                                                                 >
                                                                     {info1.updates[
                                                                         info1.updates.length - 1
-                                                                    ].status === 'Done' || info1.updates[
-                                                                        info1.updates.length - 1
-                                                                    ].status === 'Completed'
+                                                                    ].status === 'Done' 
                                                                         ? dateFormatChange(
                                                                             info1.updates[
                                                                                 info1.updates
@@ -521,9 +517,7 @@ export default function TeammateTable(props) {
                                                                     <br />
                                                                     {info1.updates[
                                                                         info1.updates.length - 1
-                                                                    ].status === 'Done' || info1.updates[
-                                                                        info1.updates.length - 1
-                                                                    ].status === 'Completed'
+                                                                    ].status === 'Done' 
                                                                         ? timeFormatChange(
                                                                             info1.updates[
                                                                                 info1.updates
@@ -575,14 +569,6 @@ export default function TeammateTable(props) {
                                                                         (info1.updates[
                                                                             info1.updates.length - 1
                                                                         ].status ===
-                                                                            'Completed' && {
-                                                                            fontFamily: 'rockwen',
-                                                                            color: '#000000',
-                                                                            fontWeight: 'bold',
-                                                                        }) ||
-                                                                        (info1.updates[
-                                                                            info1.updates.length - 1
-                                                                        ].status ===
                                                                             'On Going' && {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#24A43A',
@@ -602,14 +588,6 @@ export default function TeammateTable(props) {
                                                                             'Assigned' && {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#D1AE00',
-                                                                            fontWeight: 'bold',
-                                                                        }) ||
-                                                                        (info1.updates[
-                                                                            info1.updates.length - 1
-                                                                        ].status ===
-                                                                            'Archive' && {
-                                                                            fontFamily: 'rockwen',
-                                                                            color: '#000',
                                                                             fontWeight: 'bold',
                                                                         }) 
                                                                     }
@@ -754,9 +732,6 @@ export default function TeammateTable(props) {
                                                                             marginBottom: '.5em',
                                                                         }}
                                                                     >  <Button
-                                                                            disabled={info1.updates[
-                                                                                info1.updates.length - 1
-                                                                            ].status === 'Completed' ? true : false}
                                                                         variant="light"
                                                                         style={{
                                                                             textAlign: 'left',
@@ -841,8 +816,8 @@ export default function TeammateTable(props) {
                                         indexselected={taskSelected}
                                         teamtasks={info.data.tasks}
                                         name={info.data.name}
-                                        managerId={props?.managerId}
-                                        teammateIndex={info.teammateIndex}
+                                        managerid={props?.managerid}
+                                        teammateindex={info.teammateIndex}
                                         designation={info.data.designation}
 
                                     />
@@ -852,15 +827,15 @@ export default function TeammateTable(props) {
                                 {switchTask &&
                                     <SwitchTask
                                     show={true}
-                                    setSwitchTask={setSwitchTask}
-                                    prevTaskList={info.data}
+                                    setswitchtask={setSwitchTask}
+                                    prevtasklist={info.data}
                                     props={props}
-                                    managerId={props?.managerId}
-                                    switchTask={switchTask}
-                                    handleDeleteTask={handleDeleteSwitchTask}
-                                    prevTeammateIndex={prevTeammateIndex}
-                                    prevTeammateId={prevTeammateId}
-                                        prevTaskIndex={prevTaskIndex}
+                                    managerid={props?.managerid}
+                                    switchtask={switchTask}
+                                    handledeletetask={handleDeleteSwitchTask}
+                                    prevteammateindex={prevTeammateIndex}
+                                    prevteammateid={prevTeammateId}
+                                    prevtaskindex={prevTaskIndex}
                                     />}
                             </>
                         )

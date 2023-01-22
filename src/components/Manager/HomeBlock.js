@@ -100,6 +100,7 @@ export default function HomeBlock(props) {
       const newTask = {
         client: dragItemContent?.client,
         task: dragItemContent?.task,
+        manHours: 0,
         clientIndex: dragItemContent?.clientIndex,
         clientEmail: dragItemContent?.clientEmail,
         updates: dragItemContent?.updates.concat({
@@ -144,7 +145,6 @@ export default function HomeBlock(props) {
         name={manager.name}
         role={manager.designation}
       />
-
       {
         loading ? <Loader /> : <div id="main">
           <Container>
@@ -285,7 +285,7 @@ export default function HomeBlock(props) {
                                         info1.updates.length - 1
                                       ].status !== "Completed" && info1.updates[
                                         info1.updates.length - 1
-                                      ].status !== "Archive"
+                                      ].status !== "Archived"
                                     }).map((info1, index) => {
                                     return (
                                       <div

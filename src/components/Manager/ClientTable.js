@@ -98,7 +98,7 @@ export default function ClientTable(props) {
                                                         0
                                                     ].status !== "Completed" && info1.updates[
                                                         info1.updates.length - 1
-                                                    ].status !== "Archive"
+                                                    ].status !== "Archived"
                                             })
                                             .map((info1, index) => {
                                             return (

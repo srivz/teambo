@@ -20,11 +20,11 @@ export default function SwitchTask(props) {
     useEffect(() => {
         var today = new Date()
         setNewTask([{
-            client: props?.switchTask?.client,
-            task: props?.switchTask?.task,
-            clientEmail: props?.switchTask?.clientEmail,
-            clientIndex: props?.switchTask?.clientIndex,
-            updates: props?.switchTask?.updates.concat({
+            client: props?.switchtask?.client,
+            task: props?.switchtask?.task,
+            clientEmail: props?.switchtask?.clientEmail,
+            clientIndex: props?.switchtask?.clientIndex,
+            updates: props?.switchtask?.updates.concat({
                 description: ['This task was switched to you.'],
                 assignedDate:
                     String(today.getDate()).padStart(2, '0') +
@@ -38,7 +38,7 @@ export default function SwitchTask(props) {
                     today.getMinutes() +
                     ':' +
                     today.getSeconds(),
-                corrections: props?.switchTask?.updates.length,
+                corrections: props?.switchtask?.updates.length,
                 deadlineDate: '--',
                 deadlineTime: '--',
                 status: 'Assigned',
@@ -46,7 +46,7 @@ export default function SwitchTask(props) {
         }])
     }, [props])
     useEffect(() => {
-        onValue(ref(db, `/manager/${props?.managerId}/teammates/${teammateId}/data`), (snapshot) => {
+        onValue(ref(db, `/manager/${props?.managerid}/teammates/${teammateId}/data`), (snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val()
                 setPrevTasks(data.tasks)
@@ -57,7 +57,7 @@ export default function SwitchTask(props) {
         })
     }, [props, teammateId])
     useEffect(() => {
-        onValue(ref(db, `/manager/${props?.managerId}/teammates/${props?.prevTeammateIndex}/data`), (snapshot) => {
+        onValue(ref(db, `/manager/${props?.managerid}/teammates/${props?.prevteammateindex}/data`), (snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val()
                 setTeamRequest1(data.notifications)
@@ -71,12 +71,11 @@ export default function SwitchTask(props) {
             alert('First Select a teammate')
         } else {
             if (!prevTasks) {
-                notifySwitchToTask(teamRequest, props?.managerId, teammateId, props?.switchTask?.client);
-                notifySwitchFromTask(teamRequest1, props?.managerId, props?.prevTeammateIndex, props?.switchTask?.client);
-                set(ref(db, `/manager/${props?.managerId}/teammates/${teammateId}/data/tasks`), newTask,)
+                notifySwitchToTask(teamRequest, props?.managerid, teammateId, props?.switchtask?.client);
+                notifySwitchFromTask(teamRequest1, props?.managerid, props?.prevteammateindex, props?.switchtask?.client);
+                set(ref(db, `/manager/${props?.managerid}/teammates/${teammateId}/data/tasks`), newTask,)
                     .then(() => {
-
-                        props?.handleDeleteTask(props?.prevTaskList, props?.prevTeammateIndex, props?.prevTaskIndex)
+                        props?.handleDeleteTask(props?.prevtasklist, props?.prevteammateindex, props?.prevtaskindex)
                         close()
                     })
                     .catch((err) => {
@@ -92,11 +91,11 @@ export default function SwitchTask(props) {
                 if (!exists) {
                 } else {
                     let newArr2 = newTask.concat(newArr)
-                    notifySwitchToTask(teamRequest, props?.managerId, teammateId, props?.switchTask?.client);
-                    notifySwitchFromTask(teamRequest1, props?.managerId, props?.prevTeammateIndex, props?.switchTask?.client);
-                    set(ref(db, `/manager/${props?.managerId}/teammates/${teammateId}/data/tasks`), newArr2,)
+                    notifySwitchToTask(teamRequest, props?.managerid, teammateId, props?.switchtask?.client);
+                    notifySwitchFromTask(teamRequest1, props?.managerid, props?.prevteammateindex, props?.switchtask?.client);
+                    set(ref(db, `/manager/${props?.managerid}/teammates/${teammateId}/data/tasks`), newArr2,)
                         .then(() => {
-                            props?.handleDeleteTask(props?.prevTaskList, props?.prevTeammateIndex, props?.prevTaskIndex)
+                            props?.handleDeleteTask(props?.prevtasklist, props?.prevteammateindex, props?.prevtaskindex)
                             close()
                         })
                         .catch((err) => {
@@ -112,7 +111,7 @@ export default function SwitchTask(props) {
         setNewClient(e.target.value)
         const newFilter = props?.props?.team
             .filter((client) => {
-                return client.teammate !== props.prevTeammateId
+                return client.teammate !== props?.prevteammateid
             })
             .filter((val) => {
                 return val.data.name
@@ -122,7 +121,7 @@ export default function SwitchTask(props) {
         if (e.target.value === '') {
             setTeammateList(
                 props?.props?.team.filter((client) => {
-                    return client.teammate !== props.prevTeammateId
+                    return client.teammate !== props?.prevteammateid
                 }),
             )
         } else {
@@ -169,7 +168,7 @@ export default function SwitchTask(props) {
                                 {teammateList.length === 0 && newClient === ''
                                     ? props?.props?.team
                                         .filter((client) => {
-                                            return client.teammateIndex !== props.prevTeammateIndex
+                                            return client.teammateIndex !== props?.prevteammateindex
                                         })
                                         .map((client, index) => {
                                             return (
@@ -186,7 +185,7 @@ export default function SwitchTask(props) {
                                         })
                                     : teammateList
                                         .filter((client) => {
-                                            return client.teammateIndex !== props.prevTeammateIndex
+                                            return client.teammateIndex !== props?.prevteammateindex
                                         })
                                         .map((client, index) => {
                                         return (

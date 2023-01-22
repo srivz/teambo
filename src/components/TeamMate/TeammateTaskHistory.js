@@ -83,7 +83,7 @@ export default function TeammateTaskHistory(props) {
     setQuery(props?.teamtasks[props?.indexselected]?.query + " " + event.target.value)
   }
   const handleSend = () => {
-    set(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/tasks/${props?.indexselected}/query/`), query)
+    set(ref(db, `/manager/${props?.managerid}/teammates/${props?.teammateindex}/data/tasks/${props?.indexselected}/query/`), query)
     handleClose();
   }
 
@@ -153,7 +153,7 @@ export default function TeammateTaskHistory(props) {
               <h6>Task</h6>
             </Col>
             <Col sm={3} md={3} style={{ marginTop: '.75em' }}>
-              <div className={props?.teamtasks[props?.indexselected]?.task.length > 20 ? 'marquee' : ''}> <h5>{props?.teamtasks[props?.indexselected]?.task}</h5></div>
+              {props?.teamtasks[props?.indexselected]?.task.length > 20 ? props?.teamtasks[props?.indexselected]?.task.slice(0, 17) + "..." : props?.teamtasks[props?.indexselected]?.task}
             </Col>
             <Col sm={1} md={1} style={{ marginTop: '1em' }}>
               <h6>Status</h6>

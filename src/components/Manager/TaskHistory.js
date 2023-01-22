@@ -90,7 +90,7 @@ export default function TaskHistory(props) {
   }
 
   const handleTaskCorrection = (id, index, correction) => {
-    set(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/tasks/${index}/updates/${correction}`), {
+    set(ref(db, `/manager/${props?.managerid}/teammates/${props?.teammateindex}/data/tasks/${index}/updates/${correction}`), {
       assignedDate:
         String(today.getDate()).padStart(2, '0') +
         '/' +
@@ -111,7 +111,7 @@ export default function TaskHistory(props) {
       })
   }
   const handleTaskCorrection1 = (id, index, correction) => {
-    set(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/tasks/${index}/updates/${correction - 1}/`), {
+    set(ref(db, `/manager/${props?.managerid}/teammates/${props?.teammateindex}/data/tasks/${index}/updates/${correction - 1}/`), {
       assignedDate:
         String(today.getDate()).padStart(2, '0') +
         '/' +
@@ -142,10 +142,10 @@ export default function TaskHistory(props) {
     setUpdateAdditionalTaskForm(false)
   }
   const handleAdditionalTaskCorrection1 = (id, index, correction) => {
-    set(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/tasks/${index}/updates/${correction - 1}/description/`),
+    set(ref(db, `/manager/${props?.managerid}/teammates/${props?.teammateindex}/data/tasks/${index}/updates/${correction - 1}/description/`),
       [taskUpdate.description].concat(props?.teamtasks[props?.indexselected]?.updates[0].description))
       .then(() => {
-        set(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/tasks/${index}/query/`), null)
+        set(ref(db, `/manager/${props?.managerid}/teammates/${props?.teammateindex}/data/tasks/${index}/query/`), null)
       })
       .catch((err) => {
         console.log(err)
@@ -293,7 +293,7 @@ export default function TaskHistory(props) {
               <h6>Task</h6>
             </Col>
             <Col sm={3} md={3} style={{ marginTop: '.75em' }}>
-              <div className={props?.teamtasks[props?.indexselected]?.task.length > 20 ? 'marquee' : ''}><h5>{props?.teamtasks[props?.indexselected]?.task}</h5></div>
+              {props?.teamtasks[props?.indexselected]?.task.length > 20 ? props?.teamtasks[props?.indexselected]?.task.slice(0, 17) + "..." : props?.teamtasks[props?.indexselected]?.task}
             </Col>
             <Col sm={1} md={1} style={{ marginTop: '1em' }}>
               <h6>Status</h6>
@@ -310,10 +310,6 @@ export default function TaskHistory(props) {
                         fontFamily: 'rockwen',
                         color: '#000000',
                       }) ||
-                      (info.status === 'Completed' && {
-                        fontFamily: 'rockwen',
-                        color: '#000000',
-                      }) ||
                       (info.status === 'On Going' && {
                         fontFamily: 'rockwen',
                         color: '#24A43A',
@@ -325,12 +321,6 @@ export default function TaskHistory(props) {
                       (info.status === 'Assigned' && {
                         fontFamily: 'rockwen',
                         color: '#D1AE00',
-                      })
-                      ||
-                      (info.status ===
-                        'Archive' && {
-                        fontFamily: 'rockwen',
-                        color: '#000',
                       }) 
                     }
                   >
@@ -402,9 +392,7 @@ export default function TaskHistory(props) {
                       .filter((info, index) => { return (index === 0) })
                       .map((info, index) => {
                         return (<>
-                          {info.status === 'Done' ? <Button style={info.status === 'Completed'
-                            ? { display: 'none' }
-                            : { display: 'auto' }}
+                          {info.status === 'Done' ? <Button 
                             disabled={
                               info.status !== 'Done' || updateTaskForm
                             }
@@ -416,11 +404,8 @@ export default function TaskHistory(props) {
                           </Button> : <></>
                           }
                           {info.status !== 'Done' ? <Button
-                            style={info.status === 'Completed'
-                              ? { display: 'none' }
-                              : { display: 'auto' }}
                             disabled={updateAdditionalTaskForm}
-                            onClick={() => setUpdateAdditionalTaskForm(true)}
+                            onClick={() => { setUpdateAdditionalTaskForm(true); }}
                             variant="outline-primary"
                             block
                           >
@@ -662,15 +647,13 @@ export default function TaskHistory(props) {
                         }}
                         align="center"
                       >
-                        {info.status === 'Done' ||
-                          info.status === 'Completed' ? (
+                        {info.status === 'Done' ? (
                           dateFormatChange(info.endDate)
                         ) : (
                           <br />
                         )}
                         <br />
-                        {info.status === 'Done' ||
-                          info.status === 'Completed' ? (
+                        {info.status === 'Done' ? (
                           timeFormatChange(info.endTime)
                         ) : (
                           <br />

@@ -40,7 +40,6 @@ export default function NewTask(props) {
         corrections: "0",
         deadlineDate: "--",
         deadlineTime: "--",
-        totalTime: 0,
         status: "Assigned",
       },
     },
@@ -92,27 +91,27 @@ export default function NewTask(props) {
           clientTaskAdd(props?.managerId, newTask.clientIndex, props?.manager?.clients[newTask.clientIndex].taskCount, props?.manager?.clients[newTask.clientIndex].totalTaskCount)
           update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask], totalNumberOfTasks: newTaskCount, liveTasks: newLiveTaskCount }).then(async () => {
             setShow(false)
-            const subject = `
-                  <h4> New Task ${newTask.task} from client ${newTask.client} has been Assigned to you By manager ${props?.manager.name}</h4>
-                  <br />
-                  <p>Thank you</p>
-                `
-            const heading = "Task Assigned"
-            const text = `New Task ${newTask.task} has been Assigned to you By manager ${props?.manager.name}`
-            try {
-              const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-                heading, fromEmail: props?.manager.email, toEmail: props?.teammate.email, subject: subject, name: props?.teammate.name, text: text, whatsAppNo: props?.teammate?.whatsAppNo
-              });
-              if (res.status === 200) {
-              }
-              else {
-                alert("Something went wrong");
-              }
+            // const subject = `
+            //       <h4> New Task ${newTask.task} from client ${newTask.client} has been Assigned to you By manager ${props?.manager.name}</h4>
+            //       <br />
+            //       <p>Thank you</p>
+            //     `
+            // const heading = "Task Assigned"
+            // const text = `New Task ${newTask.task} has been Assigned to you By manager ${props?.manager.name}`
+            // try {
+            //   const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+            //     heading, fromEmail: props?.manager.email, toEmail: props?.teammate.email, subject: subject, name: props?.teammate.name, text: text, whatsAppNo: props?.teammate?.whatsAppNo
+            //   });
+            //   if (res.status === 200) {
+            //   }
+            //   else {
+            //     alert("Something went wrong");
+            //   }
 
-            } catch (err) {
-              alert("error")
-              console.log(err)
-            }
+            // } catch (err) {
+            //   alert("error")
+            //   console.log(err)
+            // }
             setNewTask({
               client: "",
               task: "",
@@ -136,7 +135,6 @@ export default function NewTask(props) {
                   corrections: "0",
                   deadlineDate: "--",
                   deadlineTime: "--",
-                  totalTime: 0,
                   status: "Assigned",
                 },
               },
@@ -151,28 +149,27 @@ export default function NewTask(props) {
           const newLiveTaskCount = props?.manager.teammates[props?.teammateIndex].data.liveTasks + 1
           update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask].concat(props?.tasks), totalNumberOfTasks: newTaskCount, liveTasks: newLiveTaskCount }).then(async () => {
             setShow(false);
-            const subject = `
-                  <h4> New Task ${newTask.task} from client ${newTask.client} has been Assigned to you By manager ${props?.manager.name}</h4>
-                  <br />
-                  <p>Thank you</p>
-                `
-            const heading = "Task Assigned"
-            const text = `New Task ${newTask.task} has been Assigned to you By manager ${props?.manager.name}`
-            try {
-              const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-                heading, fromEmail: props?.manager.email, toEmail: props?.teammate.email, subject: subject, name: props?.teammate.name, text: text, whatsAppNo: props?.teammate?.whatsAppNo
-              });
-              console.log(res)
-              if (res.status === 200) {
-              }
-              else {
-                alert("Something went wrong");
-              }
+            // const subject = `
+            //       <h4> New Task ${newTask.task} from client ${newTask.client} has been Assigned to you By manager ${props?.manager.name}</h4>
+            //       <br />
+            //       <p>Thank you</p>
+            //     `
+            // const heading = "Task Assigned"
+            // const text = `New Task ${newTask.task} has been Assigned to you By manager ${props?.manager.name}`
+            // try {
+            //   const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+            //     heading, fromEmail: props?.manager.email, toEmail: props?.teammate.email, subject: subject, name: props?.teammate.name, text: text, whatsAppNo: props?.teammate?.whatsAppNo
+            //   });
+            //   if (res.status === 200) {
+            //   }
+            //   else {
+            //     alert("Something went wrong");
+            //   }
 
-            } catch (err) {
-              alert("error")
-              console.log(err)
-            }
+            // } catch (err) {
+            //   alert("error")
+            //   console.log(err)
+            // }
                 setNewTask({
                   client: "",
                   task: "",
@@ -196,7 +193,6 @@ export default function NewTask(props) {
                       corrections: "0",
                       deadlineDate: "--",
                       deadlineTime: "--",
-                      totalTime: 0,
                       status: "Assigned",
                     },
                   },

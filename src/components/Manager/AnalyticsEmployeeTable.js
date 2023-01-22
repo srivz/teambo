@@ -83,45 +83,45 @@ export default function AnalyticsEmployeeTable(props) {
                 <Row>
                     <Col>
                         <Table variant="Hex #FFFFFF" size="sm" style={{ marginTop: "-20px", width: "60%" }}>
-                <TableHead>
-                    <TableRow>
-                        <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>Employee</TableCell>
-                        <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }} align='center'>
-                            Task{" "}
-                            <FontAwesomeIcon icon="fa-solid fa-sort" className='pointer' onClick={() => { sortBasis === "totalTaskCountD" ? setSortBasis("totalTaskCountA") : sortBasis === "totalTaskCountA" ? setSortBasis("totalTaskCountD") : setSortBasis("totalTaskCountA") }} />
-                        </TableCell>
-                        <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }} align='center'>
-                            Live Task{" "}
-                            <FontAwesomeIcon icon="fa-solid fa-sort" className='pointer' onClick={() => { sortBasis === "currentTaskCountD" ? setSortBasis("currentTaskCountA") : sortBasis === "currentTaskCountA" ? setSortBasis("currentTaskCountD") : setSortBasis("currentTaskCountA") }} />
-                        </TableCell>
-                        <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }} align='center'>
-                            Man hours{" "}
-                            {/* <FontAwesomeIcon icon="fa-solid fa-sort" className='pointer'  onClick={() => { sortBasis === "manHoursD" ? setSortBasis("manHoursA") : sortBasis === "manHoursA" ? setSortBasis("manHoursD") : setSortBasis("manHoursA") }} /> */}
-                        </TableCell>
-                    </TableRow>
-                </TableHead>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>Employee</TableCell>
+                                    <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }} align='center'>
+                                        Task{" "}
+                                        <FontAwesomeIcon icon="fa-solid fa-sort" className='pointer' onClick={() => { sortBasis === "totalTaskCountD" ? setSortBasis("totalTaskCountA") : sortBasis === "totalTaskCountA" ? setSortBasis("totalTaskCountD") : setSortBasis("totalTaskCountA") }} />
+                                    </TableCell>
+                                    <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }} align='center'>
+                                        Live Task{" "}
+                                        <FontAwesomeIcon icon="fa-solid fa-sort" className='pointer' onClick={() => { sortBasis === "currentTaskCountD" ? setSortBasis("currentTaskCountA") : sortBasis === "currentTaskCountA" ? setSortBasis("currentTaskCountD") : setSortBasis("currentTaskCountA") }} />
+                                    </TableCell>
+                                    <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }} align='center'>
+                                        Man hours{" "}
+                                        <FontAwesomeIcon icon="fa-solid fa-sort" className='pointer' onClick={() => { sortBasis === "manHoursD" ? setSortBasis("manHoursA") : sortBasis === "manHoursA" ? setSortBasis("manHoursD") : setSortBasis("manHoursA") }} />
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
                             <TableBody>
-                    {
-                        props?.manager?.teammates?.sort((a, b) =>
-                            sortBasis === "totalTaskCountD" ? (a.data.totalNumberOfTasks > b.data.totalNumberOfTasks ? -1 : 1) :
-                                sortBasis === "totalTaskCountA" ? (a.data.totalNumberOfTasks < b.data.totalNumberOfTasks ? -1 : 1) :
-                                    sortBasis === "currentTaskCountA" ? (a.data.liveTasks > b.data.liveTasks ? -1 : 1) :
-                                        sortBasis === "currentTaskCountD" ? (a.data.liveTasks < b.data.liveTasks ? -1 : 1) :
-                                            // sortBasis === "manHoursA" ? (a.manHours > b.manHours ? -1 : 1) :
-                                            //     sortBasis === "manHoursD" ? (a.manHours < b.manHours ? -1 : 1) :
-                                            (a.teammateIndex < b.teammateIndex ? -1 : 1)
-                        ).map((teammate) => {
-                            return (<TableRow>
-                                <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.name}</TableCell>
-                                <TableCell align='center' style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.totalNumberOfTasks === 0 ? 0 : teammate.data.totalNumberOfTasks < 10 ? "0" + teammate.data.totalNumberOfTasks : teammate.data.totalNumberOfTasks}</TableCell>
-                                <TableCell align='center' style={teammate.data.liveTasks === 0 ? { fontFamily: 'rockwen', color: "#000", fontWeight: "bold" } : { color: "#3975e9", fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.liveTasks === 0 ? "--" : teammate.data.liveTasks < 10 ? "0" + teammate.data.liveTasks : teammate.data.liveTasks}</TableCell>
-                                <TableCell align='center' style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>{hoursInFullFormat(teammate.data.manHours)}</TableCell>
-                            </TableRow>)
-                        })
-                    }
+                                {
+                                    props?.manager?.teammates?.sort((a, b) =>
+                                        sortBasis === "totalTaskCountD" ? (a.data.totalNumberOfTasks > b.data.totalNumberOfTasks ? -1 : 1) :
+                                            sortBasis === "totalTaskCountA" ? (a.data.totalNumberOfTasks < b.data.totalNumberOfTasks ? -1 : 1) :
+                                                sortBasis === "currentTaskCountA" ? (a.data.liveTasks > b.data.liveTasks ? -1 : 1) :
+                                                    sortBasis === "currentTaskCountD" ? (a.data.liveTasks < b.data.liveTasks ? -1 : 1) :
+                                                        sortBasis === "manHoursA" ? (a.data.manHours > b.data.manHours ? -1 : 1) :
+                                                            sortBasis === "manHoursD" ? (a.data.manHours < b.data.manHours ? -1 : 1) :
+                                                                (a.teammateIndex < b.teammateIndex ? -1 : 1)
+                                    ).map((teammate) => {
+                                        return (<TableRow>
+                                            <TableCell style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.name}</TableCell>
+                                            <TableCell align='center' style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.totalNumberOfTasks === 0 ? 0 : teammate.data.totalNumberOfTasks < 10 ? "0" + teammate.data.totalNumberOfTasks : teammate.data.totalNumberOfTasks}</TableCell>
+                                            <TableCell align='center' style={teammate.data.liveTasks === 0 ? { fontFamily: 'rockwen', color: "#000", fontWeight: "bold" } : { color: "#3975e9", fontFamily: 'rockwen', fontWeight: "bold" }}>{teammate.data.liveTasks === 0 ? "--" : teammate.data.liveTasks < 10 ? "0" + teammate.data.liveTasks : teammate.data.liveTasks}</TableCell>
+                                            <TableCell align='center' style={{ fontFamily: 'rockwen', fontWeight: "bold" }}>{hoursInFullFormat(teammate.data.manHours)}</TableCell>
+                                        </TableRow>)
+                                    })
+                                }
 
 
-                </TableBody>
+                            </TableBody>
                         </Table>
                     </Col>
                 </Row>
