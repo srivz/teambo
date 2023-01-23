@@ -72,7 +72,7 @@ export default function NewTask(props) {
   }, [props])
 
   const validateForm = () => {
-    if (newTask.client === '' || newTask.task === '' || newTask.updates[0].description === '') {
+    if (newTask.client === '' || newTask.task === '' || newTask.updates[0].assignedStartTime === '--' || newTask.updates[0].assignedStartDate === '--' || newTask.updates[0].description === '') {
       return false
     }
     else { return true }
