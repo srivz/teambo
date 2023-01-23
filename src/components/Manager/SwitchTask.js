@@ -15,7 +15,7 @@ export default function SwitchTask(props) {
     const [newTask, setNewTask] = useState()
     const [teamRequest, setTeamRequest] = useState([]);
     const [teamRequest1, setTeamRequest1] = useState([]);
-    const close = () => { props?.setSwitchTask(''); }
+    const close = () => { props?.setswitchtask(''); }
 
     useEffect(() => {
         var today = new Date()
@@ -85,7 +85,7 @@ export default function SwitchTask(props) {
                     notifySwitchFromTask(teamRequest1, props?.managerid, props?.prevteammateindex, props?.switchtask?.client);
                     set(ref(db, `/manager/${props?.managerid}/teammates/${teammateId}/data/tasks`), newArr2,)
                         .then(() => {
-                            props?.handleDeleteTask(props?.prevtasklist, props?.prevteammateindex, props?.prevtaskindex)
+                            props?.handledeletetask(props?.prevtasklist, props?.prevteammateindex, props?.prevtaskindex)
                             close()
                         })
                         .catch((err) => {
@@ -96,7 +96,7 @@ export default function SwitchTask(props) {
             }
         }
     }
-
+    // console.log(props)
     const searchClient = (e) => {
         setNewClient(e.target.value)
         const newFilter = props?.props?.team
