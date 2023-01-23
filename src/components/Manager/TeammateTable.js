@@ -140,8 +140,7 @@ export default function TeammateTable(props) {
             });
             if (res.status === 200) {
                 const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
-                let manHour = props?.manager.teammates[id].data.tasks[index].manHours
-                clientTaskComplete(props?.managerId, teammate.tasks[index].clientIndex, props?.manager?.clients[teammate.tasks[index].clientIndex].taskCount, props?.manager?.clients[teammate.tasks[index].clientIndex].manHours + manHour)
+                clientTaskComplete(props?.managerId, teammate.tasks[index].clientIndex, props?.manager?.clients[teammate.tasks[index].clientIndex].taskCount)
         update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}`), { status: "Completed" })
                 update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
             }
