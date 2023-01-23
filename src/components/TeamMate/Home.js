@@ -22,6 +22,7 @@ export default function Home() {
   const [once, setOnce] = useState(true)
   const [once1, setOnce1] = useState(true)
   const [teammate, setTeammate] = useState({})
+  const [clients, setClients] = useState({})
   const [id, setId] = useState('')
   const [filter, setFilter] = useState('All')
   const [managerId, setManagerId] = useState('')
@@ -72,6 +73,15 @@ export default function Home() {
           console.log('No data available')
         }
       })
+      onValue(ref(db, `/manager/${managerId}/clients/`), (snapshot) => {
+        if (snapshot.exists()) {
+          setClients(snapshot.val())
+          setLoading(false)
+        } else {
+          setLoading(false)
+          console.log('No data available')
+        }
+      })
       setOnce1(false)
     }
   }
@@ -81,6 +91,7 @@ export default function Home() {
     diff /= (60 * 60);
     return Math.abs(diff);
   }
+
   const playTask = (e, index, length) => {
     var now = new Date()
     teammate.tasks.forEach((task, i) => {
@@ -99,9 +110,8 @@ export default function Home() {
     var today = new Date()
     let now = diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
       .startTimeStamp)
-    console.log(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1])
     let manHour = parseFloat(teammate.tasks[index].manHours) + now
-    alert(teammate.tasks[index].manHours)
+    alert(clients[teammate.tasks[index].clientIndex].manHours)
     let manHour1 = parseFloat(teammate.manHours) + now
     alert(teammate.manHours)
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/`), { manHours: manHour1 })

@@ -131,9 +131,8 @@ export default function HomeBlock(props) {
       let manHour = manager.teammates[fromTeammate.current.id].data.tasks[index].manHours + now
       let manHour1 = manager.teammates[fromTeammate.current.id].data.manHours + now
       update(ref(db, `/manager/${managerId}/teammates/${id}/data/`), { manHours: manHour1 }).then(() => {
-        update(ref(db, `/manager/${managerId}/clients/${manager.teammates[fromTeammate.current.id].data.tasks[index].clientIndex}`), { manHours: props?.manager?.clients[manager.teammates[fromTeammate.current.id].data.tasks[index].clientIndex].manHours + manHour })
+        update(ref(db, `/manager/${managerId}/clients/${manager.teammates[fromTeammate.current.id].data.tasks[index].clientIndex}`), { manHours: manager.clients[manager.teammates[fromTeammate.current.id].data.tasks[index].clientIndex].manHours + manHour })
       })
-
       if (toTeammate.current.tasks) {
         set(ref(db, `manager/${managerId}/teammates/${toTeammate.current.id}/data/tasks/${toTeammate.current.tasks.length || 0}`), newTask,)
         handleDeleteTask(fromTeammate.current, fromTeammate.current.id, fromTeammate.current.taskIndex)
