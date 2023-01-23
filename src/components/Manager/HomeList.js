@@ -153,8 +153,6 @@ export default function HomeList() {
         const data = snapshot.val()
         setTeamRequest(data.notifications)
         return true
-      } else {
-        alert('User not available')
       }
     })
   }

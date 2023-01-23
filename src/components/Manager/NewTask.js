@@ -11,7 +11,6 @@ import axios from "axios";
 
 
 export default function NewTask(props) {
-  var today = new Date();
   const [show, setShow] = useState(false);
   const [assignedDate, setAssignedDate] = useState();
   const [newClient, setNewClient] = useState("");
@@ -28,6 +27,7 @@ export default function NewTask(props) {
         assignedStartDate: "--",
         assignedStartTime: "--",
         corrections: "0",
+        startTimeStamp: "null",
         deadlineDate: "--",
         deadlineTime: "--",
         status: "Assigned",
@@ -67,8 +67,6 @@ export default function NewTask(props) {
         const data = snapshot.val()
         setTeamRequest(data.notifications)
         return true
-      } else {
-        alert('User not available')
       }
     })
   }, [props])
@@ -123,6 +121,7 @@ export default function NewTask(props) {
                   assignedStartTime: "--",
                   corrections: "0",
                   deadlineDate: "--",
+                  startTimeStamp: "null",
                   deadlineTime: "--",
                   status: "Assigned",
                 },
@@ -170,6 +169,7 @@ export default function NewTask(props) {
                       assignedStartTime: "--",
                       corrections: "0",
                       deadlineDate: "--",
+                      startTimeStamp: "null",
                       deadlineTime: "--",
                       status: "Assigned",
                     },

@@ -99,8 +99,11 @@ export default function Home() {
     var today = new Date()
     let now = diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
       .startTimeStamp)
+    console.log(teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1])
     let manHour = parseFloat(teammate.tasks[index].manHours) + now
+    alert(teammate.tasks[index].manHours)
     let manHour1 = parseFloat(teammate.manHours) + now
+    alert(teammate.manHours)
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/`), { manHours: manHour1 })
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/`), { manHours: manHour })
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), {
@@ -435,7 +438,7 @@ export default function Home() {
                                             ? 1
                                             : -1,
                                         )
-                                        .filter((info2, index) => index === 0)
+                                            .filter((info2, index3) => index3 === 0)
                                         .map((info2) => {
                                           return (
                                             <>
@@ -449,11 +452,11 @@ export default function Home() {
                                                 }}
                                                 align="center"
                                               >{dateFormatChange(
-                                                info2.assignedStartDate,
+                                                info.updates[info.updates.length - 1].assignedStartDate,
                                               )}
                                                 <br />
                                                 {timeFormatChange(
-                                                  info2.assignedStartTime,
+                                                  info.updates[info.updates.length - 1].assignedStartTime,
                                                 )}
                                               </TableCell>
                                               <TableCell
@@ -466,11 +469,11 @@ export default function Home() {
                                                 }}
                                                 align="center"
                                               > {dateFormatChange(
-                                                info2.deadlineDate,
+                                                info.updates[info.updates.length - 1].deadlineDate,
                                               )}
                                                 <br />
                                                 {timeFormatChange(
-                                                  info2.deadlineTime,
+                                                  info.updates[info.updates.length - 1].deadlineTime,
                                                 )}
                                               </TableCell>
                                               <TableCell
@@ -485,7 +488,7 @@ export default function Home() {
                                               >
                                                 +
                                                 {
-                                                  info2.corrections
+                                                  info.updates[info.updates.length - 1].corrections
                                                 }
                                               </TableCell>
                                               <TableCell
@@ -495,19 +498,19 @@ export default function Home() {
                                                 }}
                                                 align="center"
                                                 style={
-                                                  info2.status === 'Done'
+                                                  info.updates[info.updates.length - 1].status === 'Done'
                                                     ? {
                                                       color: '#000000',
                                                       fontFamily: 'rockwen',
                                                       fontWeight: 'bold',
                                                     }
-                                                    : info2.status === 'On Going'
+                                                    : info.updates[info.updates.length - 1].status === 'On Going'
                                                         ? {
                                                           color: '#24A43A',
                                                           fontFamily: 'rockwen',
                                                           fontWeight: 'bold',
                                                         }
-                                                      : info2.status === 'Paused'
+                                                      : info.updates[info.updates.length - 1].status === 'Paused'
                                                           ? {
                                                             color: '#2972B2',
                                                             fontFamily: 'rockwen',
@@ -520,7 +523,7 @@ export default function Home() {
                                                           }
                                                 }
                                               >
-                                                {info2.status === 'Done' ? (
+                                                {info.updates[info.updates.length - 1].status === 'Done' ? (
                                                   <FontAwesomeIcon
                                                     icon="fa-solid fa-circle-check"
                                                     size="2xl"
@@ -530,13 +533,13 @@ export default function Home() {
                                                     }}
                                                   />
                                                 ) : (
-                                                    info2.status
+                                                    info.updates[info.updates.length - 1].status
                                                 )}
                                               </TableCell>
                                               <TableCell align="center">
                                                 <img
                                                   src={
-                                                    info2.status === 'On Going'
+                                                    info.updates[info.updates.length - 1].status === 'On Going'
                                                       ? paused
                                                       : pause
                                                   }
@@ -551,7 +554,7 @@ export default function Home() {
                                                   }}
                                                   style={{
                                                     display:
-                                                      info2.status === 'Done'
+                                                      info.updates[info.updates.length - 1].status === 'Done'
                                                         ? 'none'
                                                         : '',
                                                     margin: '.5em',
@@ -560,14 +563,14 @@ export default function Home() {
                                                 />
                                                 <img
                                                   src={
-                                                    info2.status === 'Paused'
+                                                    info.updates[info.updates.length - 1].status === 'Paused'
                                                       ? played
                                                       : play
                                                   }
                                                   alt="pause"
                                                   width={30}
                                                   onClick={(e) => {
-                                                    info2.status === 'On Going' ?
+                                                    info.updates[info.updates.length - 1].status === 'On Going' ?
                                                     pauseTask(
                                                       e,
                                                       index,
@@ -576,7 +579,7 @@ export default function Home() {
                                                   }}
                                                   style={{
                                                     display:
-                                                      info2.status === 'Done'
+                                                      info.updates[info.updates.length - 1].status === 'Done'
                                                         ? 'none'
                                                         : '',
                                                     margin: '.5em',
@@ -588,7 +591,7 @@ export default function Home() {
                                                   alt="done"
                                                   width={30}
                                                   onClick={(e) => {
-                                                    info2.status !== 'Assigned' ?
+                                                    info.updates[info.updates.length - 1].status !== 'Assigned' ?
                                                       completeTask(
                                                         e,
                                                         index,
@@ -597,7 +600,7 @@ export default function Home() {
                                                   }}
                                                   style={{
                                                     display:
-                                                      info2.status === 'Done'
+                                                      info.updates[info.updates.length - 1].status === 'Done'
                                                         ? 'none'
                                                         : '',
                                                     margin: '.5em',

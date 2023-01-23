@@ -55,7 +55,11 @@ export default function HomeBlock(props) {
       window.location.href = '/'
     }
   })
-
+  const diff_hours = (dt2, dt1) => {
+    var diff = (new Date("" + dt2).getTime() - new Date("" + dt1).getTime()) / 1000;
+    diff /= (60 * 60);
+    return Math.abs(diff);
+  }
   const handleDeleteTask = (teammate, id, index) => {
     let list1 = teammate.tasks.slice(0, index);
     let list2 = teammate.tasks.slice(index + 1);
@@ -82,6 +86,7 @@ export default function HomeBlock(props) {
     if (fromTeammate.current.id === toTeammate.current.id && fromTeammate.current.taskIndex === toTeammate.current.taskIndex) {
       return;
     }
+    var today = new Date()
     if (fromTeammate.current.id === toTeammate.current.id) {
       let copyList = [...fromTeammate.current.tasks];
       const dragItemContent = copyList[fromTeammate.current.taskIndex];
@@ -89,15 +94,21 @@ export default function HomeBlock(props) {
       copyList.splice(toTeammate.current.taskIndex, 0, dragItemContent);
       fromTeammate.current.taskIndex = null;
       toTeammate.current.taskIndex = null;
+      let now = 0
+      if (manager.teammates[fromTeammate.current.id].data.tasks[index].updates[manager.teammates[fromTeammate.current.id].data.tasks[index].updates.length - 1].status === "On Going")
+        now = diff_hours(today, manager.teammates[fromTeammate.current.id].data.tasks[index].updates[manager.teammates[fromTeammate.current.id].data.tasks[index].updates.length - 1].startTimeStamp)
+      let manHour = manager.teammates[fromTeammate.current.id].data.tasks[index].manHours + now
+      let manHour1 = manager.teammates[fromTeammate.current.id].data.manHours + now
+      update(ref(db, `/manager/${managerId}/teammates/${id}/data/`), { manHours: manHour1 }).then(() => {
+        update(ref(db, `/manager/${managerId}/clients/${manager.teammates[fromTeammate.current.id].data.tasks[index].clientIndex}`), { manHours: props?.manager?.clients[manager.teammates[fromTeammate.current.id].data.tasks[index].clientIndex].manHours + manHour })
+      })
       update(ref(db, `/manager/${managerId}/teammates/${fromTeammate.current.id}/data/`), {
         tasks: copyList,
       })
     }
     else {
-      var today = new Date()
       let copyList = [...fromTeammate.current.tasks];
       const dragItemContent = copyList[fromTeammate.current.taskIndex];
-      console.log(dragItemContent);
       const newTask = {
         client: dragItemContent?.client,
         task: dragItemContent?.task,
@@ -105,6 +116,7 @@ export default function HomeBlock(props) {
         clientIndex: dragItemContent?.clientIndex,
         updates: dragItemContent?.updates.concat({
           description: ['This task was switched to you.'],
+          startTimeStamp: "null",
           assignedStartDate: dragItemContent?.updates[dragItemContent?.updates?.length - 1].assignedStartDate,
           assignedStartTime: dragItemContent?.updates[dragItemContent?.updates?.length - 1].assignedStartTime,
           corrections: dragItemContent?.updates?.length || 0,
@@ -113,6 +125,14 @@ export default function HomeBlock(props) {
           status: 'Assigned',
         },),
       }
+      let now = 0
+      if (manager.teammates[fromTeammate.current.id].data.tasks[index].updates[manager.teammates[fromTeammate.current.id].data.tasks[index].updates.length - 1].status === "On Going")
+        now = diff_hours(today, manager.teammates[fromTeammate.current.id].data.tasks[index].updates[manager.teammates[fromTeammate.current.id].data.tasks[index].updates.length - 1].startTimeStamp)
+      let manHour = manager.teammates[fromTeammate.current.id].data.tasks[index].manHours + now
+      let manHour1 = manager.teammates[fromTeammate.current.id].data.manHours + now
+      update(ref(db, `/manager/${managerId}/teammates/${id}/data/`), { manHours: manHour1 }).then(() => {
+        update(ref(db, `/manager/${managerId}/clients/${manager.teammates[fromTeammate.current.id].data.tasks[index].clientIndex}`), { manHours: props?.manager?.clients[manager.teammates[fromTeammate.current.id].data.tasks[index].clientIndex].manHours + manHour })
+      })
 
       if (toTeammate.current.tasks) {
         set(ref(db, `manager/${managerId}/teammates/${toTeammate.current.id}/data/tasks/${toTeammate.current.tasks.length || 0}`), newTask,)
@@ -122,8 +142,6 @@ export default function HomeBlock(props) {
         set(ref(db, `manager/${managerId}/teammates/${toTeammate.current.id}/data/tasks/0`), newTask,)
         handleDeleteTask(fromTeammate.current, fromTeammate.current.id, fromTeammate.current.taskIndex)
       }
-
-
     }
   }
 

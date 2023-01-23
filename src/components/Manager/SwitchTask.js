@@ -18,7 +18,6 @@ export default function SwitchTask(props) {
     const close = () => { props?.setswitchtask(''); }
 
     useEffect(() => {
-        var today = new Date()
         setNewTask([{
             client: props?.switchtask?.client,
             task: props?.switchtask?.task,
@@ -30,6 +29,7 @@ export default function SwitchTask(props) {
                 assignedStartTime: props?.switchtask?.updates[props?.switchtask?.updates.length - 1].assignedStartTime,
                 corrections: props?.switchtask?.updates.length,
                 deadlineDate: '--',
+                startTimeStamp: "null",
                 deadlineTime: '--',
                 status: 'Assigned',
             },),
