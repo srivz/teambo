@@ -15,7 +15,7 @@ export default function SwitchTask(props) {
     const [newTask, setNewTask] = useState()
     const [teamRequest, setTeamRequest] = useState([]);
     const [teamRequest1, setTeamRequest1] = useState([]);
-    const close = () => { props?.setSwitchTask(''); }
+    const close = () => { props?.setswitchtask(''); }
 
     useEffect(() => {
         var today = new Date()
