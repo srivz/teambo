@@ -124,14 +124,14 @@ export default function Home() {
 
   const completeTask = (e, index, length) => {
     var today = new Date()
-    let now = diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].startTimeStamp)
-    if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status === "On Going")
-      now = diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].startTimeStamp)
+    if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status === "On Going") {
+      let now = diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].startTimeStamp)
     let manHour = parseFloat(teammate.tasks[index].manHours) + now
     let manHour1 = parseFloat(teammate.manHours) + now
-    update(ref(db, `/manager/${managerId}/clients/${teammate.tasks[index].clientIndex}/`), { manHours: clients[teammate.tasks[index].clientIndex].manHours + manHour })
+      update(ref(db, `/manager/${managerId}/clients/${teammate.tasks[index].clientIndex}/`), { manHours: clients[teammate.tasks[index].clientIndex].manHours + now })
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/`), { manHours: manHour1 })
-    update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/`), { manHours: manHour })
+      update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/`), { manHours: manHour })
+    }
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${length - 1}`), {
       status: 'Done',
       startTimeStamp: null,

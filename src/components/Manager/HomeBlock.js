@@ -97,10 +97,9 @@ export default function HomeBlock(props) {
       let now = 0
       if (manager.teammates[fromTeammate.current.id].data.tasks[index].updates[manager.teammates[fromTeammate.current.id].data.tasks[index].updates.length - 1].status === "On Going")
         now = diff_hours(today, manager.teammates[fromTeammate.current.id].data.tasks[index].updates[manager.teammates[fromTeammate.current.id].data.tasks[index].updates.length - 1].startTimeStamp)
-      let manHour = manager.teammates[fromTeammate.current.id].data.tasks[index].manHours + now
       let manHour1 = manager.teammates[fromTeammate.current.id].data.manHours + now
       update(ref(db, `/manager/${managerId}/teammates/${id}/data/`), { manHours: manHour1 }).then(() => {
-        update(ref(db, `/manager/${managerId}/clients/${manager.teammates[fromTeammate.current.id].data.tasks[index].clientIndex}`), { manHours: props?.manager?.clients[manager.teammates[fromTeammate.current.id].data.tasks[index].clientIndex].manHours + manHour })
+        update(ref(db, `/manager/${managerId}/clients/${manager.teammates[fromTeammate.current.id].data.tasks[index].clientIndex}`), { manHours: props?.manager?.clients[manager.teammates[fromTeammate.current.id].data.tasks[index].clientIndex].manHours + now })
       })
       update(ref(db, `/manager/${managerId}/teammates/${fromTeammate.current.id}/data/`), {
         tasks: copyList,
@@ -133,7 +132,7 @@ export default function HomeBlock(props) {
       let toLiveTask = manager.teammates[toTeammate.current.id].data.liveTasks + 1
       let fromLiveTask = manager.teammates[fromTeammate.current.id].data.liveTasks - 1
       update(ref(db, `/manager/${managerId}/teammates/${id}/data/`), { manHours: manHour1 }).then(() => {
-        update(ref(db, `/manager/${managerId}/clients/${manager.teammates[fromTeammate.current.id].data.tasks[index].clientIndex}`), { manHours: manager.clients[manager.teammates[fromTeammate.current.id].data.tasks[index].clientIndex].manHours + manHour })
+        update(ref(db, `/manager/${managerId}/clients/${manager.teammates[fromTeammate.current.id].data.tasks[index].clientIndex}`), { manHours: manager.clients[manager.teammates[fromTeammate.current.id].data.tasks[index].clientIndex].manHours + now })
       })
       if (toLiveTask >= 0 && toLiveTask >= 0) {
         update(ref(db, `/manager/${managerId}/teammates/${fromTeammate.current.id}/data`), { liveTasks: fromLiveTask })

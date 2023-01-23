@@ -44,7 +44,7 @@ export default function TeammateTable(props) {
         let manHour = teammate.tasks[index].manHours + now
         let manHour1 = teammate.manHours + now
         notifyDeleteTask(teammate.notifications, props?.managerId, id, props?.manager?.clients[clientIndex].name)
-        clientTaskDelete(props?.managerId, clientIndex, props?.manager?.clients[clientIndex].taskCount, props?.manager?.clients[teammate.tasks[index].clientIndex].manHours + manHour)
+        clientTaskDelete(props?.managerId, clientIndex, props?.manager?.clients[clientIndex].taskCount, props?.manager?.clients[teammate.tasks[index].clientIndex].manHours + now)
         update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), { status: "Archived" }).then(() => {
             update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/`), { manHours: manHour }).then(() => {
                 update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/`), { manHours: manHour1 })
@@ -91,7 +91,7 @@ export default function TeammateTable(props) {
         let manHour = teammate.tasks[index].manHours + now
         let manHour1 = teammate.manHours + now
         update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/`), { manHours: manHour1 }).then(() => {
-            update(ref(db, `/manager/${props?.managerId}/clients/${teammate.tasks[index].clientIndex}`), { manHours: props?.manager?.clients[teammate.tasks[index].clientIndex].manHours + manHour })
+            update(ref(db, `/manager/${props?.managerId}/clients/${teammate.tasks[index].clientIndex}`), { manHours: props?.manager?.clients[teammate.tasks[index].clientIndex].manHours + now })
         })
         set(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks`), list)
             .catch((err) => {
