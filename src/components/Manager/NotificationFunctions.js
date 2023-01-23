@@ -71,7 +71,7 @@ const timeFormatChange = (time) => {
 
 export default function notifyNewTask(teamRequest, managerId, teammateIndex, newTask) {
     if (teamRequest === undefined) {
-        let newArr = { 0: { type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) } }
+        let newArr = { 0: { type: "new", client: newTask.client, text: " New Task is added." } }
         set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr)
     }
     else {
@@ -82,7 +82,7 @@ export default function notifyNewTask(teamRequest, managerId, teammateIndex, new
             newArr.push(element)
         })
         if (exists) {
-            let newArr2 = [{ type: "new", client: newTask.client, text: " New Task added on " + dateFormatChange(newTask.updates[0].assignedDate) + " at " + timeFormatChange(newTask.updates[0].assignedTime) }, ...newArr]
+            let newArr2 = [{ type: "new", client: newTask.client, text: " New Task is added." }, ...newArr]
             set(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/notifications/`), newArr2)
         }
     }

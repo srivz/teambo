@@ -22,12 +22,12 @@ export default function SwitchTask(props) {
         setNewTask([{
             client: props?.switchtask?.client,
             task: props?.switchtask?.task,
-            clientEmail: props?.switchtask?.clientEmail,
+            manHours: 0,
             clientIndex: props?.switchtask?.clientIndex,
             updates: props?.switchtask?.updates.concat({
                 description: ['This task was switched to you.'],
-                assignedStartDate: props?.switchtask?.assignedStartDate,
-                assignedStartTime: props?.switchtask?.assignedStartTime,
+                assignedStartDate: props?.switchtask?.updates[props?.switchtask?.updates.length - 1].assignedStartDate,
+                assignedStartTime: props?.switchtask?.updates[props?.switchtask?.updates.length - 1].assignedStartTime,
                 corrections: props?.switchtask?.updates.length,
                 deadlineDate: '--',
                 deadlineTime: '--',

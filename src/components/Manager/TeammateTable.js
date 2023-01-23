@@ -39,7 +39,7 @@ export default function TeammateTable(props) {
     const handleDeleteTask = async (teammate, id, index, clientIndex) => {
         var today = new Date()
         let now = 0
-        if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status === "Assigned")
+        if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status === "On Going")
             now = diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].startTimeStamp)
         let manHour = teammate.tasks[index].manHours + now
         let manHour1 = teammate.manHours + now
@@ -84,6 +84,15 @@ export default function TeammateTable(props) {
         let list1 = teammate.tasks.slice(0, index);
         let list2 = teammate.tasks.slice(index + 1);
         let list = list1.concat(list2)
+        var today = new Date()
+        let now = 0
+        if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status === "On Going")
+            now = diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].startTimeStamp)
+        let manHour = teammate.tasks[index].manHours + now
+        let manHour1 = teammate.manHours + now
+        update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/`), { manHours: manHour1 }).then(() => {
+            update(ref(db, `/manager/${props?.managerId}/clients/${teammate.tasks[index].clientIndex}`), { manHours: props?.manager?.clients[teammate.tasks[index].clientIndex].manHours + manHour })
+        })
         set(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks`), list)
             .catch((err) => {
                 console.log(err);
