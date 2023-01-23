@@ -232,7 +232,7 @@ export default function TeammateTaskHistory(props) {
                   }}
                   align="center"
                 >
-                  Assigned
+                  Start Time
                 </TableCell>
                 <TableCell
                   style={{
@@ -283,9 +283,9 @@ export default function TeammateTaskHistory(props) {
                         }}
                         align="center"
                       >
-                        {dateFormatChange(info.assignedDate)}
+                        {dateFormatChange(info.assignedStartDate)}
                         <br />
-                        {timeFormatChange(info.assignedTime)}
+                        {timeFormatChange(info.assignedStartTime)}
                       </TableCell>
                       <TableCell
                         style={{

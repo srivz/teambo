@@ -156,7 +156,7 @@ export default function AnalyticsClientTable(props) {
                                                                                                 <>
                                                                                                     <TableCell style={{
                                                                                                         fontFamily: 'rockwen', fontWeight: "bold"
-                                                                                                    }}>{info3.assignedDate}</TableCell>
+                                                                                                    }}>{info3.assignedStartDate}</TableCell>
                                                                                                     <TableCell style={{
                                                                                                         fontFamily: 'rockwen', fontWeight: "bold"
                                                                                                     }} align="center">{info3.corrections === "0" ? "0" : "+" + info3.corrections}</TableCell>

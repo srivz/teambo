@@ -13,6 +13,7 @@ import axios from "axios";
 export default function NewTask(props) {
   var today = new Date();
   const [show, setShow] = useState(false);
+  const [assignedDate, setAssignedDate] = useState();
   const [newClient, setNewClient] = useState("");
   const [clientList, setClientList] = useState(props?.manager?.clients);
   const [teamRequest, setTeamRequest] = useState([]);
@@ -21,22 +22,11 @@ export default function NewTask(props) {
     clientIndex: "",
     task: "",
     manHours: 0,
-    clientEmail: "",
     updates: {
       0: {
         description: { 0: "" },
-        assignedDate:
-          String(today.getDate()).padStart(2, "0") +
-          "/" +
-          String(today.getMonth() + 1).padStart(2, "0") +
-          "/" +
-          today.getFullYear(),
-        assignedTime:
-          today.getHours() +
-          ":" +
-          today.getMinutes() +
-          ":" +
-          today.getSeconds(),
+        assignedStartDate: "--",
+        assignedStartTime: "--",
         corrections: "0",
         deadlineDate: "--",
         deadlineTime: "--",
@@ -51,6 +41,16 @@ export default function NewTask(props) {
   };
   const handleDescriptionChange = (event) => {
     newTask.updates[0].description[0] = event.target.value;
+  };
+
+  const handleStartDateChange = (event) => {
+    setAssignedDate(event.target.value)
+    let date = (event.target.value).split("-")
+    newTask.updates[0].assignedStartDate = date[2] + "/" + date[1] + "/" + date[0]
+  };
+
+  const handleStartTimeChange = (event) => {
+    newTask.updates[0].assignedStartTime = event.target.value;
   };
   const handleDateChange = (event) => {
     let date = (event.target.value).split("-")
@@ -115,23 +115,12 @@ export default function NewTask(props) {
             setNewTask({
               client: "",
               task: "",
-              clientEmail: "",
               manHours: 0,
               updates: {
                 0: {
                   description: { 0: "" },
-                  assignedDate:
-                    String(today.getDate()).padStart(2, "0") +
-                    "/" +
-                    String(today.getMonth() + 1).padStart(2, "0") +
-                    "/" +
-                    today.getFullYear(),
-                  assignedTime:
-                    today.getHours() +
-                    ":" +
-                    today.getMinutes() +
-                    ":" +
-                    today.getSeconds(),
+                  assignedStartDate: "--",
+                  assignedStartTime: "--",
                   corrections: "0",
                   deadlineDate: "--",
                   deadlineTime: "--",
@@ -173,23 +162,12 @@ export default function NewTask(props) {
                 setNewTask({
                   client: "",
                   task: "",
-                  clientEmail: "",
                   manHours: 0,
                   updates: {
                     0: {
                       description: { 0: "" },
-                      assignedDate:
-                        String(today.getDate()).padStart(2, "0") +
-                        "/" +
-                        String(today.getMonth() + 1).padStart(2, "0") +
-                        "/" +
-                        today.getFullYear(),
-                      assignedTime:
-                        today.getHours() +
-                        ":" +
-                        today.getMinutes() +
-                        ":" +
-                        today.getSeconds(),
+                      assignedStartDate: "--",
+                      assignedStartTime: "--",
                       corrections: "0",
                       deadlineDate: "--",
                       deadlineTime: "--",
@@ -345,12 +323,38 @@ export default function NewTask(props) {
               controlId="formPlaintext3"
             >
               <Form.Label column md="4" sm="4">
-                Deadline
+                Start Time
               </Form.Label>
               <Col sm="4" md="4">
                 <Form.Control
                   type="date"
                   min={moment().format("YYYY-MM-DD")}
+                  name="assignedStartDate"
+                  style={{ fontSize: "12px" }}
+                  onChange={handleStartDateChange}
+                />
+              </Col>
+              <Col sm="4" md="4">
+                <Form.Control
+                  type="time"
+                  style={{ fontSize: "12px" }}
+                  name="assignedStartTime"
+                  onChange={handleStartTimeChange}
+                />
+              </Col>
+            </Form.Group>
+            <Form.Group
+              as={Row}
+              className="mb-3 deadline"
+              controlId="formPlaintext4"
+            >
+              <Form.Label column md="4" sm="4">
+                Deadline
+              </Form.Label>
+              <Col sm="4" md="4">
+                <Form.Control
+                  type="date"
+                  min={assignedDate || moment().format("YYYY-MM-DD")}
                   name="deadlineDate"
                   style={{ fontSize: "12px" }}
                   onChange={handleDateChange}
@@ -362,18 +366,6 @@ export default function NewTask(props) {
                   style={{ fontSize: "12px" }}
                   name="deadlineTime"
                   onChange={handleTimeChange}
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3" controlId="formPlaintext2">
-              <Form.Label column md="4" sm="4">
-                Client Email
-              </Form.Label>
-              <Col sm="8">
-                <Form.Control
-                  type="email"
-                  name="clientEmail"
-                  onChange={handleChange}
                 />
               </Col>
             </Form.Group>

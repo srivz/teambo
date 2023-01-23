@@ -26,18 +26,8 @@ export default function SwitchTask(props) {
             clientIndex: props?.switchtask?.clientIndex,
             updates: props?.switchtask?.updates.concat({
                 description: ['This task was switched to you.'],
-                assignedDate:
-                    String(today.getDate()).padStart(2, '0') +
-                    '/' +
-                    String(today.getMonth() + 1).padStart(2, '0') +
-                    '/' +
-                    today.getFullYear(),
-                assignedTime:
-                    today.getHours() +
-                    ':' +
-                    today.getMinutes() +
-                    ':' +
-                    today.getSeconds(),
+                assignedStartDate: props?.switchtask?.assignedStartDate,
+                assignedStartTime: props?.switchtask?.assignedStartTime,
                 corrections: props?.switchtask?.updates.length,
                 deadlineDate: '--',
                 deadlineTime: '--',

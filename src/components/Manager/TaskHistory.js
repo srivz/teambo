@@ -16,8 +16,8 @@ export default function TaskHistory(props) {
   const [taskUpdate, setTaskUpdate] = useState({
     corrections: '',
     status: 'Assigned',
-    assignedDate: props?.teamtasks[props?.indexselected]?.updates.assignedDate,
-    assignedTime: props?.teamtasks[props?.indexselected]?.updates.assignedTime,
+    assignedStartDate: props?.teamtasks[props?.indexselected]?.updates.assignedStartDate,
+    assignedStartTime: props?.teamtasks[props?.indexselected]?.updates.assignedStartTime,
     deadlineDate: '--',
     description: '',
     deadlineTime: '--',
@@ -91,14 +91,8 @@ export default function TaskHistory(props) {
 
   const handleTaskCorrection = (id, index, correction) => {
     set(ref(db, `/manager/${props?.managerid}/teammates/${props?.teammateindex}/data/tasks/${index}/updates/${correction}`), {
-      assignedDate:
-        String(today.getDate()).padStart(2, '0') +
-        '/' +
-        String(today.getMonth() + 1).padStart(2, '0') +
-        '/' +
-        today.getFullYear(),
-      assignedTime:
-        today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds(),
+      assignedStartDate: taskUpdate.assignedStartDate,
+      assignedStartTime: taskUpdate.assignedStartTime,
       corrections: props?.teamtasks[props?.indexselected]?.updates?.length,
       status: 'Assigned',
       deadlineDate: taskUpdate.deadlineDate,
@@ -112,14 +106,8 @@ export default function TaskHistory(props) {
   }
   const handleTaskCorrection1 = (id, index, correction) => {
     set(ref(db, `/manager/${props?.managerid}/teammates/${props?.teammateindex}/data/tasks/${index}/updates/${correction - 1}/`), {
-      assignedDate:
-        String(today.getDate()).padStart(2, '0') +
-        '/' +
-        String(today.getMonth() + 1).padStart(2, '0') +
-        '/' +
-        today.getFullYear(),
-      assignedTime:
-        today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds(),
+      assignedStartDate: props?.teamtasks[props?.indexselected]?.updates[0].assignedStartDate,
+      assignedStartTime: props?.teamtasks[props?.indexselected]?.updates[0].assignedStartTime,
       corrections: correction - 1,
       status: props?.teamtasks[props?.indexselected]?.updates[0].status,
       deadlineDate: props?.teamtasks[props?.indexselected]?.updates[0].deadlineDate,
@@ -152,6 +140,10 @@ export default function TaskHistory(props) {
       })
   }
   const handleDateChange = (event) => {
+    let date = event.target.value.split('-')
+    taskUpdate.deadlineDate = date[2] + '/' + date[1] + '/' + date[0]
+  }
+  const handleStartDateChange = (event) => {
     let date = event.target.value.split('-')
     taskUpdate.deadlineDate = date[2] + '/' + date[1] + '/' + date[0]
   }
@@ -208,7 +200,7 @@ export default function TaskHistory(props) {
               <FontAwesomeIcon
                 className="pointer"
                 icon="fa-regular fa-envelope"
-                size="2xl" />
+                size="xl" />
               {props?.teamtasks[props?.indexselected]?.query ?
                 (
                   <div style={{ marginBottom: "5px", marginLeft: "5px" }} class="notification-dot"></div>
@@ -256,38 +248,14 @@ export default function TaskHistory(props) {
               <h5>{props?.name}</h5>
               <h6>{props?.designation}</h6>
             </Col>
-            <Col
-              sm={6}
-              md={6}
-              style={{ marginTop: '1em' }}
-              className="text-end"
-            >
-              <Form.Group
-                as={Row}
-                className="mb-3 deadline"
-                controlId="formPlaintext3"
-              >
-                <Form.Label column md="4" sm="4">
-                  Client Email
-                </Form.Label>
-                <Col sm="8" md="8">
-                  <Form.Control
-                    type="text"
-                    defaultValue={props?.teamtasks[props?.indexselected]?.clientEmail}
-                    name="clientEmail"
-                    disabled
-                  // onChange={handleclientEmailChange}
-                  />
-                </Col>
-              </Form.Group>
-            </Col>
           </Row>
           <Row style={{ paddingLeft: ".5em", alignItems: "bottom" }}>
             <Col sm={1} md={1} style={{ marginTop: '1em' }}>
               <h6>Client</h6>
             </Col>
-            <Col sm={3} md={3} style={{ marginTop: '.75em' }}>
-              <h5>{props?.teamtasks[props?.indexselected]?.client}</h5>
+            <Col sm={3} md={3} style={{ marginTop: '.75em' }} title={props?.teamtasks[props?.indexselected]?.client}>
+              <h5>{props?.teamtasks[props?.indexselected]?.client.length > 15 ? props?.teamtasks[props?.indexselected]?.client.slice(0, 12) + "..." : props?.teamtasks[props?.indexselected]?.client}
+              </h5>
             </Col>
             <Col sm={1} md={1} style={{ marginTop: '1em' }}>
               <h6>Task</h6>
@@ -445,7 +413,30 @@ export default function TaskHistory(props) {
                       fontFamily: 'rockwen',
                     }}
                     align="center"
-                  ></TableCell>
+                  >
+                    <Row className="justify-content-md-center">
+                      <Col sm={10}>
+                        <Form.Control
+                          type="date"
+                          min={moment().format('YYYY-MM-DD')}
+                          name="assignedStartDate"
+                          style={{ fontSize: '12px' }}
+                          onChange={handleStartDateChange}
+                        />
+                      </Col>
+                    </Row>
+                    <br />
+                    <Row className="justify-content-md-center">
+                      <Col sm={10}>
+                        <Form.Control
+                          type="time"
+                          name="assignedStartTime"
+                          style={{ fontSize: '12px' }}
+                          onChange={handleChange}
+                        />
+                      </Col>
+                    </Row>
+                  </TableCell>
                   <TableCell
                     style={{
                       fontFamily: 'rockwen',
@@ -627,9 +618,9 @@ export default function TaskHistory(props) {
                         }}
                         align="center"
                       >
-                        {dateFormatChange(info.assignedDate)}
+                        {dateFormatChange(info.assignedStartDate)}
                         <br />
-                        {timeFormatChange(info.assignedTime)}
+                        {timeFormatChange(info.assignedStartTime)}
                       </TableCell>
                       <TableCell
                         style={{

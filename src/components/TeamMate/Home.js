@@ -331,7 +331,7 @@ export default function Home() {
                                   fontWeight: 'bold',
                                 }}
                               >
-                                Assigned
+                                Start Time
                             </TableCell>
                             <TableCell
                               align="center"
@@ -449,11 +449,11 @@ export default function Home() {
                                                 }}
                                                 align="center"
                                               >{dateFormatChange(
-                                                info2.assignedDate,
+                                                info2.assignedStartDate,
                                               )}
                                                 <br />
                                                 {timeFormatChange(
-                                                  info2.assignedTime,
+                                                  info2.assignedStartTime,
                                                 )}
                                               </TableCell>
                                               <TableCell

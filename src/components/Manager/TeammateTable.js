@@ -279,7 +279,7 @@ export default function TeammateTable(props) {
                                 <TableCell
                                     style={{
                                         fontFamily: 'rockwen',
-                                        width: "200px"
+                                        width: "180px"
                                     }}
                                     align="center"
                                 >
@@ -288,7 +288,7 @@ export default function TeammateTable(props) {
                                 <TableCell
                                     style={{
                                         fontFamily: 'rockwen',
-                                        width: "200px"
+                                        width: "150px"
                                     }}
                                     align="center"
                                 >
@@ -297,11 +297,11 @@ export default function TeammateTable(props) {
                                 <TableCell
                                     style={{
                                         fontFamily: 'rockwen',
-                                        width: "100px"
+                                        width: "130px"
                                     }}
                                     align="center"
                                 >
-                                    Assigned
+                                    Start Time
                                 </TableCell>
                                 <TableCell
                                     style={{
@@ -405,7 +405,6 @@ export default function TeammateTable(props) {
                                                     }}
                                                     style={{
                                                         fontFamily: 'rockwen',
-                                                        width: "200px"
 
                                                     }}
                                                     align="center"
@@ -423,7 +422,7 @@ export default function TeammateTable(props) {
                                                     }}
                                                     align="center"
                                                     title={info1.task}
-                                                >{info1?.task?.length < 16 ? info1.task : info1?.task?.slice(0, 13) + "..."}
+                                                >{info1?.task?.length < 14 ? info1.task : info1?.task?.slice(0, 11) + "..."}
                                                     {info1.query ?
                                                         (
                                                             <div style={{ marginLeft: ".8em" }} class="notification-dot"></div>
@@ -460,13 +459,13 @@ export default function TeammateTable(props) {
                                                                     {dateFormatChange(
                                                                         info1.updates[
                                                                             info1.updates.length - 1
-                                                                        ].assignedDate,
+                                                                        ].assignedStartDate,
                                                                     )}
                                                                     <br />
                                                                     {timeFormatChange(
                                                                         info1.updates[
                                                                             info1.updates.length - 1
-                                                                        ].assignedTime,
+                                                                        ].assignedStartTime,
                                                                     )}
                                                                 </TableCell>
                                                                 <TableCell

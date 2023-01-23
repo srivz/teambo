@@ -105,18 +105,8 @@ export default function HomeBlock(props) {
         clientEmail: dragItemContent?.clientEmail,
         updates: dragItemContent?.updates.concat({
           description: ['This task was switched to you.'],
-          assignedDate:
-            String(today.getDate()).padStart(2, '0') +
-            '/' +
-            String(today.getMonth() + 1).padStart(2, '0') +
-            '/' +
-            today.getFullYear(),
-          assignedTime:
-            today.getHours() +
-            ':' +
-            today.getMinutes() +
-            ':' +
-            today.getSeconds(),
+          assignedStartDate: dragItemContent?.assignedStartDate,
+          assignedStartTime: dragItemContent?.assignedStartTime,
           corrections: dragItemContent?.updates?.length || 0,
           deadlineDate: '--',
           deadlineTime: '--',

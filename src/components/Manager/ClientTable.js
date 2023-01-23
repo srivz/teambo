@@ -42,7 +42,7 @@ export default function ClientTable(props) {
                                     }}
                                     align="center"
                                 >
-                                    Assigned
+                                    Start Time
                                 </TableCell>
                                 <TableCell
                                     style={{
@@ -159,11 +159,11 @@ export default function ClientTable(props) {
 
                                                                     >
                                                                         {props?.dateFormatChange(
-                                                                            info2.assignedDate,
+                                                                            info2.assignedStartDate,
                                                                         )}
                                                                         <br />
                                                                         {props?.timeFormatChange(
-                                                                            info2.assignedTime,
+                                                                            info2.assignedStartTime,
                                                                         )}
                                                                     </TableCell>
                                                                     <TableCell
