@@ -97,16 +97,16 @@ export default function HomeBlock(props) {
       var today = new Date()
       let copyList = [...fromTeammate.current.tasks];
       const dragItemContent = copyList[fromTeammate.current.taskIndex];
+      console.log(dragItemContent);
       const newTask = {
         client: dragItemContent?.client,
         task: dragItemContent?.task,
         manHours: 0,
         clientIndex: dragItemContent?.clientIndex,
-        clientEmail: dragItemContent?.clientEmail,
         updates: dragItemContent?.updates.concat({
           description: ['This task was switched to you.'],
-          assignedStartDate: dragItemContent?.assignedStartDate,
-          assignedStartTime: dragItemContent?.assignedStartTime,
+          assignedStartDate: dragItemContent?.updates[dragItemContent?.updates?.length - 1].assignedStartDate,
+          assignedStartTime: dragItemContent?.updates[dragItemContent?.updates?.length - 1].assignedStartTime,
           corrections: dragItemContent?.updates?.length || 0,
           deadlineDate: '--',
           deadlineTime: '--',

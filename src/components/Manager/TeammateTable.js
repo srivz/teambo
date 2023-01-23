@@ -29,7 +29,7 @@ export default function TeammateTable(props) {
     const dragItem = useRef();
     const dragOverItem = useRef();
 
-
+    // console.log(props);
     const diff_hours = (dt2, dt1) => {
         var diff = (new Date("" + dt2).getTime() - new Date("" + dt1).getTime()) / 1000;
         diff /= (60 * 60);
@@ -53,32 +53,32 @@ export default function TeammateTable(props) {
             .catch((err) => {
                 console.log(err);
             });
-        // const subject = `
-        //             <h4> Your Task ${teammate.tasks[index].task} has been Removed By manager ${props?.manager.name}</h4>
-        //             <br />
-        //             <p>Thank you</p>
-        //         `
-        // const heading = "Task Removed";
-        // const text = `Your Task ${teammate.tasks[index].task} has been Removed By manger ${props?.manager.name}`
-        // try {
-        //     const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-        //         heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
-        //     });
-        //     if (res.status === 200) {
+        const subject = `
+                    <h4> Your Task ${teammate.tasks[index].task} has been Removed By manager ${props?.manager.name}</h4>
+                    <br />
+                    <p>Thank you</p>
+                `
+        const heading = "Task Removed";
+        const text = `Your Task ${teammate.tasks[index].task} has been Removed By manger ${props?.manager.name}`
+        try {
+            const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+                heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
+            });
+            if (res.status === 200) {
                 const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
                 if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status !== 'Completed')
                     update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
                 if (teammate.tasks.length === 1 && teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status !== 'Completed')
                     update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
-        //     }
-        //     else {
-        //         alert("Something went wrong");
-        //     }
+            }
+            else {
+                alert("Something went wrong");
+            }
 
-        // } catch (err) {
-        //     alert("error")
-        //     console.log(err)
-        // }
+        } catch (err) {
+            alert("error")
+            console.log(err)
+        }
     }
     const handleDeleteSwitchTask = async (teammate, id, index) => {
         let list1 = teammate.tasks.slice(0, index);
@@ -97,62 +97,62 @@ export default function TeammateTable(props) {
             .catch((err) => {
                 console.log(err);
             });
-        // const subject = `
-        //             <h4> Your Task ${teammate.tasks[index].task} has been Switched to another teammate By manager ${props?.manager.name}</h4>
-        //             <br />
-        //             <p>Thank you</p>
-        //         `
-        // const heading = "Task Switched";
-        // const text = `Your Task ${teammate.tasks[index].task} has been Removed By manger ${props?.manager.name}`
-        // try {
-        //     const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-        //         heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
-        //     });
-        //     if (res.status === 200) {
+        const subject = `
+                    <h4> Your Task ${teammate.tasks[index].task} has been Switched to another teammate By manager ${props?.manager.name}</h4>
+                    <br />
+                    <p>Thank you</p>
+                `
+        const heading = "Task Switched";
+        const text = `Your Task ${teammate.tasks[index].task} has been Removed By manger ${props?.manager.name}`
+        try {
+            const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+                heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
+            });
+            if (res.status === 200) {
                 const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
                 if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status !== 'Completed')
                     update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
                 if (teammate.tasks.length === 1 && teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status !== 'Completed')
                     update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
-        //     }
-        //     else {
-        //         alert("Something went wrong");
-        //     }
+            }
+            else {
+                alert("Something went wrong");
+            }
 
-        // } catch (err) {
-        //     alert("error")
-        //     console.log(err)
-        // }
+        } catch (err) {
+            alert("error")
+            console.log(err)
+        }
     }
     const handleCompleteTask = async (teammate, id, index, latest) => {
         notifyCompleteTask(teammate.notifications, props?.managerId, id, teammate.tasks[index].client)
-//         const subject = `
-//     <h4> Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}</h4>
-//     <br />
-//     <p>Thank you</p>
-//    `
-//         const heading = "Task Approved"
-//         const text = `Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}`
+        const subject = `
+    <h4> Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}</h4>
+    <br />
+    <p>Thank you</p>
+   `
+        const heading = "Task Approved"
+        const text = `Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}`
 
-//         try {
-//             const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-//                 heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
-//             });
-//             if (res.status === 200) {
+        try {
+            const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+                heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
+            });
+            if (res.status === 200) {
                 const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
                 let manHour = props?.manager.teammates[id].data.tasks[index].manHours
                 clientTaskComplete(props?.managerId, teammate.tasks[index].clientIndex, props?.manager?.clients[teammate.tasks[index].clientIndex].taskCount, props?.manager?.clients[teammate.tasks[index].clientIndex].manHours + manHour)
         update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}`), { status: "Completed" })
                 update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
-        //     }
-        //     else {
-        //         alert("Something went wrong");
-        //     }
+            }
+            else {
+                alert("Something went wrong");
+            }
 
-        // } catch (err) {
-        //     alert("error")
-        //     console.log(err)
-        // }
+        } catch (err) {
+            alert("error")
+            console.log(err)
+        }
 
     }
     function swap(arr, from, to) {
@@ -838,7 +838,7 @@ export default function TeammateTable(props) {
                                     setswitchtask={setSwitchTask}
                                     prevtasklist={info.data}
                                     props={props}
-                                    managerid={props?.managerid}
+                                    managerid={props?.managerId}
                                     switchtask={switchTask}
                                     handledeletetask={handleDeleteSwitchTask}
                                     prevteammateindex={prevTeammateIndex}
