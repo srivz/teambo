@@ -113,7 +113,7 @@ export default function Home() {
     let manHour = parseFloat(teammate.tasks[index].manHours) + now
     alert(clients[teammate.tasks[index].clientIndex].manHours)
     let manHour1 = parseFloat(teammate.manHours) + now
-    alert(teammate.manHours)
+    update(ref(db, `/manager/${managerId}/clients/${teammate.tasks[index].clientIndex}/`), { manHours: clients[teammate.tasks[index].clientIndex].manHours + manHour })
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/`), { manHours: manHour1 })
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/`), { manHours: manHour })
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), {
@@ -129,6 +129,7 @@ export default function Home() {
       now = diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].startTimeStamp)
     let manHour = parseFloat(teammate.tasks[index].manHours) + now
     let manHour1 = parseFloat(teammate.manHours) + now
+    update(ref(db, `/manager/${managerId}/clients/${teammate.tasks[index].clientIndex}/`), { manHours: clients[teammate.tasks[index].clientIndex].manHours + manHour })
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/`), { manHours: manHour1 })
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/`), { manHours: manHour })
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${length - 1}`), {
