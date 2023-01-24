@@ -139,13 +139,14 @@ export default function HomeBlock(props) {
         now = diff_hours(today, manager.teammates[fromTeammate.current.id].data.tasks[index].updates[manager.teammates[fromTeammate.current.id].data.tasks[index].updates.length - 1].startTimeStamp)
       let manHour1 = manager.teammates[fromTeammate.current.id].data.manHours + now
       let toLiveTask = manager.teammates[toTeammate.current.id].data.liveTasks + 1
+      let toTotalNumberOfTasks = manager.teammates[toTeammate.current.id].data.totalNumberOfTasks + 1
       let fromLiveTask = manager.teammates[fromTeammate.current.id].data.liveTasks - 1
       update(ref(db, `/manager/${managerId}/teammates/${id}/data/`), { manHours: manHour1 }).then(() => {
         update(ref(db, `/manager/${managerId}/clients/${manager.teammates[fromTeammate.current.id].data.tasks[index].clientIndex}`), { manHours: manager.clients[manager.teammates[fromTeammate.current.id].data.tasks[index].clientIndex].manHours + now })
       })
       if (toLiveTask >= 0 && toLiveTask >= 0) {
         update(ref(db, `/manager/${managerId}/teammates/${fromTeammate.current.id}/data`), { liveTasks: fromLiveTask })
-        update(ref(db, `/manager/${managerId}/teammates/${toTeammate.current.id}/data`), { liveTasks: toLiveTask })
+        update(ref(db, `/manager/${managerId}/teammates/${toTeammate.current.id}/data`), { liveTasks: toLiveTask, totalNumberOfTasks: toTotalNumberOfTasks })
       }
       if (toTeammate.current.tasks) {
         set(ref(db, `manager/${managerId}/teammates/${toTeammate.current.id}/data/tasks/${toTeammate.current.tasks.length || 0}`), newTask,)
