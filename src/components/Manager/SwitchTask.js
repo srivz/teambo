@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { onValue, ref, set } from 'firebase/database'
+import { onValue, ref, set, update } from 'firebase/database'
 import React, { useEffect, useState } from 'react'
 import { Button, Row, Col, Form } from 'react-bootstrap'
-import { db } from '../../firebase-config'
+import { auth, db } from '../../firebase-config'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { notifySwitchFromTask, notifySwitchToTask } from './NotificationFunctions'
 
@@ -75,11 +75,14 @@ export default function SwitchTask(props) {
                 today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
             newTask[0].updates[newTask[0].updates.length - 2].startTimeStamp = null
             if (!prevTasks) {
+                const newLiveTaskCount = props?.manager.teammates[teammateId].data.liveTasks + 1
+                const newTotalTaskCount = props?.manager.teammates[teammateId].data.totalNumberOfTasks + 1
+                update(ref(db, `/manager/${auth.currentUser.uid}/teammates/${teammateId}/data`), { liveTasks: newLiveTaskCount, totalNumberOfTasks: newTotalTaskCount })
                 notifySwitchToTask(teamRequest, props?.managerid, teammateId, props?.switchtask?.client);
                 notifySwitchFromTask(teamRequest1, props?.managerid, props?.prevteammateindex, props?.switchtask?.client);
                 set(ref(db, `/manager/${props?.managerid}/teammates/${teammateId}/data/tasks`), newTask,)
                     .then(() => {
-                        props?.handleDeleteTask(props?.prevtasklist, props?.prevteammateindex, props?.prevtaskindex)
+                        props?.handledeletetask(props?.prevtasklist, props?.prevteammateindex, props?.prevtaskindex)
                         close()
                     })
                     .catch((err) => {
@@ -94,6 +97,9 @@ export default function SwitchTask(props) {
                 })
                 if (!exists) {
                 } else {
+                    const newLiveTaskCount = props?.manager.teammates[teammateId].data.liveTasks + 1
+                    const newTotalTaskCount = props?.manager.teammates[teammateId].data.totalNumberOfTasks + 1
+                    update(ref(db, `/manager/${auth.currentUser.uid}/teammates/${teammateId}/data`), { liveTasks: newLiveTaskCount, totalNumberOfTasks: newTotalTaskCount })
                     let newArr2 = newTask.concat(newArr)
                     notifySwitchToTask(teamRequest, props?.managerid, teammateId, props?.switchtask?.client);
                     notifySwitchFromTask(teamRequest1, props?.managerid, props?.prevteammateindex, props?.switchtask?.client);
