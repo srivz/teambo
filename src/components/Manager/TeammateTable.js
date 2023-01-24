@@ -107,26 +107,26 @@ export default function TeammateTable(props) {
             .catch((err) => {
                 console.log(err);
             });
-        // const subject = `
-        //             <h4> Your Task ${teammate.tasks[index].task} has been Switched to another teammate By manager ${props?.manager.name}</h4>
-        //             <br />
-        //             <p>Thank you</p>
-        //         `
-        // const heading = "Task Switched";
-        // const text = `Your Task ${teammate.tasks[index].task} has been Removed By manger ${props?.manager.name}`
-        // try {
-        //     const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-        //         heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
-        //     });
-        //     if (res.status === 200) {
-        //     }
-        //     else {
-        //         alert("Something went wrong");
-        //     }
-        // } catch (err) {
-        //     alert("error")
-        //     console.log(err)
-        // }
+        const subject = `
+                    <h4> Your Task ${teammate.tasks[index].task} has been Switched to another teammate By manager ${props?.manager.name}</h4>
+                    <br />
+                    <p>Thank you</p>
+                `
+        const heading = "Task Switched";
+        const text = `Your Task ${teammate.tasks[index].task} has been Removed By manger ${props?.manager.name}`
+        try {
+            const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+                heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
+            });
+            if (res.status === 200) {
+            }
+            else {
+                alert("Something went wrong");
+            }
+        } catch (err) {
+            alert("error")
+            console.log(err)
+        }
     }
 
     const handleCompleteTask = async (teammate, id, index, latest) => {
