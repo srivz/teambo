@@ -124,6 +124,16 @@ export default function HomeBlock(props) {
           status: 'Assigned',
         },),
       }
+      newTask.updates[newTask.updates.length - 2].status = "Done"
+      newTask.updates[newTask.updates.length - 2].endDate =
+        String(today.getDate()).padStart(2, '0') +
+        '/' +
+        String(today.getMonth() + 1).padStart(2, '0') +
+        '/' +
+        today.getFullYear()
+      newTask.updates[newTask.updates.length - 2].endTime =
+        today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+      newTask.updates[newTask.updates.length - 2].startTimeStamp = null
       let now = 0
       if (manager.teammates[fromTeammate.current.id].data.tasks[index].updates[manager.teammates[fromTeammate.current.id].data.tasks[index].updates.length - 1].status === "On Going")
         now = diff_hours(today, manager.teammates[fromTeammate.current.id].data.tasks[index].updates[manager.teammates[fromTeammate.current.id].data.tasks[index].updates.length - 1].startTimeStamp)
