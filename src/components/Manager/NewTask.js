@@ -8,6 +8,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import notifyNewTask from "./NotificationFunctions";
 import clientTaskAdd from "./ClientTaskCount";
 import axios from "axios";
+import WhatsAppMessageSend from "../WhatsappMessageSend";
 
 
 export default function NewTask(props) {
@@ -89,6 +90,7 @@ export default function NewTask(props) {
           clientTaskAdd(props?.managerId, newTask.clientIndex, props?.manager?.clients[newTask.clientIndex].taskCount, props?.manager?.clients[newTask.clientIndex].totalTaskCount)
           update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask], totalNumberOfTasks: newTaskCount, liveTasks: newLiveTaskCount }).then(async () => {
             setShow(false)
+
             const subject = `
                   <h4> New Task ${newTask.task} from client ${newTask.client} has been Assigned to you By manager ${props?.manager.name}</h4>
                   <br />
@@ -101,6 +103,7 @@ export default function NewTask(props) {
                 heading, fromEmail: props?.manager.email, toEmail: props?.teammate.email, subject: subject, name: props?.teammate.name, text: text, whatsAppNo: props?.teammate?.whatsAppNo
               });
               if (res.status === 200) {
+                WhatsAppMessageSend(props?.teammate?.whatsAppNo, text)
               }
               else {
                 alert("Something went wrong");
