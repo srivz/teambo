@@ -178,7 +178,6 @@ export default function HomeList() {
       else {
         alert("Something went wrong");
       }
-
     } catch (err) {
       alert("error")
       console.log(err)

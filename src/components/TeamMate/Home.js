@@ -15,6 +15,7 @@ import played from '../../assets/images/played.svg'
 import tick from '../../assets/images/tick.svg'
 import TeammateTaskHistory from './TeammateTaskHistory'
 import Notifications from './Notifications'
+import axios from 'axios'
 
 export default function Home() {
   const [loading, setLoading] = useState(true)
@@ -26,6 +27,7 @@ export default function Home() {
   const [id, setId] = useState('')
   const [filter, setFilter] = useState('All')
   const [managerId, setManagerId] = useState('')
+  const [managerEmail, setManagerEmail] = useState('')
   const [teammateIndex, setTeammateIndex] = useState(null)
   const [modalShow, setModalShow] = useState(false)
   const [otherNotifications, setOtherNotifications] = useState()
@@ -82,6 +84,15 @@ export default function Home() {
           console.log('No data available')
         }
       })
+      onValue(ref(db, `/manager/${managerId}/email`), (snapshot) => {
+        if (snapshot.exists()) {
+          setManagerEmail(snapshot.val())
+          setLoading(false)
+        } else {
+          setLoading(false)
+          console.log('No data available')
+        }
+      })
       setOnce1(false)
     }
   }
@@ -121,7 +132,7 @@ export default function Home() {
     })
   }
 
-  const completeTask = (e, index, length) => {
+  const completeTask = async (e, index, length) => {
     var today = new Date()
     if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status === "On Going") {
       let now = diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].startTimeStamp)
@@ -143,6 +154,27 @@ export default function Home() {
       endTime:
         today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds(),
     })
+    const subject = `
+                  <h4>${teammate.name} completed the ${teammate.tasks[index].task} task.</h4>
+                  <br />
+                  <p>Thank you</p>
+                `
+    const heading = "Teammate Request"
+    const text = `${teammate.name} requests you to join his team.Login to your Teambo account to reply to his request.`
+    try {
+      const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+        heading, fromEmail: teammate.email, toEmail: managerEmail, subject: subject, text: text
+      });
+      if (res.status === 200) {
+      }
+      else {
+        alert("Something went wrong");
+      }
+
+    } catch (err) {
+      alert("error")
+      console.log(err)
+    }
   }
 
   const doNothing = () => { }
@@ -340,8 +372,8 @@ export default function Home() {
                             <TableCell
                               align="center"
                               style={{
-                                  fontFamily: 'rockwen',
-                                  fontWeight: 'bold',
+                                fontFamily: 'rockwen',
+                                fontWeight: 'bold',
                                 }}
                               >
                                 Start Time

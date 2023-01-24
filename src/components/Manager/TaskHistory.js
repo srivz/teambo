@@ -3,11 +3,12 @@ import { TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { ref, set } from 'firebase/database'
 import React, { useState } from 'react'
 import { Button, Col, Form, Modal, Row, Table } from 'react-bootstrap'
-import { db } from '../../firebase-config'
+import { auth, db } from '../../firebase-config'
 import moment from 'moment'
 
 export default function TaskHistory(props) {
   const [showDoubt, setShowDoubt] = useState(false)
+  const [assignedDate, setAssignedDate] = useState();
   const handleClose = () => setShowDoubt(false);
   const handleShow = () => setShowDoubt(true);
   const [updateTaskForm, setUpdateTaskForm] = useState(false)
@@ -89,7 +90,7 @@ export default function TaskHistory(props) {
   }
 
   const handleTaskCorrection = (id, index, correction) => {
-    set(ref(db, `/manager/${props?.managerid}/teammates/${props?.teammateindex}/data/tasks/${index}/updates/${correction}`), {
+    set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${props?.teammateindex}/data/tasks/${index}/updates/${correction}`), {
       assignedStartDate: taskUpdate.assignedStartDate,
       assignedStartTime: taskUpdate.assignedStartTime,
       corrections: props?.teamtasks[props?.indexselected]?.updates?.length,
@@ -98,22 +99,31 @@ export default function TaskHistory(props) {
       description: { 0: taskUpdate.description },
       deadlineTime: taskUpdate.deadlineTime,
     })
-      .then(() => { setUpdateTaskForm(false); setUpdateAdditionalTaskForm(false); })
+      .then(() => {
+        handleTaskCorrectionClear();
+      })
       .catch((err) => {
         console.log(err)
       })
   }
   const handleTaskCorrection1 = (id, index, correction) => {
-    set(ref(db, `/manager/${props?.managerid}/teammates/${props?.teammateindex}/data/tasks/${index}/updates/${correction - 1}/`), {
-      assignedStartDate: props?.teamtasks[props?.indexselected]?.updates[0].assignedStartDate,
-      assignedStartTime: props?.teamtasks[props?.indexselected]?.updates[0].assignedStartTime,
+    let deadLineDate = taskUpdate.deadlineDate !== "--" ? taskUpdate.deadlineDate : props?.teamtasks[props?.indexselected]?.updates[0].deadlineDate
+    let deadlineTime = taskUpdate.deadlineTime !== "--" ? taskUpdate.deadlineTime : props?.teamtasks[props?.indexselected]?.updates[0].deadlineTime
+    let assignedStartTime = taskUpdate.assignedStartTime !== "--" ? taskUpdate.assignedStartTime : props?.teamtasks[props?.indexselected]?.updates[0].assignedStartTime
+    let assignedStartDate = taskUpdate.assignedStartDate !== "--" ? taskUpdate.assignedStartDate : props?.teamtasks[props?.indexselected]?.updates[0].assignedStartDate
+    let description = taskUpdate.description !== "" ? [taskUpdate.description].concat(props?.teamtasks[props?.indexselected]?.updates[0].description) : props?.teamtasks[props?.indexselected]?.updates[0].description
+    set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${props?.teammateindex}/data/tasks/${index}/updates/${correction - 1}/`), {
+      assignedStartDate: assignedStartDate,
+      assignedStartTime: assignedStartTime,
       corrections: correction - 1,
       status: props?.teamtasks[props?.indexselected]?.updates[0].status,
-      deadlineDate: props?.teamtasks[props?.indexselected]?.updates[0].deadlineDate,
-      description: [taskUpdate.description].concat(props?.teamtasks[props?.indexselected]?.updates[0].description),
-      deadlineTime: props?.teamtasks[props?.indexselected]?.updates[0].deadlineTime,
+      deadlineDate: deadLineDate,
+      description: description,
+      deadlineTime: deadlineTime,
     })
-      .then(() => { setUpdateTaskForm(false); setUpdateAdditionalTaskForm(false); })
+      .then(() => {
+        handleTaskCorrectionClear();
+      })
       .catch((err) => {
         console.log(err)
       })
@@ -131,10 +141,11 @@ export default function TaskHistory(props) {
     setUpdateAdditionalTaskForm(false)
   }
   const handleAdditionalTaskCorrection1 = (id, index, correction) => {
-    set(ref(db, `/manager/${props?.managerid}/teammates/${props?.teammateindex}/data/tasks/${index}/updates/${correction - 1}/description/`),
+    if (taskUpdate.description !== "")
+      set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${props?.teammateindex}/data/tasks/${index}/updates/${correction - 1}/description/`),
       [taskUpdate.description].concat(props?.teamtasks[props?.indexselected]?.updates[0].description))
       .then(() => {
-        set(ref(db, `/manager/${props?.managerid}/teammates/${props?.teammateindex}/data/tasks/${index}/query/`), null)
+        set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${props?.teammateindex}/data/tasks/${index}/query/`), null).then(() => { handleTaskCorrectionClear(); })
       })
       .catch((err) => {
         console.log(err)
@@ -145,14 +156,11 @@ export default function TaskHistory(props) {
     taskUpdate.deadlineDate = date[2] + '/' + date[1] + '/' + date[0]
   }
   const handleStartDateChange = (event) => {
+    setAssignedDate(event.target.value)
     let date = event.target.value.split('-')
     taskUpdate.assignedStartDate = date[2] + '/' + date[1] + '/' + date[0]
   }
   const handleChange = (event) => {
-    let newInput = { [event.target.name]: event.target.value }
-    setTaskUpdate({ ...taskUpdate, ...newInput })
-  }
-  const handleChange1 = (event) => {
     let newInput = { [event.target.name]: event.target.value }
     setTaskUpdate({ ...taskUpdate, ...newInput })
   }
@@ -225,7 +233,7 @@ export default function TaskHistory(props) {
                       <Form.Control
                         as="textarea"
                         name="description"
-                        onChange={handleChange1}
+                        onChange={handleChange}
                         rows={3} />
                     </Form.Group>
                     <Button variant="primary" onClick={() => {
@@ -448,7 +456,7 @@ export default function TaskHistory(props) {
                       <Col sm={10}>
                         <Form.Control
                           type="date"
-                          min={moment().format('YYYY-MM-DD')}
+                          min={assignedDate || moment().format('YYYY-MM-DD')}
                           name="deadlineDate"
                           style={{ fontSize: '12px' }}
                           onChange={handleDateChange}
@@ -524,15 +532,9 @@ export default function TaskHistory(props) {
                     <Form.Control
                       as="textarea"
                       name="description"
-                      onChange={handleChange1}
+                      onChange={handleChange}
                     />
                   </TableCell>
-                  <TableCell
-                    style={{
-                      fontFamily: 'rockwen',
-                    }}
-                    align="center"
-                  ></TableCell>
                   <TableCell
                     style={{
                       fontFamily: 'rockwen',
@@ -541,13 +543,53 @@ export default function TaskHistory(props) {
                   >
                     <Row className="justify-content-md-center">
                       <Col sm={10}>
-
+                        <Form.Control
+                          type="date"
+                          min={moment().format('YYYY-MM-DD')}
+                          name="assignedStartDate"
+                          style={{ fontSize: '12px' }}
+                          onChange={handleStartDateChange}
+                        />
                       </Col>
                     </Row>
                     <br />
                     <Row className="justify-content-md-center">
                       <Col sm={10}>
-
+                        <Form.Control
+                          type="time"
+                          name="assignedStartTime"
+                          style={{ fontSize: '12px' }}
+                          onChange={handleChange}
+                        />
+                      </Col>
+                    </Row>
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      fontFamily: 'rockwen',
+                    }}
+                    align="center"
+                  >
+                    <Row className="justify-content-md-center">
+                      <Col sm={10}>
+                        <Form.Control
+                          type="date"
+                          min={assignedDate || moment().format('YYYY-MM-DD')}
+                          name="deadlineDate"
+                          style={{ fontSize: '12px' }}
+                          onChange={handleDateChange}
+                        />
+                      </Col>
+                    </Row>
+                    <br />
+                    <Row className="justify-content-md-center">
+                      <Col sm={10}>
+                        <Form.Control
+                          type="time"
+                          name="deadlineTime"
+                          style={{ fontSize: '12px' }}
+                          onChange={handleChange}
+                        />
                       </Col>
                     </Row>
                   </TableCell>

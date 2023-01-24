@@ -35,6 +35,7 @@ export default function SwitchTask(props) {
             },),
         }])
     }, [props])
+
     useEffect(() => {
         onValue(ref(db, `/manager/${props?.managerid}/teammates/${teammateId}/data`), (snapshot) => {
             if (snapshot.exists()) {
@@ -46,6 +47,7 @@ export default function SwitchTask(props) {
             }
         })
     }, [props, teammateId])
+
     useEffect(() => {
         onValue(ref(db, `/manager/${props?.managerid}/teammates/${props?.prevteammateindex}/data`), (snapshot) => {
             if (snapshot.exists()) {
@@ -56,6 +58,7 @@ export default function SwitchTask(props) {
             }
         })
     }, [props])
+
     const handleNewTask = () => {
         if (teammateId === '') {
             alert('First Select a teammate')
@@ -107,7 +110,7 @@ export default function SwitchTask(props) {
             }
         }
     }
-    // console.log(props)
+
     const searchClient = (e) => {
         setNewClient(e.target.value)
         const newFilter = props?.props?.team
@@ -129,6 +132,7 @@ export default function SwitchTask(props) {
             setTeammateList(newFilter)
         }
     }
+
     return (props?.show ?
         <div className="bg-white switch-task-box" style={{}}>
             <Button

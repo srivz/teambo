@@ -45,7 +45,17 @@ export default function TeammateTable(props) {
         let manHour1 = teammate.manHours + now
         notifyDeleteTask(teammate.notifications, props?.managerId, id, props?.manager?.clients[clientIndex].name)
         clientTaskDelete(props?.managerId, clientIndex, props?.manager?.clients[clientIndex].taskCount, props?.manager?.clients[teammate.tasks[index].clientIndex].manHours + now)
-        update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), { status: "Archived" }).then(() => {
+        update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), {
+            status: "Archived",
+            endDate:
+                String(today.getDate()).padStart(2, '0') +
+                '/' +
+                String(today.getMonth() + 1).padStart(2, '0') +
+                '/' +
+                today.getFullYear(),
+            endTime:
+                today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds(),
+        }).then(() => {
             update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/`), { manHours: manHour }).then(() => {
                 update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/`), { manHours: manHour1 })
             })
@@ -74,12 +84,12 @@ export default function TeammateTable(props) {
             else {
                 alert("Something went wrong");
             }
-
         } catch (err) {
             alert("error")
             console.log(err)
         }
     }
+
     const handleDeleteSwitchTask = async (teammate, id, index) => {
         let list1 = teammate.tasks.slice(0, index);
         let list2 = teammate.tasks.slice(index + 1);
@@ -117,12 +127,12 @@ export default function TeammateTable(props) {
             else {
                 alert("Something went wrong");
             }
-
         } catch (err) {
             alert("error")
             console.log(err)
         }
     }
+
     const handleCompleteTask = async (teammate, id, index, latest) => {
         notifyCompleteTask(teammate.notifications, props?.managerId, id, teammate.tasks[index].client)
         const subject = `
@@ -132,7 +142,6 @@ export default function TeammateTable(props) {
    `
         const heading = "Task Approved"
         const text = `Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}`
-
         try {
             const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
                 heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
@@ -146,17 +155,10 @@ export default function TeammateTable(props) {
             else {
                 alert("Something went wrong");
             }
-
         } catch (err) {
             alert("error")
             console.log(err)
         }
-
-    }
-    function swap(arr, from, to) {
-        let temp = arr[from]
-        arr[from] = arr[to]
-        arr[to] = temp
     }
 
     const dateFormatChange = (date) => {
@@ -223,29 +225,6 @@ export default function TeammateTable(props) {
                     : '0' + parseInt(givenTime[1])
 
             return hour + ':' + minute + ' am'
-        }
-    }
-    const handleUpTask = (id, index, tasks, taskLength) => {
-        if (index === 0) {
-            alert('Its already on the top')
-        } else {
-            let newarr = tasks
-            swap(newarr, index, index - 1)
-            update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/`), {
-                tasks: newarr,
-            })
-        }
-    }
-
-    const handleDownTask = (id, index, tasks, taskLength) => {
-        if (index === taskLength - 1) {
-            alert('Its already on the bottom')
-        } else {
-            let newarr = tasks
-            swap(newarr, index + 1, index)
-            update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/`), {
-                tasks: newarr,
-            })
         }
     }
     const dragStart = (e, index) => {
@@ -372,16 +351,26 @@ export default function TeammateTable(props) {
                                             ].status === filter
                                             : info1.updates[
                                                 info1.updates.length - 1
-                                            ].status !== filter && info1.updates[
-                                                info1.updates.length - 1
-                                            ].status !== "Completed" && info1.updates[
-                                                info1.updates.length - 1
-                                            ].status !== "Archived"
+                                                ].status !== filter
+                                            // && info1.updates[
+                                            //     info1.updates.length - 1
+                                            // ].status !== "Completed" && info1.updates[
+                                            //     info1.updates.length - 1
+                                            // ].status !== "Archived"
                                     }).map((info1, index) => {
                                         return (
                                             <TableRow
                                                 key={index}
                                                 style={{
+                                                    display: info1.updates[
+                                                        info1.updates.length - 1
+                                                    ].status === 'Archived'
+                                                        ? 'none'
+                                                        : info1.updates[
+                                                            info1.updates.length - 1
+                                                        ].status === 'Completed'
+                                                            ? 'none'
+                                                            : '',
                                                     backgroundColor:
                                                         info1.updates[
                                                             info1.updates.length - 1
@@ -512,7 +501,9 @@ export default function TeammateTable(props) {
                                                                 >
                                                                     {info1.updates[
                                                                         info1.updates.length - 1
-                                                                    ].status === 'Done' 
+                                                                    ].status === 'Done' || info1.updates[
+                                                                        info1.updates.length - 1
+                                                                    ].status === 'Archived'  
                                                                         ? dateFormatChange(
                                                                             info1.updates[
                                                                                 info1.updates
@@ -523,7 +514,9 @@ export default function TeammateTable(props) {
                                                                     <br />
                                                                     {info1.updates[
                                                                         info1.updates.length - 1
-                                                                    ].status === 'Done' 
+                                                                    ].status === 'Done' || info1.updates[
+                                                                        info1.updates.length - 1
+                                                                    ].status === 'Archived' 
                                                                         ? timeFormatChange(
                                                                             info1.updates[
                                                                                 info1.updates
@@ -575,6 +568,15 @@ export default function TeammateTable(props) {
                                                                         (info1.updates[
                                                                             info1.updates.length - 1
                                                                         ].status ===
+                                                                            'Archived' && {
+                                                                            fontFamily: 'rockwen',
+                                                                            color: '#24A43A',
+                                                                            fontWeight: 'bold',
+                                                                            width: '105px'
+                                                                        }) ||
+                                                                        (info1.updates[
+                                                                            info1.updates.length - 1
+                                                                        ].status ===
                                                                             'On Going' && {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#24A43A',
@@ -601,9 +603,7 @@ export default function TeammateTable(props) {
                                                                     {info1.updates[
                                                                         info1.updates.length - 1
                                                                     ].status === 'Done' ? (
-                                                                        <FontAwesomeIcon
-                                                                            // onClick={() => {  }}
-                                                                            className="pointer"
+                                                                            <FontAwesomeIcon
                                                                             size="xl"
                                                                             icon="fa-solid fa-circle-check"
                                                                         />
@@ -663,73 +663,6 @@ export default function TeammateTable(props) {
                                                                                 }}
                                                                             />
                                                                             Mark Completed
-                                                                        </Button>
-                                                                    </Row>
-                                                                    <Row
-                                                                        className="d-grid gap-2"
-                                                                        style={{
-                                                                            marginBottom: '.5em',
-                                                                        }}
-                                                                    >
-                                                                        <Button
-                                                                            onClick={() => {
-                                                                                handleUpTask(
-                                                                                    info.teammateIndex,
-                                                                                    index,
-                                                                                    info.data.tasks,
-                                                                                    info.data.tasks
-                                                                                        .length,
-                                                                                );
-                                                                                setShow(false);
-                                                                            }}
-                                                                            variant="light"
-                                                                            style={{
-                                                                                textAlign: 'left',
-
-                                                                            }}
-                                                                        >
-                                                                            <FontAwesomeIcon
-                                                                                icon="fa-solid fa-chevron-up"
-                                                                                style={{
-                                                                                    paddingRight:
-                                                                                        ".5em",
-                                                                                    color: "blue",
-                                                                                }}
-                                                                            />
-                                                                            Move Up
-                                                                        </Button>
-                                                                    </Row>
-                                                                    <Row
-                                                                        className="d-grid gap-2"
-                                                                        style={{
-                                                                            marginBottom: '.5em',
-                                                                        }}
-                                                                    >
-                                                                        <Button
-                                                                            onClick={() => {
-                                                                                handleDownTask(
-                                                                                    info.teammateIndex,
-                                                                                    index,
-                                                                                    info.data.tasks,
-                                                                                    info.data.tasks
-                                                                                        .length,
-                                                                                );
-                                                                                setShow(false);
-                                                                            }}
-                                                                            variant="light"
-                                                                            style={{
-                                                                                textAlign: 'left',
-                                                                            }}
-                                                                        >
-                                                                            <FontAwesomeIcon
-                                                                                icon="fa-solid fa-chevron-down"
-                                                                                style={{
-                                                                                    paddingRight:
-                                                                                        ".5em",
-                                                                                    color: "blue",
-                                                                                }}
-                                                                            />
-                                                                            Move Down
                                                                         </Button>
                                                                     </Row>
                                                                     <Row
