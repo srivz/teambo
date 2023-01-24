@@ -334,7 +334,17 @@ export default function HomeBlock(props) {
                                             <span>{info1.task}</span>
                                           </Col>
                                           <Col sm="4">
-                                            {info1.updates ? (
+                                            {info1.updates.sort((a, b) =>
+                                              a.corrections > b.corrections
+                                                ? 1
+                                                : -1,
+                                            )
+                                              .filter(
+                                                (info2, index1) => index1 === 0,
+                                              )
+                                              .map((info2) => {
+                                                return (
+                                                  <>
                                               <span
                                                 style={
                                                   (info1.updates[
@@ -378,10 +388,9 @@ export default function HomeBlock(props) {
                                                     info1.updates.length - 1
                                                   ].status
                                                 }
-                                              </span>
-                                            ) : (
-                                              <></>
-                                            )}
+                                                    </span></>
+                                                )
+                                              })}
                                           </Col>
                                         </Row>
                                         <hr className="divider" style={{ marginBottom: "-22px" }} />
