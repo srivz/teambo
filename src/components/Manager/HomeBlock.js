@@ -285,7 +285,7 @@ export default function HomeBlock(props) {
                                   <h5>{info.data.name}</h5>
                                   <span>{info.data.designation}</span>
                                 </div>
-                                {!info.data.tasks ? (
+                                {info.data.liveTasks === 0 ? (
                                   <div className="card-tasks">
                                     <Row
                                       colSpan={7}
@@ -345,49 +345,43 @@ export default function HomeBlock(props) {
                                               .map((info2) => {
                                                 return (
                                                   <>
-                                              <span
-                                                style={
-                                                  (info1.updates[
-                                                    info1.updates.length - 1
-                                                  ].status === "Done" && {
-                                                    fontFamily: "rockwen",
-                                                    color: "#000000",
-                                                    fontWeight: "bold",
-                                                  }) || (info1.updates[
-                                                    info1.updates.length - 1
-                                                  ].status === "Completed" && {
-                                                    fontFamily: "rockwen",
-                                                    color: "#000000",
-                                                    fontWeight: "bold",
-                                                  }) ||
-                                                  (info1.updates[
-                                                    info1.updates.length - 1
-                                                  ].status === "On Going" && {
-                                                    fontFamily: "rockwen",
-                                                    color: "#24A43A",
-                                                    fontWeight: "bold",
-                                                  }) ||
-                                                  (info1.updates[
-                                                    info1.updates.length - 1
-                                                  ].status === "Paused" && {
-                                                    fontFamily: "rockwen",
-                                                    color: "#2972B2",
-                                                    fontWeight: "bold",
-                                                  }) ||
-                                                  (info1.updates[
-                                                    info1.updates.length - 1
-                                                  ].status === "Assigned" && {
-                                                    fontFamily: "rockwen",
-                                                    color: "#D1AE00",
-                                                    fontWeight: "bold",
-                                                  })
-                                                }
-                                                className="text-end task-status">
-                                                {
-                                                  info1.updates[
-                                                    info1.updates.length - 1
-                                                  ].status
-                                                }
+                                                    <span
+                                                      style={
+                                                        (info1.updates[
+                                                          info1.updates.length - 1
+                                                        ].status === "Done" && {
+                                                          fontFamily: "rockwen",
+                                                          color: "#000000",
+                                                          fontWeight: "bold",
+                                                        }) ||
+                                                        (info1.updates[
+                                                          info1.updates.length - 1
+                                                        ].status === "On Going" && {
+                                                          fontFamily: "rockwen",
+                                                          color: "#24A43A",
+                                                          fontWeight: "bold",
+                                                        }) ||
+                                                        (info1.updates[
+                                                          info1.updates.length - 1
+                                                        ].status === "Paused" && {
+                                                          fontFamily: "rockwen",
+                                                          color: "#2972B2",
+                                                          fontWeight: "bold",
+                                                        }) ||
+                                                        (info1.updates[
+                                                          info1.updates.length - 1
+                                                        ].status === "Assigned" && {
+                                                          fontFamily: "rockwen",
+                                                          color: "#D1AE00",
+                                                          fontWeight: "bold",
+                                                        })
+                                                      }
+                                                      className="text-end task-status">
+                                                      {
+                                                        info1.updates[
+                                                          info1.updates.length - 1
+                                                        ].status
+                                                      }
                                                     </span></>
                                                 )
                                               })}
@@ -400,8 +394,8 @@ export default function HomeBlock(props) {
                                   })
                                 )}
                               </div>
-                              {teammateList[teammateSelected]?.data?.tasks !== undefined && taskSelected !== null && teammateSelected !== null ? (
-                                <>
+                              {
+                                teammateList[teammateSelected]?.data?.tasks !== undefined && taskSelected !== null && teammateSelected !== null ? (
                                   <TaskHistory
                                     show={modalShow}
                                     id={teammateList[teammateSelected]?.teammateId}
@@ -409,10 +403,10 @@ export default function HomeBlock(props) {
                                     indexselected={taskSelected}
                                     teamtasks={teammateList[teammateSelected]?.data?.tasks}
                                     name={teammateList[teammateSelected]?.data.name}
-                                    managerId={props?.managerId}
-                                    teammateIndex={teammateList[teammateSelected]?.teammateIndex}
+                                    managerid={props?.managerId}
+                                    teammateindex={teammateSelected}
                                     designation={teammateList[teammateSelected]?.data.designation}
-                                  /></>
+                                  />
                               ) : (
                                 <></>
                               )}
