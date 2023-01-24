@@ -127,7 +127,6 @@ export default function HomeBlock(props) {
       let now = 0
       if (manager.teammates[fromTeammate.current.id].data.tasks[index].updates[manager.teammates[fromTeammate.current.id].data.tasks[index].updates.length - 1].status === "On Going")
         now = diff_hours(today, manager.teammates[fromTeammate.current.id].data.tasks[index].updates[manager.teammates[fromTeammate.current.id].data.tasks[index].updates.length - 1].startTimeStamp)
-      let manHour = manager.teammates[fromTeammate.current.id].data.tasks[index].manHours + now
       let manHour1 = manager.teammates[fromTeammate.current.id].data.manHours + now
       let toLiveTask = manager.teammates[toTeammate.current.id].data.liveTasks + 1
       let fromLiveTask = manager.teammates[fromTeammate.current.id].data.liveTasks - 1

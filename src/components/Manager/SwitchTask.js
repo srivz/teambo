@@ -60,6 +60,17 @@ export default function SwitchTask(props) {
         if (teammateId === '') {
             alert('First Select a teammate')
         } else {
+            var today = new Date()
+            newTask[0].updates[newTask[0].updates.length - 2].status = "Done"
+            newTask[0].updates[newTask[0].updates.length - 2].endDate =
+                String(today.getDate()).padStart(2, '0') +
+                '/' +
+                String(today.getMonth() + 1).padStart(2, '0') +
+                '/' +
+                today.getFullYear()
+            newTask[0].updates[newTask[0].updates.length - 2].endTime =
+                today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+            newTask[0].updates[newTask[0].updates.length - 2].startTimeStamp = null
             if (!prevTasks) {
                 notifySwitchToTask(teamRequest, props?.managerid, teammateId, props?.switchtask?.client);
                 notifySwitchFromTask(teamRequest1, props?.managerid, props?.prevteammateindex, props?.switchtask?.client);

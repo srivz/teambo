@@ -7,7 +7,6 @@ import { db } from '../../firebase-config'
 import moment from 'moment'
 
 export default function TaskHistory(props) {
-  var today = new Date()
   const [showDoubt, setShowDoubt] = useState(false)
   const handleClose = () => setShowDoubt(false);
   const handleShow = () => setShowDoubt(true);
@@ -16,8 +15,8 @@ export default function TaskHistory(props) {
   const [taskUpdate, setTaskUpdate] = useState({
     corrections: '',
     status: 'Assigned',
-    assignedStartDate: props?.teamtasks[props?.indexselected]?.updates.assignedStartDate,
-    assignedStartTime: props?.teamtasks[props?.indexselected]?.updates.assignedStartTime,
+    assignedStartDate: '--',
+    assignedStartTime: '--',
     deadlineDate: '--',
     description: '',
     deadlineTime: '--',
@@ -123,8 +122,10 @@ export default function TaskHistory(props) {
     setTaskUpdate({
       corrections: '',
       deadlineDate: '--',
-      description: '',
       deadlineTime: '--',
+      assignedStartDate: '--',
+      assignedStartTime: '--',
+      description: '',
     })
     setUpdateTaskForm(false)
     setUpdateAdditionalTaskForm(false)
@@ -145,7 +146,7 @@ export default function TaskHistory(props) {
   }
   const handleStartDateChange = (event) => {
     let date = event.target.value.split('-')
-    taskUpdate.deadlineDate = date[2] + '/' + date[1] + '/' + date[0]
+    taskUpdate.assignedStartDate = date[2] + '/' + date[1] + '/' + date[0]
   }
   const handleChange = (event) => {
     let newInput = { [event.target.name]: event.target.value }
