@@ -111,7 +111,6 @@ export default function Home() {
     let now = diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1]
       .startTimeStamp)
     let manHour = parseFloat(teammate.tasks[index].manHours) + now
-    alert(clients[teammate.tasks[index].clientIndex].manHours)
     let manHour1 = parseFloat(teammate.manHours) + now
     update(ref(db, `/manager/${managerId}/clients/${teammate.tasks[index].clientIndex}/`), { manHours: clients[teammate.tasks[index].clientIndex].manHours + manHour })
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/`), { manHours: manHour1 })

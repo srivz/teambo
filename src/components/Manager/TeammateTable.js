@@ -340,7 +340,7 @@ export default function TeammateTable(props) {
                                 <TableCell
                                     style={{
                                         fontFamily: 'rockwen',
-                                        width: "100px"
+                                        width: "120px"
                                     }}
                                     align="center"
                                 >
