@@ -558,55 +558,46 @@ export default function TeammateTable(props) {
                                                                     align="center"
 
                                                                     style={
-                                                                        (info1.updates[
+                                                                        info1.updates[
                                                                             info1.updates.length - 1
-                                                                        ].status === 'Done' && {
+                                                                        ].status === 'Done' ? {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#000000',
                                                                             fontWeight: 'bold',
-                                                                        }) ||
-                                                                        (info1.updates[
+                                                                        } :
+                                                                            info1.updates[
                                                                             info1.updates.length - 1
                                                                         ].status ===
-                                                                            'Archived' && {
+                                                                                'Archived' ? {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#24A43A',
                                                                             fontWeight: 'bold',
                                                                             width: '105px'
-                                                                        }) ||
-                                                                        (info1.updates[
+                                                                            } :
+                                                                                info1.updates[
                                                                             info1.updates.length - 1
                                                                         ].status ===
-                                                                            'Completed' && {
+                                                                                    'On Going' ? {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#24A43A',
                                                                             fontWeight: 'bold',
                                                                             width: '105px'
-                                                                        }) ||
-                                                                        (info1.updates[
+                                                                                } :
+                                                                                    info1.updates[
                                                                             info1.updates.length - 1
-                                                                        ].status ===
-                                                                            'On Going' && {
-                                                                            fontFamily: 'rockwen',
-                                                                            color: '#24A43A',
-                                                                            fontWeight: 'bold',
-                                                                            width: '105px'
-                                                                        }) ||
-                                                                        (info1.updates[
-                                                                            info1.updates.length - 1
-                                                                        ].status === 'Paused' && {
+                                                                                    ].status === 'Paused' ? {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#2972B2',
                                                                             fontWeight: 'bold',
-                                                                        }) ||
-                                                                        (info1.updates[
+                                                                                    } :
+                                                                                        info1.updates[
                                                                             info1.updates.length - 1
                                                                         ].status ===
-                                                                            'Assigned' && {
+                                                                                            'Assigned' ? {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#D1AE00',
                                                                             fontWeight: 'bold',
-                                                                        }) 
+                                                                                        } : {}
                                                                     }
                                                                 >
                                                                     {info1.updates[
