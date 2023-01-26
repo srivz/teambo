@@ -423,8 +423,8 @@ export default function Home() {
                                 <TableCell colSpan={8} align="center" > No tasks assigned</TableCell>
                               </TableRow>
                           ) : (
-                            teammate.tasks
-                                  .filter((info) => {
+                                teammate?.tasks
+                                  ?.filter((info) => {
                                     return filter !== 'All'
                                       ? info.updates[info.updates.length - 1]
                                         ?.status === filter
