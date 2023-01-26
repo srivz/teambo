@@ -757,7 +757,7 @@ export default function TeammateTable(props) {
                                         indexselected={taskSelected}
                                         teamtasks={info.data.tasks}
                                         name={info.data.name}
-                                        managerid={props?.managerid}
+                                        managerid={props?.managerId}
                                         teammateindex={info.teammateIndex}
                                         designation={info.data.designation}
 
