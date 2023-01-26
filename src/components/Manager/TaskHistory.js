@@ -22,6 +22,7 @@ export default function TaskHistory(props) {
     description: '',
     deadlineTime: '--',
   })
+  console.log(props);
   const dateFormatChange = (date) => {
     if (date === '--' || !date) {
       return '--'
@@ -143,13 +144,13 @@ export default function TaskHistory(props) {
   const handleAdditionalTaskCorrection1 = (id, index, correction) => {
     if (taskUpdate.description !== "")
       set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${props?.teammateindex}/data/tasks/${index}/updates/${correction - 1}/description/`),
-      [taskUpdate.description].concat(props?.teamtasks[props?.indexselected]?.updates[0].description))
-      .then(() => {
-        set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${props?.teammateindex}/data/tasks/${index}/query/`), null).then(() => { handleTaskCorrectionClear(); })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+        [taskUpdate.description].concat(props?.teamtasks[props?.indexselected]?.updates[0].description))
+        .then(() => {
+          set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${props?.teammateindex}/data/tasks/${index}/query/`), null).then(() => { handleTaskCorrectionClear(); })
+        })
+        .catch((err) => {
+          console.log(err)
+        })
   }
   const handleDateChange = (event) => {
     let date = event.target.value.split('-')
@@ -277,35 +278,35 @@ export default function TaskHistory(props) {
             </Col>
             <Col sm={3} md={3} style={{ marginTop: '.75em' }}>
               {props?.teamtasks[props?.indexselected]?.updates
-              .sort((a, b) => (a.corrections > b.corrections ? -1 : 1))
-              .filter((info, index) => { return (index === 0) })
-              .map((info) => {
-                return (<>
-                  <h5
-                    style={
-                      (info.status === 'Done' && {
-                        fontFamily: 'rockwen',
-                        color: '#000000',
-                      }) ||
-                      (info.status === 'On Going' && {
-                        fontFamily: 'rockwen',
-                        color: '#24A43A',
-                      }) ||
-                      (info.status === 'Paused' && {
-                        fontFamily: 'rockwen',
-                        color: '#2972B2',
-                      }) ||
-                      (info.status === 'Assigned' && {
-                        fontFamily: 'rockwen',
-                        color: '#D1AE00',
-                      }) 
-                    }
-                  >
-                    {
-                      info.status
-                    }
-                  </h5></>)
-              })}
+                .sort((a, b) => (a.corrections > b.corrections ? -1 : 1))
+                .filter((info, index) => { return (index === 0) })
+                .map((info) => {
+                  return (<>
+                    <h5
+                      style={
+                        (info.status === 'Done' && {
+                          fontFamily: 'rockwen',
+                          color: '#000000',
+                        }) ||
+                        (info.status === 'On Going' && {
+                          fontFamily: 'rockwen',
+                          color: '#24A43A',
+                        }) ||
+                        (info.status === 'Paused' && {
+                          fontFamily: 'rockwen',
+                          color: '#2972B2',
+                        }) ||
+                        (info.status === 'Assigned' && {
+                          fontFamily: 'rockwen',
+                          color: '#D1AE00',
+                        })
+                      }
+                    >
+                      {
+                        info.status
+                      }
+                    </h5></>)
+                })}
 
             </Col>
           </Row>
@@ -369,7 +370,7 @@ export default function TaskHistory(props) {
                       .filter((info, index) => { return (index === 0) })
                       .map((info, index) => {
                         return (<>
-                          {info.status === 'Done' ? <Button 
+                          {info.status === 'Done' ? <Button
                             disabled={
                               info.status !== 'Done' || updateTaskForm
                             }

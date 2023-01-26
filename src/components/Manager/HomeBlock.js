@@ -405,23 +405,9 @@ export default function HomeBlock(props) {
                                     );
                                   })
                                 )}
+
                               </div>
-                              {
-                                teammateList[teammateSelected]?.data?.tasks !== undefined && taskSelected !== null && teammateSelected !== null ? (
-                                  <TaskHistory
-                                    show={modalShow}
-                                    id={teammateList[teammateSelected]?.teammateId}
-                                    onHide={() => { setModalShow(false); setTaskSelected(null); }}
-                                    indexselected={taskSelected}
-                                    teamtasks={teammateList[teammateSelected]?.data?.tasks}
-                                    name={teammateList[teammateSelected]?.data?.name}
-                                    managerid={props?.managerId}
-                                    teammateindex={teammateSelected}
-                                    designation={teammateList[teammateSelected]?.data?.designation}
-                                  />
-                              ) : (
-                                <></>
-                              )}
+
                             </div>
                           );
                         })
@@ -431,6 +417,22 @@ export default function HomeBlock(props) {
               </Container>
             </Row>
           </Container>
+          {
+            teammateList[teammateSelected]?.data?.tasks !== undefined && taskSelected !== null && teammateSelected !== null ? (
+              <TaskHistory
+                show={modalShow}
+                id={teammateList[teammateSelected]?.teammateId}
+                onHide={() => { setModalShow(false); setTaskSelected(null); }}
+                indexselected={taskSelected}
+                teamtasks={teammateList[teammateSelected]?.data?.tasks}
+                name={teammateList[teammateSelected]?.data?.name}
+                managerid={props?.managerId}
+                teammateindex={teammateSelected}
+                designation={teammateList[teammateSelected]?.data?.designation}
+              />
+            ) : (
+              <></>
+            )}
         </div>
       }
 

@@ -43,8 +43,10 @@ export default function TeammateTable(props) {
             now = diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].startTimeStamp)
         let manHour = teammate.tasks[index].manHours + now
         let manHour1 = teammate.manHours + now
+        const newLiveTaskCount = teammate.liveTasks - 1
         notifyDeleteTask(teammate.notifications, props?.managerId, id, props?.manager?.clients[clientIndex].name)
         clientTaskDelete(props?.managerId, clientIndex, props?.manager?.clients[clientIndex].taskCount, props?.manager?.clients[teammate.tasks[index].clientIndex].manHours + now)
+        update(ref(db, `/manager/${auth.currentUser.uid}/teammates/${id}/data/`), { liveTasks: newLiveTaskCount })
         update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), {
             status: "Archived",
             endDate:
@@ -755,7 +757,7 @@ export default function TeammateTable(props) {
                                         indexselected={taskSelected}
                                         teamtasks={info.data.tasks}
                                         name={info.data.name}
-                                        managerid={props?.managerid}
+                                        managerid={props?.managerId}
                                         teammateindex={info.teammateIndex}
                                         designation={info.data.designation}
 
