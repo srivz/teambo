@@ -35,7 +35,7 @@ export default function NewTask(props) {
       },
     },
   });
-  // console.log(props)
+
   const handleChange = (event) => {
     let newInput = { [event.target.name]: event.target.value };
     setNewTask({ ...newTask, ...newInput });
@@ -111,7 +111,7 @@ export default function NewTask(props) {
 
             } catch (err) {
               alert("error")
-              console.log(err)
+
             }
             setNewTask({
               client: "",
@@ -159,7 +159,7 @@ export default function NewTask(props) {
 
             } catch (err) {
               alert("error")
-              console.log(err)
+
             }
                 setNewTask({
                   client: "",

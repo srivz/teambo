@@ -29,7 +29,7 @@ export default function TeammateTable(props) {
     const dragItem = useRef();
     const dragOverItem = useRef();
 
-    // console.log(props);
+
     const diff_hours = (dt2, dt1) => {
         var diff = (new Date("" + dt2).getTime() - new Date("" + dt1).getTime()) / 1000;
         diff /= (60 * 60);
