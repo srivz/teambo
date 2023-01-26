@@ -22,7 +22,6 @@ export default function TaskHistory(props) {
     description: '',
     deadlineTime: '--',
   })
-  console.log(props);
   const dateFormatChange = (date) => {
     if (date === '--' || !date) {
       return '--'

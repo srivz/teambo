@@ -180,7 +180,7 @@ export default function HomeList() {
       }
     } catch (err) {
       alert("error")
-      console.log(err)
+
     }
     let id = teammateEmail.split('.')
     let newId = id.join('_')
