@@ -8,7 +8,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import notifyNewTask from "./NotificationFunctions";
 import clientTaskAdd from "./ClientTaskCount";
 import axios from "axios";
-import WhatsAppMessageSend from "../WhatsappMessageSend";
+// import WhatsAppMessageSend from "../WhatsappMessageSend";
 
 
 export default function NewTask(props) {
@@ -103,7 +103,7 @@ export default function NewTask(props) {
                 heading, fromEmail: props?.manager.email, toEmail: props?.teammate.email, subject: subject, name: props?.teammate.name, text: text, whatsAppNo: props?.teammate?.whatsAppNo
               });
               if (res.status === 200) {
-                WhatsAppMessageSend(props?.teammate?.whatsAppNo, text)
+                // WhatsAppMessageSend(props?.teammate?.whatsAppNo, text)
               }
               else {
                 alert("Something went wrong");
