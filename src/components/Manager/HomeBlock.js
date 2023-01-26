@@ -242,7 +242,7 @@ export default function HomeBlock(props) {
                                 <NewTask
                                   name={info.data.name}
                                   designation={info.data.designation}
-                                  teammate={info.teammate}
+                                  teammate={info.data}
                                   teammateIndex={info.teammateIndex}
                                   tasks={info.data.tasks}
                                   manager={manager}
@@ -302,7 +302,7 @@ export default function HomeBlock(props) {
                                     </Row>
                                   </div>
                                 ) : (
-                                    info.data.tasks.filter((info1) => {
+                                    info?.data?.tasks?.filter((info1) => {
                                       return info1.updates[
                                         info1.updates.length - 1
                                       ].status !== "Completed" && info1.updates[

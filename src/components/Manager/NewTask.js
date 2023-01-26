@@ -35,7 +35,7 @@ export default function NewTask(props) {
       },
     },
   });
-
+  console.log(props)
   const handleChange = (event) => {
     let newInput = { [event.target.name]: event.target.value };
     setNewTask({ ...newTask, ...newInput });
