@@ -309,7 +309,7 @@ export default function HomeBlock(props) {
                                             info1.updates.length - 1
                                         ].status === "Completed" && { display: "none" }) || (info1.updates[
                                           info1.updates.length - 1
-                                          ].status === "Archived" && { display: "none" }) || { display: "" }}
+                                            ].status === "Archived" && { display: "none" }) || { padding: "1.6em" }}
                                         key={index}
                                         onClick={() => {
                                           setModalShow(true);
