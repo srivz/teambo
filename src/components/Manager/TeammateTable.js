@@ -337,7 +337,7 @@ export default function TeammateTable(props) {
                     .map((info) => {
                         return (
                             <>
-                                {!info.data.tasks ? (
+                                {(info.data.liveTasks === 0) ? (
                                     <TableRow>
                                         <TableCell colSpan={8} align="center" > No tasks assigned</TableCell>
                                     </TableRow>
@@ -359,27 +359,27 @@ export default function TeammateTable(props) {
                                         return (
                                             <TableRow
                                                 key={index}
-                                                style={{
-                                                    display: info1.updates[
+                                                style={
+                                                    info1.updates[
                                                         info1.updates.length - 1
-                                                    ].status === 'Archived'
-                                                        ? 'none'
-                                                        : info1.updates[
-                                                            info1.updates.length - 1
-                                                        ].status === 'Completed'
-                                                            ? 'none'
-                                                            : '',
-                                                    backgroundColor:
-                                                        info1.updates[
-                                                            info1.updates.length - 1
-                                                        ].status !== 'Done' 
-                                                            ? '#fff'
-                                                            : '#f1f4fb',
-                                                    borderRadius: "15px",
-                                                    marginLeft: "5px",
-                                                    marginRight: "5px",
-                                                    boxShadow: "0px 1px 18px #0000001A",
-                                                }}
+                                                    ].status === 'Archived' && {
+                                                        display: 'none',
+                                                    } || info1.updates[
+                                                        info1.updates.length - 1
+                                                    ].status === 'Completed' && {
+                                                        display: 'none',
+                                                    } || {
+                                                        backgroundColor:
+                                                            info1.updates[
+                                                                info1.updates.length - 1
+                                                            ].status !== 'Done'
+                                                                ? '#fff'
+                                                                : '#f1f4fb',
+                                                        borderRadius: "15px",
+                                                        marginLeft: "5px",
+                                                        marginRight: "5px",
+                                                        boxShadow: "0px 1px 18px #0000001A",
+                                                    }}
                                                 draggable
                                                 onDragStart={(e) => {
                                                     dragStart(e, index)
@@ -501,7 +501,9 @@ export default function TeammateTable(props) {
                                                                         info1.updates.length - 1
                                                                     ].status === 'Done' || info1.updates[
                                                                         info1.updates.length - 1
-                                                                    ].status === 'Archived'  
+                                                                        ].status === 'Archived' || info1.updates[
+                                                                            info1.updates.length - 1
+                                                                        ].status === 'Completed'  
                                                                         ? dateFormatChange(
                                                                             info1.updates[
                                                                                 info1.updates
@@ -514,7 +516,9 @@ export default function TeammateTable(props) {
                                                                         info1.updates.length - 1
                                                                     ].status === 'Done' || info1.updates[
                                                                         info1.updates.length - 1
-                                                                    ].status === 'Archived' 
+                                                                        ].status === 'Archived' || info1.updates[
+                                                                            info1.updates.length - 1
+                                                                        ].status === 'Completed'  
                                                                         ? timeFormatChange(
                                                                             info1.updates[
                                                                                 info1.updates

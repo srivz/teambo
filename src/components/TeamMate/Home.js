@@ -418,7 +418,7 @@ export default function Home() {
                         </TableHead>
 
                         <TableBody>
-                          {!teammate.tasks ? (
+                            {(teammate.liveTasks === 0) ? (
                               <TableRow>
                                 <TableCell colSpan={8} align="center" > No tasks assigned</TableCell>
                               </TableRow>
@@ -429,24 +429,29 @@ export default function Home() {
                                       ? info.updates[info.updates.length - 1]
                                         ?.status === filter
                                       : info.updates[info.updates.length - 1]
-                                        ?.status !== filter && info.updates[
-                                          info.updates.length - 1
-                                      ].status !== "Completed" && info.updates[
-                                        info.updates.length - 1
-                                      ].status !== "Archived"
+                                        ?.status !== filter 
                                   })
                                   .map((info, index) => {
                                     return (
                                       <>
                                         <TableRow
-                                          style={{
+                                          style={(info.updates[
+                                            info.updates.length - 1
+                                          ].status === "Archived" && {
+                                            display: "none"
+                                          }) || (info.updates[
+                                            info.updates.length - 1
+                                          ].status === "Completed" && {
+                                            display: "none"
+                                          }) || {
                                             backgroundColor:
                                               info.updates[info.updates.length - 1]
-                                            .status !== 'Done'
-                                            ? '#fff'
-                                            : '#f1f4fb',
-                                        height: '70px',
-                                      }}
+                                                .status !== 'Done'
+                                                ? '#fff'
+                                                : '#f1f4fb',
+                                            height: '70px',
+                                          }
+                                          }
                                       className="box-shadow"
                                       key={index}
                                     >

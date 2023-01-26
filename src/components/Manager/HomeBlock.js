@@ -285,7 +285,7 @@ export default function HomeBlock(props) {
                                   <h5>{info.data.name}</h5>
                                   <span>{info.data.designation}</span>
                                 </div>
-                                {info.data.liveTasks === 0 ? (
+                                {(info.data.liveTasks === 0) ? (
                                   <div className="card-tasks">
                                     <Row
                                       colSpan={7}
@@ -302,15 +302,14 @@ export default function HomeBlock(props) {
                                     </Row>
                                   </div>
                                 ) : (
-                                    info?.data?.tasks?.filter((info1) => {
-                                      return info1.updates[
-                                        info1.updates.length - 1
-                                      ].status !== "Completed" && info1.updates[
-                                        info1.updates.length - 1
-                                      ].status !== "Archived"
-                                    }).map((info1, index) => {
-                                    return (
-                                      <div
+                                    info?.data?.tasks?.map((info1, index) => {
+                                      return (
+                                        <div
+                                          style={(info1.updates[
+                                            info1.updates.length - 1
+                                        ].status === "Completed" && { display: "none" }) || (info1.updates[
+                                          info1.updates.length - 1
+                                          ].status === "Archived" && { display: "none" }) || { display: "" }}
                                         key={index}
                                         onClick={() => {
                                           setModalShow(true);
@@ -344,7 +343,6 @@ export default function HomeBlock(props) {
                                               )
                                               .map((info2) => {
                                                 return (
-                                                  <>
                                                     <span
                                                       style={
                                                         (info1.updates[
@@ -353,9 +351,23 @@ export default function HomeBlock(props) {
                                                           fontFamily: "rockwen",
                                                           color: "#000000",
                                                           fontWeight: "bold",
-                                                        }) ||
-                                                        (info1.updates[
-                                                          info1.updates.length - 1
+                                                      }) ||
+                                                      (info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].status === "Archived" && {
+                                                        fontFamily: "rockwen",
+                                                        color: "#000000",
+                                                        fontWeight: "bold",
+                                                      }) ||
+                                                      (info1.updates[
+                                                        info1.updates.length - 1
+                                                      ].status === "Completed" && {
+                                                        fontFamily: "rockwen",
+                                                        color: "#000000",
+                                                        fontWeight: "bold",
+                                                      }) ||
+                                                      (info1.updates[
+                                                        info1.updates.length - 1
                                                         ].status === "On Going" && {
                                                           fontFamily: "rockwen",
                                                           color: "#24A43A",
@@ -374,7 +386,7 @@ export default function HomeBlock(props) {
                                                           fontFamily: "rockwen",
                                                           color: "#D1AE00",
                                                           fontWeight: "bold",
-                                                        })
+                                                      })
                                                       }
                                                       className="text-end task-status">
                                                       {
@@ -382,13 +394,13 @@ export default function HomeBlock(props) {
                                                           info1.updates.length - 1
                                                         ].status
                                                       }
-                                                    </span></>
+                                                  </span>
                                                 )
                                               })}
                                           </Col>
                                         </Row>
                                         <hr className="divider" style={{ marginBottom: "-22px" }} />
-                                      </div>
+                                          </div>
 
                                     );
                                   })
@@ -402,10 +414,10 @@ export default function HomeBlock(props) {
                                     onHide={() => { setModalShow(false); setTaskSelected(null); }}
                                     indexselected={taskSelected}
                                     teamtasks={teammateList[teammateSelected]?.data?.tasks}
-                                    name={teammateList[teammateSelected]?.data.name}
+                                    name={teammateList[teammateSelected]?.data?.name}
                                     managerid={props?.managerId}
                                     teammateindex={teammateSelected}
-                                    designation={teammateList[teammateSelected]?.data.designation}
+                                    designation={teammateList[teammateSelected]?.data?.designation}
                                   />
                               ) : (
                                 <></>
