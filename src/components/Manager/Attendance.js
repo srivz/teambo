@@ -7,7 +7,13 @@ const localizer = momentLocalizer(moment);
 
 export default function Attendance(props) {
     const onSelectEventSlotHandler = (slotInfo) => {
-        alert(slotInfo.start);
+        let today = new Date(slotInfo.start)
+        let day = String(today.getDate()).padStart(2, '0') +
+            '-' +
+            String(today.getMonth() + 1).padStart(2, '0') +
+            '-' +
+            today.getFullYear()
+        alert(day);
     }
     return (
         <div>
