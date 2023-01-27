@@ -21,8 +21,8 @@ function ShowModal(props) {
                         Attendance Sheet
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    {Object.keys(props?.attendance)?.map((info, index) => { return (<div>{info}<br /></div>) })}
+                <Modal.Body>{props?.attendance ?
+                    Object.keys(props?.attendance)?.map((info, index) => { return (<div>{info}<br /></div>) }) : {}}
                 </Modal.Body>
             </Modal>
         </div>
