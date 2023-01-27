@@ -360,15 +360,15 @@ export default function TeammateTable(props) {
                                             <TableRow
                                                 key={index}
                                                 style={
-                                                    info1.updates[
+                                                    (info1.updates[
                                                         info1.updates.length - 1
                                                     ].status === 'Archived' && {
                                                         display: 'none',
-                                                    } || info1.updates[
+                                                    }) || (info1.updates[
                                                         info1.updates.length - 1
                                                     ].status === 'Completed' && {
                                                         display: 'none',
-                                                    } || {
+                                                    }) || {
                                                         backgroundColor:
                                                             info1.updates[
                                                                 info1.updates.length - 1

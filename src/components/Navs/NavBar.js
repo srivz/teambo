@@ -1,11 +1,13 @@
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase-config";
-import React from "react";
+import React, { useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import logo from "../../assets/images/Group 3.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Attendance from "../Manager/Attendance";
 
 export default function NavBar({ user, user2, name, role }) {
+  const [modalShow, setModalShow] = useState(false);
   return (
     <Container>
       <Row style={{ paddingTop: "1.5em" }}>
@@ -26,9 +28,9 @@ export default function NavBar({ user, user2, name, role }) {
               style={{ marginTop: ".5em", fontSize: "13px" }}>
               {user}
             </span>
-            <a style={user !== 'MANAGER' ? {
-              display: "none",
-            } : {}} href={user2 === "ANALYTICS" ? "/manager/home/list" : "/manager/analytics"} >
+            <a
+              style={user !== 'MANAGER' ? { display: "none", } : {}}
+              href={user2 === "ANALYTICS" ? "/manager/home/list" : "/manager/analytics"} >
               <span style={{
                 marginLeft: "1.5em",
                 border: "2px black"
@@ -38,7 +40,28 @@ export default function NavBar({ user, user2, name, role }) {
                   style={user2 === "ANALYTICS" ? { border: "2px solid #ebebeb", backgroundColor: "#3975ea", color: "white", borderRadius: "15px" } : { border: "2px solid #ebebeb", backgroundColor: "white", borderRadius: "15px" }}
                 >
                   <FontAwesomeIcon icon="fa-solid fa-chart-line" />
-                </Button></span></a>
+                </Button>
+              </span>
+            </a>
+            <span style={user !== 'MANAGER' ? {
+              display: "none",
+              marginLeft: "1.5em",
+              border: "2px black"
+            } : {
+              marginLeft: "1.5em",
+              border: "2px black"
+            }}>
+              <Button onClick={() => setModalShow(true)}
+                variant="light"
+                style={{ border: "2px solid #ebebeb", backgroundColor: "white", color: "#3975ea", borderRadius: "15px" }}
+              >
+                <FontAwesomeIcon icon="fa-solid fa-calendar-days" />
+              </Button>
+              <Attendance
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+              />
+            </span>
           </h5>
         </Col>
         <Col
