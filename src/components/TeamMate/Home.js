@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { onAuthStateChanged } from 'firebase/auth'
-import { onValue, ref, update, set } from 'firebase/database'
+import { onValue, ref, update } from 'firebase/database'
 import React, { useState, useEffect } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import Form from 'react-bootstrap/Form';
@@ -263,7 +263,7 @@ export default function Home() {
         setAttedencedMarked(true);
       }
     })
-  }, [id]);
+  }, [id, managerId]);
 
 
 
