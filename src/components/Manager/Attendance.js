@@ -15,6 +15,8 @@ export default function Attendance(props) {
             today.getFullYear()
         alert(day);
     }
+    const doNothing = () => {
+    }
     return (
         <div>
             <Modal
@@ -35,7 +37,7 @@ export default function Attendance(props) {
                             localizer={localizer}
                             views={['month']}
                             style={{ height: 450 }}
-                            onSelectSlot={(slotInfo) => { onSelectEventSlotHandler(slotInfo) }}
+                            onSelectSlot={(slotInfo) => { moment() > slotInfo.start ? onSelectEventSlotHandler(slotInfo) : doNothing() }}
                         />
                     </div>
                 </Modal.Body>
