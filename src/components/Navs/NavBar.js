@@ -6,7 +6,7 @@ import logo from "../../assets/images/Group 3.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Attendance from "../Manager/Attendance";
 
-export default function NavBar({ user, user2, name, role }) {
+export default function NavBar({ id, user, user2, name, role }) {
   const [modalShow, setModalShow] = useState(false);
   return (
     <Container>
@@ -58,6 +58,7 @@ export default function NavBar({ user, user2, name, role }) {
                 <FontAwesomeIcon icon="fa-solid fa-calendar-days" />
               </Button>
               <Attendance
+                managerid={id}
                 show={modalShow}
                 onHide={() => setModalShow(false)}
               />

@@ -245,6 +245,7 @@ export default function HomeList() {
       ) : (
           <div id="main" style={{ backgroundColor: "#fff" }}>
             <NavBar
+              id={managerId}
               user="MANAGER"
               user2="MANAGER"
               name={manager.name}
