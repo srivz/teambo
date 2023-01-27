@@ -2,9 +2,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { onAuthStateChanged } from 'firebase/auth'
-import { onValue, ref, update } from 'firebase/database'
-import React, { useState } from 'react'
+import { onValue, ref, update, set } from 'firebase/database'
+import React, { useState, useEffect } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
+import Form from 'react-bootstrap/Form';
 import { auth, db } from '../../firebase-config'
 import Loader from '../Loader/Loader'
 import NavBar from '../Navs/NavBar'
@@ -31,33 +32,34 @@ export default function Home() {
   const [teammateIndex, setTeammateIndex] = useState(null)
   const [modalShow, setModalShow] = useState(false)
   const [otherNotifications, setOtherNotifications] = useState()
+  const [attendanceMarked, setAttedencedMarked] = useState(false)
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
-        if (once) {
-          setLoading(true)
-          let id = user.email.split('.')
-          let newId = id.join('_')
-          onValue(ref(db, `/teammate/${newId}`), (snapshot) => {
-            if (snapshot.exists()) {
-              setId(newId)
-              if (snapshot.val().notifications) {
-                setOtherNotifications(snapshot.val().notifications)
-              }
-              setTeammate(snapshot.val())
-              if (snapshot.val().link) {
-                setManagerId(snapshot.val().link.managerId)
-                setTeammateIndex(snapshot.val().link.index)
-                getDetails(snapshot.val().link.managerId, snapshot.val().link.index)
-              }
-              setLoading(false)
-            } else {
-              setLoading(false)
-              console.log('No data available')
+      if (once) {
+        setLoading(true)
+        let id = user.email.split('.')
+        let newId = id.join('_')
+        onValue(ref(db, `/teammate/${newId}`), (snapshot) => {
+          if (snapshot.exists()) {
+            setId(newId)
+            if (snapshot.val().notifications) {
+              setOtherNotifications(snapshot.val().notifications)
             }
-          })
-          setOnce(false)
-        }
+            setTeammate(snapshot.val())
+            if (snapshot.val().link) {
+              setManagerId(snapshot.val().link.managerId)
+              setTeammateIndex(snapshot.val().link.index)
+              getDetails(snapshot.val().link.managerId, snapshot.val().link.index)
+            }
+            setLoading(false)
+          } else {
+            setLoading(false)
+            console.log('No data available')
+          }
+        })
+        setOnce(false)
+      }
     } else {
       window.location.href = '/'
     }
@@ -136,10 +138,10 @@ export default function Home() {
     var today = new Date()
     if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status === "On Going") {
       let now = diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].startTimeStamp)
-    let manHour = parseFloat(teammate.tasks[index].manHours) + now
-    let manHour1 = parseFloat(teammate.manHours) + now
+      let manHour = parseFloat(teammate.tasks[index].manHours) + now
+      let manHour1 = parseFloat(teammate.manHours) + now
       update(ref(db, `/manager/${managerId}/clients/${teammate.tasks[index].clientIndex}/`), { manHours: clients[teammate.tasks[index].clientIndex].manHours + now })
-    update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/`), { manHours: manHour1 })
+      update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/`), { manHours: manHour1 })
       update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/`), { manHours: manHour })
     }
     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${length - 1}`), {
@@ -243,6 +245,28 @@ export default function Home() {
       return hour + ':' + minute + ' am'
     }
   }
+  function markAttendence(e) {
+    if (e.target.checked) {
+      const dat = new Date();
+      const today = dat.getDate() + "-" + dat.getMonth() + 1 + "-" + dat.getFullYear();
+      update(ref(db, `manager/${managerId}/attendence/${today}/${id}`), { attendanceMarkedTime: dat }).then((res) => {
+        console.log(res);
+      })
+    }
+  }
+  useEffect(() => {
+    const dat = new Date();
+    const today = dat.getDate() + "-" + dat.getMonth() + 1 + "-" + dat.getFullYear();
+    onValue(ref(db, `manager/${managerId}/attendence/${today}/${id}`), (snapshot) => {
+      let data = snapshot.val();
+      if (data.attendanceMarkedTime) {
+        setAttedencedMarked(true);
+      }
+    })
+  }, [id]);
+
+
+
 
   return (
     <>
@@ -267,7 +291,7 @@ export default function Home() {
                       </Col>
 
                     <Col
-                      sm="6"
+                        sm="6"
                         md="6"
                         style={{
                         marginTop: '1em',
@@ -277,6 +301,41 @@ export default function Home() {
                       }}
                         className="text- end"
                       >
+                        <div style={{
+                          display: 'flex',
+                          justifyContent: ' center',
+                          alignItems: 'center',
+                          height: "20px"
+                        }}>
+                          <h5 style={{ marginTop: "10px", marginRight: "10px" }}>
+                            Attendence
+                          </h5>
+                          {
+                            attendanceMarked ? <Form.Check
+                              type="switch"
+                              id="custom-switch"
+                              checked
+                              style={{
+                                marginRight: "10px",
+                                fontSize: "25px"
+
+                              }}
+                            />
+                              :
+                              <Form.Check
+                                type="switch"
+                                id="custom-switch"
+                                onChange={markAttendence}
+                                style={{
+                                  marginRight: "10px",
+                                  fontSize: "25px"
+
+                                }}
+                              />
+                          }
+
+                        </div>
+
                         <Notifications
                           teammate={teammate}
                           id={id}
@@ -429,7 +488,7 @@ export default function Home() {
                                       ? info.updates[info.updates.length - 1]
                                         ?.status === filter
                                       : info.updates[info.updates.length - 1]
-                                        ?.status !== filter 
+                                        ?.status !== filter
                                   })
                                   .map((info, index) => {
                                     return (
@@ -552,22 +611,22 @@ export default function Home() {
                                                       fontWeight: 'bold',
                                                     }
                                                     : info.updates[info.updates.length - 1].status === 'On Going'
+                                                      ? {
+                                                        color: '#24A43A',
+                                                        fontFamily: 'rockwen',
+                                                        fontWeight: 'bold',
+                                                      }
+                                                      : info.updates[info.updates.length - 1].status === 'Paused'
                                                         ? {
-                                                          color: '#24A43A',
+                                                          color: '#2972B2',
                                                           fontFamily: 'rockwen',
                                                           fontWeight: 'bold',
                                                         }
-                                                      : info.updates[info.updates.length - 1].status === 'Paused'
-                                                          ? {
-                                                            color: '#2972B2',
-                                                            fontFamily: 'rockwen',
-                                                            fontWeight: 'bold',
-                                                      }
-                                                          : {
-                                                            color: '#D1AE00',
-                                                            fontFamily: 'rockwen',
-                                                            fontWeight: 'bold',
-                                                          }
+                                                        : {
+                                                          color: '#D1AE00',
+                                                          fontFamily: 'rockwen',
+                                                          fontWeight: 'bold',
+                                                        }
                                                 }
                                               >
                                                 {info.updates[info.updates.length - 1].status === 'Done' ? (
@@ -618,10 +677,10 @@ export default function Home() {
                                                   width={30}
                                                   onClick={(e) => {
                                                     info.updates[info.updates.length - 1].status === 'On Going' ?
-                                                    pauseTask(
-                                                      e,
-                                                      index,
-                                                      info.updates.length,
+                                                      pauseTask(
+                                                        e,
+                                                        index,
+                                                        info.updates.length,
                                                       ) : doNothing()
                                                   }}
                                                   style={{
