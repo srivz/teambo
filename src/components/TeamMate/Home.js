@@ -249,7 +249,7 @@ export default function Home() {
     if (e.target.checked) {
       const dat = new Date();
       const today = dat.getDate() + "-" + dat.getMonth() + 1 + "-" + dat.getFullYear();
-      update(ref(db, `manager/${managerId}/attendence/${today}/${id}`), { attendanceMarkedTime: dat, name: teammate.name }).then((res) => {
+      update(ref(db, `manager/${managerId}/attendence/${today}/${teammateIndex}`), { attendanceMarkedTime: dat, name: teammate.name }).then((res) => {
         console.log(res);
       })
     }
@@ -257,13 +257,13 @@ export default function Home() {
   useEffect(() => {
     const dat = new Date();
     const today = dat.getDate() + "-" + dat.getMonth() + 1 + "-" + dat.getFullYear();
-    onValue(ref(db, `manager/${managerId}/attendence/${today}/${id}`), (snapshot) => {
+    onValue(ref(db, `manager/${managerId}/attendence/${today}/${teammateIndex}`), (snapshot) => {
       let data = snapshot.val();
       if (data.attendanceMarkedTime) {
         setAttedencedMarked(true);
       }
     })
-  }, [id, managerId]);
+  }, [teammateIndex, managerId]);
 
   return (
     <>

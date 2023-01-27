@@ -12,7 +12,7 @@ function ShowModal(props) {
         <div>
             <Modal
                 {...props}
-                size="lg"
+                size="md"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
             >
@@ -22,7 +22,7 @@ function ShowModal(props) {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>{props?.attendance ?
-                    Object.keys(props?.attendance)?.map((info, index) => { return (<div>{info}<br /></div>) }) : {}}
+                    props?.attendance?.map((info, index) => { return (<div key={index}>{index + 1}{" "}:{" "}{info.name}<br /></div>) }) : <>Not Available</>}
                 </Modal.Body>
             </Modal>
         </div>
