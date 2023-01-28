@@ -45,10 +45,10 @@ function ShowApprovalList(props) {
                                 return (
                                     <TableRow key={index}>
                                         <TableCell align='center'>
-                                            {info.approved === "No" ? (index + 1) : (" ")}
+                                            {index + 1}
                                         </TableCell>
                                         <TableCell align='center'>
-                                            {info.approved === "No" ? (info.name) : (" ")}
+                                            {info.name}
 
                                         </TableCell>
                                         <TableCell align='center'>
