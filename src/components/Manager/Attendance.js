@@ -31,7 +31,7 @@ function ShowApprovalList(props) {
                         Attendance Sheet
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body> {props?.attendance !== null ?
                     <Table>
                         <TableHead>
                             <TableRow>
@@ -40,8 +40,8 @@ function ShowApprovalList(props) {
                                 <TableCell align='center'>Approved</TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody>  {props?.attendance !== null ?
-                            props?.attendance.filter((info) => { return info.approved === "No" }).map((info, index) => {
+                        <TableBody>
+                            {props?.attendance.filter((info) => { return info.approved === "No" }).map((info, index) => {
                                 return (
                                     <TableRow key={index}>
                                         <TableCell align='center'>
@@ -62,8 +62,8 @@ function ShowApprovalList(props) {
                                         </TableCell>
                                     </TableRow>
                                 )
-                            }) : <TableCell>Not Available</TableCell>
-                        }</TableBody></Table>
+                            })
+                            }</TableBody></Table> : <TableCell>Not Available</TableCell>}
                 </Modal.Body>
             </Modal>
         </div >
@@ -85,6 +85,7 @@ function ShowModal(props) {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    {props?.attendance !== null ?
                     <Table>
                         <TableHead>
                             <TableRow>
@@ -92,9 +93,8 @@ function ShowModal(props) {
                                 <TableCell>Name</TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody> 
-                    {props?.attendance !== null ?
-                                props?.attendance.filter((info) => { return info.approved === "Yes" })
+                            <TableBody> 
+                                {props?.attendance.filter((info) => { return info.approved === "Yes" })
                                     .map((info, index) => {
                                         return (
                                             <TableRow key={index}>
@@ -105,8 +105,9 @@ function ShowModal(props) {
                                                     {info.name}
                                                 </TableCell>
                                             </TableRow>)
-                                    }) : <>Not Available</>
-                            }</TableBody></Table>
+                                    })}
+                            </TableBody>
+                        </Table> : <div style={{ align: "center" }}>Not Available</div>}
                 </Modal.Body>
             </Modal>
         </div>
