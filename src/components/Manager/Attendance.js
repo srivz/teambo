@@ -21,8 +21,10 @@ function ShowModal(props) {
                         Attendance Sheet
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>{props?.attendance ?
-                    props?.attendance?.map((info, index) => { return (<div key={index}>{index + 1}{" "}:{" "}{info.name}<br /></div>) }) : <>Not Available</>}
+                <Modal.Body>
+                    {props?.attendance !== null ?
+                        props?.attendance.map((info, index) => { return (<div key={index}>{index + 1}{" "}:{" "}{info.name}<br /></div>) }) : <>Not Available</>
+                    }
                 </Modal.Body>
             </Modal>
         </div>
@@ -68,12 +70,12 @@ export default function Attendance(props) {
                             views={['month']}
                             style={{ height: 450 }}
                             onSelectSlot={(slotInfo) => { moment() > slotInfo.start ? onSelectEventSlotHandler(slotInfo) : doNothing() }}
-                        />
-                        <ShowModal
-                            attendance={attendance}
-                            show={modalShow}
-                            onHide={() => setModalShow(false)}
-                        />
+                        />{modalShow ?
+                            <ShowModal
+                                attendance={attendance}
+                                show={modalShow}
+                                onHide={() => setModalShow(false)}
+                            /> : <></>}
                     </div>
                 </Modal.Body>
             </Modal>
