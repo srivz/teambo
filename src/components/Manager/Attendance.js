@@ -23,7 +23,6 @@ function ShowApprovalList(props) {
                 backdrop="static"
                 {...props}
                 size="md"
-                className='bg-white'
                 aria-labelledby="contained-modal-title-vcenter"
             >
                 <Modal.Header closeButton>
@@ -49,7 +48,6 @@ function ShowApprovalList(props) {
                                         </TableCell>
                                         <TableCell align='center'>
                                             {info.name}
-
                                         </TableCell>
                                         <TableCell align='center'>
                                             <FontAwesomeIcon
@@ -77,7 +75,6 @@ function ShowModal(props) {
                 {...props}
                 size="md"
                 aria-labelledby="contained-modal-title-vcenter"
-                className='bg-white'
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
