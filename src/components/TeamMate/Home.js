@@ -249,7 +249,7 @@ export default function Home() {
     if (e.target.checked) {
       const dat = new Date();
       const today = dat.getDate() + "-" + dat.getMonth() + 1 + "-" + dat.getFullYear();
-      update(ref(db, `manager/${managerId}/attendence/${today}/${teammateIndex}`), { attendanceMarkedTime: dat, name: teammate.name }).then((res) => {
+      update(ref(db, `manager/${managerId}/attendence/${today}/${teammateIndex}`), { attendanceMarkedTime: dat, name: teammate.name, approved: "No" }).then((res) => {
         console.log(res);
       })
     }
