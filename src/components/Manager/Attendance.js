@@ -76,11 +76,7 @@ function ShowModal(props) {
                 size="md"
                 aria-labelledby="contained-modal-title-vcenter"
             >
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
-                        Attendance Sheet
-                    </Modal.Title>
-                </Modal.Header>
+                <Modal.Header closeButton> </Modal.Header>
                 <Modal.Body>
                     {props?.attendance !== null ?
                     <Table>
