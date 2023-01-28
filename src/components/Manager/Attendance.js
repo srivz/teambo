@@ -26,8 +26,8 @@ function ShowApprovalList(props) {
                 aria-labelledby="contained-modal-title-vcenter"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
-                        Attendance Sheet
+                    <Modal.Title align='center' id="contained-modal-title-vcenter">
+                        Attendance Approval Sheet
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body> {props?.attendance !== null ?
@@ -77,7 +77,7 @@ function ShowModal(props) {
                 aria-labelledby="contained-modal-title-vcenter"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
+                    <Modal.Title align='center' id="contained-modal-title-vcenter">
                         Attendance Sheet
                     </Modal.Title>
                 </Modal.Header>
