@@ -26,7 +26,7 @@ function ShowApprovalList(props) {
                 aria-labelledby="contained-modal-title-vcenter"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title align='center' id="contained-modal-title-vcenter">
+                    <Modal.Title id="contained-modal-title-vcenter">
                         Attendance Approval Sheet
                     </Modal.Title>
                 </Modal.Header>
@@ -77,7 +77,7 @@ function ShowModal(props) {
                 aria-labelledby="contained-modal-title-vcenter"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title align='center' id="contained-modal-title-vcenter">
+                    <Modal.Title id="contained-modal-title-vcenter">
                         Attendance Sheet
                     </Modal.Title>
                 </Modal.Header>
@@ -114,6 +114,19 @@ export default function Attendance(props) {
     const [modalShow, setModalShow] = useState(false);
     const [modalShow2, setModalShow2] = useState(false);
     const [attendance, setAttendance] = useState({})
+    //DEMO EVENTS DATA
+    const eventData = [
+        {
+            title: '3/3',
+            start: new Date(2023, 0, 28, 9, 0, 0),
+            end: new Date(2023, 0, 28, 9, 0, 0)
+        },
+        {
+            title: '1/3',
+            start: new Date(2023, 0, 15, 13, 0, 0),
+            end: new Date(2023, 0, 15, 13, 0, 0)
+        },
+    ];
 
     const onSelectEventSlotHandler = (slotInfo) => {
         let today = new Date(slotInfo.start)
@@ -129,7 +142,7 @@ export default function Attendance(props) {
         setModalShow(true);
     }
 
-    const onApprovalHandler = (slotInfo) => {
+    const onApprovalHandler = () => {
         let today = new Date()
         let day = String(today.getDate()).padStart(2, '0') +
             '-' +
@@ -164,9 +177,11 @@ export default function Attendance(props) {
                         <div className="calendar-container" style={{ position: 'relative', marginTop: "1em" }}>
                         <Calendar
                             selectable
+                                events={eventData}
                             localizer={localizer}
                             views={['month']}
                             style={{ height: 450 }}
+                                onSelectEvent={(slotInfo) => { moment() > slotInfo.start ? onSelectEventSlotHandler(slotInfo) : doNothing() }}
                             onSelectSlot={(slotInfo) => { moment() > slotInfo.start ? onSelectEventSlotHandler(slotInfo) : doNothing() }}
                         />{modalShow ?
                             <ShowModal
