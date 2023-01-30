@@ -2,10 +2,9 @@ import { addDoc, arrayUnion, collection, doc, updateDoc } from "firebase/firesto
 import { firestoreDB } from "../../firebase-config";
 
 export default async function writeCompany(name) {
-    const docRef = await addDoc(collection(firestoreDB, "companies"), {
-        companyName: name
+    await addDoc(collection(firestoreDB, "companies"), {
+        companyName: name, isActive: true
     });
-    console.log("Document written with ID: ", docRef.id);
 }
 export async function writeDesignation(companyId, name) {
     const docRef = await updateDoc(doc(firestoreDB, "companies", companyId), {

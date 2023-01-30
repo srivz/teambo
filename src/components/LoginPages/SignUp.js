@@ -4,11 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './Login.css'
 import { auth, db } from '../../firebase-config'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
-import { onValue, ref, set } from 'firebase/database'
+import { ref, set } from 'firebase/database'
 import Loader from '../Loader/Loader'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { Row } from 'react-bootstrap'
-import { addNewManager } from '../../database/write/signUpWriteFunctions'
+import writeCompany, { addNewManager, writeDesignation } from '../../database/write/signUpWriteFunctions'
 import readCompanies from '../../database/read/signUpReadFunctions'
 
 export default function Signup({ userid }) {
@@ -46,53 +46,47 @@ export default function Signup({ userid }) {
       setDesignationNameList(newFilter)
     }
   }
+
+  async function fetchData() {
+    try {
+      const data = await readCompanies();
+      setPrevCompanies(data)
+      if (user.companyId !== '') {
+        data.filter((info) => { return (info.id === user.companyId) }).map((info) => { return (setPrevDesignations(info.data.designations)) })
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async function fetchData1() {
+    try {
+      const data = await readCompanies();
+      setPrevCompanies(data)
+    } catch (error) {
+      console.error(error);
+    }
+  }
   useEffect(() => {
-    let companies = readCompanies();
-    console.log(companies)
-    // setPrevCompanies(companies);
-    // onValue(ref(db, `company/`), (snapshot) => {
-    //   if (snapshot.exists()) {
-    //     const data = snapshot.val()
-    //     setPrevCompanies(data)
-    //   } else {
-    //     console.log('No data available')
-    //     setLoading(false)
-    //   }
-    // })
-    // onValue(ref(db, `designations/`), (snapshot) => {
-    //   if (snapshot.exists()) {
-    //     const data = snapshot.val()
-    //     setPrevDesignations(data)
-    //   } else {
-    //     console.log('No data available')
-    //     setLoading(false)
-    //   }
-    // })
+    fetchData1();
   }, [])
+
   const addCompany = () => {
     if (newCompany !== '')
-      if (prevCompanies) {
-        const companies = [...prevCompanies, newCompany]
-        set(ref(db, `company/`), companies)
-        setNewCompany('')
-      } else {
-        const companies = [newCompany]
-        set(ref(db, `company/`), companies)
-        setNewCompany('')
-      }
+    {
+      writeCompany(newCompany)
+      fetchData()
+      setNewCompany('')
+    }
   }
+
   const addDesignation = () => {
-    if (newDesignation !== '')
-      if (prevDesignations) {
-        const designations = [...prevDesignations, newDesignation]
-        set(ref(db, `designations/`), designations)
-        setNewDesignation('')
-      } else {
-        const designations = [newDesignation]
-        set(ref(db, `designations/`), designations)
-        setNewDesignation('')
+    if (newDesignation !== '') {
+      writeDesignation(user.companyId, newDesignation)
+      fetchData()
+      setNewDesignation('')
       }
   }
+
   const [user, setUser] = useState({
     name: '',
     companyName: '',
@@ -251,7 +245,8 @@ export default function Signup({ userid }) {
                           </div>
                           <div className=" company-dropdown-menu-list company-dropdown-menu-height">
                             <Row className="company-dropdown-menu-height">
-                              {prevCompanies.map((company, index) => {
+                              {companyNameList.length === 0 && newCompany === '' ?
+                                prevCompanies.map((company, index) => {
                                   return (
                                     <Dropdown.Item
                                       key={index}
@@ -261,13 +256,31 @@ export default function Signup({ userid }) {
                                             ...old,
                                             companyName: '' + company.data.companyName, companyId: company.id
                                           }
-                                        })
+                                        });
+                                        setPrevDesignations(company.data.designations);
                                       }}
                                     >
-                                      {company}
+                                      {company.data.companyName}
                                     </Dropdown.Item>
-                                )
-                              })}
+                                  )
+                                }) : companyNameList.map((company, index) => {
+                                  return (
+                                    <Dropdown.Item
+                                      key={index}
+                                      onClick={(e) => {
+                                        setUser((old) => {
+                                          return {
+                                            ...old,
+                                            companyName: '' + company.data.companyName, companyId: company.id
+                                          }
+                                        });
+                                        setPrevDesignations(company.data.designations);
+                                      }}
+                                    >
+                                      {company.data.companyName}
+                                    </Dropdown.Item>
+                                  )
+                                })}
                             </Row>
                           </div>
                           <div className="add-new-input">
@@ -316,7 +329,7 @@ export default function Signup({ userid }) {
                               }}
                               onClick={(e) => {
                                 passwordRef.current.type = 'text'
-                                setIsHide(true)
+                                setIsHide(true);
                               }}
                             />
                         )}

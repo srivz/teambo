@@ -8,10 +8,11 @@ export default async function readCompanies() {
     const q = query(collection(firestoreDB, "companies"), where("isActive", "==", true));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-        company = company.concat({ id: doc.id, data: doc.data() });
+        company.push({ id: doc.id, data: doc.data() });
     });
     return company;
 }
+
 export async function readClients() {
     const q = query(collection(firestoreDB, "clients"), where("isActive", "==", true));
     const querySnapshot = await getDocs(q);
