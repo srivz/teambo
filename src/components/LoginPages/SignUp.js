@@ -47,25 +47,27 @@ export default function Signup({ userid }) {
     }
   }
   useEffect(() => {
-    readCompanies();
-    onValue(ref(db, `company/`), (snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val()
-        setPrevCompanies(data)
-      } else {
-        console.log('No data available')
-        setLoading(false)
-      }
-    })
-    onValue(ref(db, `designations/`), (snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val()
-        setPrevDesignations(data)
-      } else {
-        console.log('No data available')
-        setLoading(false)
-      }
-    })
+    let companies = readCompanies();
+    console.log(companies)
+    // setPrevCompanies(companies);
+    // onValue(ref(db, `company/`), (snapshot) => {
+    //   if (snapshot.exists()) {
+    //     const data = snapshot.val()
+    //     setPrevCompanies(data)
+    //   } else {
+    //     console.log('No data available')
+    //     setLoading(false)
+    //   }
+    // })
+    // onValue(ref(db, `designations/`), (snapshot) => {
+    //   if (snapshot.exists()) {
+    //     const data = snapshot.val()
+    //     setPrevDesignations(data)
+    //   } else {
+    //     console.log('No data available')
+    //     setLoading(false)
+    //   }
+    // })
   }, [])
   const addCompany = () => {
     if (newCompany !== '')
@@ -249,8 +251,7 @@ export default function Signup({ userid }) {
                           </div>
                           <div className=" company-dropdown-menu-list company-dropdown-menu-height">
                             <Row className="company-dropdown-menu-height">
-                              {companyNameList.length === 0 && newCompany === ''
-                                ? prevCompanies?.map((company, index) => {
+                              {prevCompanies.map((company, index) => {
                                   return (
                                     <Dropdown.Item
                                       key={index}
@@ -258,24 +259,7 @@ export default function Signup({ userid }) {
                                         setUser((old) => {
                                           return {
                                             ...old,
-                                            companyName: '' + company, companyId: ''
-                                          }
-                                        })
-                                      }}
-                                    >
-                                      {company}
-                                    </Dropdown.Item>
-                                )
-                              })
-                                : companyNameList.map((company, index) => {
-                                  return (
-                                    <Dropdown.Item
-                                      key={index}
-                                      onClick={(e) => {
-                                        setUser((old) => {
-                                          return {
-                                            ...old,
-                                            companyName: '' + company,
+                                            companyName: '' + company.data.companyName, companyId: company.id
                                           }
                                         })
                                       }}
