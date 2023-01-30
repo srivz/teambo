@@ -1,10 +1,18 @@
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase-config";
+import { query } from "firebase/database";
+import { collection, getDocs, where } from "firebase/firestore";
+import { firestoreDB } from "../../firebase-config";
 
-export default function defaultFunction() {
+
+export default async function readCompanies() {
+    const q = query(collection(firestoreDB, "companies"), where("isActive", "==", true));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+    });
 }
-export function readCompany() {
-    const querySnapshot = getDocs(collection(db, "Companies"));
+export async function readClients() {
+    const q = query(collection(firestoreDB, "clients"), where("isActive", "==", true));
+    const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
     });

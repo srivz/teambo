@@ -9,7 +9,7 @@ import Loader from '../Loader/Loader'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { Row } from 'react-bootstrap'
 import { addNewManager } from '../../database/write/signUpWriteFunctions'
-import readCompany from '../../database/read/signUpReadFunctions'
+import readCompanies from '../../database/read/signUpReadFunctions'
 
 export default function Signup({ userid }) {
   const [newCompany, setNewCompany] = useState('')
@@ -47,7 +47,7 @@ export default function Signup({ userid }) {
     }
   }
   useEffect(() => {
-    readCompany();
+    readCompanies();
     onValue(ref(db, `company/`), (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val()
