@@ -12,7 +12,7 @@ export async function writeDesignation(companyId, name) {
     });
 }
 export async function addNewManager(managerName, companyName, companyId, designation, managerEmail, whatsappNumber) {
-    await addDoc(collection(firestoreDB, "manager"), {
+    await addDoc(collection(firestoreDB, "managers"), {
         managerName: managerName,
         companyName: companyName,
         companyId: companyId,
