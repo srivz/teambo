@@ -12,7 +12,7 @@ export async function writeDesignation(companyId, name) {
     });
 }
 export async function addNewManager(managerName, companyName, companyId, designation, managerEmail, whatsappNumber) {
-    const docRef = await addDoc(collection(firestoreDB, "manager"), {
+    await addDoc(collection(firestoreDB, "manager"), {
         managerName: managerName,
         companyName: companyName,
         companyId: companyId,
@@ -23,7 +23,7 @@ export async function addNewManager(managerName, companyName, companyId, designa
     });
 }
 export async function addNewTeammate(teammateName, companyName, companyId, designation, teammateEmail, whatsappNumber) {
-    const docRef = await addDoc(collection(firestoreDB, "teammates"), {
+    await addDoc(collection(firestoreDB, "teammates"), {
         teammateName: teammateName,
         companyName: companyName,
         companyId: companyId,
