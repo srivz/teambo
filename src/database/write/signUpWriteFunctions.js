@@ -7,10 +7,9 @@ export default async function writeCompany(name) {
     });
 }
 export async function writeDesignation(companyId, name) {
-    const docRef = await updateDoc(doc(firestoreDB, "companies", companyId), {
+    await updateDoc(doc(firestoreDB, "companies", companyId), {
         designations: arrayUnion(name)
     });
-    console.log("Document written with ID: ", docRef.id);
 }
 export async function addNewManager(managerName, companyName, companyId, designation, managerEmail, whatsappNumber) {
     const docRef = await addDoc(collection(firestoreDB, "manager"), {
@@ -22,15 +21,15 @@ export async function addNewManager(managerName, companyName, companyId, designa
         managerEmail: managerEmail,
         whatsappNumber: whatsappNumber
     });
-    console.log("Document written with ID: ", docRef.id);
 }
-export async function addNewTeammate(teammateName, designation, teammateEmail, whatsappNumber) {
+export async function addNewTeammate(teammateName, companyName, companyId, designation, teammateEmail, whatsappNumber) {
     const docRef = await addDoc(collection(firestoreDB, "teammates"), {
         teammateName: teammateName,
+        companyName: companyName,
+        companyId: companyId,
         designation: designation,
         teammateEmail: teammateEmail,
         isActive: true,
         whatsappNumber: whatsappNumber
     });
-    console.log("Document written with ID: ", docRef.id);
 }

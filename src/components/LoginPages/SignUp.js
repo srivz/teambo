@@ -2,13 +2,11 @@ import React, { useEffect, useState, useRef } from 'react'
 import logo from '../../assets/images/Group 3.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './Login.css'
-import { auth, db } from '../../firebase-config'
+import { auth } from '../../firebase-config'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
-import { ref, set } from 'firebase/database'
 import Loader from '../Loader/Loader'
-import Dropdown from 'react-bootstrap/Dropdown'
-import { Row } from 'react-bootstrap'
-import writeCompany, { addNewManager, writeDesignation } from '../../database/write/signUpWriteFunctions'
+import { Row, Dropdown } from 'react-bootstrap'
+import writeCompany, { addNewManager, addNewTeammate, writeDesignation } from '../../database/write/signUpWriteFunctions'
 import readCompanies from '../../database/read/signUpReadFunctions'
 
 export default function Signup({ userid }) {
@@ -110,27 +108,10 @@ export default function Signup({ userid }) {
   }
   const registerUser = async (currentUser) => {
     if (user.designation === 'Manager') {
-      addNewManager(user.name, user.companyName, user.companyId, user.designation, userLog.email, user.whatsAppNo)
-      set(ref(db, '/manager/' + currentUser.uid), {
-        company: user.companyName,
-        designation: user.designation,
-        name: user.name,
-        email: userLog.email,
-        whatsAppNo: user.whatsAppNo,
-        teammates: [],
-        clients: [],
-      }).then(() => (window.location.href = '/signUp/response'))
+      addNewManager(user.name, user.companyName, user.companyId, user.designation, userLog.email, user.whatsAppNo).then(() => (window.location.href = '/signUp/response'))
     } else {
-      await set(
-        ref(db, '/teammate/' + currentUser.email.split('.').join('_')),
-        {
-          company: user.companyName,
-          designation: user.designation,
-          name: user.name,
-          email: userLog.email,
-          whatsAppNo: user.whatsAppNo,
-        },
-      ).then(() => (window.location.href = '/signUp/response'))
+      addNewTeammate(user.name, user.companyName, user.companyId, user.designation, userLog.email, user.whatsAppNo).then(() => (window.location.href = '/signUp/response'))
+
     }
   }
 
