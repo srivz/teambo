@@ -35,6 +35,7 @@ export default function Notifications(props) {
             } else {
                 set(ref(db, `teammate/${props?.id}/link/`), { index: newArr.length, managerId: managerId })
                 let newArr2 = [...newArr, { data: { ...newTeammate, manHours: 0, totalNumberOfTasks: 0, liveTasks: 0 }, teammateId: props?.id, teammateIndex: newArr.length }]
+                set(ref(db, `manager/${managerId}/noOfTeammates/`), newArr2.length)
                 set(ref(db, `manager/${managerId}/teammates/`), newArr2).then(() => {
                     remove(ref(db, `manager/${managerId}/teammates/${newArr.length}/data/notifications/`))
                 })

@@ -8,6 +8,8 @@ import { onValue, ref, set } from 'firebase/database'
 import Loader from '../Loader/Loader'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { Row } from 'react-bootstrap'
+import { addNewManager } from '../../database/write/signUpWriteFunctions'
+import readCompany from '../../database/read/signUpReadFunctions'
 
 export default function Signup({ userid }) {
   const [newCompany, setNewCompany] = useState('')
@@ -45,6 +47,7 @@ export default function Signup({ userid }) {
     }
   }
   useEffect(() => {
+    readCompany();
     onValue(ref(db, `company/`), (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val()
@@ -54,8 +57,6 @@ export default function Signup({ userid }) {
         setLoading(false)
       }
     })
-  }, [])
-  useEffect(() => {
     onValue(ref(db, `designations/`), (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val()
@@ -94,7 +95,8 @@ export default function Signup({ userid }) {
     name: '',
     companyName: '',
     designation: '',
-    whatsAppNo: ''
+    whatsAppNo: '',
+    companyId: ''
   })
   const [userLog, setUserLog] = useState({
     email: '',
@@ -112,6 +114,7 @@ export default function Signup({ userid }) {
   }
   const registerUser = async (currentUser) => {
     if (user.designation === 'Manager') {
+      addNewManager(user.name, user.companyName, user.companyId, user.designation, userLog.email, user.whatsAppNo)
       set(ref(db, '/manager/' + currentUser.uid), {
         company: user.companyName,
         designation: user.designation,
@@ -255,7 +258,7 @@ export default function Signup({ userid }) {
                                         setUser((old) => {
                                           return {
                                             ...old,
-                                            companyName: '' + company,
+                                            companyName: '' + company, companyId: ''
                                           }
                                         })
                                       }}
