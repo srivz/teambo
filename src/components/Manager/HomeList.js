@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Col,
   Container,
@@ -16,10 +16,10 @@ import ClientTable from './ClientTable';
 import TeammateTable from './TeammateTable';
 import { useNavigate } from 'react-router'
 import NavBar from '../Navs/NavBar';
-import { auth, db } from '../../firebase-config'
-import { onValue, ref, set } from 'firebase/database'
-import { onAuthStateChanged, signOut } from 'firebase/auth'
+import { auth } from '../../firebase-config'
 import axios from 'axios';
+import readManagers from '../../database/read/managerReadFunction';
+import { onAuthStateChanged } from 'firebase/auth';
 
 
 export default function HomeList() {
@@ -35,51 +35,40 @@ export default function HomeList() {
   const [searchText, setSearchText] = useState("");
   const [searchText2, setSearchText2] = useState("");
   const [manager, setManager] = useState({})
-  const [once, setOnce] = useState(true)
-  const [once1, setOnce1] = useState(true)
+  const [user, setUser] = useState()
   const [managerId, setManagerId] = useState('')
-  const [managerName, setManagerName] = useState('')
-  const [teamRequest, setTeamRequest] = useState([])
   const [teammateList, setTeammateList] = useState([])
-  const [teammateSet, setTeammateSet] = useState([])
   const [show, setShow] = useState(false);
 
   const navigate = useNavigate();
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      if (once) {
-        setLoading(true)
-        onValue(ref(db, `manager/${user.uid}`), (snapshot) => {
-          if (snapshot.exists()) {
-            let data = snapshot.val()
-            setManager(data)
-            setManagerId(user.uid)
-            setManagerName(user.displayName)
-            setTeammateSet(data.teammates)
-            if (data.teammates !== undefined) {
-              getTeammates(data.teammates)
-            }
-          } else {
-            console.log('No data available')
-          }
-        })
-        setOnce(false)
-        setLoading(false)
+  async function fetchManagerData(userUid) {
+    try {
+      const managerData = await readManagers(userUid);
+      setManager(managerData.data);
+      setManagerId(managerData.id);
+      if (managerData.data.teammates !== undefined) {
+        setTeammateList(managerData.data.teammates);
       }
-    } else {
-      window.location.href = '/'
+    } catch (error) {
+      console.error(error);
     }
-  })
-
-  const getTeammates = (teamList) => {
-    if (once1) {
-      setTeammateList(teamList)
-    }
-    setOnce1(false)
   }
 
-  window.addEventListener('unload', (e) => { signOut(auth); localStorage.clear(); })
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((userLog) => {
+      setUser(userLog.uid);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  onAuthStateChanged(auth, (user) => { if (user) { } else { window.location.href = "/" } })
+
+  useEffect(() => {
+    setLoading(true);
+    fetchManagerData(user);
+    setLoading(false);
+  }, [user])
 
   const dateFormatChange = (date) => {
     if (date === '--' || !date) {
@@ -147,15 +136,6 @@ export default function HomeList() {
       return hour + ':' + minute + ' am'
     }
   }
-  const getTeammatesWithMail = (teammate) => {
-    onValue(ref(db, `teammate/${teammate}`), (snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val()
-        setTeamRequest(data.notifications)
-        return true
-      }
-    })
-  }
 
   const addTeammate = async () => {
     if (teammateEmail === '') {
@@ -163,12 +143,12 @@ export default function HomeList() {
       return
     }
     const subject = `
-                  <h4>${manager.name} requests you to join his team. Login to your <a href="www.teambo.app">Teambo</a> account to reply to his request.</h4>
+                  <h4>${manager.managerName} requests you to join his team. Login to your <a href="www.teambo.app">Teambo</a> account to reply to his request.</h4>
                   <br />
                   <p>Thank you</p>
                 `
     const heading = "Teammate Request"
-    const text = `${manager.name} requests you to join his team.Login to your Teambo account to reply to his request.`
+    const text = `${manager.managerName} requests you to join his team.Login to your Teambo account to reply to his request.`
     try {
       const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
         heading, fromEmail: manager.email, toEmail: teammateEmail, subject: subject, text: text
@@ -180,62 +160,8 @@ export default function HomeList() {
       }
     } catch (err) {
       alert("error")
-
     }
-    let id = teammateEmail.split('.')
-    let newId = id.join('_')
-    getTeammatesWithMail(newId)
-    if (teammateSet === undefined) {
-      if (teamRequest === undefined) {
-        let newArr = [{ managerId, managerName }]
-        set(ref(db, `teammate/${newId}/notifications/`), { requests: newArr })
-      } else {
-        let newArr = []
-        let exists = false
-        teamRequest.forEach((element) => {
-          if (element.managerId === managerId) {
-            exists = true
-          }
-          newArr.push(element)
-        })
-        if (exists) {
-          alert('Already requested !')
-        } else {
-          let newArr2 = [...newArr, { managerId, managerName }]
-          set(ref(db, `teammate/${newId}/notifications/`), { requests: newArr2 })
-        }
-      }
-    } else {
-      let newArr = []
-      teammateSet.forEach((element) => {
-        newArr.push(element)
-      })
-      let exist = newArr.includes(newId)
-      if (exist) {
-        alert('Already a Teammate !')
-      } else {
-        if (teamRequest === undefined) {
-          let newArr = [{ managerId, managerName }]
-          set(ref(db, `teammate/${newId}/notifications/`), { requests: newArr })
-        } else {
-          let newArr = []
-          let exists = false
-          teamRequest.forEach((element) => {
-            if (element.managerId === managerId) {
-              exists = true
-            }
-            newArr.push(element)
-          })
-          if (exists) {
-            alert('Already requested !')
-          } else {
-            let newArr2 = [...newArr, { managerId, managerName }]
-            set(ref(db, `teammate/${newId}/notifications/`), { requests: newArr2 })
-          }
-        }
-      }
 
-    }
   };
 
   return (
@@ -248,7 +174,7 @@ export default function HomeList() {
               id={managerId}
               user="MANAGER"
               user2="MANAGER"
-              name={manager.name}
+              name={manager.managerName}
               role={manager.designation}
             />
             <Container>

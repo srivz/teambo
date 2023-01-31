@@ -56,16 +56,17 @@ export default function Signup({ userid }) {
       console.error(error);
     }
   }
-  async function fetchData1() {
-    try {
-      const data = await readCompanies();
-      setPrevCompanies(data)
-    } catch (error) {
-      console.error(error);
-    }
-  }
   useEffect(() => {
     fetchData1();
+
+    async function fetchData1() {
+      try {
+        const data = await readCompanies();
+        setPrevCompanies(data)
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }, [])
 
   const addCompany = () => {
@@ -106,11 +107,11 @@ export default function Signup({ userid }) {
     let newInput1 = { [event.target.name]: event.target.value }
     setUserLog({ ...userLog, ...newInput1 })
   }
-  const registerUser = async (currentUser) => {
+  const registerUser = async (docId) => {
     if (user.designation === 'Manager') {
-      addNewManager(user.name, user.companyName, user.companyId, user.designation, userLog.email, user.whatsAppNo).then(() => (window.location.href = '/signUp/response'))
+      addNewManager(docId, user.name, user.companyName, user.companyId, user.designation, userLog.email, user.whatsAppNo).then(() => (window.location.href = '/signUp/response'))
     } else {
-      addNewTeammate(user.name, user.companyName, user.companyId, user.designation, userLog.email, user.whatsAppNo).then(() => (window.location.href = '/signUp/response'))
+      addNewTeammate(docId, user.name, user.companyName, user.companyId, user.designation, userLog.email, user.whatsAppNo).then(() => (window.location.href = '/signUp/response'))
 
     }
   }
@@ -122,7 +123,7 @@ export default function Signup({ userid }) {
           photoURL: user.designation === 'Manager' ? 'Manager' : 'Teammate',
           displayName: user.name,
         })
-        registerUser(auth.currentUser)
+        registerUser(cred.user.uid)
       })
       .catch((err) => {
         setLoading(false)
