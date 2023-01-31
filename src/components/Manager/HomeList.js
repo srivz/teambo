@@ -17,9 +17,10 @@ import TeammateTable from './TeammateTable';
 import { useNavigate } from 'react-router'
 import NavBar from '../Navs/NavBar';
 import { auth } from '../../firebase-config'
-import axios from 'axios';
+// import axios from 'axios';
 import readManagers from '../../database/read/managerReadFunction';
 import { onAuthStateChanged } from 'firebase/auth';
+import { requestTeammate } from '../../database/write/managerWriteFunctions';
 
 
 export default function HomeList() {
@@ -142,26 +143,26 @@ export default function HomeList() {
       alert('Enter email first')
       return
     }
-    const subject = `
-                  <h4>${manager.managerName} requests you to join his team. Login to your <a href="www.teambo.app">Teambo</a> account to reply to his request.</h4>
-                  <br />
-                  <p>Thank you</p>
-                `
-    const heading = "Teammate Request"
-    const text = `${manager.managerName} requests you to join his team.Login to your Teambo account to reply to his request.`
-    try {
-      const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-        heading, fromEmail: manager.email, toEmail: teammateEmail, subject: subject, text: text
-      });
-      if (res.status === 200) {
-      }
-      else {
-        alert("Something went wrong");
-      }
-    } catch (err) {
-      alert("error")
-    }
-
+    requestTeammate(managerId, manager.managerName, teammateEmail);
+    // const subject = `
+    //               <h4>${manager.managerName} requests you to join his team. Login to your <a href="www.teambo.app">Teambo</a> account to reply to his request.</h4>
+    //               <br />
+    //               <p>Thank you</p>
+    //             `
+    // const heading = "Teammate Request"
+    // const text = `${manager.managerName} requests you to join his team.Login to your Teambo account to reply to his request.`
+    // try {
+    //   const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+    //     heading, fromEmail: manager.email, toEmail: teammateEmail, subject: subject, text: text
+    //   });
+    //   if (res.status === 200) {
+    //   }
+    //   else {
+    //     alert("Something went wrong");
+    //   }
+    // } catch (err) {
+    //   alert("error")
+    // }
   };
 
   return (
@@ -257,7 +258,7 @@ export default function HomeList() {
                                         className="pointer"
                                         onClick={() => {
                                           addTeammate();
-                                          setShow(false)
+                                          setShow(false);
                                         }}
                                         icon="fa-regular fa-square-plus" />
                                     </Col>

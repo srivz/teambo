@@ -107,12 +107,12 @@ export default function Signup({ userid }) {
     let newInput1 = { [event.target.name]: event.target.value }
     setUserLog({ ...userLog, ...newInput1 })
   }
+
   const registerUser = async (docId) => {
     if (user.designation === 'Manager') {
       addNewManager(docId, user.name, user.companyName, user.companyId, user.designation, userLog.email, user.whatsAppNo).then(() => (window.location.href = '/signUp/response'))
     } else {
       addNewTeammate(docId, user.name, user.companyName, user.companyId, user.designation, userLog.email, user.whatsAppNo).then(() => (window.location.href = '/signUp/response'))
-
     }
   }
 

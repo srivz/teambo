@@ -17,12 +17,12 @@ import tick from '../../assets/images/tick.svg'
 import TeammateTaskHistory from './TeammateTaskHistory'
 import Notifications from './Notifications'
 import axios from 'axios'
+import { readTeammate } from '../../database/read/teammateReadFunction'
 
 export default function Home() {
   const [loading, setLoading] = useState(true)
   const [taskSelected, setTaskSelected] = useState()
-  const [once, setOnce] = useState(true)
-  const [once1, setOnce1] = useState(true)
+  const [user, setUser] = useState()
   const [teammate, setTeammate] = useState({})
   const [clients, setClients] = useState({})
   const [id, setId] = useState('')
@@ -34,70 +34,32 @@ export default function Home() {
   const [otherNotifications, setOtherNotifications] = useState()
   const [attendanceMarked, setAttedencedMarked] = useState(false)
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      if (once) {
-        setLoading(true)
-        let id = user.email.split('.')
-        let newId = id.join('_')
-        onValue(ref(db, `/teammate/${newId}`), (snapshot) => {
-          if (snapshot.exists()) {
-            setId(newId)
-            if (snapshot.val().notifications) {
-              setOtherNotifications(snapshot.val().notifications)
-            }
-            setTeammate(snapshot.val())
-            if (snapshot.val().link) {
-              setManagerId(snapshot.val().link.managerId)
-              setTeammateIndex(snapshot.val().link.index)
-              getDetails(snapshot.val().link.managerId, snapshot.val().link.index)
-            }
-            setLoading(false)
-          } else {
-            setLoading(false)
-            console.log('No data available')
-          }
-        })
-        setOnce(false)
-      }
-    } else {
-      window.location.href = '/'
-    }
-  })
 
-  const getDetails = (managerId, index) => {
-    if (once1) {
-      setLoading(true)
-      onValue(ref(db, `/manager/${managerId}/teammates/${index}/data`), (snapshot) => {
-        if (snapshot.exists()) {
-          setTeammate(snapshot.val())
-          setLoading(false)
-        } else {
-          setLoading(false)
-          console.log('No data available')
-        }
-      })
-      onValue(ref(db, `/manager/${managerId}/clients/`), (snapshot) => {
-        if (snapshot.exists()) {
-          setClients(snapshot.val())
-          setLoading(false)
-        } else {
-          setLoading(false)
-          console.log('No data available')
-        }
-      })
-      onValue(ref(db, `/manager/${managerId}/email`), (snapshot) => {
-        if (snapshot.exists()) {
-          setManagerEmail(snapshot.val())
-          setLoading(false)
-        } else {
-          setLoading(false)
-          console.log('No data available')
-        }
-      })
-      setOnce1(false)
+  async function fetchTeammateData(userEmail) {
+    try {
+      const teammateData = await readTeammate(userEmail);
+      setTeammate(teammateData.data);
+      setId(teammateData.id);
+      setOtherNotifications(teammateData.data.requests);
+    } catch (error) {
+      console.error(error);
     }
   }
+
+  onAuthStateChanged(auth, (user) => { if (user) { } else { window.location.href = "/" } })
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((userLog) => {
+      setUser(userLog.email);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    fetchTeammateData(user);
+    setLoading(false);
+  }, [user])
 
   const diff_hours = (dt2, dt1) => {
     var diff = (new Date("" + dt2).getTime() - new Date("" + dt1).getTime()) / 1000;
@@ -157,12 +119,12 @@ export default function Home() {
         today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds(),
     })
     const subject = `
-                  <h4>${teammate.name} completed the ${teammate.tasks[index].task} task.</h4>
+                  <h4>${teammate.teammateName} completed the ${teammate.tasks[index].task} task.</h4>
                   <br />
                   <p>Thank you</p>
                 `
     const heading = "Teammate Request"
-    const text = `${teammate.name} requests you to join his team.Login to your Teambo account to reply to his request.`
+    const text = `${teammate.teammateName} requests you to join his team.Login to your Teambo account to reply to his request.`
     try {
       const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
         heading, fromEmail: teammate.email, toEmail: managerEmail, subject: subject, text: text
@@ -249,21 +211,21 @@ export default function Home() {
     if (e.target.checked) {
       const dat = new Date();
       const today = dat.getDate() + "-" + dat.getMonth() + 1 + "-" + dat.getFullYear();
-      update(ref(db, `manager/${managerId}/attendence/${today}/${teammateIndex}`), { attendanceMarkedTime: dat, teammateIndex: teammateIndex, name: teammate.name, approved: "No" }).then((res) => {
+      update(ref(db, `manager/${managerId}/attendence/${today}/${teammateIndex}`), { attendanceMarkedTime: dat, teammateIndex: teammateIndex, name: teammate.teammateName, approved: "No" }).then((res) => {
         console.log(res);
       })
     }
   }
-  useEffect(() => {
-    const dat = new Date();
-    const today = dat.getDate() + "-" + dat.getMonth() + 1 + "-" + dat.getFullYear();
-    onValue(ref(db, `manager/${managerId}/attendence/${today}/${teammateIndex}`), (snapshot) => {
-      let data = snapshot.val();
-      if (data.attendanceMarkedTime) {
-        setAttedencedMarked(true);
-      }
-    })
-  }, [teammateIndex, managerId]);
+  // useEffect(() => {
+  //   const dat = new Date();
+  //   const today = dat.getDate() + "-" + dat.getMonth() + 1 + "-" + dat.getFullYear();
+  //   onValue(ref(db, `manager/${managerId}/attendence/${today}/${teammateIndex}`), (snapshot) => {
+  //     let data = snapshot.val();
+  //     if (data.attendanceMarkedTime) {
+  //       setAttedencedMarked(true);
+  //     }
+  //   })
+  // }, [teammateIndex, managerId]);
 
   return (
     <>
@@ -274,7 +236,7 @@ export default function Home() {
           <NavBar
               user="TEAMMATE"
               user2="TEAMMATE"
-            name={teammate.name}
+              name={teammate.teammateName}
             role={teammate.designation}
             />
             <Container>
@@ -283,7 +245,7 @@ export default function Home() {
                   <Col style={{ marginTop: '1em' }}>
                     <Row>
                       <Col sm="6" md="6" style={{ marginTop: '1em' }}>
-                      <h5 className="blue">{teammate.name}</h5>
+                        <h5 className="blue">{teammate.teammateName}</h5>
                       <h6>{teammate.designation}</h6>
                       </Col>
 
@@ -336,9 +298,7 @@ export default function Home() {
                         <Notifications
                           teammate={teammate}
                           id={id}
-                          otherNotifications={otherNotifications}
-                        managerId={managerId}
-                          teammateIndex={teammateIndex} />
+                          otherNotifications={otherNotifications} />
 
                         <Dropdown style={{ width: '200px' }}>
                           <Dropdown.Toggle
@@ -727,7 +687,7 @@ export default function Home() {
                                               teammateindex={teammateIndex}
                                         indexselected={taskSelected}
                                         teamtasks={teammate.tasks}
-                                              name={teammate.name}
+                                              name={teammate.teammateName}
                                         designation={teammate.designation}
                                       />
                                     ) : (

@@ -1,69 +1,29 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { onValue, ref, remove, set } from 'firebase/database'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
-    Badge,
     Button,
     Col,
     OverlayTrigger,
     Row,
 } from 'react-bootstrap'
-import { db } from '../../firebase-config'
+import { requestAcceptTeammate, requestRejectTeammate } from '../../database/write/teammateWriteFunction'
 
 export default function Notifications(props) {
-    const [once2, setOnce2] = useState(true)
     const [show, setShow] = useState(true)
+    const [originalData, setOriginalData] = useState();
 
-    const acceptChange = (managerId, managerTeam, newTeammate) => {
-        if (managerTeam === undefined) {
-            set(ref(db, `teammate/${props?.id}/link/`), { index: 0, managerId: managerId })
-            set(ref(db, `manager/${managerId}/teammates/`), [{
-                data: { ...newTeammate, manHours: 0, totalNumberOfTasks: 0, liveTasks: 0 }, teammateId: props?.id, teammateIndex: 0
-            }])
-            remove(ref(db, `manager/${managerId}/teammates/0/data/notifications/`))
+    useEffect(() => {
+        setOriginalData(props.otherNotifications);
+    }, [props.otherNotifications]);
 
-        } else {
-            let newArr = []
-            let exists = false
-            managerTeam.forEach((element) => {
-                if (element.teammateId === props?.id) {
-                    exists = true
-                }
-                newArr.push(element)
-            })
-            if (exists) {
-            } else {
-                set(ref(db, `teammate/${props?.id}/link/`), { index: newArr.length, managerId: managerId })
-                let newArr2 = [...newArr, { data: { ...newTeammate, manHours: 0, totalNumberOfTasks: 0, liveTasks: 0 }, teammateId: props?.id, teammateIndex: newArr.length }]
-                set(ref(db, `manager/${managerId}/noOfTeammates/`), newArr2.length)
-                set(ref(db, `manager/${managerId}/teammates/`), newArr2).then(() => {
-                    remove(ref(db, `manager/${managerId}/teammates/${newArr.length}/data/notifications/`))
-                })
-
-            }
-        }
-    }
     const accept = (managerId) => {
-        if (once2) {
-            onValue(ref(db, `manager/${managerId}`), (snapshot) => {
-                if (snapshot.exists()) {
-                    let data = snapshot.val()
-                    acceptChange(managerId, data.teammates, props?.teammate);
-                    remove(ref(db, `teammate/${props?.id}/notifications`)).then(() => { window.location.reload() });
-                    setShow(false);
-
-                } else {
-                    alert('No manager found')
-                }
-            })
-            setOnce2(false)
-        }
+        requestAcceptTeammate(managerId, props?.id).then(() => { setOriginalData(null) })
     }
     const clearAllNotifications = () => {
-        remove(ref(db, `manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/notifications/`)).then(() => { setShow(false); })
+        // remove(ref(db, `manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/notifications/`)).then(() => { setShow(false); })
     }
-    const reject = (index) => {
-        remove(ref(db, `teammate/${props?.id}/notifications/requests/${index}`)).then(() => { setShow(false); })
+    const reject = (managerId, name, index) => {
+        requestRejectTeammate(managerId, name, props?.id).then(() => { setOriginalData(originalData.slice(0, index).concat(originalData.slice(index))) })
     }
     return (
         <>
@@ -101,8 +61,8 @@ export default function Notifications(props) {
                                                 </Col>
                                             </Row>
                                         )}
-                                        {props?.otherNotifications?.requests || props?.teammate?.notifications ?
-                                            props?.otherNotifications?.requests ? props?.otherNotifications?.requests.map((info, index) => {
+                                        {originalData || props?.teammate?.notifications ?
+                                            originalData ? originalData.map((info, index) => {
                                                 return (
                                                     <>
                                                         <Row
@@ -110,7 +70,7 @@ export default function Notifications(props) {
                                                                 boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 1px',
                                                                 margin: '1px',
                                                                 color: 'black',
-                                                                padding: '.05em',
+                                                                padding: '1em',
                                                                 paddingBottom: '0em',
                                                                 fontFamily: 'rockwen',
                                                             }}
@@ -121,48 +81,27 @@ export default function Notifications(props) {
                                                                 {info.managerName}{' '}
                                                             </Col>
                                                             <Col md={2} sm={2}>
-                                                                <Badge
-                                                                    as="button"
+                                                                <FontAwesomeIcon
+
                                                                     onClick={() => {
-                                                                        reject(index);
+                                                                        reject(info.managerId, info.managerName, index);
                                                                     }}
-                                                                    style={{
-                                                                        padding: '.5em',
-                                                                        color: 'black',
-                                                                        fontFamily: 'rockwen',
-                                                                        fontWeight: 'bold',
-                                                                        borderRadius: '25px',
-                                                                    }}
-                                                                    bg="light"
-                                                                >
-                                                                    <FontAwesomeIcon
                                                                         className="pointer"
-                                                                        size="2xl"
+                                                                    size="2xl"
+                                                                    color='red'
                                                                         icon="fa-solprops?.id fa-circle-xmark"
-                                                                    />
-                                                                </Badge>
+                                                                />
                                                             </Col>
                                                             <Col md={2} sm={2}>
-                                                                <Badge
-                                                                    as="button"
+                                                                <FontAwesomeIcon
                                                                     onClick={() => {
                                                                         accept(info.managerId);
                                                                     }}
-                                                                    style={{
-                                                                        padding: '.5em',
-                                                                        color: 'black',
-                                                                        fontFamily: 'rockwen',
-                                                                        fontWeight: 'bold',
-                                                                        borderRadius: '25px',
-                                                                    }}
-                                                                    bg="light"
-                                                                >
-                                                                    <FontAwesomeIcon
                                                                         className="pointer"
-                                                                        size="2xl"
+                                                                    size="2xl"
+                                                                    color='green'
                                                                         icon="fa-solprops?.id fa-circle-check"
-                                                                    />
-                                                                </Badge>
+                                                                />
                                                             </Col>
                                                         </Row>
                                                         <br />
@@ -203,7 +142,7 @@ export default function Notifications(props) {
                     variant="light"
                     onClick={() => { setShow(true) }}
                     style={
-                        props?.teammate?.notifications || props?.otherNotifications
+                        props?.teammate?.notifications || originalData
                             ? {
                                 border: '2px solid #9b9b9b',
                                 color: 'black',
@@ -230,7 +169,7 @@ export default function Notifications(props) {
                         size="xl"
                         icon="fa-regular fa-bell"
                     />
-                    {props?.teammate?.notifications || props?.otherNotifications ? (
+                    {props?.teammate?.notifications || originalData ? (
                         <div class="notification-dot"></div>
                     ) : (
                         <></>

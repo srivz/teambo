@@ -1,6 +1,8 @@
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { arrayUnion, collection, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { firestoreDB } from "../../firebase-config";
 
+export default async function defaultFunction() {
+}
 export async function addNewManager(docId, managerName, companyName, companyId, designation, managerEmail, whatsappNumber) {
     await updateDoc(doc(firestoreDB, "managers", `${docId}`), {
         managerName: managerName,
@@ -12,14 +14,13 @@ export async function addNewManager(docId, managerName, companyName, companyId, 
         whatsappNumber: whatsappNumber
     });
 }
-export async function addNewTeammate(docId, teammateName, companyName, companyId, designation, teammateEmail, whatsappNumber) {
-    await updateDoc(doc(firestoreDB, "teammates", `${docId}`), {
-        teammateName: teammateName,
-        companyName: companyName,
-        companyId: companyId,
-        designation: designation,
-        teammateEmail: teammateEmail,
-        isActive: true,
-        whatsappNumber: whatsappNumber
+export async function requestTeammate(managerId, managerName, teammateEmail) {
+    const q = query(collection(firestoreDB, "teammates"), where("teammateEmail", "==", teammateEmail))
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((docA) => {
+        const teammateRef = doc(firestoreDB, "teammates", docA.id);
+        updateDoc(teammateRef, {
+            requests: arrayUnion({ managerId: managerId, managerName: managerName })
+        })
     });
 }
