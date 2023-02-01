@@ -44,5 +44,4 @@ export async function addNewTask(teammateName, companyName, companyId, clientId,
         deadline: deadline,
         status: "ASSIGNED"
     });
-
 }
