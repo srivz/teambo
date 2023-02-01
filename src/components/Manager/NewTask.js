@@ -8,6 +8,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import notifyNewTask from "./NotificationFunctions";
 import clientTaskAdd from "./ClientTaskCount";
 import axios from "axios";
+import { addNewTask } from "../../database/write/signUpWriteFunctions";
 // import WhatsAppMessageSend from "../WhatsappMessageSend";
 
 
@@ -83,6 +84,10 @@ export default function NewTask(props) {
       if (props?.name === "No Teammate") {
         alert("Select a Teammate first")
       } else {
+        const newDate = new Date(newTask.updates[0].deadlineDate + " " + newTask.updates[0].deadlineTime)
+        var today = new Date(),
+          date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        addNewTask(props?.teammate.name, props?.manager.companyName, props?.manager.companyId, "clientName", "clientId", props?.managerId, date, props?.managerId, props?.manager.managerEmail, newTask.task, newDate)
         if (props?.tasks === undefined) {
           notifyNewTask(teamRequest, props?.managerId, props?.teammateIndex, newTask);
           const newTaskCount = props?.manager.teammates[props?.teammateIndex].data.totalNumberOfTasks + 1
