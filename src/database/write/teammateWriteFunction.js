@@ -9,7 +9,8 @@ export async function requestAcceptTeammate(managerId, id) {
     const teammateRef = doc(firestoreDB, "teammates", id);
     updateDoc(teammateRef, {
         managerId: arrayUnion(managerId),
-        requests: deleteField()
+        requests: deleteField(),
+        currentManagerId: managerId
     });
     const managerRef = doc(firestoreDB, "managers", managerId);
     updateDoc(managerRef, {

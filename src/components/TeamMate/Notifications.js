@@ -10,20 +10,26 @@ import { requestAcceptTeammate, requestRejectTeammate } from '../../database/wri
 
 export default function Notifications(props) {
     const [show, setShow] = useState(true)
-    const [originalData, setOriginalData] = useState();
+    const [originalData, setOriginalData] = useState([]);
 
     useEffect(() => {
-        setOriginalData(props.otherNotifications);
+        if (props.otherNotifications !== undefined)
+            setOriginalData(props.otherNotifications);
     }, [props.otherNotifications]);
 
     const accept = (managerId) => {
-        requestAcceptTeammate(managerId, props?.id).then(() => { setOriginalData(null) })
+        requestAcceptTeammate(managerId, props?.id).then(() => { setOriginalData([]) })
     }
     const clearAllNotifications = () => {
         // remove(ref(db, `manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/notifications/`)).then(() => { setShow(false); })
     }
     const reject = (managerId, name, index) => {
-        requestRejectTeammate(managerId, name, props?.id).then(() => { setOriginalData(originalData.slice(0, index).concat(originalData.slice(index))) })
+        requestRejectTeammate(managerId, name, props?.id).then(() => {
+            let list1 = originalData.slice(0, index);
+            let list2 = originalData.slice(index + 1);
+            let list = list1.concat(list2)
+            setOriginalData(list)
+        })
     }
     return (
         <>
@@ -86,10 +92,10 @@ export default function Notifications(props) {
                                                                     onClick={() => {
                                                                         reject(info.managerId, info.managerName, index);
                                                                     }}
-                                                                        className="pointer"
+                                                                    className="pointer"
                                                                     size="2xl"
                                                                     color='red'
-                                                                        icon="fa-solprops?.id fa-circle-xmark"
+                                                                    icon="fa-solprops?.id fa-circle-xmark"
                                                                 />
                                                             </Col>
                                                             <Col md={2} sm={2}>
@@ -97,10 +103,10 @@ export default function Notifications(props) {
                                                                     onClick={() => {
                                                                         accept(info.managerId);
                                                                     }}
-                                                                        className="pointer"
+                                                                    className="pointer"
                                                                     size="2xl"
                                                                     color='green'
-                                                                        icon="fa-solprops?.id fa-circle-check"
+                                                                    icon="fa-solprops?.id fa-circle-check"
                                                                 />
                                                             </Col>
                                                         </Row>
@@ -141,35 +147,21 @@ export default function Notifications(props) {
                 <Button
                     variant="light"
                     onClick={() => { setShow(true) }}
-                    style={
-                        props?.teammate?.notifications || originalData
-                            ? {
-                                border: '2px solid #9b9b9b',
-                                color: 'black',
-                                fontFamily: 'rockwen',
-                                fontWeight: 'bold',
-                                padding: '10px',
-                                paddingLeft: '1.2em',
-                                borderRadius: '15px',
-                                marginRight: '1em',
-                            }
-                            : {
-                                border: '2px solid #9b9b9b',
-                                color: 'black',
-                                fontFamily: 'rockwen',
-                                fontWeight: 'bold',
-                                padding: '10px',
-                                borderRadius: '15px',
-                                marginRight: '1em',
-                            }
-                    }
+                    style={{
+                        border: '2px solid #9b9b9b',
+                        color: 'black',
+                        fontFamily: 'rockwen',
+                        fontWeight: 'bold',
+                        borderRadius: '15px',
+                        marginRight: '1em',
+                    }}
                 >
                     <FontAwesomeIcon
                         className="pointer"
                         size="xl"
                         icon="fa-regular fa-bell"
                     />
-                    {props?.teammate?.notifications || originalData ? (
+                    {props?.teammate?.notifications || originalData.length !== 0 ? (
                         <div class="notification-dot"></div>
                     ) : (
                         <></>
