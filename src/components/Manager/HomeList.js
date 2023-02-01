@@ -275,25 +275,25 @@ export default function HomeList() {
                                 No teammate right now
                               </TableRow>
                               ) : (teammateList?.filter((info) => {
-                                return info.data?.name?.toLowerCase().includes(searchText?.toLowerCase())
+                                return info.data?.teammateName?.toLowerCase().includes(searchText?.toLowerCase())
                               })?.map((info) => {
                                 return (
                                   <TableRow
-                                    key={info.teammateId}
+                                    key={info.id}
                                     className="box-shadow"
                                     onClick={() => {
                                       localStorage.setItem(
                                         'teammateSelected',
-                                        JSON.stringify(info.teammateId)
+                                        JSON.stringify(info.id)
                                       );
-                                      setSelected(info.teammateId);
+                                      setSelected(info.id);
                                     }}
                                     style={{ backgroundColor: "#fff !important" }}
                                   >
                                     <TableCell
                                       style={{
                                         backgroundColor:
-                                          selected === info.teammateId
+                                          selected === info.id
                                             ? '#E2ECFF'
                                             : '#F9FBFF',
                                         borderRadius: '6px',
@@ -304,7 +304,7 @@ export default function HomeList() {
                                         width: "100% !important"
                                       }}
                                     >
-                                      <h6>{info.data.name}</h6>
+                                      <h6>{info.data.teammateName}</h6>
                                       <p className="grey" style={{ fontSize: "12px" }}>
                                         {info.data.designation}
                                       </p>
@@ -421,12 +421,12 @@ export default function HomeList() {
                   </Row>
                 ) : (
                       tab === "Teammate" ? teammateList
-                        .filter((info) => info.teammateId === selected)
+                        .filter((info) => info.id === selected)
                     .map((info, index) => {
                       return (
                         <Row key={index}>
                           <Col sm={6} md={6} style={{ paddingLeft: '1.5em', marginTop: '1em' }}>
-                            <h5 className="blue">{info.data.name}</h5>
+                            <h5 className="blue">{info.data.teammateName}</h5>
                             <h6>{info.data.designation}</h6>
 
                           </Col>
