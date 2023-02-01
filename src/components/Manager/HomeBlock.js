@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
-import { onValue, set, ref, update } from 'firebase/database'
+import { set, ref, update } from 'firebase/database'
 import {
   Col,
   Container,
@@ -28,11 +28,9 @@ export default function HomeBlock(props) {
 
   const [manager, setManager] = useState({});
   const [managerId, setManagerId] = useState({});
-  const [once, setOnce] = useState(true);
   const [loading, setLoading] = useState(true);
   const [teammateList, setTeammateList] = useState([]);
   const [taskSelected, setTaskSelected] = useState();
-  const [teammateSelected, setTeammateSelected] = useState();
   const [user, setUser] = useState();
   const [modalShow, setModalShow] = useState(false);
 
@@ -426,17 +424,17 @@ export default function HomeBlock(props) {
             </Row>
           </Container>
           {
-            teammateList[teammateSelected]?.data?.tasks !== undefined && taskSelected !== null && teammateSelected !== null ? (
+            teammateList?.data?.tasks !== undefined && taskSelected !== null ? (
               <TaskHistory
                 show={modalShow}
-                id={teammateList[teammateSelected]?.id}
+                id={teammateList.id}
                 onHide={() => { setModalShow(false); setTaskSelected(null); }}
                 indexselected={taskSelected}
-                teamtasks={teammateList[teammateSelected]?.data?.tasks}
-                name={teammateList[teammateSelected]?.data?.name}
+                teamtasks={teammateList?.data?.tasks}
+                name={teammateList?.data?.name}
                 managerid={props?.managerId}
-                teammateindex={teammateSelected}
-                designation={teammateList[teammateSelected]?.data?.designation}
+                teammateindex={teammateList.id}
+                designation={teammateList?.data?.designation}
               />
             ) : (
               <></>
