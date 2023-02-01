@@ -25,3 +25,34 @@ export async function requestTeammate(managerId, managerName, teammateEmail) {
         })
     });
 }
+
+export async function addNewTask(teammateName, companyName, companyId, clientId, clientName, managerId, createdAt, createdBy, createdByEmail,
+    title, deadline) {
+    await addDoc(collection(firestoreDB, "task"), {
+        teammateName: teammateName,
+        companyName: companyName,
+        companyId: companyId,
+        clientId: clientId,
+        clientName: clientName,
+        managerId: managerId,
+        taskId: "TS - 123456",
+        createdAt: createdAt,
+        managerId: createdBy,
+        createdByEmail: createdByEmail,
+        title: title,
+        assigned: true,
+        deadline: deadline,
+        status: "ASSIGNED"
+    });
+}
+
+export async function addNewClient(companyId, clientId, clientName, managerId, managerName, companyName) {
+    await addDoc(collection(firestoreDB, "client"), {
+        companyId: companyId,
+        clientId: clientId,
+        clientName: clientName,
+        managerId: managerId,
+        managerName: managerName,
+        companyName: companyName
+    })
+}
