@@ -25,7 +25,6 @@ export default function HomeBlock(props) {
   const [selected, setSelected] = useState(
     JSON.parse(localStorage.getItem("teammateSelected")) === undefined ? 0 : JSON.parse(localStorage.getItem("teammateSelected"))
   );
-
   const [manager, setManager] = useState({});
   const [managerId, setManagerId] = useState({});
   const [loading, setLoading] = useState(true);
