@@ -12,11 +12,8 @@ export async function requestAcceptTeammate(managerId, id) {
         requests: deleteField(),
         currentManagerId: managerId
     });
-    const managerRef = doc(firestoreDB, "managers", managerId);
-    updateDoc(managerRef, {
-        teammates: arrayUnion(id)
-    });
 }
+
 export async function requestRejectTeammate(managerId, name, id) {
     const teammateRef = doc(firestoreDB, "teammates", id);
     updateDoc(teammateRef, {

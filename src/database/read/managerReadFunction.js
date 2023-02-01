@@ -5,7 +5,7 @@ import { firestoreDB } from "../../firebase-config";
 
 export default async function readManagers(user) {
     let manager = null
-    const q = doc(firestoreDB, "managers", "" + user);
+    const q = doc(firestoreDB, "managers", `${user}`);
     const docSnap = await getDoc(q);
     if (docSnap.exists()) {
         manager = { id: docSnap.id, data: docSnap.data() };
@@ -13,13 +13,12 @@ export default async function readManagers(user) {
     return manager;
 }
 
-export async function readTeammates(mail) {
-    let teammate = null
-    const q = query(collection(firestoreDB, "teammates"), where("teammateEmailId", "==", mail));
+export async function readTeammatesFromList(id) {
+    let teammate = []
+    const q = query(collection(firestoreDB, "teammates"), where("currentManagerId", "==", `${id}`), where("isActive", "==", true));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-        teammate = { id: doc.id, data: doc.data() };
-        console.log(doc.id, " => ", doc.data());
+        teammate.push({ id: doc.id, data: doc.data() });
     });
     return teammate;
 }

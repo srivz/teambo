@@ -14,6 +14,7 @@ export async function addNewManager(docId, managerName, companyName, companyId, 
         whatsappNumber: whatsappNumber
     });
 }
+
 export async function requestTeammate(managerId, managerName, teammateEmail) {
     const q = query(collection(firestoreDB, "teammates"), where("teammateEmail", "==", teammateEmail))
     const querySnapshot = await getDocs(q)

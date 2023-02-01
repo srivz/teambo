@@ -30,3 +30,28 @@ export default async function sendEmail(teammate, manager, index) {
         // console.log(err)
     }
 }
+
+
+export async function sendRequestTeammateEmail(teammateEmail, manager) {
+    const subject = `
+                  <h4>${manager.managerName} requests you to join his team. Login to your <a href="www.teambo.app">Teambo</a> account to reply to his request.</h4>
+                  <br />
+                  <p>Thank you</p>
+                `
+    const heading = "Teammate Request"
+    const text = `${manager.managerName} requests you to join his team.Login to your Teambo account to reply to his request.`
+    try {
+        const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+            heading, fromEmail: manager.managerEmail, toEmail: teammateEmail, subject: subject, text: text
+        });
+        if (res.status === 200) {
+        }
+        else {
+            alert("Something went wrong");
+        }
+    } catch (err) {
+        alert("error")
+    }
+}
+
+
