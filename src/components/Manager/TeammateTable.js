@@ -15,6 +15,8 @@ import { auth, db } from '../../firebase-config';
 import axios from 'axios';
 import { clientTaskComplete, clientTaskDelete } from './ClientTaskCount';
 import { notifyCompleteTask, notifyDeleteTask } from './NotificationFunctions';
+import sendEmail from '../../database/email/Sendemail';
+
 
 export default function TeammateTable(props) {
     const selected = props?.teammateselected
@@ -133,30 +135,45 @@ export default function TeammateTable(props) {
 
     const handleCompleteTask = async (teammate, id, index, latest) => {
         notifyCompleteTask(teammate.notifications, props?.managerId, id, teammate.tasks[index].client)
-        const subject = `
-    <h4> Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}</h4>
-    <br />
-    <p>Thank you</p>
-   `
-        const heading = "Task Approved"
-        const text = `Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}`
+//         const subject = `
+//     <h4> Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}</h4>
+//     <br />
+//     <p>Thank you</p>
+//    `
+//         const heading = "Task Approved"
+//         const text = `Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}`
+//         try {
+//             const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+//                 heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
+//             });
+//             if (res.status === 200) {
+//                 const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
+//                 clientTaskComplete(props?.managerId, teammate.tasks[index].clientIndex, props?.manager?.clients[teammate.tasks[index].clientIndex].taskCount)
+//         update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}`), { status: "Completed" })
+//                 update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
+//             }
+//             else {
+//                 alert("Something went wrong");
+//             }
+//         } catch (err) {
+//             alert("error")
+//             console.log(err)
+//         }
         try {
-            const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-                heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
-            });
-            if (res.status === 200) {
+            const isSent = await sendEmail(teammate, props.manager, index)
+            if (isSent) {
                 const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
                 clientTaskComplete(props?.managerId, teammate.tasks[index].clientIndex, props?.manager?.clients[teammate.tasks[index].clientIndex].taskCount)
-        update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}`), { status: "Completed" })
+                update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}`), { status: "Completed" })
                 update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
             }
             else {
-                alert("Something went wrong");
+                alert("Failed");
             }
         } catch (err) {
-            alert("error")
-            console.log(err)
+            alert("Failed in Catch");
         }
+
     }
 
     const dateFormatChange = (date) => {
