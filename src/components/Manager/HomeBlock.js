@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { onValue, set, ref, update } from 'firebase/database'
 import {
   Col,
@@ -14,6 +14,7 @@ import NavBar from "../Navs/NavBar";
 import { useNavigate } from "react-router";
 import Loader from "../Loader/Loader";
 import TaskHistory from "./TaskHistory";
+import readManagers, { readTeammatesFromList } from "../../database/read/managerReadFunction";
 
 
 
@@ -32,29 +33,37 @@ export default function HomeBlock(props) {
   const [teammateList, setTeammateList] = useState([]);
   const [taskSelected, setTaskSelected] = useState();
   const [teammateSelected, setTeammateSelected] = useState();
+  const [user, setUser] = useState();
   const [modalShow, setModalShow] = useState(false);
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      if (once) {
-        setLoading(true)
-        onValue(ref(db, `manager/${user.uid}`), (snapshot) => {
-          if (snapshot.exists()) {
-            let data = snapshot.val()
-            setManager(data)
-            setManagerId(user.uid)
-            setTeammateList(data.teammates)
-          } else {
-            console.log('No data available')
-          }
-          setLoading(false)
-        })
-        setOnce(false)
-      }
-    } else {
-      window.location.href = '/'
+
+  async function fetchManagerData(userUid) {
+    try {
+      const managerData = await readManagers(userUid);
+      setManager(managerData.data);
+      setManagerId(managerData.id);
+      const teammate = await readTeammatesFromList(managerData.id);
+      setTeammateList(teammate);
+    } catch (error) {
+      console.error(error);
     }
-  })
+  }
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((userLog) => {
+      setUser(userLog.uid);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  onAuthStateChanged(auth, (user) => { if (user) { } else { window.location.href = "/" } })
+
+  useEffect(() => {
+    setLoading(true);
+    fetchManagerData(user);
+    setLoading(false);
+  }, [user])
+
   const diff_hours = (dt2, dt1) => {
     var diff = (new Date("" + dt2).getTime() - new Date("" + dt1).getTime()) / 1000;
     diff /= (60 * 60);
@@ -208,7 +217,7 @@ export default function HomeBlock(props) {
                   </Row>
                 ) : (
                     teammateList
-                      .filter((info) => info.teammateId === selected)
+                      .filter((info) => info.id === selected)
                       .map((info) => {
                         return selected ? (
                           <Row>
@@ -240,10 +249,10 @@ export default function HomeBlock(props) {
                                   style={{ marginRight: "1em", fontSize: "20px" }}
                                 />
                                 <NewTask
-                                  name={info.data.name}
+                                  name={info.data.teammateName}
                                   designation={info.data.designation}
                                   teammate={info.data}
-                                  teammateIndex={info.teammateIndex}
+                                  id={info.id}
                                   tasks={info.data.tasks}
                                   manager={manager}
                                   managerId={managerId}
@@ -271,18 +280,17 @@ export default function HomeBlock(props) {
                         teammateList.map((info) => {
                           return (
                             <div
-                              key={info.teammate}
+                              key={info.id}
                               onClick={() => {
                                 localStorage.setItem(
                                   "teammateSelected",
-                                  JSON.stringify(info.teammateId)
+                                  JSON.stringify(info.id)
                                 );
-                                setSelected(info.teammateId);
-                                setTeammateSelected(info.teammateIndex);
+                                setSelected(info.id);
                               }}>
                               <div className="cards">
                                 <div className="heading bg-blue p-3 rounded-3">
-                                  <h5>{info.data.name}</h5>
+                                  <h5>{info.data.teammateName}</h5>
                                   <span>{info.data.designation}</span>
                                 </div>
                                 {(info.data.liveTasks === 0) ? (
@@ -292,10 +300,10 @@ export default function HomeBlock(props) {
                                       align="center"
 
                                       onDragEnter={(e) => {
-                                        dragEnter(e, 0, info?.data?.tasks, info?.teammateIndex)
+                                        dragEnter(e, 0, info?.data?.tasks, info?.id)
                                       }}
                                       onDragEnd={(e) => {
-                                        drop(e, 0, info?.data?.tasks, info?.teammateIndex)
+                                        drop(e, 0, info?.data?.tasks, info?.id)
                                       }}
                                     >
                                       No tasks assigned
@@ -318,13 +326,13 @@ export default function HomeBlock(props) {
                                         className="card-tasks">
                                         <Row draggable
                                           onDragStart={(e) => {
-                                            dragStart(e, index, info?.data?.tasks, info?.teammateIndex)
+                                            dragStart(e, index, info?.data?.tasks, info?.id)
                                           }}
                                           onDragEnter={(e) => {
-                                            dragEnter(e, index, info?.data?.tasks, info?.teammateIndex)
+                                            dragEnter(e, index, info?.data?.tasks, info?.id)
                                           }}
                                           onDragEnd={(e) => {
-                                            drop(e, index, info?.data?.tasks, info?.teammateIndex)
+                                            drop(e, index, info?.data?.tasks, info?.id)
                                           }}
                                         >
                                           <Col sm="8">
@@ -421,7 +429,7 @@ export default function HomeBlock(props) {
             teammateList[teammateSelected]?.data?.tasks !== undefined && taskSelected !== null && teammateSelected !== null ? (
               <TaskHistory
                 show={modalShow}
-                id={teammateList[teammateSelected]?.teammateId}
+                id={teammateList[teammateSelected]?.id}
                 onHide={() => { setModalShow(false); setTaskSelected(null); }}
                 indexselected={taskSelected}
                 teamtasks={teammateList[teammateSelected]?.data?.tasks}
