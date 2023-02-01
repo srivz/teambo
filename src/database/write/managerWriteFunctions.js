@@ -1,4 +1,4 @@
-import { arrayUnion, collection, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { firestoreDB } from "../../firebase-config";
 
 export default async function defaultFunction() {
@@ -24,4 +24,25 @@ export async function requestTeammate(managerId, managerName, teammateEmail) {
             requests: arrayUnion({ managerId: managerId, managerName: managerName })
         })
     });
+}
+
+export async function addNewTask(teammateName, companyName, companyId, clientId, clientName, managerId, createdAt, createdBy, createdByEmail,
+    title, deadline) {
+    await addDoc(collection(firestoreDB, "task"), {
+        teammateName: teammateName,
+        companyName: companyName,
+        companyId: companyId,
+        clientId: clientId,
+        clientName: clientName,
+        managerId: managerId,
+        taskId: "TS - 123456",
+        createdAt: createdAt,
+        createdBy: createdBy,
+        createdByEmail: createdByEmail,
+        title: title,
+        assigned: true,
+        deadline: deadline,
+        status: "ASSIGNED"
+    });
+
 }

@@ -8,7 +8,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import notifyNewTask from "./NotificationFunctions";
 import clientTaskAdd from "./ClientTaskCount";
 import axios from "axios";
-import { addNewTask } from "../../database/write/signUpWriteFunctions";
+import { addNewTask } from "../../database/write/managerWriteFunctions";
+import { sendNewTaskEmail } from "../../database/email/Sendemail";
 // import WhatsAppMessageSend from "../WhatsappMessageSend";
 
 
@@ -88,103 +89,25 @@ export default function NewTask(props) {
         var today = new Date(),
           date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         addNewTask(props?.teammate.name, props?.manager.companyName, props?.manager.companyId, "clientName", "clientId", props?.managerId, date, props?.managerId, props?.manager.managerEmail, newTask.task, newDate)
-        if (props?.tasks === undefined) {
-          notifyNewTask(teamRequest, props?.managerId, props?.teammateIndex, newTask);
-          const newTaskCount = props?.manager.teammates[props?.teammateIndex].data.totalNumberOfTasks + 1
-          const newLiveTaskCount = props?.manager.teammates[props?.teammateIndex].data.liveTasks + 1
-          clientTaskAdd(props?.managerId, newTask.clientIndex, props?.manager?.clients[newTask.clientIndex].taskCount, props?.manager?.clients[newTask.clientIndex].totalTaskCount)
-          update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask], totalNumberOfTasks: newTaskCount, liveTasks: newLiveTaskCount }).then(async () => {
-            setShow(false)
+        sendNewTaskEmail(props?.teammate.teammateEmail, props?.manager, newTask)
 
-            const subject = `
-                  <h4> New Task ${newTask.task} from client ${newTask.client} has been Assigned to you By manager ${props?.manager.name}</h4>
-                  <br />
-                  <p>Thank you</p>
-                `
-            const heading = "Task Assigned"
-            const text = `New Task ${newTask.task} has been Assigned to you By manager ${props?.manager.name}`
-            try {
-              const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-                heading, fromEmail: props?.manager.email, toEmail: props?.teammate.email, subject: subject, name: props?.teammate.name, text: text, whatsAppNo: props?.teammate?.whatsAppNo
-              });
-              if (res.status === 200) {
-                // WhatsAppMessageSend(props?.teammate?.whatsAppNo, text)
-              }
-              else {
-                alert("Something went wrong");
-              }
-
-            } catch (err) {
-              alert("error")
-
-            }
-            setNewTask({
-              client: "",
-              task: "",
-              manHours: 0,
-              updates: {
-                0: {
-                  description: { 0: "" },
-                  assignedStartDate: "--",
-                  assignedStartTime: "--",
-                  corrections: "0",
-                  deadlineDate: "--",
-                  startTimeStamp: "null",
-                  deadlineTime: "--",
-                  status: "Assigned",
-                },
-              },
-            })
-          })
-
-        }
-        else {
-          notifyNewTask(teamRequest, props?.managerId, props?.teammateIndex, newTask);
-          clientTaskAdd(props?.managerId, newTask.clientIndex, props?.manager?.clients[newTask.clientIndex].taskCount, props?.manager?.clients[newTask.clientIndex].totalTaskCount)
-          const newTaskCount = props?.manager.teammates[props?.teammateIndex].data.totalNumberOfTasks + 1
-          const newLiveTaskCount = props?.manager.teammates[props?.teammateIndex].data.liveTasks + 1
-          update(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), { tasks: [newTask].concat(props?.tasks), totalNumberOfTasks: newTaskCount, liveTasks: newLiveTaskCount }).then(async () => {
-            setShow(false);
-            const subject = `
-                  <h4> New Task ${newTask.task} from client ${newTask.client} has been Assigned to you By manager ${props?.manager.name}</h4>
-                  <br />
-                  <p>Thank you</p>
-                `
-            const heading = "Task Assigned"
-            const text = `New Task ${newTask.task} has been Assigned to you By manager ${props?.manager.name}`
-            try {
-              const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-                heading, fromEmail: props?.manager.email, toEmail: props?.teammate.email, subject: subject, name: props?.teammate.name, text: text, whatsAppNo: props?.teammate?.whatsAppNo
-              });
-              if (res.status === 200) {
-              }
-              else {
-                alert("Something went wrong");
-              }
-
-            } catch (err) {
-              alert("error")
-
-            }
-                setNewTask({
-                  client: "",
-                  task: "",
-                  manHours: 0,
-                  updates: {
-                    0: {
-                      description: { 0: "" },
-                      assignedStartDate: "--",
-                      assignedStartTime: "--",
-                      corrections: "0",
-                      deadlineDate: "--",
-                      startTimeStamp: "null",
-                      deadlineTime: "--",
-                      status: "Assigned",
-                    },
-                  },
-                })
-          })
-        }
+        setNewTask({
+          client: "",
+          task: "",
+          manHours: 0,
+          updates: {
+            0: {
+              description: { 0: "" },
+              assignedStartDate: "--",
+              assignedStartTime: "--",
+              corrections: "0",
+              deadlineDate: "--",
+              startTimeStamp: "null",
+              deadlineTime: "--",
+              status: "Assigned",
+            },
+          },
+        })
       }
     } else {
       alert("Fill all the required field!!")

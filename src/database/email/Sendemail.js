@@ -53,5 +53,28 @@ export async function sendRequestTeammateEmail(teammateEmail, manager) {
         alert("error")
     }
 }
+export async function sendNewTaskEmail(teammateEmail, manager, newTask) {
+    const subject = `
+                  <h4> New Task ${newTask.task} from client ${newTask.client} has been Assigned to you By manager ${manager.managerName}</h4>
+                  <br />
+                  <p>Thank you</p>
+                `
+    const heading = "Task Assigned"
+    const text = `New Task ${newTask.task} has been Assigned to you By manager ${manager.managerName}`
+    try {
+        const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+            heading, fromEmail: manager.managerEmail, toEmail: teammateEmail, subject: subject, text: text
+        });
+        if (res.status === 200) {
+        }
+        else {
+            alert("Something went wrong");
+        }
+
+    } catch (err) {
+        alert("error")
+
+    }
+}
 
 
