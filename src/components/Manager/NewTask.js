@@ -1,81 +1,92 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { onValue, ref, update } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import { Button, Row, Col, Form, OverlayTrigger } from "react-bootstrap";
-import { db } from "../../firebase-config";
 import moment from "moment";
 import Dropdown from 'react-bootstrap/Dropdown';
-import notifyNewTask from "./NotificationFunctions";
-import clientTaskAdd from "./ClientTaskCount";
-import axios from "axios";
+// import notifyNewTask from "./NotificationFunctions";
 import { addNewTask, addNewClient } from "../../database/write/managerWriteFunctions";
-import { sendNewTaskEmail } from "../../database/email/Sendemail";
-// import WhatsAppMessageSend from "../WhatsappMessageSend";
+import { sendNewTaskEmail } from "../../database/email/sendEmail";
+import { readClients } from "../../database/read/managerReadFunction";
+import { auth } from "../../firebase-config";
 
 
 export default function NewTask(props) {
   const [show, setShow] = useState(false);
-  const [assignedDate, setAssignedDate] = useState();
+  const [prevClients, setPrevClients] = useState([]); 
   const [newClient, setNewClient] = useState("");
-  const [clientList, setClientList] = useState(props?.manager?.clients);
-  const [teamRequest, setTeamRequest] = useState([]);
+  const [clientList, setClientList] = useState([]);
+  const [user, setUser] = useState()
   const [newTask, setNewTask] = useState({
-    client: "",
-    clientIndex: "",
+    clientName: "",
+    clientId: "",
     task: "",
-    manHours: 0,
-    updates: {
-      0: {
-        description: { 0: "" },
-        assignedStartDate: "--",
-        assignedStartTime: "--",
-        corrections: "0",
-        startTimeStamp: "null",
+    description: "",
         deadlineDate: "--",
         deadlineTime: "--",
-        status: "Assigned",
-      },
-    },
+    status: "Assigned",
   });
+
+  async function fetchData() {
+    try {
+      const data = await readClients(user);
+      setPrevClients(data)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((userLog) => {
+      setUser(userLog.uid);
+    });
+    return () => unsubscribe();
+  }, []);
+  useEffect(() => {
+    fetchData1();
+    async function fetchData1() {
+      try {
+        const data = await readClients(user);
+        setPrevClients(data)
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }, [user])
+
+
+  const searchClient = (e) => {
+    setNewClient(e.target.value)
+    const newFilter = prevClients.filter((val) => {
+      return val.name.toLowerCase().includes(e.target.value.toLowerCase());
+    });
+    if (e.target.value === "") {
+      setClientList(prevClients);
+    } else {
+      setClientList(newFilter);
+    }
+  }
+
+  const addClient = () => {
+    addNewClient(new Date(), props?.manager.companyId, newClient, props?.managerId, props?.manager.managerName, props?.manager.companyName)
+    fetchData()
+    setNewClient('')
+  }
 
   const handleChange = (event) => {
     let newInput = { [event.target.name]: event.target.value };
     setNewTask({ ...newTask, ...newInput });
   };
-  const handleDescriptionChange = (event) => {
-    newTask.updates[0].description[0] = event.target.value;
-  };
 
-  const handleStartDateChange = (event) => {
-    setAssignedDate(event.target.value)
-    let date = (event.target.value).split("-")
-    newTask.updates[0].assignedStartDate = date[2] + "/" + date[1] + "/" + date[0]
-  };
-
-  const handleStartTimeChange = (event) => {
-    newTask.updates[0].assignedStartTime = event.target.value;
-  };
   const handleDateChange = (event) => {
     let date = (event.target.value).split("-")
-    newTask.updates[0].deadlineDate = date[2]+"/"+date[1]+"/"+date[0]
+    newTask.deadlineDate = date[2] + "/" + date[1] + "/" + date[0]
   };
 
   const handleTimeChange = (event) => {
-    newTask.updates[0].deadlineTime = event.target.value;
+    newTask.deadlineTime = event.target.value;
   };
 
-  useEffect(() => {
-    onValue(ref(db, `/manager/${props?.managerId}/teammates/${props?.teammateIndex}/data`), (snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val()
-        setTeamRequest(data.notifications)
-        return true
-      }
-    })
-  }, [props])
-
   const validateForm = () => {
-    if (newTask.client === '' || newTask.task === '' || newTask.updates[0].assignedStartTime === '--' || newTask.updates[0].assignedStartDate === '--' || newTask.updates[0].description === '') {
+    if (newTask.client === '' || newTask.task === '' || newTask.description === '') {
       return false
     }
     else { return true }
@@ -85,71 +96,45 @@ export default function NewTask(props) {
       if (props?.name === "No Teammate") {
         alert("Select a Teammate first")
       } else {
-
-        const newDate = new Date(newTask.updates[0].deadlineDate + " " + newTask.updates[0].deadlineTime)
-        var today = new Date(),
-          date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        addNewTask(props?.teammate.name, props?.manager.companyName, props?.manager.companyId, "clientName", "clientId", props?.managerId, date, props?.managerId, props?.manager.managerEmail, newTask.task, newDate)
+        let now = new Date();
+        let newDate = "--"
+        if (newTask.deadlineDate !== "--" && newTask.deadlineTime !== "--") {
+          let date = newTask.deadlineDate + " " + newTask.deadlineTime + ":00"
+          newDate = new Date(date);
+        }
+        addNewTask(
+          props?.manager.companyId,
+          props?.manager.companyName,
+          newTask.clientId,
+          newTask.clientName,
+          props?.managerId,
+          props?.teammate.teammateName,
+          props?.teammateId,
+          now,
+          props?.managerId,
+          props?.manager.managerEmail,
+          newTask.task,
+          now,
+          newDate,
+          newTask.description,
+          "DESCRIPTION_ADDED")
         sendNewTaskEmail(props?.teammate.teammateEmail, props?.manager, newTask)
-        clientTaskAdd(props?.managerId, newTask.clientIndex, props?.manager?.clients[newTask.clientIndex].taskCount, props?.manager?.clients[newTask.clientIndex].totalTaskCount)
-
         setNewTask({
-          client: "",
+          clientName: "",
+          clientId: "",
           task: "",
-          manHours: 0,
-          updates: {
-            0: {
-              description: { 0: "" },
-              assignedStartDate: "--",
-              assignedStartTime: "--",
-              corrections: "0",
-              deadlineDate: "--",
-              startTimeStamp: "null",
-              deadlineTime: "--",
-              status: "Assigned",
-            },
-          },
-        })
+          description: "",
+          deadlineDate: "--",
+          deadlineTime: "--",
+          status: "Assigned",
+        });
+        setShow(false);
       }
     } else {
       alert("Fill all the required field!!")
     }
   };
 
- const searchClient=(e)=>{
-  setNewClient(e.target.value)
-   const newFilter = props?.manager?.clients.filter((val) => {
-     return val.name.toLowerCase().includes(e.target.value.toLowerCase());
-    });
-    if (e.target.value === "") {
-      setClientList(props?.manager?.clients);
-    } else {
-      setClientList(newFilter);
-    }
- }
-
-  const addClient = () => {
-    if (props?.manager?.clients) {
-      let clientAvailable = false
-      props?.manager?.clients?.forEach((client) => {
-        if (newClient === client.name) clientAvailable = true
-      })
-      if (clientAvailable) {
-        alert("Client Already Added")
-      }
-      else {
-        const clients = [...props?.manager?.clients, { name: newClient, taskCount: 0, totalTaskCount: 0, manHours: 0, clientNumber: props?.manager?.clients.length }];
-        update(ref(db, `manager/${props?.managerId}/`), { clients });
-
-        addNewClient(props?.manager.companyId, "clientId", "NewClientName", props?.managerId, props?.manager.managerName, props?.manager.companyName)
-      }
-    }
-    else {
-      const clients = [{ name: newClient, taskCount: 0, totalTaskCount: 0, manHours: 0, clientNumber: 0 }];
-      update(ref(db, `manager/${props?.managerId}/`), { clients });
-    }
-    setNewClient('')
-  }
   return (
     <>
       <OverlayTrigger
@@ -181,7 +166,7 @@ export default function NewTask(props) {
                     id="dropdown-basic"
                     className="w-100 client-dropdown"
                   >
-                    {newTask.client === "" ? "Select" : newTask.client}
+                    {newTask.clientName === "" ? "Select" : newTask.clientName}
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu className="client-dropdown-menu">
@@ -197,37 +182,35 @@ export default function NewTask(props) {
                     </div>
                     <div className=" client-dropdown-menu-list client-dropdown-menu-height">
                       <Row className="client-dropdown-menu-height">
-                        {
-                          props?.manager?.clients ? clientList?.length === 0 && newClient === "" ?
-                            props?.manager?.clients?.map((client, index) => {
-                              return (
-                                <Dropdown.Item
-                                  key={index}
-                                  onClick={(e) => {
-                                    setNewTask((oldTask) => {
-                                      return { ...oldTask, client: client.name, clientIndex: client.clientNumber };
-                                    });
-                                  }}
-                                >
-                                  {client.name}
-                                </Dropdown.Item>
-                              );
-                            }) :
-                            props?.manager?.clients?.map((client, index) => {
-                              return (
-                                <Dropdown.Item
-                                  key={index}
-                                  onClick={(e) => {
-                                    setNewTask((oldTask) => {
-                                      return { ...oldTask, client: client.name, clientIndex: client.clientNumber };
-                                    });
-                                  }}
-                                >
-                                  {client.name}
-                                </Dropdown.Item>
-                              );
-                            }) : <></>
-                        }</Row></div>
+                        {clientList.length === 0 && newClient === "" ?
+                          prevClients.map((client) => {
+                            return (
+                              <Dropdown.Item
+                                key={client.id}
+                                onClick={(e) => {
+                                  setNewTask((oldTask) => {
+                                    return { ...oldTask, clientName: client.data.clientName, clientId: client.id };
+                                  });
+                                }}
+                              >
+                                {client.data.clientName}
+                              </Dropdown.Item>
+                            );
+                          }) :
+                          clientList.map((client) => {
+                            return (
+                              <Dropdown.Item
+                                key={client.id}
+                                onClick={(e) => {
+                                  setNewTask((oldTask) => {
+                                    return { ...oldTask, clientName: client.data.clientName, clientId: client.id };
+                                  });
+                                }}
+                              >
+                                {client.data.clientName}
+                              </Dropdown.Item>
+                            );
+                          })}</Row></div>
                   </Dropdown.Menu>
                 </Dropdown>
               </Col>
@@ -248,33 +231,7 @@ export default function NewTask(props) {
                 <Form.Control
                   as="textarea"
                   name="description"
-                  onChange={handleDescriptionChange}
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group
-              as={Row}
-              className="mb-3 deadline"
-              controlId="formPlaintext3"
-            >
-              <Form.Label column md="4" sm="4">
-                Start Time
-              </Form.Label>
-              <Col sm="4" md="4">
-                <Form.Control
-                  type="date"
-                  min={moment().format("YYYY-MM-DD")}
-                  name="assignedStartDate"
-                  style={{ fontSize: "12px" }}
-                  onChange={handleStartDateChange}
-                />
-              </Col>
-              <Col sm="4" md="4">
-                <Form.Control
-                  type="time"
-                  style={{ fontSize: "12px" }}
-                  name="assignedStartTime"
-                  onChange={handleStartTimeChange}
+                  onChange={handleChange}
                 />
               </Col>
             </Form.Group>
@@ -289,7 +246,7 @@ export default function NewTask(props) {
               <Col sm="4" md="4">
                 <Form.Control
                   type="date"
-                  min={assignedDate || moment().format("YYYY-MM-DD")}
+                  min={moment().format("YYYY-MM-DD")}
                   name="deadlineDate"
                   style={{ fontSize: "12px" }}
                   onChange={handleDateChange}

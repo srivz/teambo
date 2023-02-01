@@ -12,11 +12,3 @@ export default async function readCompanies() {
     });
     return company;
 }
-
-export async function readClients() {
-    const q = query(collection(firestoreDB, "clients"), where("isActive", "==", true));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
-    });
-}

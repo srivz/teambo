@@ -22,3 +22,22 @@ export async function readTeammatesFromList(id) {
     });
     return teammate;
 }
+
+export async function readClients(id) {
+    let clients = []
+    const q = query(collection(firestoreDB, "clients"), where("managerId", "==", `${id}`), where("isActive", "==", true));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        clients.push({ id: doc.id, data: doc.data() })
+    });
+    return clients;
+}
+export async function readLiveTasks(id) {
+    let tasks = []
+    const q = query(collection(firestoreDB, "tasks"), where("teammateId", "==", `${id}`), where("isLive", "==", true));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        tasks.push({ id: doc.id, data: doc.data() })
+    });
+    return tasks;
+}

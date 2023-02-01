@@ -20,7 +20,7 @@ import { auth } from '../../firebase-config'
 import readManagers, { readTeammatesFromList } from '../../database/read/managerReadFunction';
 import { onAuthStateChanged } from 'firebase/auth';
 import { requestTeammate } from '../../database/write/managerWriteFunctions';
-import { sendRequestTeammateEmail } from '../../database/email/Sendemail';
+import { sendRequestTeammateEmail } from '../../database/email/sendEmail';
 
 
 export default function HomeList() {
@@ -497,7 +497,7 @@ export default function HomeList() {
                                 name={info.data.name}
                                 designation={info.data.designation}
                                 teammate={info.data}
-                                teammateIndex={info.teammateIndex}
+                                teammateId={info.id}
                                 tasks={info.data.tasks}
                                 manager={manager}
                                 managerId={managerId}
