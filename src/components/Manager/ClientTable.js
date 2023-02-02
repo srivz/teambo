@@ -1,8 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { Col, Row } from 'react-bootstrap'
+import { readClientLiveTasks } from '../../database/read/managerReadFunction'
 export default function ClientTable(props) {
+    const selected = props?.clientSelected
+    const filter = props?.filter
+    const [tasks, setTasks] = useState([])
+    const timeStampFormatChange = (stamp) => {
+        if (stamp === '--') {
+            return "--"
+        }
+        const timestamp = new Date(stamp.seconds * 1000);
+        let dateOnly = timestamp.toLocaleDateString('default', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+        })
+        let timeOnly = timestamp.toLocaleTimeString('default', {
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+        })
+
+        return dateOnly + "\n" + timeOnly
+    }
+
+    async function fetchTasks(selected) {
+        try {
+            const data = await readClientLiveTasks(selected);
+            setTasks(data)
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        fetchTasks(selected)
+    }, [selected]);
     return (<>
         <div className="overflow-set-auto table-height1">
             <Row className="table-height1">
@@ -83,205 +118,162 @@ export default function ClientTable(props) {
                             </TableRow>
                         </TableHead>
                         <TableBody className="curve-box-homelist">
-                            {props?.team
-                                .map((info) => {
+                            {tasks === [] ?
+                                (<TableRow>
+                                    <TableCell colSpan={8} align="center" > No tasks assigned</TableCell>
+                                </TableRow>)
+                                : (tasks.filter((info) => {
+                                    return (filter !== "All" ?
+                                        info.data.status === filter.split(" ").join("_").toUpperCase()
+                                        : info.data.status !== filter)
+                                }).map((info) => {
                                     return (
-                                        <>{info?.data?.tasks?.filter((info1) => { return info1.client === props?.clientSelected })
-                                            .filter((info1) => {
-                                                return props?.filter !== "All" ?
-                                                info1.updates[
-                                                    0
-                                                ].status === props?.filter
-                                                : info1.updates[
-                                                    0
-                                                    ].status !== props?.filter && info1.updates[
-                                                        0
-                                                    ].status !== "Completed" && info1.updates[
-                                                        info1.updates.length - 1
-                                                    ].status !== "Archived"
-                                            })
-                                            .map((info1, index) => {
-                                            return (
-                                                <TableRow
-                                                    key={index}
-                                                    style={{
-                                                        backgroundColor:
-                                                            info1.updates[
-                                                                info1.updates.length - 1
-                                                            ].status !== 'Done' || info1.updates[
-                                                                info1.updates.length - 1
-                                                            ].status !== 'Completed'
-                                                                ? '#fff'
-                                                                : '#f1f4fb',
-                                                        boxShadow: "0px 3px 12px #0000001D",
-                                                        borderRadius: "15px"
-                                                    }}
-                                                >
-                                                    <TableCell
-                                                        style={{
+                                        <TableRow
+                                            key={info.id}
+                                            style={{
+                                                backgroundColor:
+                                                    info.data.status !== 'Done'
+                                                        ? '#fff'
+                                                        : '#f1f4fb',
+                                                borderRadius: "15px",
+                                                marginLeft: "5px",
+                                                marginRight: "5px",
+                                                boxShadow: "0px 1px 18px #0000001A",
+                                            }}
+                                            draggable
+                                        // onDragStart={(e) => {
+                                        //     dragStart(e, info.id)
+                                        // }}
+                                        // onDragEnter={(e) => {
+                                        //     dragEnter(e, info.id)
+                                        // }}
+                                        // onDragEnd={(e) => {
+                                        //     drop(e, info.data, info?.data.teammateId)
+                                        // }}
+
+                                        >
+                                            <TableCell
+                                                style={{
+                                                    fontFamily: 'rockwen',
+
+                                                }}
+                                                align="center"
+                                                title={info.data.teammateName}
+                                            >
+                                                {info.data.teammateName.length > 15 ? info.data.teammateName.slice(0, 12) + "..." : info.data.teammateName}
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    fontFamily: 'rockwen'
+                                                }}
+                                                align="center"
+                                                title={info.data.title}
+                                            >{info?.data.title?.length < 14 ? info.data.title : info?.data.title?.slice(0, 11) + "..."}
+                                                {info.query ?
+                                                    (
+                                                        <div style={{ marginLeft: ".8em" }} class="notification-dot"></div>
+                                                    ) :
+                                                    (
+                                                        <></>
+                                                    )
+                                                }
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    fontFamily: 'rockwen',
+                                                    width: "120px"
+                                                }}
+                                                align="center"
+
+                                            >
+                                                {timeStampFormatChange(
+                                                    info.data.assigned
+                                                )}
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    fontFamily: 'rockwen',
+                                                    width: "120px"
+                                                }}
+                                                align="center"
+
+                                            >
+                                                {timeStampFormatChange(
+                                                    info.data.deadline
+                                                )}
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    fontFamily: 'rockwen',
+                                                }}
+                                                align="center"
+
+                                            >
+                                                {info.data.status === 'Done'
+                                                    ? timeStampFormatChange(
+                                                        info.data.completedOn,
+                                                    )
+                                                    : '--'}
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    fontFamily: 'rockwen',
+                                                }}
+                                                align="center"
+
+                                            >
+                                                {info.data.corrections === 0
+                                                    ? info.data.corrections
+                                                    : '+' +
+                                                    info.data.corrections}
+
+                                            </TableCell>
+                                            <TableCell
+                                                align="center"
+
+                                                style={
+                                                    info.data.status === 'DONE' ? {
+                                                        fontFamily: 'rockwen',
+                                                        color: '#000000',
+                                                        fontWeight: 'bold',
+                                                    } :
+                                                        info.data.status ===
+                                                            'ON_GOING' ? {
                                                             fontFamily: 'rockwen',
-                                                            width: "150px"
-                                                        }}
-                                                        align="center"
-                                                        title={info.data.name}
-                                                    >
-                                                        {info.data.name.length > 10 ? info.data.name.slice(0, 7) + "..." : info.data.name}
-
-                                                    </TableCell>
-                                                    <TableCell
-                                                        style={{
-                                                            fontFamily: 'rockwen',
-                                                            width: "200px"
-                                                        }}
-                                                        align="center"
-                                                        title={info1.task}
-                                                    >
-                                                        {info1.task.length < 16 ? info1.task : info1.task.slice(0, 13) + "..."}
-                                                    </TableCell>
-                                                    {info1.updates
-                                                        .sort((a, b) =>
-                                                            a.corrections > b.corrections
-                                                                ? -1
-                                                                : 1,
-                                                        )
-                                                        .filter(
-                                                            (info2, index1) => index1 === 0,
-                                                        )
-                                                        .map((info2) => {
-                                                            return (
-                                                                <>
-                                                                    <TableCell
-                                                                        style={{
-                                                                            fontFamily: 'rockwen',
-                                                                            width: "130px"
-                                                                        }}
-                                                                        align="center"
-
-                                                                    >
-                                                                        {props?.dateFormatChange(
-                                                                            info2.assignedStartDate,
-                                                                        )}
-                                                                        <br />
-                                                                        {props?.timeFormatChange(
-                                                                            info2.assignedStartTime,
-                                                                        )}
-                                                                    </TableCell>
-                                                                    <TableCell
-                                                                        style={{
-                                                                            fontFamily: 'rockwen',
-                                                                            width: "130px"
-                                                                        }}
-                                                                        align="center"
-
-                                                                    >
-                                                                        {props?.dateFormatChange(
-                                                                            info2.deadlineDate,
-                                                                        )}
-                                                                        <br />
-                                                                        {props?.timeFormatChange(
-                                                                            info2.deadlineTime,
-                                                                        )}
-                                                                    </TableCell>
-                                                                    <TableCell
-                                                                        style={{
-                                                                            fontFamily: 'rockwen',
-                                                                            width: "130px"
-                                                                        }}
-                                                                        align="center"
-
-                                                                    >
-                                                                        {info2.status === 'Done' || info2.status === 'Completed'
-                                                                            ? props?.dateFormatChange(
-                                                                                info2.endDate,
-                                                                            )
-                                                                            : '--'}
-                                                                        <br />
-                                                                        {info2.status === 'Done' || info2.status === 'Completed'
-                                                                            ? props?.timeFormatChange(
-                                                                                info2.endTime,
-                                                                            )
-                                                                            : '--'}
-                                                                    </TableCell>
-                                                                    <TableCell
-                                                                        style={{
-                                                                            fontFamily: 'rockwen',
-                                                                            width: "100px"
-                                                                        }}
-                                                                        align="center"
-
-                                                                    >
-                                                                        {info2.corrections === '0'
-                                                                            ? info2.corrections
-                                                                            : '+' +
-                                                                            info2.corrections}
-                                                                    </TableCell>
-                                                                    <TableCell
-                                                                        align="center"
-
-                                                                        style={
-                                                                            (info2.status === 'Done' && {
-                                                                                fontFamily: 'rockwen',
-                                                                                color: '#000000',
-                                                                                fontWeight: 'bold',
-                                                                                width: "150px"
-                                                                            }) ||
-                                                                            (info2.status ===
-                                                                                'Completed' && {
-                                                                                fontFamily: 'rockwen',
-                                                                                color: '#000000',
-                                                                                fontWeight: 'bold',
-                                                                                width: "150px"
-                                                                            }) ||
-                                                                            (info2.status ===
-                                                                                'On Going' && {
-                                                                                fontFamily: 'rockwen',
-                                                                                color: '#24A43A',
-                                                                                fontWeight: 'bold',
-                                                                                width: "150px"
-                                                                            }) ||
-                                                                            (info2.status === 'Paused' && {
-                                                                                fontFamily: 'rockwen',
-                                                                                color: '#2972B2',
-                                                                                fontWeight: 'bold',
-                                                                                width: "150px"
-                                                                            }) ||
-                                                                            (info2.status ===
-                                                                                'Assigned' && {
-                                                                                fontFamily: 'rockwen',
-                                                                                color: '#D1AE00',
-                                                                                fontWeight: 'bold',
-                                                                                width: "150px"
-                                                                            })
-                                                                            ||
-                                                                            (info1.updates[
-                                                                                info1.updates.length - 1
-                                                                            ].status ===
-                                                                                'Archive' && {
-                                                                                fontFamily: 'rockwen',
-                                                                                color: '#000',
-                                                                                fontWeight: 'bold',
-                                                                            }) 
-                                                                        }
-                                                                    >
-                                                                        {info2.status === 'Done' ? (
-                                                                            <FontAwesomeIcon
-                                                                                size="xl"
-                                                                                icon="fa-solid fa-circle-check"
-                                                                            />
-                                                                        ) : (
-                                                                            info2.status
-                                                                        )}
-                                                                    </TableCell>
-                                                                </>
-                                                            )
-                                                        })}
-                                                </TableRow>
-                                            )
-                                        })
-                                        }
-                                        </>
+                                                            color: '#24A43A',
+                                                            fontWeight: 'bold',
+                                                            width: '105px'
+                                                        } :
+                                                            info.data.status === 'PAUSED' ? {
+                                                                fontFamily: 'rockwen',
+                                                                color: '#2972B2',
+                                                                fontWeight: 'bold',
+                                                            } :
+                                                                info.data.status ===
+                                                                    'ASSIGNED' ? {
+                                                                    fontFamily: 'rockwen',
+                                                                    color: '#D1AE00',
+                                                                    fontWeight: 'bold',
+                                                                } : {}
+                                                }
+                                            >
+                                                {info.data.status === 'DONE' ? (
+                                                    <FontAwesomeIcon
+                                                        size="xl"
+                                                        icon="fa-solid fa-circle-check"
+                                                    />
+                                                ) : (
+                                                    info.data.status === "ASSIGNED" ? "Assigned" :
+                                                        info.data.status === "ON_GOING" ? "On Going" :
+                                                            info.data.status === "PAUSED" ? "Paused" :
+                                                                info.data.status === "DONE" ? "Done" : ""
+                                                )}
+                                            </TableCell>
+                                        </TableRow>
                                     )
-                                })}
+                                })
+                                )
+                            }
                         </TableBody>
                     </Table>
                 </Col>

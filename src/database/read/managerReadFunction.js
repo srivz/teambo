@@ -41,3 +41,21 @@ export async function readLiveTasks(id) {
     });
     return tasks;
 }
+export async function readAllLiveTasks(id) {
+    let tasks = []
+    const q = query(collection(firestoreDB, "tasks"), where("managerId", "==", `${id}`), where("isLive", "==", true));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        tasks.push({ id: doc.id, data: doc.data() })
+    });
+    return tasks;
+}
+export async function readClientLiveTasks(id) {
+    let tasks = []
+    const q = query(collection(firestoreDB, "tasks"), where("clientId", "==", `${id}`), where("isLive", "==", true));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        tasks.push({ id: doc.id, data: doc.data() })
+    });
+    return tasks;
+}

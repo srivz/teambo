@@ -45,7 +45,7 @@ export async function requestTeammate(managerId, managerName, teammateEmail) {
   })
 }
 
-export async function addNewTask(
+export async function addNewTask(corrections,
     companyId,
     companyName,
     clientId,
@@ -63,6 +63,7 @@ export async function addNewTask(
     type,
 ) {
     const docRef = await addDoc(collection(firestoreDB, 'tasks'), {
+        corrections: corrections,
         companyId: companyId,
       isLive: true,
       companyName: companyName,

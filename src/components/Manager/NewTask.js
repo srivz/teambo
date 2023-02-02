@@ -78,7 +78,7 @@ export default function NewTask(props) {
 
   const handleDateChange = (event) => {
     let date = (event.target.value).split("-")
-    newTask.deadlineDate = date[2] + "/" + date[1] + "/" + date[0]
+    newTask.deadlineDate = date[1] + "/" + date[2] + "/" + date[0]
   };
 
   const handleTimeChange = (event) => {
@@ -103,6 +103,7 @@ export default function NewTask(props) {
           newDate = new Date(date);
         }
         addNewTask(
+          0,
           props?.manager.companyId,
           props?.manager.companyName,
           newTask.clientId,

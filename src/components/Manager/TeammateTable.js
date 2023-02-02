@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Button,
     Col,
@@ -141,30 +141,30 @@ export default function TeammateTable(props) {
 
     //     const handleCompleteTask = async (teammate, id, index, latest) => {
     //         notifyCompleteTask(teammate.notifications, props?.managerId, id, teammate.tasks[index].client)
-    // //         const subject = `
-    // //     <h4> Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}</h4>
-    // //     <br />
-    // //     <p>Thank you</p>
-    // //    `
-    // //         const heading = "Task Approved"
-    // //         const text = `Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}`
-    // //         try {
-    // //             const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-    // //                 heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
-    // //             });
-    // //             if (res.status === 200) {
-    // //                 const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
-    // //                 clientTaskComplete(props?.managerId, teammate.tasks[index].clientIndex, props?.manager?.clients[teammate.tasks[index].clientIndex].taskCount)
-    // //         update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}`), { status: "Completed" })
-    // //                 update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
-    // //             }
-    // //             else {
-    // //                 alert("Something went wrong");
-    // //             }
-    // //         } catch (err) {
-    // //             alert("error")
-    // //             console.log(err)
-    // //         }
+    //         const subject = `
+    //     <h4> Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}</h4>
+    //     <br />
+    //     <p>Thank you</p>
+    //    `
+    //         const heading = "Task Approved"
+    //         const text = `Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}`
+    //         try {
+    //             const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
+    //                 heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
+    //             });
+    //             if (res.status === 200) {
+    //                 const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
+    //                 clientTaskComplete(props?.managerId, teammate.tasks[index].clientIndex, props?.manager?.clients[teammate.tasks[index].clientIndex].taskCount)
+    //         update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}`), { status: "Completed" })
+    //                 update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
+    //             }
+    //             else {
+    //                 alert("Something went wrong");
+    //             }
+    //         } catch (err) {
+    //             alert("error")
+    //             console.log(err)
+    //         }
     //         try {
     //             const isSent = await sendEmail(teammate, props.manager, index)
     //             if (isSent) {
@@ -182,82 +182,22 @@ export default function TeammateTable(props) {
 
     //     }
     const timeStampFormatChange = (stamp) => {
-        let date = new Date(stamp);
-
-        let dateOnly = dateFormatChange(String(date.getDate()).padStart(2, '0') +
-            '/' +
-            String(date.getMonth() + 1).padStart(2, '0') +
-            '/' +
-            date.getFullYear())
-        let timeOnly = timeFormatChange(date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds())
-        console.log(stamp)
-        return dateOnly + "<br/>" + timeOnly
-    }
-    const dateFormatChange = (date) => {
-        if (date === '--' || !date) {
-            return '--'
+        if (stamp === '--') {
+            return "--"
         }
-        let givenDate = date.split('/')
-        let months = [
-            '-',
-            'Jan',
-            'Feb',
-            'Mar',
-            'Apr',
-            'May',
-            'Jun',
-            'Jul',
-            'Aug',
-            'Sep',
-            'Oct',
-            'Nov',
-            'Dec',
-        ]
-        let dateMonth = months[parseInt(givenDate[1])]
-        return dateMonth + ',' + givenDate[0] + ' ' + givenDate[2]
-    }
+        const timestamp = new Date(stamp.seconds * 1000);
+        let dateOnly = timestamp.toLocaleDateString('default', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+        })
+        let timeOnly = timestamp.toLocaleTimeString('default', {
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+        })
 
-    const timeFormatChange = (time) => {
-        if (time === '--' || !time) {
-            return '--'
-        }
-        let givenTime = time.split(':')
-        if (parseInt(givenTime[0]) === 0 || parseInt(givenTime[0]) === 24) {
-            let minute =
-                parseInt(givenTime[1]) > 9
-                    ? parseInt(givenTime[1])
-                    : '0' + parseInt(givenTime[1])
-            return '12:' + minute + ' am'
-        } else if (parseInt(givenTime[0]) === 12) {
-            let minute =
-                parseInt(givenTime[1]) > 9
-                    ? parseInt(givenTime[1])
-                    : '0' + parseInt(givenTime[1])
-
-            return "12:" + minute + ' pm'
-        } else if (parseInt(givenTime[0]) > 12) {
-            let hour =
-                parseInt(givenTime[0]) % 12 > 9
-                    ? parseInt(givenTime[0]) % 12
-                    : '0' + parseInt(givenTime[0] % 12)
-            let minute =
-                parseInt(givenTime[1]) > 9
-                    ? parseInt(givenTime[1])
-                    : '0' + parseInt(givenTime[1])
-
-            return hour + ':' + minute + ' pm'
-        } else if (parseInt(givenTime[0]) < 12) {
-            let hour =
-                parseInt(givenTime[0]) > 9
-                    ? parseInt(givenTime[0])
-                    : '0' + parseInt(givenTime[0])
-            let minute =
-                parseInt(givenTime[1]) > 9
-                    ? parseInt(givenTime[1])
-                    : '0' + parseInt(givenTime[1])
-
-            return hour + ':' + minute + ' am'
-        }
+        return dateOnly + "\n" + timeOnly
     }
     // const dragStart = (e, index) => {
     //     dragItem.current = index;
@@ -461,7 +401,7 @@ export default function TeammateTable(props) {
                                                                     }}
                                                                     align="center"
 
-                                                                >
+                                                >
                                                     {timeStampFormatChange(
                                                         info.data.deadline
                                                     )}
@@ -494,7 +434,7 @@ export default function TeammateTable(props) {
                                                                     align="center"
 
                                                                 >
-                                                    {info.data.corrections === '0'
+                                                    {info.data.corrections === 0
                                                         ? info.data.corrections
                                                                         : '+' +
                                                         info.data.corrections}
@@ -508,45 +448,41 @@ export default function TeammateTable(props) {
                                                                     align="center"
 
                                                                     style={
-                                                                        info.data.status === 'Done' ? {
+                                                                        info.data.status === 'DONE' ? {
                                                                             fontFamily: 'rockwen',
                                                                             color: '#000000',
                                                                             fontWeight: 'bold',
                                                                         } :
                                                                             info.data.status ===
-                                                                                'Archived' ? {
-                                                                            fontFamily: 'rockwen',
-                                                                            color: '#24A43A',
-                                                                            fontWeight: 'bold',
-                                                                            width: '105px'
-                                                                            } :
-                                                                                info.data.status ===
-                                                                                    'On Going' ? {
+                                                                                'ON_GOING' ? {
                                                                                         fontFamily: 'rockwen',
                                                                                         color: '#24A43A',
                                                                                         fontWeight: 'bold',
                                                                                         width: '105px'
                                                                                 } :
-                                                                                    info.data.status === 'Paused' ? {
+                                                                                info.data.status === 'PAUSED' ? {
                                                                                         fontFamily: 'rockwen',
                                                                                         color: '#2972B2',
                                                                                         fontWeight: 'bold',
                                                                                     } :
                                                                                         info.data.status ===
-                                                                                            'Assigned' ? {
+                                                                                        'ASSIGNED' ? {
                                                                                                 fontFamily: 'rockwen',
                                                                                                 color: '#D1AE00',
                                                                                                 fontWeight: 'bold',
                                                                                         } : {}
                                                                     }
                                                                 >
-                                                    {info.data.status === 'Done' ? (
+                                                    {info.data.status === 'DONE' ? (
                                                                             <FontAwesomeIcon
                                                                             size="xl"
                                                                             icon="fa-solid fa-circle-check"
                                                                         />
                                                                     ) : (
-                                                            info.data.status
+                                                            info.data.status === "ASSIGNED" ? "Assigned" :
+                                                                info.data.status === "ON_GOING" ? "On Going" :
+                                                                    info.data.status === "PAUSED" ? "Paused" :
+                                                                        info.data.status === "DONE" ? "Done" : ""
                                                                     )}
                                                 </TableCell>
 

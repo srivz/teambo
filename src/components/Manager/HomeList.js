@@ -17,7 +17,7 @@ import TeammateTable from './TeammateTable';
 import { useNavigate } from 'react-router'
 import NavBar from '../Navs/NavBar';
 import { auth } from '../../firebase-config'
-import readManagers, { readTeammatesFromList } from '../../database/read/managerReadFunction';
+import readManagers, { readClients, readTeammatesFromList } from '../../database/read/managerReadFunction';
 import { onAuthStateChanged } from 'firebase/auth';
 import { requestTeammate } from '../../database/write/managerWriteFunctions';
 import { sendRequestTeammateEmail } from '../../database/email/sendEmail';
@@ -39,6 +39,7 @@ export default function HomeList() {
   const [user, setUser] = useState()
   const [managerId, setManagerId] = useState('')
   const [teammateList, setTeammateList] = useState([])
+  const [clientList, setClientList] = useState([])
   const [show, setShow] = useState(false);
 
   const navigate = useNavigate();
@@ -50,6 +51,8 @@ export default function HomeList() {
       setManagerId(managerData.id);
       const teammate = await readTeammatesFromList(managerData.id);
       setTeammateList(teammate);
+      const clients = await readClients(managerData.id);
+      setClientList(clients);
     } catch (error) {
       console.error(error);
     }
@@ -69,73 +72,6 @@ export default function HomeList() {
     fetchManagerData(user);
     setLoading(false);
   }, [user])
-
-  const dateFormatChange = (date) => {
-    if (date === '--' || !date) {
-      return '--'
-    }
-    let givenDate = date.split('/')
-    let months = [
-      '-',
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ]
-    let dateMonth = months[parseInt(givenDate[1])]
-    return dateMonth + ',' + givenDate[0] + ' ' + givenDate[2]
-  }
-
-  const timeFormatChange = (time) => {
-    if (time === '--' || !time) {
-      return '--'
-    }
-    let givenTime = time.split(':')
-    if (parseInt(givenTime[0]) === 0 || parseInt(givenTime[0]) === 24) {
-      let minute =
-        parseInt(givenTime[1]) > 9
-          ? parseInt(givenTime[1])
-          : '0' + parseInt(givenTime[1])
-      return '12:' + minute + ' am'
-    } else if (parseInt(givenTime[0]) === 12) {
-      let minute =
-        parseInt(givenTime[1]) > 9
-          ? parseInt(givenTime[1])
-          : '0' + parseInt(givenTime[1])
-
-      return "12:" + minute + ' pm'
-    } else if (parseInt(givenTime[0]) > 12) {
-      let hour =
-        parseInt(givenTime[0]) % 12 > 9
-          ? parseInt(givenTime[0]) % 12
-          : '0' + parseInt(givenTime[0] % 12)
-      let minute =
-        parseInt(givenTime[1]) > 9
-          ? parseInt(givenTime[1])
-          : '0' + parseInt(givenTime[1])
-
-      return hour + ':' + minute + ' pm'
-    } else if (parseInt(givenTime[0]) < 12) {
-      let hour =
-        parseInt(givenTime[0]) > 9
-          ? parseInt(givenTime[0])
-          : '0' + parseInt(givenTime[0])
-      let minute =
-        parseInt(givenTime[1]) > 9
-          ? parseInt(givenTime[1])
-          : '0' + parseInt(givenTime[1])
-
-      return hour + ':' + minute + ' am'
-    }
-  }
 
   const addTeammate = async () => {
     if (teammateEmail === '') {
@@ -348,27 +284,25 @@ export default function HomeList() {
                             <TableRow></TableRow>
                           </TableHead>
                           <TableBody>
-                              {!manager?.clients ? (
+                              {clientList === [] ? (
                               <TableRow
                                 colSpan={7}
                                 align="center">
                                   No Clients right now
                               </TableRow>
                               ) : (
-                                  manager?.clients?.filter((info) => {
-                                    return info.taskCount !== 0
-                                  }).filter((info) => {
-                                    return info.name.toLowerCase().includes(searchText2?.toLowerCase())
+                                  clientList.filter((info) => {
+                                    return info.data.clientName.toLowerCase().includes(searchText2?.toLowerCase())
                                   })
-                                    ?.map((info, index) => {
+                                    ?.map((info) => {
                                       return (
                                         <TableRow
-                                          key={index}
+                                          key={info.id}
                                           onClick={() => {
-                                            setClientSelected(info.name);
+                                            setClientSelected(info.id);
                                             localStorage.setItem(
                                               'clientSelected',
-                                              JSON.stringify(info.name)
+                                              JSON.stringify(info.id)
                                             );
                                           }} style={{ backgroundColor: "#fff !important" }}
 
@@ -376,7 +310,7 @@ export default function HomeList() {
                                           <TableCell
                                             style={{
                                               backgroundColor:
-                                                info.name === clientSelected
+                                                info.id === clientSelected
                                                   ? '#E2ECFF'
                                                   : '#F9FBFF',
                                               height: 'fit-content',
@@ -385,8 +319,9 @@ export default function HomeList() {
                                               paddingTop: '1em',
                                               paddingBottom: '0.5em',
                                               cursor: "pointer"
-                                            }}>
-                                            <h5>{info.name}</h5>
+                                            }}
+                                            title={info.data.clientName}>
+                                            <h5>{info.data.clientName.length > 23 ? info.data.clientName.slice(0, 20) + "..." : info.data.clientName}</h5>
                                           </TableCell>
                                         </TableRow>
                                       )
@@ -494,7 +429,7 @@ export default function HomeList() {
                                 style={{ marginRight: '1em', fontSize: "20px" }}
                               />
                               <NewTask
-                                name={info.data.name}
+                                name={info.data.teammateName}
                                 designation={info.data.designation}
                                 teammate={info.data}
                                 teammateId={info.id}
@@ -506,11 +441,11 @@ export default function HomeList() {
                           </Col>
                         </Row>
                       )
-                    }) : (manager?.clients?.filter((info) => info.name === clientSelected)?.map((info) => {
+                    }) : (clientList.filter((info) => info.id === clientSelected)?.map((info) => {
                         return (
                           <Row>
                             <Col sm={6} md={6} style={{ paddingLeft: '1.5em', marginTop: '1.5em' }}>
-                              <h4 className="blue">{info.name}</h4>
+                              <h4 className="blue">{info.data.clientName}</h4>
                             </Col>
                             <Col
                               sm={6}
@@ -569,25 +504,13 @@ export default function HomeList() {
                           </Row>)
                       }))
                   )}
-                        {
-                          teammateList && tab === "Teammate" ?
+                  {teammateList && tab === "Teammate" ?
                             <TeammateTable
                               filterTeammate={filter}
                               teammateselected={selected}
                               team={teammateList}
-                              addTeammate={addTeammate}
-                              manager={manager}
-                              managerId={managerId} />
-                            : <></>}
-                        {
-                          teammateList && tab === "Company" ?
-                            <ClientTable
-                            filter={filter}
-                              team={teammateList}
-                            clientSelected={clientSelected}
-                            dateFormatChange={dateFormatChange}
-                            timeFormatChange={timeFormatChange} /> : <></>
-                  }
+                      addTeammate={addTeammate} /> : <></>}
+                  {clientList && tab === "Company" ? <ClientTable filter={filter} team={teammateList} clientSelected={clientSelected} /> : <></>}
               </Col>
             </Row>
           </Container>
