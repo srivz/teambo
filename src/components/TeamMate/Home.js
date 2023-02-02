@@ -18,6 +18,7 @@ import TeammateTaskHistory from './TeammateTaskHistory'
 import Notifications from './Notifications'
 import axios from 'axios'
 import { readTask, readTeammate } from '../../database/read/teammateReadFunction'
+import { markTeammateAttendance } from '../../database/write/teammateWriteFunction'
 
 export default function Home() {
   const [loading, setLoading] = useState(true)
@@ -32,7 +33,7 @@ export default function Home() {
   const [teammateIndex, setTeammateIndex] = useState(null)
   const [modalShow, setModalShow] = useState(false)
   const [otherNotifications, setOtherNotifications] = useState()
-  const [attendanceMarked, setAttedencedMarked] = useState(false)
+  const [attendanceMarked, setAttedancedMarked] = useState(false)
   const [task, setTask] = useState([])
 
 
@@ -42,6 +43,11 @@ export default function Home() {
       setTeammate(teammateData.data);
       setId(teammateData.id);
       setOtherNotifications(teammateData.data.requests);
+      const dat = new Date();
+      const today = dat.toLocaleDateString();
+      if (teammateData.data.attendanceMarkedDate === today) {
+        setAttedancedMarked(true);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -52,7 +58,6 @@ export default function Home() {
   async function fetchTeammateTask(id) {
     try {
       const task = await readTask(id);
-      console.log("task: ", task)
       if (task) {
         setTask(task)
       }
@@ -185,25 +190,12 @@ export default function Home() {
 
   const doNothing = () => { }
 
-  function markAttendence(e) {
-    if (e.target.checked) {
+  function markAttendence() {
       const dat = new Date();
-      const today = dat.getDate() + "-" + dat.getMonth() + 1 + "-" + dat.getFullYear();
-      update(ref(db, `manager/${managerId}/attendence/${today}/${teammateIndex}`), { attendanceMarkedTime: dat, teammateIndex: teammateIndex, name: teammate.teammateName, approved: "No" }).then((res) => {
-        console.log(res);
-      })
-    }
+    const today = dat.toLocaleDateString();
+    markTeammateAttendance(teammate.companyId, id, teammate.currentManagerId, teammate.teammateName, teammate.currentManagerName, teammate.companyName, today, dat)
+    setAttedancedMarked(true);
   }
-  // useEffect(() => {
-  //   const dat = new Date();
-  //   const today = dat.getDate() + "-" + dat.getMonth() + 1 + "-" + dat.getFullYear();
-  //   onValue(ref(db, `manager/${managerId}/attendence/${today}/${teammateIndex}`), (snapshot) => {
-  //     let data = snapshot.val();
-  //     if (data.attendanceMarkedTime) {
-  //       setAttedencedMarked(true);
-  //     }
-  //   })
-  // }, [teammateIndex, managerId]);
 
   return (
     <>
@@ -262,7 +254,7 @@ export default function Home() {
                               <Form.Check
                                 type="switch"
                                 id="custom-switch"
-                                onChange={markAttendence}
+                                onChange={() => { markAttendence() }}
                                 style={{
                                   marginRight: "10px",
                                   fontSize: "25px"

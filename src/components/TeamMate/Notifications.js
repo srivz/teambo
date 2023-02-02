@@ -17,8 +17,8 @@ export default function Notifications(props) {
             setOriginalData(props.otherNotifications);
     }, [props.otherNotifications]);
 
-    const accept = (managerId) => {
-        requestAcceptTeammate(managerId, props?.id).then(() => { setOriginalData([]) })
+    const accept = (managerId, name) => {
+        requestAcceptTeammate(managerId, name, props?.id).then(() => { setOriginalData([]) })
     }
     const clearAllNotifications = () => {
         // remove(ref(db, `manager/${props?.managerId}/teammates/${props?.teammateIndex}/data/notifications/`)).then(() => { setShow(false); })
@@ -101,7 +101,7 @@ export default function Notifications(props) {
                                                             <Col md={2} sm={2}>
                                                                 <FontAwesomeIcon
                                                                     onClick={() => {
-                                                                        accept(info.managerId);
+                                                                        accept(info.managerId, info.managerName);
                                                                     }}
                                                                     className="pointer"
                                                                     size="2xl"

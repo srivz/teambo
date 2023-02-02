@@ -5,7 +5,6 @@ export default async function defaultFunction() {
 }
 
 export async function requestAcceptTeammate(managerId, id) {
-    console.log(managerId, "=>", id)
     const teammateRef = doc(firestoreDB, "teammates", id);
     await updateDoc(teammateRef, {
         managerId: arrayUnion(managerId),
@@ -21,9 +20,9 @@ export async function requestRejectTeammate(managerId, name, id) {
     });
 }
 
-export async function markAttendance(companyId, teammateId, managerId, teammateName, managerName, companyName, date, timeStamp) {
-    const attendanceRef = collection(firestoreDB, "attendance");
-    await addDoc(attendanceRef, {
+export async function markTeammateAttendance(companyId, teammateId, managerId, teammateName, managerName, companyName, date, timeStamp) {
+    console.log({ companyId, teammateId, managerId, teammateName, managerName, companyName, date, timeStamp })
+    await addDoc(collection(firestoreDB, "attendance"), {
         companyId: companyId,
         teammateId: teammateId,
         managerId: managerId,
@@ -34,8 +33,7 @@ export async function markAttendance(companyId, teammateId, managerId, teammateN
         attendanceMarked: timeStamp,
         isApproved: false
     });
-    const attendanceMarkedRef = doc(firestoreDB, "teammates", `${teammateId}`);
-    await updateDoc(attendanceMarkedRef, {
+    await updateDoc(doc(firestoreDB, "teammates", `${teammateId}`), {
         attendanceMarkedDate: date
     });
 }
