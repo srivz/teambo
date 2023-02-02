@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { Col, Row } from 'react-bootstrap'
-import { readClientLiveTasks } from '../../database/read/managerReadFunction'
 export default function ClientTable(props) {
     const selected = props?.clientSelected
     const filter = props?.filter
-    const [tasks, setTasks] = useState([])
+    const tasks = props?.task
     const timeStampFormatChange = (stamp) => {
         if (stamp === '--') {
             return "--"
@@ -25,19 +24,6 @@ export default function ClientTable(props) {
 
         return dateOnly + "\n" + timeOnly
     }
-
-    async function fetchTasks(selected) {
-        try {
-            const data = await readClientLiveTasks(selected);
-            setTasks(data)
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    useEffect(() => {
-        fetchTasks(selected)
-    }, [selected]);
     return (<>
         <div className="overflow-set-auto table-height1">
             <Row className="table-height1">
@@ -123,6 +109,8 @@ export default function ClientTable(props) {
                                     <TableCell colSpan={8} align="center" > No tasks assigned</TableCell>
                                 </TableRow>)
                                 : (tasks.filter((info) => {
+                                    return (selected === info.data.clientId)
+                                }).filter((info) => {
                                     return (filter !== "All" ?
                                         info.data.status === filter.split(" ").join("_").toUpperCase()
                                         : info.data.status !== filter)

@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
     Button,
     Col,
@@ -13,7 +13,7 @@ import {
 // import { clientTaskComplete, clientTaskDelete } from './ClientTaskCount';
 // import { notifyCompleteTask, notifyDeleteTask } from './NotificationFunctions';
 // import sendEmail from '../../database/email/sendEmail';
-import { readLiveTasks } from '../../database/read/managerReadFunction';
+import TaskHistory from './TaskHistory';
 
 
 export default function TeammateTable(props) {
@@ -26,23 +26,10 @@ export default function TeammateTable(props) {
     // const [prevTeammateId, setPrevTeammateId] = useState("");
     // const [prevTeammateIndex, setPrevTeammateIndex] = useState("");
     // const [prevTaskIndex, setPrevTaskIndex] = useState()
-    const [tasks, setTasks] = useState([])
+    const tasks = props?.tasksLive
     // const dragItem = useRef();
     // const dragOverItem = useRef();
 
-
-    async function fetchTasks(selected) {
-        try {
-            const data = await readLiveTasks(selected);
-            setTasks(data)
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    useEffect(() => {
-        fetchTasks(selected)
-    }, [selected]);
 
 //     const handleDeleteTask = async (teammate, id, index, clientIndex) => {
 //         var today = new Date()
@@ -310,7 +297,7 @@ export default function TeammateTable(props) {
                                 (<TableRow>
                                         <TableCell colSpan={8} align="center" > No tasks assigned</TableCell>
                                 </TableRow>)
-                                : (tasks.filter((info) => {
+                                : (tasks.filter((info) => { return (selected === info.data.teammateId) }).filter((info) => {
                                     return (filter !== "All" ?
                                         info.data.status === filter.split(" ").join("_").toUpperCase()
                                         : info.data.status !== filter)
@@ -606,32 +593,29 @@ export default function TeammateTable(props) {
                                                         />
                                                     </OverlayTrigger> : <></>}
                                                 </TableCell>
-                                            </TableRow>
-                                        )
-                                    })
+                                                {taskSelected !== null && (
+                                                    <TaskHistory
+                                                        show={modalShow}
+                                                        onHide={() => { setModalShow(false); setTaskSelected(null); }}
+                                                        teamtasks={tasks}
+                                                        id={taskSelected}
+                                                        name={props.name}
+                                                        designation={props.designation}
+                                                    />
+                                                )
+                                                }
+                                        </TableRow>
+                                    )
+                                })
+
+
+
                                 )
                             }
 
 
-                            {/* {
-                                info.data.tasks && taskSelected !== null ? (
-                                    <TaskHistory
-                                        show={modalShow}
-                                        id={info.teammateId}
-                                        onHide={() => { setModalShow(false); setTaskSelected(null); }}
-                                        indexselected={taskSelected}
-                                        teamtasks={info.data.tasks}
-                                        name={info.data.name}
-                                        managerid={props?.managerId}
-                                        teammateindex={info.teammateIndex}
-                                        designation={info.data.designation}
 
-                                    />
-                                ) : (
-                                    <></>
-                                )
-                            }
-                            {switchTask &&
+                            {/* {switchTask &&
                                     <SwitchTask
                                     show={true}
                                     setswitchtask={setSwitchTask}
@@ -644,7 +628,7 @@ export default function TeammateTable(props) {
                                     prevteammateindex={prevTeammateIndex}
                                     prevteammateid={prevTeammateId}
                                     prevtaskindex={prevTaskIndex}
-                                    />} */}
+                                    />}  */}
 
                         </TableBody>
                     </Table>

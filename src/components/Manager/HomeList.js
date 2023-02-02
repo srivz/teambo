@@ -17,7 +17,7 @@ import TeammateTable from './TeammateTable';
 import { useNavigate } from 'react-router'
 import NavBar from '../Navs/NavBar';
 import { auth } from '../../firebase-config'
-import readManagers, { readClients, readTeammatesFromList } from '../../database/read/managerReadFunction';
+import readManagers, { readAllLiveTasks, readClients, readTeammatesFromList } from '../../database/read/managerReadFunction';
 import { onAuthStateChanged } from 'firebase/auth';
 import { requestTeammate } from '../../database/write/managerWriteFunctions';
 import { sendRequestTeammateEmail } from '../../database/email/sendEmail';
@@ -41,6 +41,7 @@ export default function HomeList() {
   const [teammateList, setTeammateList] = useState([])
   const [clientList, setClientList] = useState([])
   const [show, setShow] = useState(false);
+  const [tasks, setTasks] = useState([])
 
   const navigate = useNavigate();
 
@@ -53,11 +54,20 @@ export default function HomeList() {
       setTeammateList(teammate);
       const clients = await readClients(managerData.id);
       setClientList(clients);
+      fetchTasks(managerData.id)
+
     } catch (error) {
       console.error(error);
     }
   }
-
+  async function fetchTasks(id) {
+    try {
+      const data = await readAllLiveTasks(id);
+      setTasks(data)
+    } catch (error) {
+      console.error(error);
+    }
+  }
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userLog) => {
       setUser(userLog.uid);
@@ -502,16 +512,32 @@ export default function HomeList() {
                                 </Dropdown>
                               </div>
                             </Col>
+
                           </Row>)
                       }))
                   )}
+
                   {teammateList && tab === "Teammate" ?
-                            <TeammateTable
-                              filterTeammate={filter}
-                              teammateselected={selected}
-                              team={teammateList}
-                      addTeammate={addTeammate} /> : <></>}
-                  {clientList && tab === "Company" ? <ClientTable filter={filter} team={teammateList} clientSelected={clientSelected} /> : <></>}
+                    <TeammateTable
+                      filterTeammate={filter}
+                      teammateselected={selected}
+                      team={teammateList}
+                      tasksLive={tasks}
+                      name={teammateList
+                        .filter((info) => info.id === selected)
+                        .map((info) => {
+                          return (info.data.teammateName)
+                        })}
+                      designation={teammateList
+                        .filter((info) => info.id === selected)
+                        .map((info) => {
+                          return (info.data.designation)
+                        })}
+                      addTeammate={addTeammate} /> : <></>
+                  }
+                  {clientList && tab === "Company" ?
+                    <ClientTable filter={filter} task={tasks} team={teammateList} clientSelected={clientSelected} /> : <></>
+                  }
               </Col>
             </Row>
           </Container>

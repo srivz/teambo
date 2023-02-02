@@ -22,72 +22,6 @@ export default function TaskHistory(props) {
     description: '',
     deadlineTime: '--',
   })
-  const dateFormatChange = (date) => {
-    if (date === '--' || !date) {
-      return '--'
-    }
-    let givenDate = date.split('/')
-    let months = [
-      '-',
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ]
-    let dateMonth = months[parseInt(givenDate[1])]
-    return dateMonth + ',' + givenDate[0] + ' ' + givenDate[2]
-  }
-
-  const timeFormatChange = (time) => {
-    if (time === '--' || !time) {
-      return '--'
-    }
-    let givenTime = time.split(':')
-    if (parseInt(givenTime[0]) === 0 || parseInt(givenTime[0]) === 24) {
-      let minute =
-        parseInt(givenTime[1]) > 9
-          ? parseInt(givenTime[1])
-          : '0' + parseInt(givenTime[1])
-      return '12:' + minute + ' am'
-    } else if (parseInt(givenTime[0]) === 12) {
-      let minute =
-        parseInt(givenTime[1]) > 9
-          ? parseInt(givenTime[1])
-          : '0' + parseInt(givenTime[1])
-
-      return "12:" + minute + ' pm'
-    } else if (parseInt(givenTime[0]) > 12) {
-      let hour =
-        parseInt(givenTime[0]) % 12 > 9
-          ? parseInt(givenTime[0]) % 12
-          : '0' + parseInt(givenTime[0] % 12)
-      let minute =
-        parseInt(givenTime[1]) > 9
-          ? parseInt(givenTime[1])
-          : '0' + parseInt(givenTime[1])
-
-      return hour + ':' + minute + ' pm'
-    } else if (parseInt(givenTime[0]) < 12) {
-      let hour =
-        parseInt(givenTime[0]) > 9
-          ? parseInt(givenTime[0])
-          : '0' + parseInt(givenTime[0])
-      let minute =
-        parseInt(givenTime[1]) > 9
-          ? parseInt(givenTime[1])
-          : '0' + parseInt(givenTime[1])
-
-      return hour + ':' + minute + ' am'
-    }
-  }
 
   const handleTaskCorrection = (id, index, correction) => {
     set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${props?.teammateindex}/data/tasks/${index}/updates/${correction}`), {
@@ -164,9 +98,6 @@ export default function TaskHistory(props) {
     let newInput = { [event.target.name]: event.target.value }
     setTaskUpdate({ ...taskUpdate, ...newInput })
   }
-  const descriptionList = (array) => {
-    return <p>{array}<br /></p>
-  }
   return (
     <div>
       <Modal
@@ -181,9 +112,9 @@ export default function TaskHistory(props) {
               <FontAwesomeIcon icon="fa-solid fa-chevron-left" />{" "}
               Close
             </Button>
-            <Button variant="light" onClick={() => { handleShow() }}
+            {/* <Button variant="light" onClick={() => { handleShow() }}
               style={
-                props?.teamtasks[props?.indexselected]?.query
+                props?.teamtasks.query
                   ? {
                     border: '1px solid #9b9b9b',
                     color: 'black',
@@ -210,7 +141,7 @@ export default function TaskHistory(props) {
                 className="pointer"
                 icon="fa-regular fa-envelope"
                 size="xl" />
-              {props?.teamtasks[props?.indexselected]?.query ?
+               {props?.teamtasks.data.query ?
                 (
                   <div style={{ marginBottom: "5px", marginLeft: "5px" }} class="notification-dot"></div>
                 ) :
@@ -218,18 +149,18 @@ export default function TaskHistory(props) {
                   <></>
                 )
               }
-            </Button>
+          </Button> */}
             <Modal show={showDoubt}
               backdrop="static" onHide={() => { handleClose() }}>
               <Modal.Header closeButton></Modal.Header>
               <Modal.Body>
-                {props?.teamtasks[props?.indexselected]?.query ?
+                {/* {props?.teamtasks.data.query ?
                   <Form>
                     <Form.Group
                       className="mb-3"
                       controlId="exampleForm.ControlTextarea1"
                     >
-                      <Form.Label>Teammate has a query:<br />"{props?.teamtasks[props?.indexselected]?.query}"</Form.Label>
+                      <Form.Label>Teammate has a query:<br />"{props?.teamtasks?.data?.status}"</Form.Label>
                       <Form.Control
                         as="textarea"
                         name="description"
@@ -237,20 +168,21 @@ export default function TaskHistory(props) {
                         rows={3} />
                     </Form.Group>
                     <Button variant="primary" onClick={() => {
-                      handleAdditionalTaskCorrection1(
-                        props?.id,
-                        props?.indexselected,
-                        props?.teamtasks[props?.indexselected]?.updates?.length,
-                      )
+                      // handleAdditionalTaskCorrection1(
+                      //   props?.id,
+                      //   props?.indexselected,
+                      //   props?.teamtasks[props?.indexselected]?.updates?.length,
+                      // )
                     }}>
                       Send
                     </Button>
                   </Form>
-                  : <>No Queries From The Teammate</>}
+                  : <>No Queries From The Teammate</>} */}
               </Modal.Body>
             </Modal>
           </Modal.Title>
         </Modal.Header>
+
         <Modal.Body style={{ padding: "1.5em", marginLeft: "1.5em", marginRight: "1.5em" }}>
           <Row style={{ padding: "auto", margin: "auto" }}>
             <Col sm={6} md={6} style={{ marginTop: '1em' }}>
@@ -258,57 +190,57 @@ export default function TaskHistory(props) {
               <h6>{props?.designation}</h6>
             </Col>
           </Row>
-          <Row style={{ paddingLeft: ".5em", alignItems: "bottom" }}>
+          {props?.teamtasks?.filter((info) => { return (props?.id === info.id) }).map((info) => {
+            return (
+              <Row style={{ paddingLeft: ".5em", alignItems: "bottom" }} key={info.id}>
             <Col sm={1} md={1} style={{ marginTop: '1em' }}>
               <h6>Client</h6>
             </Col>
-            <Col sm={3} md={3} style={{ marginTop: '.75em' }} title={props?.teamtasks[props?.indexselected]?.client}>
-              <h5>{props?.teamtasks[props?.indexselected]?.client.length > 15 ? props?.teamtasks[props?.indexselected]?.client.slice(0, 12) + "..." : props?.teamtasks[props?.indexselected]?.client}
+                <Col sm={3} md={3} style={{ marginTop: '.75em' }} title={info.data.clientName}>
+                  <h5>{info.data.clientName.length > 15 ? info.data.clientName.slice(0, 12) + "..." : info.data.clientName}
               </h5>
             </Col>
             <Col sm={1} md={1} style={{ marginTop: '1em' }}>
               <h6>Task</h6>
             </Col>
-            <Col sm={3} md={3} style={{ marginTop: '.75em' }}>
-              {props?.teamtasks[props?.indexselected]?.task.length > 20 ? props?.teamtasks[props?.indexselected]?.task.slice(0, 17) + "..." : props?.teamtasks[props?.indexselected]?.task}
+                <Col sm={3} md={3} style={{ marginTop: '.75em' }} title={info.data.title}>
+                  {info.data.title.length > 20 ? info.data.title.slice(0, 17) + "..." : info.data.title}
             </Col>
             <Col sm={1} md={1} style={{ marginTop: '1em' }}>
               <h6>Status</h6>
             </Col>
-            <Col sm={3} md={3} style={{ marginTop: '.75em' }}>
-              {props?.teamtasks[props?.indexselected]?.updates
-                .sort((a, b) => (a.corrections > b.corrections ? -1 : 1))
-                .filter((info, index) => { return (index === 0) })
-                .map((info) => {
-                  return (<>
+                <Col sm={3} md={3} style={{ marginTop: '.75em' }}>
                     <h5
                       style={
-                        (info.status === 'Done' && {
+                      (info.data.status === 'DONE' && {
                           fontFamily: 'rockwen',
                           color: '#000000',
                         }) ||
-                        (info.status === 'On Going' && {
+                      (info.data.status === 'ON_GOING' && {
                           fontFamily: 'rockwen',
                           color: '#24A43A',
                         }) ||
-                        (info.status === 'Paused' && {
+                      (info.data.status === 'PAUSED' && {
                           fontFamily: 'rockwen',
                           color: '#2972B2',
                         }) ||
-                        (info.status === 'Assigned' && {
+                      (info.data.status === 'ASSIGNED' && {
                           fontFamily: 'rockwen',
                           color: '#D1AE00',
                         })
                       }
                     >
-                      {
-                        info.status
+                    {
+                      info.data.status === "ASSIGNED" ? "Assigned" :
+                        info.data.status === "ON_GOING" ? "On Going" :
+                          info.data.status === "PAUSED" ? "Paused" :
+                            info.data.status === "DONE" ? "Done" : ""
                       }
-                    </h5></>)
-                })}
+                  </h5>
 
             </Col>
-          </Row>
+              </Row>)
+          })}
           <Table
             style={{
               borderCollapse: 'separate',
@@ -364,10 +296,10 @@ export default function TaskHistory(props) {
               <TableRow>
                 <TableCell colSpan={7}>
                   <Row className="d-grid gap-2">
-                    {props?.teamtasks[props?.indexselected]?.updates
+                    {/* {props?.teamtasks[props?.indexselected]?.updates
                       .sort((a, b) => (a.corrections > b.corrections ? -1 : 1))
                       .filter((info, index) => { return (index === 0) })
-                      .map((info, index) => {
+                      .map((info) => {
                         return (<>
                           {info.status === 'Done' ? <Button
                             disabled={
@@ -389,7 +321,7 @@ export default function TaskHistory(props) {
                             + Add Additional Correction
                           </Button> : <></>
                           }</>)
-                      })}
+                      })} */}
                   </Row>
                 </TableCell>
               </TableRow>
@@ -402,7 +334,7 @@ export default function TaskHistory(props) {
                     }}
                     align="center"
                   >
-                    +{props?.teamtasks[props?.indexselected]?.updates?.length}
+                    {/* +{props?.teamtasks[props?.indexselected]?.updates?.length} */}
                   </TableCell>
                   <TableCell
                     style={{
@@ -483,13 +415,13 @@ export default function TaskHistory(props) {
                   >
                     <FontAwesomeIcon
                       className="pointer"
-                      onClick={() =>
-                        handleTaskCorrection(
-                          props?.id,
-                          props?.indexselected,
-                          props?.teamtasks[props?.indexselected]?.updates?.length,
-                        )
-                      }
+                      // onClick={() =>
+                        // handleTaskCorrection(
+                        //   props?.id,
+                        //   props?.indexselected,
+                        //   props?.teamtasks[props?.indexselected]?.updates?.length,
+                        // )
+                      // }
                       size="2xl"
                       style={{
                         color: 'blue',
@@ -601,13 +533,13 @@ export default function TaskHistory(props) {
                   >
                     <FontAwesomeIcon
                       className="pointer"
-                      onClick={() =>
-                        handleTaskCorrection1(
-                          props?.id,
-                          props?.indexselected,
-                          props?.teamtasks[props?.indexselected]?.updates?.length,
-                        )
-                      }
+                      // onClick={() =>
+                        // handleTaskCorrection1(
+                        //   props?.id,
+                        //   props?.indexselected,
+                        //   props?.teamtasks[props?.indexselected]?.updates?.length,
+                        // )
+                      // }
                       size="2xl"
                       style={{
                         color: 'blue',
@@ -631,7 +563,7 @@ export default function TaskHistory(props) {
                 <></>
               )}
 
-              {props?.teamtasks[props?.indexselected]?.updates
+              {/* {props?.teamtasks[props?.indexselected]?.updates
                 .sort((a, b) => (a.corrections > b.corrections ? -1 : 1))
                 .map((info, index) => {
                   return (
@@ -695,7 +627,7 @@ export default function TaskHistory(props) {
                       </TableCell>
                     </TableRow>
                   )
-                })}
+                })} */}
             </TableBody>
           </Table>
         </Modal.Body>
