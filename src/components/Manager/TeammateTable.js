@@ -184,7 +184,13 @@ export default function TeammateTable(props) {
             hour12: true
         })
 
-        return dateOnly + "\n" + timeOnly
+        return (
+            <>
+                {dateOnly}
+                <br />
+                {timeOnly}
+            </>
+        )
     }
     // const dragStart = (e, index) => {
     //     dragItem.current = index;

@@ -22,7 +22,13 @@ export default function ClientTable(props) {
             hour12: true
         })
 
-        return dateOnly + "\n" + timeOnly
+        return (
+            <>
+                {dateOnly}
+                <br />
+                {timeOnly}
+            </>
+        )
     }
     return (<>
         <div className="overflow-set-auto table-height1">

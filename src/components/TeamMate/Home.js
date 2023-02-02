@@ -94,7 +94,13 @@ export default function Home() {
       hour12: true
     })
 
-    return dateOnly + "\n" + timeOnly
+    return (
+      <>
+        {dateOnly}
+        <br />
+        {timeOnly}
+      </>
+    )
   }
 
   const diff_hours = (dt2, dt1) => {
@@ -423,7 +429,7 @@ export default function Home() {
                               align="center"
                               style={{
                                 fontFamily: 'rockwen',
-                                fontWeight: 'bold',
+                                fontWeight: 'bold'
                                 }}
                               >
                                 Assigned
@@ -432,7 +438,7 @@ export default function Home() {
                               align="center"
                               style={{
                                   fontFamily: 'rockwen',
-                                  fontWeight: 'bold',
+                                fontWeight: 'bold'
                                 }}
                               >
                                 Deadline
@@ -557,10 +563,11 @@ export default function Home() {
                                                 }}
                                                 align="center"
                                               >
-                                                +
-                                                {
-                                              info.data.corrections
-                                                }
+
+                                            {info.data.corrections === 0
+                                              ? info.data.corrections
+                                              : '+' +
+                                              info.data.corrections}
                                               </TableCell>
                                               <TableCell
                                                 onClick={() => {
