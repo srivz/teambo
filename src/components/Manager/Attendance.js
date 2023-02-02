@@ -3,20 +3,21 @@ import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import { Button, Col, Modal, Row, Table } from 'react-bootstrap'
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { onValue, ref, update } from 'firebase/database';
+import { onValue, ref } from 'firebase/database';
 import { auth, db } from '../../firebase-config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { notApprovedTeammate } from '../../database/read/managerReadFunction';
+import { approveTeammateAttendance } from '../../database/write/managerWriteFunctions';
 const localizer = momentLocalizer(moment);
 
 function ShowApprovalList(props) {
-    function ApproveAttendence(teammateIndex) {
-        const dat = new Date();
-        const today = dat.getDate() + "-" + dat.getMonth() + 1 + "-" + dat.getFullYear();
-        update(ref(db, `manager/${auth.currentUser.uid}/attendence/${today}/${teammateIndex}`), { approved: "Yes" }).then((res) => {
-            console.log(res);
-        })
+    function approveAttendence(managerId, teammateId) {
+        let dat = new Date();
+        let today = dat.toLocaleDateString();
+        approveTeammateAttendance(today, managerId, teammateId)
     }
+
     return (
         <div>
             <Modal
@@ -30,38 +31,40 @@ function ShowApprovalList(props) {
                         Attendance Approval Sheet
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body> {props?.attendance !== null ?
+                <Modal.Body> {props?.attendanceNotApproved !== [] ?
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell align='center'></TableCell>
-                                <TableCell align='center'>Name</TableCell>
-                                <TableCell align='center'>Approved</TableCell>
+                                <TableCell></TableCell>
+                                <TableCell>Name</TableCell>
+                                <TableCell></TableCell>
                             </TableRow>
-                        </TableHead>
+                        </TableHead>{console.log(props?.attendanceNotApproved)}
                         <TableBody>
-                            {props?.attendance.filter((info) => { return info.approved === "No" }).map((info, index) => {
+                            {props?.attendanceNotApproved?.map((info, index) => {
                                 return (
-                                    <TableRow key={index}>
-                                        <TableCell align='center'>
+                                    <TableRow key={info.id}>
+                                        <TableCell>
                                             {index + 1}
                                         </TableCell>
-                                        <TableCell align='center'>
-                                            {info.name}
+                                        <TableCell>
+                                            {info.data.teammateName}
                                         </TableCell>
-                                        <TableCell align='center'>
+                                        <TableCell >
                                             <FontAwesomeIcon
-                                                onClick={() => { ApproveAttendence(info.teammateIndex) }}
+                                                onClick={() => { approveAttendence(info.data.managerId, info.data.teammateId) }}
                                                 className="pointer"
                                                 size="2xl"
                                                 color='green'
-                                                icon="fa-solprops?.id fa-circle-check"
+                                                icon="fa-solid fa-circle-check"
                                             />
                                         </TableCell>
                                     </TableRow>
                                 )
                             })
-                            }</TableBody></Table> : <TableCell>Not Available</TableCell>}
+                            }
+                        </TableBody>
+                    </Table> : <TableCell>Not Available</TableCell>}
                 </Modal.Body>
             </Modal>
         </div >
@@ -91,7 +94,7 @@ function ShowModal(props) {
                             </TableRow>
                         </TableHead>
                             <TableBody> 
-                                {props?.attendance.filter((info) => { return info.approved === "Yes" })
+                                {props?.attendance
                                     .map((info, index) => {
                                         return (
                                             <TableRow key={index}>
@@ -114,6 +117,7 @@ export default function Attendance(props) {
     const [modalShow, setModalShow] = useState(false);
     const [modalShow2, setModalShow2] = useState(false);
     const [attendance, setAttendance] = useState({})
+    const [attendanceNotApproved, setAttendanceNotApproved] = useState([])
     //DEMO EVENTS DATA
     const eventData = [
         {
@@ -141,22 +145,14 @@ export default function Attendance(props) {
         })
         setModalShow(true);
     }
-
-    const onApprovalHandler = () => {
-        let today = new Date()
-        let day = String(today.getDate()).padStart(2, '0') +
-            '-' +
-            String(today.getMonth() + 1).padStart(2, '0') +
-            '-' +
-            today.getFullYear()
-        onValue(ref(db, `manager/${props?.managerid}/attendence/${day}/`), (snapshot) => {
-            let data = snapshot.val();
-            setAttendance(data);
-        })
+    const approveHandle = () => {
+        let dat = new Date();
+        let today = dat.toLocaleDateString();
+        const attendanceData = notApprovedTeammate(today, props?.managerId)
+        setAttendanceNotApproved(attendanceData)
         setModalShow2(true);
     }
-    const doNothing = () => {
-    }
+    const doNothing = () => { }
     return (
         <div>
             <Modal
@@ -170,7 +166,9 @@ export default function Attendance(props) {
                 <Modal.Body style={{ position: 'relative' }} >
                     <Row><Col className='text-end'>
                         <Button style={{ position: 'relative', width: "100px", float: "right" }}
-                            onClick={() => { onApprovalHandler() }}
+                            onClick={() => {
+                                approveHandle();
+                            }}
                             variant="light">Approve</Button></Col>
                     </Row>
                     <Row>
@@ -191,7 +189,8 @@ export default function Attendance(props) {
                             /> : <></>}
                             {modalShow2 ?
                                 <ShowApprovalList
-                                    attendance={attendance}
+                                    managerId={auth.currentUser.uid}
+                                    attendanceNotApproved={attendanceNotApproved}
                                     show={modalShow2}
                                     onHide={() => setModalShow2(false)}
                                 /> : <></>}

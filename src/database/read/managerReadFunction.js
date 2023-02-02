@@ -41,3 +41,17 @@ export async function readAllLiveTasks(id) {
     });
     return tasks;
 }
+export async function notApprovedTeammate(attendanceMarkedDate, managerId) {
+    let attendance = []
+    const q = query(
+        collection(firestoreDB, 'attendance'),
+        where('attendanceMarkedDate', '==', attendanceMarkedDate),
+        where('managerId', '==', managerId),
+        where('isApproved', '==', false)
+    )
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+        attendance.push({ id: doc.id, data: doc.data() })
+    })
+    return attendance;
+}
