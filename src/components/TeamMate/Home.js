@@ -403,8 +403,7 @@ export default function Home() {
                                 height: '70px',
                               }}
                             >
-                            <TableCell
-                              align="center"
+                              <TableCell
                               style={{
                                   fontFamily: 'rockwen',
                                   fontWeight: 'bold',
@@ -412,8 +411,7 @@ export default function Home() {
                               >
                               Client
                             </TableCell>
-                            <TableCell
-                              align="center"
+                              <TableCell
                               style={{
                                   fontFamily: 'rockwen',
                                   fontWeight: 'bold',
@@ -428,7 +426,7 @@ export default function Home() {
                                 fontWeight: 'bold',
                                 }}
                               >
-                                Start Time
+                                Assigned
                             </TableCell>
                             <TableCell
                               align="center"
@@ -505,8 +503,7 @@ export default function Home() {
                                         }}
                                         style={{
                                           fontFamily: 'rockwen',
-                                        }}
-                                            align="center" title={info.data.clientName}
+                                            }} title={info.data.clientName}
                                           > 
                                             {info.data.clientName.length > 23 ? info.data.clientName.slice(0, 20) + "..." : info.data.clientName}
                                       </TableCell>
@@ -519,9 +516,10 @@ export default function Home() {
                                         style={{
                                           fontFamily: 'rockwen',
                                         }}
-                                        align="center"
-                                      >
-                                            {info.data.title}
+                                            title={info.data.title}
+                                          >
+                                            {info.data.title.length > 18 ? info.data.title.slice(0, 15) + "..." : info.data.title}
+
 
                                       </TableCell>
 
@@ -577,13 +575,13 @@ export default function Home() {
                                                       fontFamily: 'rockwen',
                                                       fontWeight: 'bold',
                                                     }
-                                                    : info.data.status === 'On Going'
+                                                    : info.data.status === 'ON_GOING'
                                                       ? {
                                                         color: '#24A43A',
                                                         fontFamily: 'rockwen',
                                                         fontWeight: 'bold',
                                                       }
-                                                      : info.data.status === 'Paused'
+                                                      : info.data.status === 'PAUSED'
                                                         ? {
                                                           color: '#2972B2',
                                                           fontFamily: 'rockwen',
@@ -605,9 +603,12 @@ export default function Home() {
                                                       margin: '.5em',
                                                     }}
                                                   />
-                                                ) : (
-                                                info.data.status
-                                                )}
+                                            ) : (
+                                              info.data.status === "ASSIGNED" ? "Assigned" :
+                                                info.data.status === "ON_GOING" ? "On Going" :
+                                                  info.data.status === "PAUSED" ? "Paused" :
+                                                    info.data.status === "DONE" ? "Done" : ""
+                                            )}
                                               </TableCell>
                                               <TableCell align="center">
                                                 <img

@@ -63,7 +63,7 @@ export default function ClientTable(props) {
                                     }}
                                     align="center"
                                 >
-                                    Start Time
+                                    Assigned
                                 </TableCell>
                                 <TableCell
                                     style={{

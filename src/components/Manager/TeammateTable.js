@@ -246,7 +246,7 @@ export default function TeammateTable(props) {
                                     }}
                                     align="center"
                                 >
-                                    Start Time
+                                    Assigned
                                 </TableCell>
                                 <TableCell
                                     style={{

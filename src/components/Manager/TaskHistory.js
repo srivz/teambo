@@ -272,7 +272,7 @@ export default function TaskHistory(props) {
                   }}
                   align="center"
                 >
-                  Start Time
+                  Assigned
                 </TableCell>
                 <TableCell
                   style={{
