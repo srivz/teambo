@@ -184,71 +184,7 @@ export default function Home() {
   }
 
   const doNothing = () => { }
-  const dateFormatChange = (date) => {
-    if (date === '--' || date === undefined) {
-      return '--'
-    }
-    let givenDate = date?.split('/')
-    let months = [
-      '',
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ]
-    let dateMonth = months[parseInt(givenDate[1])]
-    return dateMonth + ',' + givenDate[0] + ' ' + givenDate[2]
-  }
-  const timeFormatChange = (time) => {
-    if (time === '--' || time === undefined) {
-      return '--'
-    }
-    let givenTime = time?.split(':')
-    if (parseInt(givenTime[0]) === 0 || parseInt(givenTime[0]) === 24) {
-      let minute =
-        parseInt(givenTime[1]) > 9
-          ? parseInt(givenTime[1])
-          : '0' + parseInt(givenTime[1])
-      return '12:' + minute + ' am'
-    } else if (parseInt(givenTime[0]) === 12) {
-      let minute =
-        parseInt(givenTime[1]) > 9
-          ? parseInt(givenTime[1])
-          : '0' + parseInt(givenTime[1])
 
-      return "12:" + minute + ' pm'
-    } else if (parseInt(givenTime[0]) > 12) {
-      let hour =
-        parseInt(givenTime[0]) % 12 > 9
-          ? parseInt(givenTime[0]) % 12
-          : '0' + parseInt(givenTime[0] % 12)
-      let minute =
-        parseInt(givenTime[1]) > 9
-          ? parseInt(givenTime[1])
-          : '0' + parseInt(givenTime[1])
-
-      return hour + ':' + minute + ' pm'
-    } else if (parseInt(givenTime[0]) < 12) {
-      let hour =
-        parseInt(givenTime[0]) > 9
-          ? parseInt(givenTime[0])
-          : '0' + parseInt(givenTime[0])
-      let minute =
-        parseInt(givenTime[1]) > 9
-          ? parseInt(givenTime[1])
-          : '0' + parseInt(givenTime[1])
-
-      return hour + ':' + minute + ' am'
-    }
-  }
   function markAttendence(e) {
     if (e.target.checked) {
       const dat = new Date();

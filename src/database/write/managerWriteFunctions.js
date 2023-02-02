@@ -150,3 +150,19 @@ export async function addNewClient(
         clientId: docRef.id,
     })
 }
+
+export async function approveTeammateAttendance(attendanceMarkedDate, managerId, teammateId) {
+    const q = query(
+        collection(firestoreDB, 'attendance'),
+        where('attendanceMarkedDate', '==', attendanceMarkedDate),
+        where('managerId', '==', managerId),
+        where('teammateId', '==', teammateId),
+    )
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((docA) => {
+        const attendanceRef = doc(firestoreDB, 'attendance', docA.id)
+        updateDoc(attendanceRef, {
+            isApproved: true,
+        })
+    })
+}
