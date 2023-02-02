@@ -429,6 +429,7 @@ export default function HomeList() {
                                 style={{ marginRight: '1em', fontSize: "20px" }}
                               />
                               <NewTask
+                                updateData={fetchManagerData}
                                 name={info.data.teammateName}
                                 designation={info.data.designation}
                                 teammate={info.data}

@@ -129,6 +129,7 @@ export default function NewTask(props) {
           deadlineTime: "--",
           status: "Assigned",
         });
+        window.location.reload();
         setShow(false);
       }
     } else {
