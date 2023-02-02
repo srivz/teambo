@@ -203,7 +203,7 @@ export default function ClientTable(props) {
                                                 align="center"
 
                                             >
-                                                {info.data.status === 'Done'
+                                                {info.data.status === 'DONE'
                                                     ? timeStampFormatChange(
                                                         info.data.completedOn,
                                                     )

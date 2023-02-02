@@ -620,7 +620,7 @@ export default function Home() {
                                               <TableCell align="center">
                                                 <img
                                                   src={
-                                                info.data.status === 'ON GOING'
+                                                info.data.status === 'ON_GOING'
                                                       ? paused
                                                       : pause
                                                   }
@@ -651,7 +651,7 @@ export default function Home() {
                                                   alt="pause"
                                                   width={30}
                                                   onClick={(e) => {
-                                                    info.data.status === 'ON GOING' ?
+                                                    info.data.status === 'ON_GOING' ?
                                                       pauseTask(
                                                         e,
                                                         info.id,
