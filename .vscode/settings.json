@@ -1,5 +1,5 @@
 {
-  "files.autoSave": "onFocusChange",
+  "files.autoSave": "off",
   "editor.formatOnSaveMode": "modifications",
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,

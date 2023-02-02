@@ -11,3 +11,16 @@ export async function readTeammate(mail) {
     });
     return teammate;
 }
+
+export async function readTask(id) {
+    let data = []
+    const q = query(collection(firestoreDB, "tasks"), where("teammateId", "==", id));
+    console.log(id)
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        data.push({ id: doc.id, data: doc.data() })
+
+    });
+    console.log(data)
+    return data
+}
