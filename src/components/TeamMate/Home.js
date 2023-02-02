@@ -17,7 +17,7 @@ import tick from '../../assets/images/tick.svg'
 import TeammateTaskHistory from './TeammateTaskHistory'
 import Notifications from './Notifications'
 import axios from 'axios'
-import { readTeammate } from '../../database/read/teammateReadFunction'
+import { readTask, readTeammate } from '../../database/read/teammateReadFunction'
 
 export default function Home() {
   const [loading, setLoading] = useState(true)
@@ -33,6 +33,7 @@ export default function Home() {
   const [modalShow, setModalShow] = useState(false)
   const [otherNotifications, setOtherNotifications] = useState()
   const [attendanceMarked, setAttedencedMarked] = useState(false)
+  const [task, setTask] = useState([])
 
 
   async function fetchTeammateData(userEmail) {
@@ -48,6 +49,22 @@ export default function Home() {
 
   onAuthStateChanged(auth, (user) => { if (user) { } else { window.location.href = "/" } })
 
+  async function fetchTeammateTask(id) {
+    try {
+      const task = await readTask(id);
+      console.log("task: ", task)
+      if (task) {
+        setTask(task)
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchTeammateTask(id)
+  }, [id]);
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userLog) => {
       setUser(userLog.email);
@@ -60,6 +77,25 @@ export default function Home() {
     fetchTeammateData(user);
     setLoading(false);
   }, [user])
+
+  const timeStampFormatChange = (stamp) => {
+    if (stamp === '--') {
+      return "--"
+    }
+    const timestamp = new Date(stamp.seconds * 1000);
+    let dateOnly = timestamp.toLocaleDateString('default', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    })
+    let timeOnly = timestamp.toLocaleTimeString('default', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
+    })
+
+    return dateOnly + "\n" + timeOnly
+  }
 
   const diff_hours = (dt2, dt1) => {
     var diff = (new Date("" + dt2).getTime() - new Date("" + dt1).getTime()) / 1000;
@@ -434,115 +470,89 @@ export default function Home() {
                         </TableHead>
 
                         <TableBody>
-                            {(teammate.liveTasks === 0) ? (
+                            {(task === []) ? (
                               <TableRow>
                                 <TableCell colSpan={8} align="center" > No tasks assigned</TableCell>
                               </TableRow>
                           ) : (
-                                teammate?.tasks
+                                task
                                   ?.filter((info) => {
                                     return filter !== 'All'
-                                      ? info.updates[info.updates.length - 1]
-                                        ?.status === filter
-                                      : info.updates[info.updates.length - 1]
-                                        ?.status !== filter
+                                      ? info.data.status === filter
+                                      :
+                                      info.data.status !== filter
                                   })
-                                  .map((info, index) => {
+                                  .map((info) => {
                                     return (
                                       <>
                                         <TableRow
-                                          style={(info.updates[
-                                            info.updates.length - 1
-                                          ].status === "Archived" && {
-                                            display: "none"
-                                          }) || (info.updates[
-                                            info.updates.length - 1
-                                          ].status === "Completed" && {
-                                            display: "none"
-                                          }) || {
+                                          style={{
                                             backgroundColor:
-                                              info.updates[info.updates.length - 1]
-                                                .status !== 'Done'
+                                              info.data
+                                                .status !== "DONE"
                                                 ? '#fff'
                                                 : '#f1f4fb',
                                             height: '70px',
                                           }
                                           }
                                       className="box-shadow"
-                                      key={index}
+                                          key={info.id}
                                     >
                                       <TableCell
                                         onClick={() => {
                                           setModalShow(true)
-                                          setTaskSelected(index)
+                                              setTaskSelected(info.id)
                                         }}
                                         style={{
                                           fontFamily: 'rockwen',
                                         }}
-                                            align="center" title={info.client}
-                                      >
-                                            {info.client.length > 23 ? info.client.slice(0, 20) + "..." : info.client}
+                                            align="center" title={info.data.clientName}
+                                          > 
+                                            {info.data.clientName.length > 23 ? info.data.clientName.slice(0, 20) + "..." : info.data.clientName}
                                       </TableCell>
                                       <TableCell
-                                        onClick={() => {
+                                            onClick={() => {
+
                                           setModalShow(true)
-                                          setTaskSelected(index)
+                                              setTaskSelected(info.id)
                                         }}
                                         style={{
                                           fontFamily: 'rockwen',
                                         }}
                                         align="center"
                                       >
-                                        {info.task}
+                                            {info.data.title}
+
                                       </TableCell>
-                                      {info.updates
-                                        .sort((a, b) =>
-                                          a.corrections > b.corrections
-                                            ? 1
-                                            : -1,
-                                        )
-                                            .filter((info2, index3) => index3 === 0)
-                                        .map((info2) => {
-                                          return (
-                                            <>
+
                                               <TableCell
                                                 onClick={() => {
                                                   setModalShow(true)
-                                                  setTaskSelected(index)
+                                              setTaskSelected(info.id)
                                                 }}
                                                 style={{
                                                   fontFamily: 'rockwen',
                                                 }}
                                                 align="center"
-                                              >{dateFormatChange(
-                                                info.updates[info.updates.length - 1].assignedStartDate,
-                                              )}
-                                                <br />
-                                                {timeFormatChange(
-                                                  info.updates[info.updates.length - 1].assignedStartTime,
-                                                )}
+                                          >
+                                            {timeStampFormatChange(info.data.assigned)}
                                               </TableCell>
                                               <TableCell
                                                 onClick={() => {
                                                   setModalShow(true)
-                                                  setTaskSelected(index)
+                                              setTaskSelected(info.id)
                                                 }}
                                                 style={{
                                                   fontFamily: 'rockwen',
                                                 }}
                                                 align="center"
-                                              > {dateFormatChange(
-                                                info.updates[info.updates.length - 1].deadlineDate,
-                                              )}
-                                                <br />
-                                                {timeFormatChange(
-                                                  info.updates[info.updates.length - 1].deadlineTime,
-                                                )}
+                                          >
+                                            {timeStampFormatChange(info.data.deadline)}
                                               </TableCell>
                                               <TableCell
                                                 onClick={() => {
                                                   setModalShow(true)
-                                                  setTaskSelected(index)
+                                              setTaskSelected(info.id)
                                                 }}
                                                 style={{
                                                   fontFamily: 'rockwen',
@@ -551,29 +561,29 @@ export default function Home() {
                                               >
                                                 +
                                                 {
-                                                  info.updates[info.updates.length - 1].corrections
+                                              info.data.corrections
                                                 }
                                               </TableCell>
                                               <TableCell
                                                 onClick={() => {
                                                   setModalShow(true)
-                                                  setTaskSelected(index)
+                                              setTaskSelected(info.id)
                                                 }}
                                                 align="center"
                                                 style={
-                                                  info.updates[info.updates.length - 1].status === 'Done'
+                                                  info.data.status === 'DONE'
                                                     ? {
                                                       color: '#000000',
                                                       fontFamily: 'rockwen',
                                                       fontWeight: 'bold',
                                                     }
-                                                    : info.updates[info.updates.length - 1].status === 'On Going'
+                                                    : info.data.status === 'On Going'
                                                       ? {
                                                         color: '#24A43A',
                                                         fontFamily: 'rockwen',
                                                         fontWeight: 'bold',
                                                       }
-                                                      : info.updates[info.updates.length - 1].status === 'Paused'
+                                                      : info.data.status === 'Paused'
                                                         ? {
                                                           color: '#2972B2',
                                                           fontFamily: 'rockwen',
@@ -586,7 +596,7 @@ export default function Home() {
                                                         }
                                                 }
                                               >
-                                                {info.updates[info.updates.length - 1].status === 'Done' ? (
+                                            {info.data.status === 'DONE' ? (
                                                   <FontAwesomeIcon
                                                     icon="fa-solid fa-circle-check"
                                                     size="2xl"
@@ -596,13 +606,13 @@ export default function Home() {
                                                     }}
                                                   />
                                                 ) : (
-                                                    info.updates[info.updates.length - 1].status
+                                                info.data.status
                                                 )}
                                               </TableCell>
                                               <TableCell align="center">
                                                 <img
                                                   src={
-                                                    info.updates[info.updates.length - 1].status === 'On Going'
+                                                info.data.status === 'ON GOING'
                                                       ? paused
                                                       : pause
                                                   }
@@ -611,13 +621,13 @@ export default function Home() {
                                                   onClick={(e) => {
                                                     playTask(
                                                       e,
-                                                      index,
+                                                      info.id,
                                                       info.updates.length,
                                                     )
                                                   }}
                                                   style={{
                                                     display:
-                                                      info.updates[info.updates.length - 1].status === 'Done'
+                                                      info.data.status === 'DONE'
                                                         ? 'none'
                                                         : '',
                                                     margin: '.5em',
@@ -626,23 +636,23 @@ export default function Home() {
                                                 />
                                                 <img
                                                   src={
-                                                    info.updates[info.updates.length - 1].status === 'Paused'
+                                                info.data.status === 'PAUSED'
                                                       ? played
                                                       : play
                                                   }
                                                   alt="pause"
                                                   width={30}
                                                   onClick={(e) => {
-                                                    info.updates[info.updates.length - 1].status === 'On Going' ?
+                                                    info.data.status === 'ON GOING' ?
                                                       pauseTask(
                                                         e,
-                                                        index,
+                                                        info.id,
                                                         info.updates.length,
                                                       ) : doNothing()
                                                   }}
                                                   style={{
                                                     display:
-                                                      info.updates[info.updates.length - 1].status === 'Done'
+                                                      info.data.status === 'DONE'
                                                         ? 'none'
                                                         : '',
                                                     margin: '.5em',
@@ -654,16 +664,16 @@ export default function Home() {
                                                   alt="done"
                                                   width={30}
                                                   onClick={(e) => {
-                                                    info.updates[info.updates.length - 1].status !== 'Assigned' ?
+                                                    info.data.status !== 'ASSIGNED' ?
                                                       completeTask(
                                                         e,
-                                                        index,
+                                                        info.id,
                                                         info.updates.length,
                                                       ) : doNothing()
                                                   }}
                                                   style={{
                                                     display:
-                                                      info.updates[info.updates.length - 1].status === 'Done'
+                                                      info.data.status === 'DONE'
                                                         ? 'none'
                                                         : '',
                                                     margin: '.5em',
@@ -671,9 +681,7 @@ export default function Home() {
                                                   }}
                                                 />
                                               </TableCell>
-                                            </>
-                                          )
-                                        })}
+
                                     </TableRow>
                                     {teammate?.tasks &&
                                       taskSelected !== null ? (

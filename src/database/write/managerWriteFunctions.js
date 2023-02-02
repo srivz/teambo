@@ -1,14 +1,5 @@
-import {
-    addDoc,
-    arrayUnion,
-    collection,
-    doc,
-    getDocs,
-    query,
-    updateDoc,
-    where,
-} from 'firebase/firestore'
-import { firestoreDB } from '../../firebase-config'
+import { arrayUnion, collection, doc, getDocs, query, updateDoc, where, addDoc } from "firebase/firestore";
+import { firestoreDB } from "../../firebase-config";
 
 export default async function defaultFunction() { }
 export async function addNewManager(
