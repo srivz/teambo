@@ -166,3 +166,32 @@ export async function approveTeammateAttendance(attendanceMarkedDate, managerId,
         })
     })
 }
+
+export async function addAdditionalCorrection(id, deadline, createdAt, createdBy, createdByEmail, teammateId, description, type) {
+    if (deadline !== "--") {
+        const attendanceRef = doc(firestoreDB, 'tasks', id)
+        updateDoc(attendanceRef, {
+            deadline: deadline,
+        })
+    }
+    if (description !== "") {
+        communicationChange({ type: type, description: description }, id, {
+            createdAt: createdAt,
+            createdBy: createdBy,
+            createdByEmail: createdByEmail,
+            managerId: createdBy,
+            teammateId: teammateId,
+        })
+    }
+}
+export async function addQueryReply(id, createdAt, createdBy, createdByEmail, teammateId, queryReplied, queryId, type) {
+    if (queryReplied !== "") {
+        communicationChange({ type: type, queryId: queryId, queryReplied: queryReplied }, id, {
+            createdAt: createdAt,
+            createdBy: createdBy,
+            createdByEmail: createdByEmail,
+            managerId: createdBy,
+            teammateId: teammateId,
+        })
+    }
+}

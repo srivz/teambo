@@ -401,13 +401,12 @@ export default function HomeBlock(props) {
             teammateList?.data?.tasks !== undefined && taskSelected !== null ? (
               <TaskHistory
                 show={modalShow}
-                id={teammateList.id}
                 onHide={() => { setModalShow(false); setTaskSelected(null); }}
                 indexselected={taskSelected}
-                teamtasks={teammateList?.data?.tasks}
-                name={teammateList?.data?.name}
-                managerid={props?.managerId}
-                teammateindex={teammateList.id}
+                teamtasks={tasks}
+                name={teammateList.data.name}
+                managerid={managerId}
+                teammateid={teammateList.id}
                 designation={teammateList?.data?.designation}
               />
             ) : (

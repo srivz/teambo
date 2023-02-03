@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import { Button, Col, Form, Modal, Row, Table } from 'react-bootstrap'
 import { auth, db } from '../../firebase-config'
 import moment from 'moment'
+import { addAdditionalCorrection, addQueryReply } from '../../database/write/managerWriteFunctions'
 
 export default function TaskHistory(props) {
   const [showDoubt, setShowDoubt] = useState(false)
@@ -22,45 +23,62 @@ export default function TaskHistory(props) {
     description: '',
     deadlineTime: '--',
   })
+  const timeStampFormatChange = (stamp) => {
+    if (stamp === '--') {
+      return "--"
+    }
+    const timestamp = new Date(stamp.seconds * 1000);
+    let dateOnly = timestamp.toLocaleDateString('default', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    })
+    let timeOnly = timestamp.toLocaleTimeString('default', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
+    })
 
-  const handleTaskCorrection = (id, index, correction) => {
-    set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${props?.teammateindex}/data/tasks/${index}/updates/${correction}`), {
-      assignedStartDate: taskUpdate.assignedStartDate,
-      assignedStartTime: taskUpdate.assignedStartTime,
-      corrections: props?.teamtasks[props?.indexselected]?.updates?.length,
-      status: 'Assigned',
-      deadlineDate: taskUpdate.deadlineDate,
-      description: { 0: taskUpdate.description },
-      deadlineTime: taskUpdate.deadlineTime,
-    })
-      .then(() => {
-        handleTaskCorrectionClear();
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    return (
+      <>
+        {dateOnly}
+        <br />
+        {timeOnly}
+      </>
+    )
   }
-  const handleTaskCorrection1 = (id, index, correction) => {
-    let deadLineDate = taskUpdate.deadlineDate !== "--" ? taskUpdate.deadlineDate : props?.teamtasks[props?.indexselected]?.updates[0].deadlineDate
-    let deadlineTime = taskUpdate.deadlineTime !== "--" ? taskUpdate.deadlineTime : props?.teamtasks[props?.indexselected]?.updates[0].deadlineTime
-    let assignedStartTime = taskUpdate.assignedStartTime !== "--" ? taskUpdate.assignedStartTime : props?.teamtasks[props?.indexselected]?.updates[0].assignedStartTime
-    let assignedStartDate = taskUpdate.assignedStartDate !== "--" ? taskUpdate.assignedStartDate : props?.teamtasks[props?.indexselected]?.updates[0].assignedStartDate
-    let description = taskUpdate.description !== "" ? [taskUpdate.description].concat(props?.teamtasks[props?.indexselected]?.updates[0].description) : props?.teamtasks[props?.indexselected]?.updates[0].description
-    set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${props?.teammateindex}/data/tasks/${index}/updates/${correction - 1}/`), {
-      assignedStartDate: assignedStartDate,
-      assignedStartTime: assignedStartTime,
-      corrections: correction - 1,
-      status: props?.teamtasks[props?.indexselected]?.updates[0].status,
-      deadlineDate: deadLineDate,
-      description: description,
-      deadlineTime: deadlineTime,
-    })
-      .then(() => {
-        handleTaskCorrectionClear();
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+  const handleTaskCorrection = (id, index, correction) => {
+    // set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${props?.teammateindex}/data/tasks/${index}/updates/${correction}`), {
+    //   assignedStartDate: taskUpdate.assignedStartDate,
+    //   assignedStartTime: taskUpdate.assignedStartTime,
+    //   corrections: props?.teamtasks[props?.indexselected]?.updates?.length,
+    //   status: 'Assigned',
+    //   deadlineDate: taskUpdate.deadlineDate,
+    //   description: { 0: taskUpdate.description },
+    //   deadlineTime: taskUpdate.deadlineTime,
+    // })
+    //   .then(() => {
+    //     handleTaskCorrectionClear();
+    //   })
+    //   .catch((err) => {
+    //     console.log(err)
+    //   })
+  }
+  const handleAdditionalTaskCorrection = (id) => {
+    let now = new Date();
+    let newDate = "--"
+    if (taskUpdate.deadlineDate !== "--" && taskUpdate.deadlineTime !== "--") {
+      let date = taskUpdate.deadlineDate + " " + taskUpdate.deadlineTime + ":00"
+      newDate = new Date(date);
+    }
+    addAdditionalCorrection(id, newDate, now, props.managerId, auth.currentUser.email, props.teammateId, taskUpdate.description, "DESCRIPTION_ADDED")
+    handleTaskCorrectionClear();
+  }
+
+  const handleQuery = (id, queryId) => {
+    let now = new Date();
+    addQueryReply(id, now, props.managerId, auth.currentUser.email, props.teammateId, taskUpdate.description, queryId, "QUERY_REPLIED")
+    handleTaskCorrectionClear();
   }
   const handleTaskCorrectionClear = () => {
     setTaskUpdate({
@@ -74,25 +92,9 @@ export default function TaskHistory(props) {
     setUpdateTaskForm(false)
     setUpdateAdditionalTaskForm(false)
   }
-  const handleAdditionalTaskCorrection1 = (id, index, correction) => {
-    if (taskUpdate.description !== "")
-      set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${props?.teammateindex}/data/tasks/${index}/updates/${correction - 1}/description/`),
-        [taskUpdate.description].concat(props?.teamtasks[props?.indexselected]?.updates[0].description))
-        .then(() => {
-          set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${props?.teammateindex}/data/tasks/${index}/query/`), null).then(() => { handleTaskCorrectionClear(); })
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-  }
   const handleDateChange = (event) => {
     let date = event.target.value.split('-')
-    taskUpdate.deadlineDate = date[2] + '/' + date[1] + '/' + date[0]
-  }
-  const handleStartDateChange = (event) => {
-    setAssignedDate(event.target.value)
-    let date = event.target.value.split('-')
-    taskUpdate.assignedStartDate = date[2] + '/' + date[1] + '/' + date[0]
+    taskUpdate.deadlineDate = date[1] + '/' + date[2] + '/' + date[0]
   }
   const handleChange = (event) => {
     let newInput = { [event.target.name]: event.target.value }
@@ -112,16 +114,18 @@ export default function TaskHistory(props) {
               <FontAwesomeIcon icon="fa-solid fa-chevron-left" />{" "}
               Close
             </Button>
-            {/* <Button variant="light" onClick={() => { handleShow() }}
+            <Button variant="light" onClick={() => { handleShow() }}
               style={
-                props?.teamtasks.query
+                [props.teamtasks.filter((info) => { return (props?.id === info.id) })
+                  .map((info) => {
+                    return (info.communications.filter((info1) => { return (info1.data.type === "QUERY_ADDED") })
+                      .map((info1) => { return (info1.data.query) }))
+                  })] === []
                   ? {
                     border: '1px solid #9b9b9b',
                     color: 'black',
                     fontFamily: 'rockwen',
                     fontWeight: 'bold',
-                    padding: '.5em',
-                    paddingLeft: '1.5em',
                     borderRadius: '15px',
                     position: "absolute",
                     right: "1em"
@@ -131,7 +135,6 @@ export default function TaskHistory(props) {
                     color: 'black',
                     fontFamily: 'rockwen',
                     fontWeight: 'bold',
-                    padding: '.5em',
                     borderRadius: '15px',
                     position: "absolute",
                     right: "1em"
@@ -141,7 +144,11 @@ export default function TaskHistory(props) {
                 className="pointer"
                 icon="fa-regular fa-envelope"
                 size="xl" />
-               {props?.teamtasks.data.query ?
+              {[props.teamtasks.filter((info) => { return (props?.id === info.id) })
+                .map((info) => {
+                  return (info.communications.filter((info1) => { return (info1.data.type === "QUERY_ADDED") })
+                    .map((info1) => { return (info1.data.query) }))
+                })] === [] ?
                 (
                   <div style={{ marginBottom: "5px", marginLeft: "5px" }} class="notification-dot"></div>
                 ) :
@@ -149,18 +156,29 @@ export default function TaskHistory(props) {
                   <></>
                 )
               }
-          </Button> */}
+            </Button>
             <Modal show={showDoubt}
               backdrop="static" onHide={() => { handleClose() }}>
               <Modal.Header closeButton></Modal.Header>
               <Modal.Body>
-                {/* {props?.teamtasks.data.query ?
+                {[props.teamtasks.filter((info) => { return (props?.id === info.id) })
+                  .map((info) => {
+                    return (info.communications.filter((info1) => { return (info1.data.type === "QUERY_ADDED") })
+                      .map((info1) => { return (info1.data.query) }))
+                  })] === [] ?
+
+                  props.teamtasks.filter((info) => { return (props?.id === info.id) })
+                    .map((info) => {
+                      return (
+                        info.communications.filter((info1) => { return (info1.data.type === "QUERY_ADDED") && (info1.data.isVisible === true) })
+                          .map((info1) => {
+                            return (<div key={info1.id}>
                   <Form>
                     <Form.Group
                       className="mb-3"
                       controlId="exampleForm.ControlTextarea1"
                     >
-                      <Form.Label>Teammate has a query:<br />"{props?.teamtasks?.data?.status}"</Form.Label>
+                                  <Form.Label>Teammate has a query:<br />"{info1.data.query}"</Form.Label>
                       <Form.Control
                         as="textarea"
                         name="description"
@@ -168,16 +186,17 @@ export default function TaskHistory(props) {
                         rows={3} />
                     </Form.Group>
                     <Button variant="primary" onClick={() => {
-                      // handleAdditionalTaskCorrection1(
-                      //   props?.id,
-                      //   props?.indexselected,
-                      //   props?.teamtasks[props?.indexselected]?.updates?.length,
-                      // )
+                                  handleQuery(
+                                    info.id, info1.id
+                                  )
                     }}>
                       Send
                     </Button>
-                  </Form>
-                  : <>No Queries From The Teammate</>} */}
+                              </Form></div>)
+                          }))
+                    })
+
+                  : <>No Queries From The Teammate</>}
               </Modal.Body>
             </Modal>
           </Modal.Title>
@@ -296,14 +315,12 @@ export default function TaskHistory(props) {
               <TableRow>
                 <TableCell colSpan={7}>
                   <Row className="d-grid gap-2">
-                    {/* {props?.teamtasks[props?.indexselected]?.updates
-                      .sort((a, b) => (a.corrections > b.corrections ? -1 : 1))
-                      .filter((info, index) => { return (index === 0) })
+                    {props?.teamtasks.filter((info) => { return (info.id === props?.id) })
                       .map((info) => {
                         return (<>
-                          {info.status === 'Done' ? <Button
+                          {info.data.status === 'DONE' ? <Button
                             disabled={
-                              info.status !== 'Done' || updateTaskForm
+                              info.data.status !== 'DONE' || updateTaskForm
                             }
                             onClick={() => { setUpdateTaskForm(true); setUpdateAdditionalTaskForm(false); }}
                             variant="outline-primary"
@@ -312,7 +329,7 @@ export default function TaskHistory(props) {
                             + Add Correction
                           </Button> : <></>
                           }
-                          {info.status !== 'Done' ? <Button
+                          {info.data.status !== 'DONE' ? <Button
                             disabled={updateAdditionalTaskForm}
                             onClick={() => { setUpdateAdditionalTaskForm(true); }}
                             variant="outline-primary"
@@ -321,7 +338,7 @@ export default function TaskHistory(props) {
                             + Add Additional Correction
                           </Button> : <></>
                           }</>)
-                      })} */}
+                      })}
                   </Row>
                 </TableCell>
               </TableRow>
@@ -334,7 +351,10 @@ export default function TaskHistory(props) {
                     }}
                     align="center"
                   >
-                    {/* +{props?.teamtasks[props?.indexselected]?.updates?.length} */}
+                    +{props?.teamtasks.filter((info) => { return (info.id === props?.id) })
+                      .map((info, index) => {
+                        return (info.data.corrections)
+                      })}
                   </TableCell>
                   <TableCell
                     style={{
@@ -357,24 +377,6 @@ export default function TaskHistory(props) {
                   >
                     <Row className="justify-content-md-center">
                       <Col sm={10}>
-                        <Form.Control
-                          type="date"
-                          min={moment().format('YYYY-MM-DD')}
-                          name="assignedStartDate"
-                          style={{ fontSize: '12px' }}
-                          onChange={handleStartDateChange}
-                        />
-                      </Col>
-                    </Row>
-                    <br />
-                    <Row className="justify-content-md-center">
-                      <Col sm={10}>
-                        <Form.Control
-                          type="time"
-                          name="assignedStartTime"
-                          style={{ fontSize: '12px' }}
-                          onChange={handleChange}
-                        />
                       </Col>
                     </Row>
                   </TableCell>
@@ -388,7 +390,7 @@ export default function TaskHistory(props) {
                       <Col sm={10}>
                         <Form.Control
                           type="date"
-                          min={assignedDate || moment().format('YYYY-MM-DD')}
+                          min={moment().format('YYYY-MM-DD')}
                           name="deadlineDate"
                           style={{ fontSize: '12px' }}
                           onChange={handleDateChange}
@@ -475,24 +477,11 @@ export default function TaskHistory(props) {
                   >
                     <Row className="justify-content-md-center">
                       <Col sm={10}>
-                        <Form.Control
-                          type="date"
-                          min={moment().format('YYYY-MM-DD')}
-                          name="assignedStartDate"
-                          style={{ fontSize: '12px' }}
-                          onChange={handleStartDateChange}
-                        />
                       </Col>
                     </Row>
                     <br />
                     <Row className="justify-content-md-center">
                       <Col sm={10}>
-                        <Form.Control
-                          type="time"
-                          name="assignedStartTime"
-                          style={{ fontSize: '12px' }}
-                          onChange={handleChange}
-                        />
                       </Col>
                     </Row>
                   </TableCell>
@@ -506,7 +495,7 @@ export default function TaskHistory(props) {
                       <Col sm={10}>
                         <Form.Control
                           type="date"
-                          min={assignedDate || moment().format('YYYY-MM-DD')}
+                          min={moment().format('YYYY-MM-DD')}
                           name="deadlineDate"
                           style={{ fontSize: '12px' }}
                           onChange={handleDateChange}
@@ -533,13 +522,11 @@ export default function TaskHistory(props) {
                   >
                     <FontAwesomeIcon
                       className="pointer"
-                      // onClick={() =>
-                        // handleTaskCorrection1(
-                        //   props?.id,
-                        //   props?.indexselected,
-                        //   props?.teamtasks[props?.indexselected]?.updates?.length,
-                        // )
-                      // }
+                      onClick={() =>
+                        handleAdditionalTaskCorrection(
+                          props?.id
+                        )
+                      }
                       size="2xl"
                       style={{
                         color: 'blue',
@@ -563,8 +550,7 @@ export default function TaskHistory(props) {
                 <></>
               )}
 
-              {/* {props?.teamtasks[props?.indexselected]?.updates
-                .sort((a, b) => (a.corrections > b.corrections ? -1 : 1))
+              {props?.teamtasks.filter((info) => { return (info.id === props?.id) })
                 .map((info, index) => {
                   return (
                     <TableRow style={index !== 0 ? { opacity: '50%' } : {}}>
@@ -575,9 +561,9 @@ export default function TaskHistory(props) {
                         }}
                         align="center"
                       >
-                        {info.corrections === '0'
+                        {info.data.corrections === 0
                           ? '0'
-                          : '+' + info.corrections}
+                          : '+' + info.data.corrections}
                       </TableCell>
                       <TableCell
                         style={{
@@ -585,7 +571,18 @@ export default function TaskHistory(props) {
                           fontFamily: 'rockwen',
                         }}
                         align="center"
-                      >{info.description.map(descriptionList)}
+                      >{info.communications.filter((info1) => { return (info1.data.type = "DESCRIPTION_ADDED") }).sort((a, b) => {
+                        return new Date(b.data.createdAt.seconds * 1000) - new Date(a.data.createdAt.seconds * 1000)
+                      }).map((info1) => { return (<div key={info1.id}>{info1.data.description}</div>) })}
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontFamily: 'rockwen',
+                        }}
+                        align="center"
+                      >{timeStampFormatChange(
+                        info.data.assigned,
+                      )}
                       </TableCell>
                       <TableCell
                         style={{
@@ -593,41 +590,26 @@ export default function TaskHistory(props) {
                         }}
                         align="center"
                       >
-                        {dateFormatChange(info.assignedStartDate)}
-                        <br />
-                        {timeFormatChange(info.assignedStartTime)}
-                      </TableCell>
-                      <TableCell
-                        style={{
-                          fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                      >
-                        {dateFormatChange(info.deadlineDate)}
-                        <br />
-                        {timeFormatChange(info.deadlineTime)}
-                      </TableCell>
-                      <TableCell
-                        style={{
-                          fontFamily: 'rockwen',
-                        }}
-                        align="center"
-                      >
-                        {info.status === 'Done' ? (
-                          dateFormatChange(info.endDate)
-                        ) : (
-                          <br />
+
+                        {timeStampFormatChange(
+                          info.data.deadline,
                         )}
-                        <br />
-                        {info.status === 'Done' ? (
-                          timeFormatChange(info.endTime)
-                        ) : (
-                          <br />
-                        )}
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontFamily: 'rockwen',
+                        }}
+                        align="center"
+                      >
+                        {info.data.status === 'DONE'
+                          ? timeStampFormatChange(
+                            info.data.completedOn,
+                          )
+                          : '--'}
                       </TableCell>
                     </TableRow>
                   )
-                })} */}
+                })}
             </TableBody>
           </Table>
         </Modal.Body>

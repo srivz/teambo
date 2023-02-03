@@ -45,7 +45,6 @@ export async function readAllLiveTasks(id) {
         });
         tasks.push({ id: doc.id, data: doc.data(), communications: communications })
     });
-    console.log(tasks)
     return tasks;
 }
 export async function notApprovedTeammate(attendanceMarkedDate, managerId) {

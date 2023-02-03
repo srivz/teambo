@@ -313,7 +313,7 @@ export default function TeammateTable(props) {
                                                 key={info.id}
                                                 style={{
                                                         backgroundColor:
-                                                        info.data.status !== 'Done'
+                                                        info.data.status !== 'DONE'
                                                                 ? '#fff'
                                                                 : '#f1f4fb',
                                                         borderRadius: "15px",
@@ -410,7 +410,7 @@ export default function TeammateTable(props) {
                                                                     align="center"
 
                                                                 >
-                                                    {info.data.status === 'Done'
+                                                    {info.data.status === 'DONE'
                                                         ? timeStampFormatChange(
                                                             info.data.completedOn,
                                                                         )
@@ -500,7 +500,7 @@ export default function TeammateTable(props) {
                                                                         }}
                                                                     >
                                                                         <Button
-                                                                            disabled={info.data.status !== 'Done' ? true : false}
+                                                                            disabled={info.data.status !== 'DONE' ? true : false}
                                                                             onClick={() => {
                                                                                 // handleCompleteTask(
                                                                                 //     info.data,
@@ -606,6 +606,8 @@ export default function TeammateTable(props) {
                                                         teamtasks={tasks}
                                                         id={taskSelected}
                                                         name={props.name}
+                                                        teammateId={selected}
+                                                        managerId={props.managerId}
                                                         designation={props.designation}
                                                     />
                                                 )

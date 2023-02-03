@@ -444,9 +444,9 @@ export default function HomeList() {
                                 designation={info.data.designation}
                                 teammate={info.data}
                                 teammateId={info.id}
-                                tasks={info.data.tasks}
                                 manager={manager}
                                 managerId={managerId}
+                                tasks={info.data.tasks}
                               />
                             </div>
                           </Col>
@@ -523,6 +523,8 @@ export default function HomeList() {
                       teammateselected={selected}
                       team={teammateList}
                       tasksLive={tasks}
+                      manager={manager}
+                      managerId={managerId}
                       name={teammateList
                         .filter((info) => info.id === selected)
                         .map((info) => {
