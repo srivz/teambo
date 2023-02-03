@@ -51,7 +51,7 @@ async function pauseTask(id) {
     })
 }
 
-export async function pausingTask(task_id, teammate_id) {
+export async function pausingTask(task_id) {
     const task = doc(firestoreDB, "tasks", task_id);
     updateDoc(task, {
         status: "PAUSED"
