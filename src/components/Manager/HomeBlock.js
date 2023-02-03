@@ -278,7 +278,7 @@ export default function HomeBlock(props) {
                 <ResponsiveMasonry
                   columnsCountBreakPoints={{ 300: 1, 600: 2, 750: 3, 900: 4 }}>
                   <Masonry>
-                    {!teammateList ? (
+                    {teammateList === [] ? (
                       <Row
                         colSpan={7}
                         align="center">
@@ -364,6 +364,11 @@ export default function HomeBlock(props) {
                                               (info1.data.status === "ASSIGNED" && {
                                                 fontFamily: "rockwen",
                                                 color: "#D1AE00",
+                                                fontWeight: "bold",
+                                              }) ||
+                                              ({
+                                                fontFamily: "rockwen",
+                                                color: "#000000",
                                                 fontWeight: "bold",
                                               })
                                             }
