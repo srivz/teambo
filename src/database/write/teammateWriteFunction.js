@@ -21,7 +21,6 @@ export async function requestRejectTeammate(managerId, name, id) {
 }
 
 export async function markTeammateAttendance(companyId, teammateId, managerId, teammateName, managerName, companyName, date, timeStamp) {
-    console.log({ companyId, teammateId, managerId, teammateName, managerName, companyName, date, timeStamp })
     await addDoc(collection(firestoreDB, "attendance"), {
         companyId: companyId,
         teammateId: teammateId,
@@ -37,3 +36,34 @@ export async function markTeammateAttendance(companyId, teammateId, managerId, t
         attendanceMarkedDate: date
     });
 }
+export async function takeTask(task_id, teammate_id) {
+    const task = doc(firestoreDB, "tasks", task_id);
+    updateDoc(task, {
+        status: "ON_GOING"
+    })
+    pauseTask(teammate_id)
+}
+
+async function pauseTask(id) {
+    const teammate_task = doc(firestoreDB, "tasks", id);
+    updateDoc(teammate_task, {
+        status: "PAUSED"
+    })
+}
+
+export async function pausingTask(task_id, teammate_id) {
+    const task = doc(firestoreDB, "tasks", task_id);
+    updateDoc(task, {
+        status: "PAUSED"
+    })
+}
+
+export async function taskDone(task_id) {
+    const task = doc(firestoreDB, "tasks", task_id);
+    updateDoc(task, {
+        status: "DONE"
+    })
+}
+
+
+
