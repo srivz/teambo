@@ -17,18 +17,16 @@ import tick from '../../assets/images/tick.svg'
 import TeammateTaskHistory from './TeammateTaskHistory'
 import Notifications from './Notifications'
 import { readTask, readTeammate } from '../../database/read/teammateReadFunction'
-import { takeTask, pausingTask, taskDone, markTeammateAttendance } from '../../database/write/teammateWriteFunction'
+import { takeTask, pauseTask, taskDone, markTeammateAttendance } from '../../database/write/teammateWriteFunction'
 
 export default function Home() {
   const [loading, setLoading] = useState(true)
   const [taskSelected, setTaskSelected] = useState()
   const [user, setUser] = useState()
   const [teammate, setTeammate] = useState({})
-  const [clients, setClients] = useState({})
   const [id, setId] = useState('')
   const [filter, setFilter] = useState('All')
   const [managerId, setManagerId] = useState('')
-  const [managerEmail, setManagerEmail] = useState('')
   const [teammateIndex, setTeammateIndex] = useState(null)
   const [modalShow, setModalShow] = useState(false)
   const [otherNotifications, setOtherNotifications] = useState()
@@ -41,6 +39,7 @@ export default function Home() {
       const teammateData = await readTeammate(userEmail);
       setTeammate(teammateData.data);
       setId(teammateData.id);
+      setManagerId(teammateData.data.currentManagerId)
       setOtherNotifications(teammateData.data.requests);
       const dat = new Date();
       const today = dat.toLocaleDateString();
@@ -107,81 +106,21 @@ export default function Home() {
     )
   }
 
-  const diff_hours = (dt2, dt1) => {
-    var diff = (new Date("" + dt2).getTime() - new Date("" + dt1).getTime()) / 1000;
-    diff /= (60 * 60);
-    return Math.abs(diff);
-  }
 
   const playTask = (e, id, teammate_id) => {
     var now = new Date()
-    // teammate.tasks.forEach((task, i) => {
-    //   if (i === index) {
-    //     update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${length - 1}`), {
-    //       status: 'On Going',
-    //       startTimeStamp: now,
-    //     })
-    //   } else if (task.updates[task.updates.length - 1].status === 'On Going') {
-    //     pauseTask(e, i)
-    //   }
-    // })
-    takeTask(id, teammate_id)
+    takeTask(id, teammate_id, now)
     // setTimeout(() => {
     //   window.location.reload()
     // }, 1000)
   }
 
   const pauseTask = (e, id, teammate_id) => {
-    pausingTask(id, teammate_id)
-    setTimeout(() => {
-      window.location.reload()
-    }, 1000)
+    pauseTask(teammate_id)
 
   }
 
   const completeTask = (e, id) => {
-    // var today = new Date()
-    // if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status === "On Going") {
-    //   let now = diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].startTimeStamp)
-    //   let manHour = parseFloat(teammate.tasks[index].manHours) + now
-    //   let manHour1 = parseFloat(teammate.manHours) + now
-    //   update(ref(db, `/manager/${managerId}/clients/${teammate.tasks[index].clientIndex}/`), { manHours: clients[teammate.tasks[index].clientIndex].manHours + now })
-    //   update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/`), { manHours: manHour1 })
-    //   update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/`), { manHours: manHour })
-    // }
-    // update(ref(db, `/manager/${managerId}/teammates/${teammateIndex}/data/tasks/${index}/updates/${length - 1}`), {
-    //   status: 'Done',
-    //   startTimeStamp: null,
-    //   endDate:
-    //     String(today.getDate()).padStart(2, '0') +
-    //     '/' +
-    //     String(today.getMonth() + 1).padStart(2, '0') +
-    //     '/' +
-    //     today.getFullYear(),
-    //   endTime:
-    //     today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds(),
-    // })
-    // const subject = `
-    //               <h4>${teammate.teammateName} completed the ${teammate.tasks[index].task} task.</h4>
-    //               <br />
-    //               <p>Thank you</p>
-    //             `
-    // const heading = "Teammate Request"
-    // const text = `${teammate.teammateName} requests you to join his team.Login to your Teambo account to reply to his request.`
-    // try {
-    //   const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-    //     heading, fromEmail: teammate.email, toEmail: managerEmail, subject: subject, text: text
-    //   });
-    //   if (res.status === 200) {
-    //   }
-    //   else {
-    //     alert("Something went wrong");
-    //   }
-
-    // } catch (err) {
-    //   alert("error")
-    //   console.log(err)
-    // }
     taskDone(id)
   }
 
