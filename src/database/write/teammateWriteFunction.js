@@ -43,22 +43,47 @@ const diff_hours = (dt2, dt1) => {
 }
 
 export async function takeTask(task_id, teammate_id, timeStamp) {
+    var today = new Date()
+    const q = query(collection(firestoreDB, "tasks"), where("status", "==", "ON_GOING"), where("isLive", "==", true), where("teammateId", "==", teammate_id));
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((docA) => {
+        if (docA.id !== task_id) {
+            let now = 0
+            if (docA.data().totalHours !== undefined) {
+                now = docA.data().totalHours
+            }
+            if (docA.data().startTimeStamp !== null) {
+                now += diff_hours(today, new Date(docA.data().startTimeStamp.seconds * 1000))
+            }
+            const attendanceRef = doc(firestoreDB, 'tasks', docA.id)
+            updateDoc(attendanceRef, {
+                status: "PAUSED",
+                totalHours: now,
+                startTimeStamp: null
+            })
+        }
+    })
     const task = doc(firestoreDB, "tasks", task_id);
-    updateDoc(task, {
+    await updateDoc(task, {
         status: "ON_GOING",
         startTimeStamp: timeStamp
     })
-    pauseTask(teammate_id)
 }
 
-async function pauseTask(id) {
+
+export async function pauseTask(teammateId) {
     var today = new Date()
-    const q = query(collection(firestoreDB, "tasks"), where("status", "==", "ON_GOING"), where("isLive", "==", true), where("teammateId", "==", id));
+    const q = query(collection(firestoreDB, "tasks"), where("status", "==", "ON_GOING"), where("isLive", "==", true), where("teammateId", "==", teammateId));
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((docA) => {
-        let now = docA.data().totalHours || 0
+        let now = 0
+        if (docA.data().totalHours !== undefined) {
+            now = docA.data().totalHours
+        }
         if (docA.data().startTimeStamp !== null)
-            now += diff_hours(today, docA.data().startTimeStamp)
+        {
+            now += diff_hours(today, new Date(docA.data().startTimeStamp.seconds * 1000))
+        }
         const attendanceRef = doc(firestoreDB, 'tasks', docA.id)
         updateDoc(attendanceRef, {
             status: "PAUSED",
@@ -73,13 +98,16 @@ export async function taskDone(task_id) {
     const q = doc(firestoreDB, "tasks", task_id);
     const docSnap = await getDoc(q);
     if (docSnap.exists()) {
-        let now = docSnap.data().totalHours || 0
-        if (docSnap.data().startTimeStamp !== null)
-            now += diff_hours(today, docSnap.data().startTimeStamp)
+        let now = 0
+        if (docSnap.data().totalHours !== undefined) { now = docSnap.data().totalHours }
+        if (docSnap.data().startTimeStamp !== null) {
+            now += diff_hours(today, new Date(docSnap.data().startTimeStamp.seconds * 1000))
+        }
         const attendanceRef = doc(firestoreDB, 'tasks', docSnap.id)
         updateDoc(attendanceRef, {
-            status: "PAUSED",
+            status: "DONE",
             totalHours: now,
+            completedOn: today,
             startTimeStamp: null
         })
     }

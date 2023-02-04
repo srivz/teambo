@@ -2,11 +2,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { onAuthStateChanged } from 'firebase/auth'
-import { ref, update } from 'firebase/database'
 import React, { useState, useEffect } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import Form from 'react-bootstrap/Form';
-import { auth, db } from '../../firebase-config'
+import { auth } from '../../firebase-config'
 import Loader from '../Loader/Loader'
 import NavBar from '../Navs/NavBar'
 import pause from '../../assets/images/pause.svg'
@@ -24,21 +23,19 @@ export default function Home() {
   const [taskSelected, setTaskSelected] = useState()
   const [user, setUser] = useState()
   const [teammate, setTeammate] = useState({})
-  const [id, setId] = useState('')
+  const [teammateId, setTeammateId] = useState('')
   const [filter, setFilter] = useState('All')
   const [managerId, setManagerId] = useState('')
-  const [teammateIndex, setTeammateIndex] = useState(null)
   const [modalShow, setModalShow] = useState(false)
   const [otherNotifications, setOtherNotifications] = useState()
   const [attendanceMarked, setAttedancedMarked] = useState(false)
   const [task, setTask] = useState([])
 
-
   async function fetchTeammateData(userEmail) {
     try {
       const teammateData = await readTeammate(userEmail);
       setTeammate(teammateData.data);
-      setId(teammateData.id);
+      setTeammateId(teammateData.id);
       setManagerId(teammateData.data.currentManagerId)
       setOtherNotifications(teammateData.data.requests);
       const dat = new Date();
@@ -55,18 +52,15 @@ export default function Home() {
 
   async function fetchTeammateTask(id) {
     try {
-      const task = await readTask(id);
-      if (task) {
-        setTask(task)
-      }
+      setTask(await readTask(id))
     } catch (error) {
       console.error(error);
     }
   }
 
   useEffect(() => {
-    fetchTeammateTask(id)
-  }, [id]);
+    fetchTeammateTask(teammateId)
+  }, [teammateId]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userLog) => {
@@ -107,21 +101,22 @@ export default function Home() {
   }
 
 
-  const playTask = (e, id, teammate_id) => {
+  const playTask = (id, teammate_id) => {
     var now = new Date()
-    takeTask(id, teammate_id, now)
+    takeTask(id, teammate_id, now).then(() => { fetchTeammateTask(teammateId) })
+
     // setTimeout(() => {
     //   window.location.reload()
     // }, 1000)
-  }
-
-  const pauseTask = (e, id, teammate_id) => {
-    pauseTask(teammate_id)
 
   }
 
-  const completeTask = (e, id) => {
-    taskDone(id)
+  const pauseTaskNow = (teammate_id) => {
+    pauseTask(teammate_id).then(() => { fetchTeammateTask(teammateId) })
+  }
+
+  const completeTask = (id) => {
+    taskDone(id).then(() => { fetchTeammateTask(teammateId) })
   }
 
   const doNothing = () => { }
@@ -129,7 +124,7 @@ export default function Home() {
   function markAttendence() {
       const dat = new Date();
     const today = dat.toLocaleDateString();
-    markTeammateAttendance(teammate.companyId, id, teammate.currentManagerId, teammate.teammateName, teammate.currentManagerName, teammate.companyName, today, dat)
+    markTeammateAttendance(teammate.companyId, teammateId, teammate.currentManagerId, teammate.teammateName, teammate.currentManagerName, teammate.companyName, today, dat)
     setAttedancedMarked(true);
   }
 
@@ -203,7 +198,7 @@ export default function Home() {
 
                         <Notifications
                           teammate={teammate}
-                          id={id}
+                          id={teammateId}
                           otherNotifications={otherNotifications} />
 
                         <Dropdown style={{ width: '200px' }}>
@@ -492,7 +487,6 @@ export default function Home() {
                                                   width={30}
                                                   onClick={(e) => {
                                                     playTask(
-                                                      e,
                                                       info.id,
                                                       info.data.teammateId
                                                     )
@@ -516,9 +510,7 @@ export default function Home() {
                                                   width={30}
                                                   onClick={(e) => {
                                                     info.data.status === 'ON_GOING' ?
-                                                      pauseTask(
-                                                        e,
-                                                        info.id,
+                                                      pauseTaskNow(
                                                         info.data.teammateId,
                                                       ) : doNothing()
                                                   }}
@@ -538,7 +530,6 @@ export default function Home() {
                                                   onClick={(e) => {
                                                     info.data.status !== 'ASSIGNED' ?
                                                       completeTask(
-                                                        e,
                                                         info.id
                                                       ) : doNothing()
                                                   }}
@@ -563,7 +554,7 @@ export default function Home() {
                                           setTaskSelected(null)
                                         }}
                                               managerid={managerId}
-                                              teammateindex={teammateIndex}
+                                              teammateid={teammateId}
                                         indexselected={taskSelected}
                                         teamtasks={teammate.tasks}
                                               name={teammate.teammateName}
