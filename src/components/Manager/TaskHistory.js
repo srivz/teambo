@@ -1,15 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import { ref, set } from 'firebase/database'
 import React, { useState } from 'react'
 import { Button, Col, Form, Modal, Row, Table } from 'react-bootstrap'
-import { auth, db } from '../../firebase-config'
+import { auth } from '../../firebase-config'
 import moment from 'moment'
 import { addAdditionalCorrection, addQueryReply } from '../../database/write/managerWriteFunctions'
 
 export default function TaskHistory(props) {
   const [showDoubt, setShowDoubt] = useState(false)
-  const [assignedDate, setAssignedDate] = useState();
   const handleClose = () => setShowDoubt(false);
   const handleShow = () => setShowDoubt(true);
   const [updateTaskForm, setUpdateTaskForm] = useState(false)
@@ -17,8 +15,6 @@ export default function TaskHistory(props) {
   const [taskUpdate, setTaskUpdate] = useState({
     corrections: '',
     status: 'Assigned',
-    assignedStartDate: '--',
-    assignedStartTime: '--',
     deadlineDate: '--',
     description: '',
     deadlineTime: '--',
@@ -47,23 +43,8 @@ export default function TaskHistory(props) {
       </>
     )
   }
-  const handleTaskCorrection = (id, index, correction) => {
-    // set(ref(db, `/manager/${auth.currentUser.uid}/teammates/${props?.teammateindex}/data/tasks/${index}/updates/${correction}`), {
-    //   assignedStartDate: taskUpdate.assignedStartDate,
-    //   assignedStartTime: taskUpdate.assignedStartTime,
-    //   corrections: props?.teamtasks[props?.indexselected]?.updates?.length,
-    //   status: 'Assigned',
-    //   deadlineDate: taskUpdate.deadlineDate,
-    //   description: { 0: taskUpdate.description },
-    //   deadlineTime: taskUpdate.deadlineTime,
-    // })
-    //   .then(() => {
-    //     handleTaskCorrectionClear();
-    //   })
-    //   .catch((err) => {
-    //     console.log(err)
-    //   })
-  }
+  // const handleTaskCorrection = (id, index, correction) => {
+  // }
   const handleAdditionalTaskCorrection = (id) => {
     let now = new Date();
     let newDate = "--"

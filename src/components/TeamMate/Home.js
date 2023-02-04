@@ -223,7 +223,7 @@ export default function Home() {
                             </Dropdown.Item>
                             <Dropdown.Item
                               onClick={(e) => {
-                                setFilter('On_Going')
+                                setFilter('On Going')
                               }}
                             >
                               On Going
@@ -545,24 +545,18 @@ export default function Home() {
                                               </TableCell>
 
                                     </TableRow>
-                                    {teammate?.tasks &&
-                                      taskSelected !== null ? (
+                                        {taskSelected !== null &&
                                       <TeammateTaskHistory
                                         show={modalShow}
-                                        onHide={() => {
-                                          setModalShow(false)
-                                          setTaskSelected(null)
-                                        }}
-                                              managerid={managerId}
-                                              teammateid={teammateId}
-                                        indexselected={taskSelected}
-                                        teamtasks={teammate.tasks}
-                                              name={teammate.teammateName}
+                                          onHide={() => { setModalShow(false); setTaskSelected(null); }}
+                                          teamtasks={task}
+                                          id={taskSelected}
+                                          name={teammate.teammateName}
+                                          teammateId={teammateId}
+                                          managerId={managerId}
                                         designation={teammate.designation}
                                       />
-                                    ) : (
-                                      <></>
-                                    )}
+                                        }
                                   </>
                                 )
                               })

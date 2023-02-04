@@ -47,6 +47,7 @@ export default function HomeList() {
 
   async function fetchManagerData(userUid) {
     try {
+      setLoading(true)
       const managerData = await readManagers(userUid);
       setManager(managerData.data);
       setManagerId(managerData.id);
@@ -55,6 +56,7 @@ export default function HomeList() {
       const clients = await readClients(managerData.id);
       setClientList(clients);
       fetchTasks(managerData.id)
+      setLoading(false)
 
     } catch (error) {
       console.error(error);
@@ -62,12 +64,12 @@ export default function HomeList() {
   }
   async function fetchTasks(id) {
     try {
-      const data = await readAllLiveTasks(id);
-      setTasks(data)
+      setTasks(await readAllLiveTasks(id))
     } catch (error) {
       console.error(error);
     }
   }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userLog) => {
       setUser(userLog.uid);
@@ -78,9 +80,31 @@ export default function HomeList() {
   onAuthStateChanged(auth, (user) => { if (user) { } else { window.location.href = "/" } })
 
   useEffect(() => {
-    setLoading(true);
+    async function fetchManagerData(userUid) {
+      try {
+        const managerData = await readManagers(userUid);
+        setManager(managerData.data);
+        setManagerId(managerData.id);
+        const teammate = await readTeammatesFromList(managerData.id);
+        setTeammateList(teammate);
+        const clients = await readClients(managerData.id);
+        setClientList(clients);
+        fetchTasks(managerData.id)
+
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    async function fetchTasks(id) {
+      try {
+        setTasks(await readAllLiveTasks(id))
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    setLoading(true)
     fetchManagerData(user);
-    setLoading(false);
+    setLoading(false)
   }, [user])
 
   const addTeammate = async () => {
