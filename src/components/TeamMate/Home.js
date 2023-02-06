@@ -117,9 +117,9 @@ export default function Home() {
     //   }
     // })
     takeTask(id, teammate_id)
-    // setTimeout(() => {
-    //   window.location.reload()
-    // }, 1000)
+    setTimeout(() => {
+      window.location.reload()
+    }, 1500)
   }
 
   const pauseTask = (e, id, teammate_id) => {
@@ -174,6 +174,9 @@ export default function Home() {
     //   console.log(err)
     // }
     taskDone(id)
+    setTimeout(() => {
+      window.location.reload()
+    }, 1000)  
   }
 
   const doNothing = () => { }

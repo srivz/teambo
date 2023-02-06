@@ -1,4 +1,4 @@
-import { arrayRemove, arrayUnion, deleteField, doc, updateDoc, collection, query, where, getDocs } from "firebase/firestore";
+import { arrayRemove, arrayUnion, deleteField, doc, updateDoc, getDocs, query, collection, where } from "firebase/firestore";
 import { firestoreDB } from "../../firebase-config";
 
 export default async function defaultFunction() {
@@ -22,17 +22,26 @@ export async function requestRejectTeammate(managerId, name, id) {
 }
 
 export async function takeTask(task_id, teammate_id) {
-    const task = doc(firestoreDB, "tasks", task_id);
-    updateDoc(task, {
-        status: "ON_GOING"
-    })
-    pauseTask(teammate_id)
+    pauseAllTask(teammate_id)
+    setTimeout(() => { 
+        const task = doc(firestoreDB, "tasks", task_id);
+        updateDoc(task, {
+            status: "ON_GOING"
+        })
+    }, 1000)
+
+
 }
 
-async function pauseTask(id) {
-    const teammate_task = doc(firestoreDB, "tasks", id);
-    updateDoc(teammate_task, {
-        status: "PAUSED"
+async function pauseAllTask(id) {
+    const q = query(collection(firestoreDB, "tasks"), where("teammateId", "==", id))
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((docA) => {
+        // console.log(docA.data().status)
+        const teammateRef = doc(firestoreDB, "tasks", docA.id);
+        updateDoc(teammateRef, {
+            status: "PAUSED"
+        })
     })
 }
 
