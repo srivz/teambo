@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import React, { useState } from 'react'
 import { Button, Col, Form, Modal, Row, Table } from 'react-bootstrap'
+import { addQuery } from '../../database/write/teammateWriteFunction'
 
 export default function TeammateTaskHistory(props) {
   const [showDoubt, setShowDoubt] = useState(false)
@@ -32,20 +33,20 @@ export default function TeammateTaskHistory(props) {
       </>
     )
   }
-  // const handleChange = (event) => {
-  //   setQuery(event.target.value)
-  // }
-  // const handleExtraChange = (event) => {
-    // setQuery(props?.teamtasks?.filter((info) => { return (props?.id === info.id) })
-    //   .map((info) => {
-    //     return (info.communications.filter((info1) => { return (info1.data.type === "QUERY_ADDED") })
-    //       .map((info1) => { return (info1.data.query) }))
-    //   }) + " " + event.target.value)
-  // }
-  // const handleSend = () => {
-  //   console.log(query)
-  //   handleClose();
-  // }
+  const handleChange = (event) => {
+    setQuery(event.target.value)
+  }
+  const handleExtraChange = (event) => {
+    setQuery(props?.teamtasks?.filter((info) => { return (props?.id === info.id) })
+      .map((info) => {
+        return (info.communications.filter((info1) => { return (info1.data.type === "QUERY_ADDED") })
+          .map((info1) => { return (info1.data.query) }))
+      }) + " " + event.target.value)
+  }
+  const handleSend = () => {
+    addQuery(props?.id, new Date(), props?.teammateId, props?.email, props?.managerId, query)
+    handleClose();
+  }
 
   return (
     <div>
@@ -68,7 +69,7 @@ export default function TeammateTaskHistory(props) {
               backdrop="static" onHide={() => { handleClose() }}>
               <Modal.Header closeButton></Modal.Header>
               <Modal.Body>
-                {/* {[props?.teamtasks?.filter((info) => { return (props?.id === info.id) })
+                {[props?.teamtasks?.filter((info) => { return (props?.id === info.id) })
                   .map((info) => {
                     return (info.communications.filter((info1) => { return (info1.data.type === "QUERY_ADDED") })
                       .map((info1) => { return (info1.data.query) }))
@@ -105,7 +106,7 @@ export default function TeammateTaskHistory(props) {
                       Send
                     </Button>
                   </Form>
-                } */}
+                }
               </Modal.Body>
             </Modal>
           </Modal.Title>
@@ -236,9 +237,12 @@ export default function TeammateTaskHistory(props) {
                           fontFamily: 'rockwen',
                         }}
                         align="center"
-                      >{info.communications.filter((info1) => { return (info1.data.type = "DESCRIPTION_ADDED") }).sort((a, b) => {
+                      >{info.communications
+                        .filter((info1) => { return (info1.data.type = "DESCRIPTION_ADDED") })
+                        .sort((a, b) => {
                         return new Date(b.data.createdAt.seconds * 1000) - new Date(a.data.createdAt.seconds * 1000)
-                      }).map((info1) => { return (<div key={info1.id}>{info1.data.description}</div>) })}
+                        })
+                          .map((info1) => { return (<div key={info1.id}>{info1.data.description}</div>) })}
                       </TableCell>
                       <TableCell
                         style={{

@@ -93,17 +93,6 @@ export async function communicationChange(com, id, details) {
             type: 'DESCRIPTION_ADDED',
             description: com.description,
         })
-    else if (com.type === 'QUERY_ADDED')
-        await addDoc(collection(firestoreDB, 'tasks', `${id}`, 'communications'), {
-            isVisible: true,
-            createdAt: details.createdAt,
-            createdBy: details.createdBy,
-            createdByEmail: details.createdByEmail,
-            managerId: details.managerId,
-            teammateId: details.teammateId,
-            type: 'QUERY_ADDED',
-            query: com.query,
-        })
     else if (com.type === 'QUERY_REPLIED')
         await addDoc(collection(firestoreDB, 'tasks', `${id}`, 'communications'), {
             isVisible: true,

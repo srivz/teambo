@@ -1,4 +1,4 @@
-import { addDoc, arrayRemove, arrayUnion, collection, deleteField, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
+import { addDoc, arrayRemove, arrayUnion, collection, deleteField, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { firestoreDB } from "../../firebase-config";
 
 export default async function defaultFunction() {
@@ -113,5 +113,17 @@ export async function taskDone(task_id) {
     }
 }
 
-
-
+export async function addQuery(taskId, createdAt, teammateId, createdByEmail, managerId, query) {
+    if (query !== "") {
+        await addDoc(collection(firestoreDB, 'tasks', `${taskId}`, 'communications'), {
+            isVisible: true,
+            createdAt: createdAt,
+            createdBy: teammateId,
+            createdByEmail: createdByEmail,
+            managerId: managerId,
+            teammateId: teammateId,
+            type: 'QUERY_ADDED',
+            query: query,
+        })
+    }
+}

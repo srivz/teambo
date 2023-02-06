@@ -148,18 +148,20 @@ export default function TaskHistory(props) {
                       .map((info1) => { return (info1.data.query) }))
                   })] === [] ?
 
-                  props.teamtasks.filter((info) => { return (props?.id === info.id) })
-                    .map((info) => {
-                      return (
-                        info.communications.filter((info1) => { return (info1.data.type === "QUERY_ADDED") && (info1.data.isVisible === true) })
-                          .map((info1) => {
-                            return (<div key={info1.id}>
+
                   <Form>
                     <Form.Group
                       className="mb-3"
                       controlId="exampleForm.ControlTextarea1"
                     >
-                                  <Form.Label>Teammate has a query:<br />"{info1.data.query}"</Form.Label>
+                      <Form.Label>Teammate has a query:<br />"{props.teamtasks.filter((info) => { return (props?.id === info.id) })
+                        .map((info) => {
+                          return (
+                            info.communications.filter((info1) => { return (info1.data.type === "QUERY_ADDED") && (info1.data.isVisible === true) })
+                              .map((info1) => {
+                                return (<div key={info1.id}>{info1.data.query}</div>)
+                              }))
+                        })}"</Form.Label>
                       <Form.Control
                         as="textarea"
                         name="description"
@@ -168,14 +170,12 @@ export default function TaskHistory(props) {
                     </Form.Group>
                     <Button variant="primary" onClick={() => {
                                   handleQuery(
-                                    info.id, info1.id
+                                    props?.id
                                   )
                     }}>
                       Send
                     </Button>
-                              </Form></div>)
-                          }))
-                    })
+                  </Form>
 
                   : <>No Queries From The Teammate</>}
               </Modal.Body>

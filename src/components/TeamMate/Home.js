@@ -24,7 +24,7 @@ export default function Home() {
   const [user, setUser] = useState()
   const [teammate, setTeammate] = useState({})
   const [teammateId, setTeammateId] = useState('')
-  const [filter, setFilter] = useState('All')
+  const [filter, setFilter] = useState("All")
   const [modalShow, setModalShow] = useState(false)
   const [otherNotifications, setOtherNotifications] = useState()
   const [attendanceMarked, setAttedancedMarked] = useState(false)
@@ -102,11 +102,6 @@ export default function Home() {
   const playTask = (id, teammate_id) => {
     var now = new Date()
     takeTask(id, teammate_id, now).then(() => { fetchTeammateTask(teammateId) })
-
-    // setTimeout(() => {
-    //   window.location.reload()
-    // }, 1000)
-
   }
 
   const pauseTaskNow = (teammate_id) => {
@@ -538,8 +533,7 @@ export default function Home() {
                                                     cursor: 'pointer',
                                                   }}
                                                 />
-                                              </TableCell>
-
+                                          </TableCell>
                                     </TableRow>
                                         {taskSelected !== null &&
                                       <TeammateTaskHistory
@@ -548,10 +542,11 @@ export default function Home() {
                                           teamtasks={tasks}
                                           id={taskSelected}
                                           name={teammate.teammateName}
+                                          email={teammate.teammateEmail}
                                           teammateId={teammateId}
                                           managerId={teammate.currentManagerId}
                                         designation={teammate.designation}
-                                          /> 
+                                        />
                                         }
                                   </>
                                 )
