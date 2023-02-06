@@ -333,8 +333,8 @@ export default function TaskHistory(props) {
                     align="center"
                   >
                     +{props?.teamtasks.filter((info) => { return (info.id === props?.id) })
-                      .map((info, index) => {
-                        return (info.data.corrections)
+                      .map((info) => {
+                        return (info.data.corrections + 1)
                       })}
                   </TableCell>
                   <TableCell

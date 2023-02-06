@@ -22,11 +22,11 @@ export default function TeammateTable(props) {
     const [show, setShow] = useState(false);
     const [taskSelected, setTaskSelected] = useState();
     const [modalShow, setModalShow] = useState(false);
+    const tasks = props?.tasksLive
     // const [switchTask, setSwitchTask] = useState()
     // const [prevTeammateId, setPrevTeammateId] = useState("");
     // const [prevTeammateIndex, setPrevTeammateIndex] = useState("");
     // const [prevTaskIndex, setPrevTaskIndex] = useState()
-    const tasks = props?.tasksLive
     // const dragItem = useRef();
     // const dragOverItem = useRef();
 

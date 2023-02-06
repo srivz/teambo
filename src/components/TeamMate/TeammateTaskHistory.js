@@ -32,21 +32,20 @@ export default function TeammateTaskHistory(props) {
       </>
     )
   }
-  const handleChange = (event) => {
-    setQuery(event.target.value)
-  }
-  const handleExtraChange = (event) => {
+  // const handleChange = (event) => {
+  //   setQuery(event.target.value)
+  // }
+  // const handleExtraChange = (event) => {
     // setQuery(props?.teamtasks?.filter((info) => { return (props?.id === info.id) })
     //   .map((info) => {
     //     return (info.communications.filter((info1) => { return (info1.data.type === "QUERY_ADDED") })
     //       .map((info1) => { return (info1.data.query) }))
     //   }) + " " + event.target.value)
-  }
-  const handleSend = () => {
-    // set(ref(db, `/manager/${props?.managerid}/teammates/${props?.teammateindex}/data/tasks/${props?.indexselected}/query/`), query)
-    console.log(query)
-    handleClose();
-  }
+  // }
+  // const handleSend = () => {
+  //   console.log(query)
+  //   handleClose();
+  // }
 
   return (
     <div>
@@ -69,7 +68,7 @@ export default function TeammateTaskHistory(props) {
               backdrop="static" onHide={() => { handleClose() }}>
               <Modal.Header closeButton></Modal.Header>
               <Modal.Body>
-                {[props?.teamtasks?.filter((info) => { return (props?.id === info.id) })
+                {/* {[props?.teamtasks?.filter((info) => { return (props?.id === info.id) })
                   .map((info) => {
                     return (info.communications.filter((info1) => { return (info1.data.type === "QUERY_ADDED") })
                       .map((info1) => { return (info1.data.query) }))
@@ -106,68 +105,63 @@ export default function TeammateTaskHistory(props) {
                       Send
                     </Button>
                   </Form>
-                }
+                } */}
               </Modal.Body>
             </Modal>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{ padding: "20px" }}>
-          <Row style={{ alignItems: "bottom", padding: "auto", margin: "auto" }}>
-            <Col sm={3} md={3} style={{ marginTop: '.75em' }}>
-              {props?.teamtasks?.filter((info) => { return (props?.id === info.id) }).map((info) => {
-                return (
-                  <Row style={{ paddingLeft: ".5em", alignItems: "bottom" }} key={info.id}>
-                    <Col sm={1} md={1} style={{ marginTop: '1em' }}>
-                      <h6>Client</h6>
-                    </Col>
-                    <Col sm={3} md={3} style={{ marginTop: '.75em' }} title={info.data.clientName}>
-                      <h5>{info.data.clientName.length > 15 ? info.data.clientName.slice(0, 12) + "..." : info.data.clientName}
-                      </h5>
-                    </Col>
-                    <Col sm={1} md={1} style={{ marginTop: '1em' }}>
-                      <h6>Task</h6>
-                    </Col>
-                    <Col sm={3} md={3} style={{ marginTop: '.75em' }} title={info.data.title}>
-                      {info.data.title.length > 20 ? info.data.title.slice(0, 17) + "..." : info.data.title}
-                    </Col>
-                    <Col sm={1} md={1} style={{ marginTop: '1em' }}>
-                      <h6>Status</h6>
-                    </Col>
-                    <Col sm={3} md={3} style={{ marginTop: '.75em' }}>
-                      <h5
-                        style={
-                          (info.data.status === 'DONE' && {
-                            fontFamily: 'rockwen',
-                            color: '#000000',
-                          }) ||
-                          (info.data.status === 'ON_GOING' && {
-                            fontFamily: 'rockwen',
-                            color: '#24A43A',
-                          }) ||
-                          (info.data.status === 'PAUSED' && {
-                            fontFamily: 'rockwen',
-                            color: '#2972B2',
-                          }) ||
-                          (info.data.status === 'ASSIGNED' && {
-                            fontFamily: 'rockwen',
-                            color: '#D1AE00',
-                          })
-                        }
-                      >
-                        {
-                          info.data.status === "ASSIGNED" ? "Assigned" :
-                            info.data.status === "ON_GOING" ? "On Going" :
-                              info.data.status === "PAUSED" ? "Paused" :
-                                info.data.status === "DONE" ? "Done" : ""
-                        }
-                      </h5>
+        <Modal.Body style={{ padding: "1.5em", marginLeft: "1.5em", marginRight: "1.5em" }}>
+          {props?.teamtasks?.filter((info) => { return (props?.id === info.id) }).map((info) => {
+            return (
+              <Row style={{ paddingLeft: ".5em", alignItems: "bottom" }} key={info.id}>
+                <Col sm={1} md={1} style={{ marginTop: '1em' }}>
+                  <h6>Client</h6>
+                </Col>
+                <Col sm={3} md={3} style={{ marginTop: '.75em' }} title={info.data.clientName}>
+                  <h5>{info.data.clientName.length > 15 ? info.data.clientName.slice(0, 12) + "..." : info.data.clientName}
+                  </h5>
+                </Col>
+                <Col sm={1} md={1} style={{ marginTop: '1em' }}>
+                  <h6>Task</h6>
+                </Col>
+                <Col sm={3} md={3} style={{ marginTop: '.75em' }} title={info.data.title}>
+                  {info.data.title.length > 20 ? info.data.title.slice(0, 17) + "..." : info.data.title}
+                </Col>
+                <Col sm={1} md={1} style={{ marginTop: '1em' }}>
+                  <h6>Status</h6>
+                </Col>
+                <Col sm={3} md={3} style={{ marginTop: '.75em' }}>
+                  <h5
+                    style={
+                      (info.data.status === 'DONE' && {
+                        fontFamily: 'rockwen',
+                        color: '#000000',
+                      }) ||
+                      (info.data.status === 'ON_GOING' && {
+                        fontFamily: 'rockwen',
+                        color: '#24A43A',
+                      }) ||
+                      (info.data.status === 'PAUSED' && {
+                        fontFamily: 'rockwen',
+                        color: '#2972B2',
+                      }) ||
+                      (info.data.status === 'ASSIGNED' && {
+                        fontFamily: 'rockwen',
+                        color: '#D1AE00',
+                      })
+                    }
+                  >
+                    {
+                      info.data.status === "ASSIGNED" ? "Assigned" :
+                        info.data.status === "ON_GOING" ? "On Going" :
+                          info.data.status === "PAUSED" ? "Paused" :
+                            info.data.status === "DONE" ? "Done" : ""
+                    }
+                  </h5>
 
-                    </Col>
-                  </Row>)
-              })}
-
-            </Col>
-          </Row>
+                </Col>
+              </Row>)
+          })}
           <Table
             style={{
               borderCollapse: 'separate',
@@ -221,7 +215,7 @@ export default function TeammateTaskHistory(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {props?.teamtasks?.filter((info) => { return (info.id === props?.id) })
+              {props?.teamtasks.filter((info) => { return (info.id === props?.id) })
                 .map((info, index) => {
                   return (
                     <TableRow style={index !== 0 ? { opacity: '50%' } : {}}>

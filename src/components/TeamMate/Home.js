@@ -25,18 +25,16 @@ export default function Home() {
   const [teammate, setTeammate] = useState({})
   const [teammateId, setTeammateId] = useState('')
   const [filter, setFilter] = useState('All')
-  const [managerId, setManagerId] = useState('')
   const [modalShow, setModalShow] = useState(false)
   const [otherNotifications, setOtherNotifications] = useState()
   const [attendanceMarked, setAttedancedMarked] = useState(false)
-  const [task, setTask] = useState([])
+  const [tasks, setTasks] = useState([])
 
   async function fetchTeammateData(userEmail) {
     try {
       const teammateData = await readTeammate(userEmail);
       setTeammate(teammateData.data);
       setTeammateId(teammateData.id);
-      setManagerId(teammateData.data.currentManagerId)
       setOtherNotifications(teammateData.data.requests);
       const dat = new Date();
       const today = dat.toLocaleDateString();
@@ -52,16 +50,11 @@ export default function Home() {
 
   async function fetchTeammateTask(id) {
     try {
-      setTask(await readTask(id))
+      setTasks(await readTask(id))
     } catch (error) {
       console.error(error);
     }
   }
-
-  useEffect(() => {
-    fetchTeammateTask(teammateId)
-  }, [teammateId]);
-
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userLog) => {
       setUser(userLog.email);
@@ -74,6 +67,11 @@ export default function Home() {
     fetchTeammateData(user);
     setLoading(false);
   }, [user])
+
+  useEffect(() => {
+    fetchTeammateTask(teammateId)
+  }, [teammateId]);
+
 
   const timeStampFormatChange = (stamp) => {
     if (stamp === '--') {
@@ -333,17 +331,15 @@ export default function Home() {
                         </TableHead>
 
                         <TableBody>
-                            {(task === []) ? (
+                            {tasks === [] ? (
                               <TableRow>
                                 <TableCell colSpan={8} align="center" > No tasks assigned</TableCell>
                               </TableRow>
                           ) : (
-                                task
-                                  ?.filter((info) => {
-                                    return filter !== 'All'
-                                      ? info.data.status === filter
-                                      :
-                                      info.data.status !== filter
+                                tasks.filter((info) => {
+                                  return (filter !== "All" ?
+                                    info.data.status === filter.split(" ").join("_").toUpperCase()
+                                    : info.data.status !== filter)
                                   })
                                   .map((info) => {
                                     return (
@@ -549,13 +545,13 @@ export default function Home() {
                                       <TeammateTaskHistory
                                         show={modalShow}
                                           onHide={() => { setModalShow(false); setTaskSelected(null); }}
-                                          teamtasks={task}
+                                          teamtasks={tasks}
                                           id={taskSelected}
                                           name={teammate.teammateName}
                                           teammateId={teammateId}
-                                          managerId={managerId}
+                                          managerId={teammate.currentManagerId}
                                         designation={teammate.designation}
-                                      />
+                                          /> 
                                         }
                                   </>
                                 )
