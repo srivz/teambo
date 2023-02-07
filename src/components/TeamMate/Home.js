@@ -66,7 +66,7 @@ export default function Home() {
     setLoading(true);
     fetchTeammateData(user);
     setLoading(false);
-  }, [user])
+  }, [user]);
 
   useEffect(() => {
     fetchTeammateTask(teammateId)

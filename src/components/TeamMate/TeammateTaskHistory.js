@@ -7,6 +7,8 @@ import { addQuery } from '../../database/write/teammateWriteFunction'
 export default function TeammateTaskHistory(props) {
   const [showDoubt, setShowDoubt] = useState(false)
   const [query, setQuery] = useState(false)
+
+  const tasks = props?.teamtasks
   const handleClose = () => setShowDoubt(false);
   const handleShow = () => setShowDoubt(true);
   const timeStampFormatChange = (stamp) => {
@@ -37,7 +39,7 @@ export default function TeammateTaskHistory(props) {
     setQuery(event.target.value)
   }
   const handleExtraChange = (event) => {
-    setQuery(props?.teamtasks?.filter((info) => { return (props?.id === info.id) })
+    setQuery(tasks?.filter((info) => { return (props?.id === info.id) })
       .map((info) => {
         return (info.communications.filter((info1) => { return (info1.data.type === "QUERY_ADDED") })
           .map((info1) => { return (info1.data.query) }))
@@ -69,7 +71,7 @@ export default function TeammateTaskHistory(props) {
               backdrop="static" onHide={() => { handleClose() }}>
               <Modal.Header closeButton></Modal.Header>
               <Modal.Body>
-                {[props?.teamtasks?.filter((info) => { return (props?.id === info.id) })
+                {[tasks?.filter((info) => { return (props?.id === info.id) })
                   .map((info) => {
                     return (info.communications.filter((info1) => { return (info1.data.type === "QUERY_ADDED") })
                       .map((info1) => { return (info1.data.query) }))
@@ -92,7 +94,7 @@ export default function TeammateTaskHistory(props) {
                       controlId="exampleForm.ControlTextarea1"
                     >
                       <Form.Label>Do you want to add something else to your previous query:<br />"
-                        {props?.teamtasks?.filter((info) => { return (props?.id === info.id) })
+                        {tasks?.filter((info) => { return (props?.id === info.id) })
                           .map((info) => {
                             return (
                               info.communications.filter((info1) => { return (info1.data.type === "QUERY_ADDED") && (info1.data.isVisible === true) })
@@ -112,7 +114,7 @@ export default function TeammateTaskHistory(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ padding: "1.5em", marginLeft: "1.5em", marginRight: "1.5em" }}>
-          {props?.teamtasks?.filter((info) => { return (props?.id === info.id) }).map((info) => {
+          {tasks?.filter((info) => { return (props?.id === info.id) }).map((info) => {
             return (
               <Row style={{ paddingLeft: ".5em", alignItems: "bottom" }} key={info.id}>
                 <Col sm={1} md={1} style={{ marginTop: '1em' }}>
@@ -216,7 +218,7 @@ export default function TeammateTaskHistory(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {props?.teamtasks.filter((info) => { return (info.id === props?.id) })
+              {tasks.filter((info) => { return (info.id === props?.id) })
                 .map((info, index) => {
                   return (
                     <TableRow style={index !== 0 ? { opacity: '50%' } : {}}>

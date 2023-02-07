@@ -8,6 +8,7 @@ import {
     Popover,
     Row,
 } from "react-bootstrap";
+import { taskArchived, taskMarkedCompleted } from '../../database/write/managerWriteFunctions';
 // import TaskHistory from './TaskHistory'
 // import SwitchTask from './SwitchTask';
 // import { clientTaskComplete, clientTaskDelete } from './ClientTaskCount';
@@ -31,61 +32,6 @@ export default function TeammateTable(props) {
     // const dragOverItem = useRef();
 
 
-//     const handleDeleteTask = async (teammate, id, index, clientIndex) => {
-//         var today = new Date()
-//         let now = 0
-//         if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status === "On Going")
-//             now = diff_hours(today, teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].startTimeStamp)
-//         let manHour = teammate.tasks[index].manHours + now
-//         let manHour1 = teammate.manHours + now
-//         const newLiveTaskCount = teammate.liveTasks - 1
-//         notifyDeleteTask(teammate.notifications, props?.managerId, id, props?.manager?.clients[clientIndex].name)
-//         clientTaskDelete(props?.managerId, clientIndex, props?.manager?.clients[clientIndex].taskCount, props?.manager?.clients[teammate.tasks[index].clientIndex].manHours + now)
-//         update(ref(db, `/manager/${auth.currentUser.uid}/teammates/${id}/data/`), { liveTasks: newLiveTaskCount })
-//         update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${teammate.tasks[index].updates.length - 1}`), {
-//             status: "Archived",
-//             endDate:
-//                 String(today.getDate()).padStart(2, '0') +
-//                 '/' +
-//                 String(today.getMonth() + 1).padStart(2, '0') +
-//                 '/' +
-//                 today.getFullYear(),
-//             endTime:
-//                 today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds(),
-//         }).then(() => {
-//             update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/`), { manHours: manHour }).then(() => {
-//                 update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/`), { manHours: manHour1 })
-//             })
-//         })
-//             .catch((err) => {
-//                 console.log(err);
-//             });
-//         const subject = `
-//                     <h4> Your Task ${teammate.tasks[index].task} has been Removed By manager ${props?.manager.name}</h4>
-//                     <br />
-//                     <p>Thank you</p>
-//                 `
-//         const heading = "Task Removed";
-//         const text = `Your Task ${teammate.tasks[index].task} has been Removed By manger ${props?.manager.name}`
-//         try {
-//             const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-//                 heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
-//             });
-//             if (res.status === 200) {
-//                 const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
-//                 if (teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status !== 'Completed')
-//                     update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
-//                 if (teammate.tasks.length === 1 && teammate.tasks[index].updates[teammate.tasks[index].updates.length - 1].status !== 'Completed')
-//                     update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
-//             }
-//             else {
-//                 alert("Something went wrong");
-//             }
-//         } catch (err) {
-//             alert("error")
-//             console.log(err)
-//         }
-    //     }
 
     //     const handleDeleteSwitchTask = async (teammate, id, index) => {
     //         let list1 = teammate.tasks.slice(0, index);
@@ -126,48 +72,12 @@ export default function TeammateTable(props) {
     //         }
     //     }
 
-    //     const handleCompleteTask = async (teammate, id, index, latest) => {
-    //         notifyCompleteTask(teammate.notifications, props?.managerId, id, teammate.tasks[index].client)
-    //         const subject = `
-    //     <h4> Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}</h4>
-    //     <br />
-    //     <p>Thank you</p>
-    //    `
-    //         const heading = "Task Approved"
-    //         const text = `Your Task ${teammate.tasks[index].task} has been Approved By manger ${props?.manager.name}`
-    //         try {
-    //             const res = await axios.post("https://us-central1-teambo-c231b.cloudfunctions.net/taskCompleted", {
-    //                 heading, fromEmail: props?.manager.email, toEmail: teammate.email, subject: subject, name: teammate.name, text: text, whatsAppNo: teammate?.whatsAppNo
-    //             });
-    //             if (res.status === 200) {
-    //                 const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
-    //                 clientTaskComplete(props?.managerId, teammate.tasks[index].clientIndex, props?.manager?.clients[teammate.tasks[index].clientIndex].taskCount)
-    //         update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}`), { status: "Completed" })
-    //                 update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
-    //             }
-    //             else {
-    //                 alert("Something went wrong");
-    //             }
-    //         } catch (err) {
-    //             alert("error")
-    //             console.log(err)
-    //         }
-    //         try {
-    //             const isSent = await sendEmail(teammate, props.manager, index)
-    //             if (isSent) {
-    //                 const newLiveTaskCount = props?.manager.teammates[id].data.liveTasks - 1
-    //                 clientTaskComplete(props?.managerId, teammate.tasks[index].clientIndex, props?.manager?.clients[teammate.tasks[index].clientIndex].taskCount)
-    //                 update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data/tasks/${index}/updates/${latest}`), { status: "Completed" })
-    //                 update(ref(db, `/manager/${props?.managerId}/teammates/${id}/data`), { liveTasks: newLiveTaskCount })
-    //             }
-    //             else {
-    //                 alert("Failed");
-    //             }
-    //         } catch (err) {
-    //             alert("Failed in Catch");
-    //         }
-
-    //     }
+    const handleCompleteTask = async (id) => {
+        taskMarkedCompleted(id)
+    }
+    const handleDeleteTask = async (id) => {
+        taskArchived(id)
+    }
     const timeStampFormatChange = (stamp) => {
         if (stamp === '--') {
             return "--"
@@ -502,11 +412,9 @@ export default function TeammateTable(props) {
                                                                         <Button
                                                                             disabled={info.data.status !== 'DONE' ? true : false}
                                                                             onClick={() => {
-                                                                                // handleCompleteTask(
-                                                                                //     info.data,
-                                                                                //     info.id,
-                                                                                //     info.data.length - 1
-                                                                                // );
+                                                                                handleCompleteTask(
+                                                                                    info.id
+                                                                                );
                                                                                 setShow(false);
                                                                             }}
                                                                             variant="light"
@@ -562,11 +470,9 @@ export default function TeammateTable(props) {
                                                                     >
                                                                         <Button
                                                                             onClick={() => {
-                                                                                // handleDeleteTask(
-                                                                                //     info.data,
-                                                                                //     info.teammateIndex,
-                                                                                //     info.clientIndex
-                                                                                // );
+                                                                                handleDeleteTask(
+                                                                                    info.id
+                                                                                );
                                                                                 setShow(false);
                                                                             }}
                                                                             variant="light"

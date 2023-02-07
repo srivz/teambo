@@ -1,4 +1,4 @@
-import { arrayUnion, collection, doc, getDocs, query, updateDoc, where, addDoc } from "firebase/firestore";
+import { arrayUnion, collection, doc, getDocs, query, updateDoc, where, addDoc, getDoc } from "firebase/firestore";
 import { firestoreDB } from "../../firebase-config";
 
 export default async function defaultFunction() { }
@@ -181,6 +181,40 @@ export async function addQueryReply(id, createdAt, createdBy, createdByEmail, te
             createdByEmail: createdByEmail,
             managerId: createdBy,
             teammateId: teammateId,
+        })
+    }
+}
+
+export async function taskMarkedCompleted(task_id) {
+    const task = doc(firestoreDB, "tasks", task_id);
+    await updateDoc(task, {
+        status: "COMPLETED",
+        isLive: false
+    })
+}
+
+const diff_hours = (dt2, dt1) => {
+    var diff = (new Date("" + dt2).getTime() - new Date("" + dt1).getTime()) / 1000;
+    diff /= (60 * 60);
+    return Math.abs(diff);
+}
+export async function taskArchived(task_id) {
+    var today = new Date()
+    const q = doc(firestoreDB, "tasks", task_id);
+    const docSnap = await getDoc(q);
+    if (docSnap.exists()) {
+        let now = 0
+        if (docSnap.data().totalHours !== undefined) { now = docSnap.data().totalHours }
+        if (docSnap.data().startTimeStamp !== null) {
+            now += diff_hours(today, new Date(docSnap.data().startTimeStamp.seconds * 1000))
+        }
+        const attendanceRef = doc(firestoreDB, 'tasks', docSnap.id)
+        updateDoc(attendanceRef, {
+            status: "ARCHIVED",
+            isLive: false,
+            totalHours: now,
+            completedOn: today,
+            startTimeStamp: null
         })
     }
 }
